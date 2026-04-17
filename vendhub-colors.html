@@ -1,0 +1,2202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VendHub — Color System</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --primary-50:  #F0FDF4; --primary-100: #DCFCE7; --primary-200: #BBF7D0;
+    --primary-300: #86EFAC; --primary-400: #4ADE80; --primary-500: #22C55E;
+    --primary-600: #16A34A; --primary-700: #15803D; --primary-800: #166534; --primary-900: #14532D;
+    --neutral-0:   #FFFFFF;
+    --neutral-50:  #F9FAFB; --neutral-100: #F3F4F6; --neutral-200: #E5E7EB;
+    --neutral-300: #D1D5DB; --neutral-400: #9CA3AF; --neutral-500: #6B7280;
+    --neutral-600: #4B5563; --neutral-700: #374151; --neutral-800: #1F2937; --neutral-900: #111827;
+    --success-50:  #ECFDF5; --success-200: #A7F3D0; --success-500: #10B981;
+    --success-600: #059669; --success-700: #047857;
+    --warning-50:  #FFFBEB; --warning-200: #FDE68A; --warning-500: #F59E0B;
+    --warning-600: #D97706; --warning-700: #B45309;
+    --error-50:    #FEF2F2; --error-200:   #FECACA; --error-500:   #EF4444;
+    --error-600:   #DC2626; --error-700:   #B91C1C;
+    --info-50:     #EFF6FF; --info-200:    #BFDBFE; --info-500:    #3B82F6;
+    --info-600:    #2563EB; --info-700:    #1D4ED8;
+    --radius-sm: 4px; --radius-md: 8px; --radius-lg: 12px;
+  }
+
+  html { font-size: 14px; }
+  body { font-family: 'Plus Jakarta Sans', sans-serif; background: #FAFAFA; color: var(--neutral-800); line-height: 1.5; }
+
+  /* ── LAYOUT ──────────────────────────────────── */
+  .page { max-width: 1120px; margin: 0 auto; padding: 0 48px 80px; }
+
+  /* ── COVER ───────────────────────────────────── */
+  .cover { background: var(--neutral-900); padding: 64px 48px 56px; margin-bottom: 64px; position: relative; overflow: hidden; }
+  .cover::before {
+    content: ''; position: absolute; inset: 0;
+    background: repeating-linear-gradient(45deg, transparent, transparent 40px, rgba(255,255,255,.015) 40px, rgba(255,255,255,.015) 41px);
+  }
+  .cover-inner { position: relative; z-index: 1; max-width: 1120px; margin: 0 auto; }
+  .cover-eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(22,163,74,.15); border: 1px solid rgba(22,163,74,.3);
+    border-radius: 20px; padding: 4px 14px;
+    font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--primary-500); margin-bottom: 24px;
+  }
+  .cover-eyebrow-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--primary-500); }
+  .cover-title { font-size: 52px; font-weight: 700; color: #fff; line-height: 1.1; margin-bottom: 16px; letter-spacing: -.02em; }
+  .cover-title span { color: var(--primary-500); }
+  .cover-sub { font-size: 16px; color: var(--neutral-400); max-width: 560px; line-height: 1.7; margin-bottom: 40px; }
+  .cover-meta { display: flex; gap: 32px; flex-wrap: wrap; }
+  .cover-meta-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--neutral-600); margin-bottom: 4px; }
+  .cover-meta-value { font-size: 13px; color: var(--neutral-300); font-weight: 500; }
+  .cover-libs { display: flex; gap: 10px; margin-top: 32px; flex-wrap: wrap; }
+  .lib-tag { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+  .lib-primary { background: rgba(22,163,74,.15); color: var(--primary-500); border: 1px solid rgba(22,163,74,.25); }
+  .lib-secondary { background: rgba(59,130,246,.1); color: #60a5fa; border: 1px solid rgba(59,130,246,.2); }
+  .lib-warning { background: rgba(245,158,11,.1); color: #fbbf24; border: 1px solid rgba(245,158,11,.2); }
+  .lib-error { background: rgba(239,68,68,.1); color: #f87171; border: 1px solid rgba(239,68,68,.2); }
+
+  /* ── TOC ─────────────────────────────────────── */
+  .toc { background: #fff; border: 1px solid var(--neutral-200); border-radius: var(--radius-lg); padding: 28px 32px; margin-bottom: 56px; }
+  .toc-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--neutral-500); margin-bottom: 20px; }
+  .toc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .toc-item {
+    display: flex; align-items: center; gap: 8px; padding: 10px 14px;
+    border-radius: var(--radius-md); background: var(--neutral-50); border: 1px solid var(--neutral-100);
+    font-size: 12px; font-weight: 600; color: var(--neutral-600); text-decoration: none; transition: all .15s;
+  }
+  .toc-item:hover { background: var(--primary-50); border-color: var(--primary-200); color: var(--primary-700); }
+  .toc-num { font-size: 10px; font-weight: 700; color: var(--neutral-400); }
+  .toc-file-label {
+    font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em;
+    color: var(--neutral-500); margin-bottom: 10px; margin-top: 20px;
+    padding-bottom: 6px; border-bottom: 1px solid var(--neutral-100);
+  }
+
+  /* ── SECTION ─────────────────────────────────── */
+  .section { margin-bottom: 72px; }
+  .section-header { margin-bottom: 32px; }
+  .section-tag {
+    font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--primary-600); margin-bottom: 8px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .section-tag::after { content: ''; flex: 1; height: 1px; background: var(--primary-100); }
+  .section-title { font-size: 26px; font-weight: 700; color: var(--neutral-900); margin-bottom: 8px; letter-spacing: -.01em; }
+  .section-sub { font-size: 14px; color: var(--neutral-500); line-height: 1.7; max-width: 680px; }
+
+  /* ── CARD ────────────────────────────────────── */
+  .card { background: #fff; border: 1px solid var(--neutral-200); border-radius: var(--radius-lg); padding: 24px; }
+  .card-title { font-size: 13px; font-weight: 600; color: var(--neutral-800); margin-bottom: 6px; }
+  .card-body { font-size: 13px; color: var(--neutral-500); line-height: 1.7; }
+
+  /* ── GRID ────────────────────────────────────── */
+  .g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .g3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  .g4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 12px; }
+
+  /* ── BADGE ───────────────────────────────────── */
+  .badge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; }
+  .bg-green   { background: var(--primary-100); color: var(--primary-700); }
+  .bg-blue    { background: var(--info-50);      color: var(--info-700); }
+  .bg-yellow  { background: var(--warning-50);   color: var(--warning-700); }
+  .bg-red     { background: var(--error-50);     color: var(--error-700); }
+  .bg-gray    { background: var(--neutral-100);  color: var(--neutral-600); }
+
+  /* ── CODE ────────────────────────────────────── */
+  code {
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+    font-size: 11px; background: var(--neutral-100); color: var(--neutral-700);
+    padding: 1px 6px; border-radius: 4px; border: 1px solid var(--neutral-200);
+  }
+  .code-block {
+    background: var(--neutral-900); border-radius: var(--radius-md); padding: 20px 24px;
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+    font-size: 12px; line-height: 1.8; color: #e2e8f0; overflow-x: auto;
+  }
+  .code-block .kw  { color: #c084fc; }
+  .code-block .fn  { color: #67e8f9; }
+  .code-block .str { color: #86efac; }
+  .code-block .cm  { color: #64748b; }
+  .code-block .at  { color: #fbbf24; }
+
+  /* ── TABLE ───────────────────────────────────── */
+  .tbl { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .tbl thead tr { background: var(--neutral-50); border-bottom: 1px solid var(--neutral-200); }
+  .tbl th { padding: 10px 14px; text-align: left; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--neutral-500); }
+  .tbl td { padding: 11px 14px; border-bottom: 1px solid var(--neutral-100); color: var(--neutral-700); vertical-align: middle; }
+  .tbl tr:last-child td { border-bottom: none; }
+  .tbl tr:hover td { background: var(--neutral-50); }
+
+  /* ── PROBLEM BOX ─────────────────────────────── */
+  .prob { border-left: 3px solid; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 12px 16px; margin-bottom: 10px; }
+  .prob-red    { border-color: var(--error-500);   background: var(--error-50); }
+  .prob-orange { border-color: #fb923c;             background: #fff7ed; }
+  .prob-yellow { border-color: var(--warning-500); background: var(--warning-50); }
+  .prob-gray   { border-color: var(--neutral-300); background: var(--neutral-50); }
+  .prob-title  { font-size: 12px; font-weight: 600; margin-bottom: 4px; }
+  .prob-red    .prob-title { color: var(--error-700); }
+  .prob-orange .prob-title { color: #c2410c; }
+  .prob-yellow .prob-title { color: var(--warning-700); }
+  .prob-gray   .prob-title { color: var(--neutral-700); }
+  .prob-desc   { font-size: 12px; line-height: 1.6; }
+  .prob-red    .prob-desc { color: var(--error-700); }
+  .prob-orange .prob-desc { color: #9a3412; }
+  .prob-yellow .prob-desc { color: var(--warning-700); }
+  .prob-gray   .prob-desc { color: var(--neutral-500); }
+
+  /* ── DO / DON'T ──────────────────────────────── */
+  .do-card   { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: var(--radius-lg); padding: 20px; }
+  .dont-card { background: #fff5f5; border: 1px solid var(--error-200); border-radius: var(--radius-lg); padding: 20px; }
+  .do-label   { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--primary-700); margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+  .dont-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--error-700); margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+  .do-card   .card-body { color: #166534; }
+  .dont-card .card-body { color: var(--error-700); }
+
+  /* ── SWATCH PALETTE ──────────────────────────── */
+  .palette-strip { display: flex; border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--neutral-200); margin-bottom: 16px; }
+  .palette-swatch { flex: 1; min-height: 72px; position: relative; display: flex; align-items: flex-end; padding: 8px; cursor: default; }
+  .palette-swatch:hover .swatch-tooltip { opacity: 1; transform: translateY(-4px); }
+  .swatch-tooltip {
+    position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%) translateY(0);
+    background: var(--neutral-900); color: #fff; padding: 6px 10px; border-radius: 6px;
+    font-size: 11px; white-space: nowrap; opacity: 0; transition: all .15s; pointer-events: none;
+    font-family: 'SF Mono', 'Fira Code', monospace; z-index: 10; line-height: 1.6;
+  }
+  .swatch-tooltip::after { content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); border: 5px solid transparent; border-top-color: var(--neutral-900); }
+
+  .swatch-grid { display: grid; gap: 8px; }
+  .swatch-card {
+    background: #fff; border: 1px solid var(--neutral-200); border-radius: var(--radius-lg);
+    overflow: hidden; transition: box-shadow .15s;
+  }
+  .swatch-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,.08); }
+  .swatch-color { height: 80px; }
+  .swatch-info { padding: 12px 14px; }
+  .swatch-name { font-size: 12px; font-weight: 600; color: var(--neutral-800); display: block; margin-bottom: 2px; font-family: 'SF Mono', 'Fira Code', monospace; }
+  .swatch-hex  { font-size: 11px; color: var(--neutral-500); display: block; font-family: 'SF Mono', 'Fira Code', monospace; margin-bottom: 4px; }
+  .swatch-role { font-size: 11px; color: var(--neutral-400); display: block; line-height: 1.5; }
+  .swatch-badge { display: inline-block; font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 3px; margin-top: 4px; }
+  .swatch-badge-brand { background: var(--primary-100); color: var(--primary-700); }
+  .swatch-badge-main  { background: var(--primary-600); color: #fff; }
+
+  /* ── STATUS ANATOMY ──────────────────────────── */
+  .status-group { background: #fff; border: 1px solid var(--neutral-200); border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 16px; }
+  .status-group-header { padding: 14px 20px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid var(--neutral-100); }
+  .status-group-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .status-group-name { font-size: 14px; font-weight: 700; color: var(--neutral-900); }
+  .status-group-sub  { font-size: 12px; color: var(--neutral-400); margin-left: auto; }
+  .status-slots { display: grid; grid-template-columns: repeat(6,1fr); }
+  .status-slot { padding: 16px 14px; border-right: 1px solid var(--neutral-100); }
+  .status-slot:last-child { border-right: none; }
+  .status-slot-color { height: 40px; border-radius: 6px; margin-bottom: 10px; border: 1px solid rgba(0,0,0,.06); }
+  .status-slot-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--neutral-500); margin-bottom: 3px; }
+  .status-slot-token { font-size: 11px; font-weight: 600; color: var(--neutral-800); font-family: 'SF Mono', 'Fira Code', monospace; margin-bottom: 2px; }
+  .status-slot-hex   { font-size: 10px; color: var(--neutral-400); font-family: 'SF Mono', 'Fira Code', monospace; margin-bottom: 4px; }
+  .status-slot-use   { font-size: 10px; color: var(--neutral-400); line-height: 1.5; }
+
+  /* ── SEMANTIC TOKEN ROW ───────────────────────── */
+  .token-row { display: flex; align-items: center; gap: 14px; padding: 12px 0; border-bottom: 1px solid var(--neutral-100); }
+  .token-row:last-child { border-bottom: none; }
+  .token-swatch { width: 44px; height: 44px; border-radius: 8px; flex-shrink: 0; border: 1px solid rgba(0,0,0,.08); }
+  .token-info { flex: 1; }
+  .token-name { font-size: 12px; font-weight: 600; color: var(--neutral-800); font-family: 'SF Mono', 'Fira Code', monospace; margin-bottom: 2px; }
+  .token-hex  { font-size: 11px; color: var(--neutral-500); font-family: 'SF Mono', 'Fira Code', monospace; }
+  .token-source { font-size: 11px; color: var(--neutral-400); }
+  .token-usage { font-size: 12px; color: var(--neutral-500); max-width: 240px; line-height: 1.5; }
+  .token-wcag  { font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 4px; white-space: nowrap; }
+  .wcag-aaa   { background: #dcfce7; color: #166534; }
+  .wcag-aa    { background: #dbeafe; color: #1e40af; }
+  .wcag-fail  { background: var(--neutral-100); color: var(--neutral-500); }
+  .wcag-intent { background: var(--warning-50); color: var(--warning-700); }
+
+  /* ── ARCH DIAGRAM ────────────────────────────── */
+  .arch-box { text-align: center; padding: 16px 12px; border-radius: 8px; }
+  .arch-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 6px; }
+  .arch-name  { font-size: 15px; font-weight: 700; color: var(--neutral-900); margin-bottom: 4px; }
+  .arch-desc  { font-size: 11px; color: var(--neutral-500); line-height: 1.5; }
+  .arch-arrow { display: flex; align-items: center; justify-content: center; font-size: 22px; color: var(--neutral-300); padding: 0 8px; }
+
+  /* ── FOOTER NAV ──────────────────────────────── */
+  .footer-nav { display: flex; justify-content: flex-end; margin-top: 80px; padding-top: 32px; border-top: 1px solid var(--neutral-200); }
+  .footer-nav-link {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--primary-600); color: #fff; text-decoration: none;
+    padding: 12px 24px; border-radius: 8px; font-size: 14px; font-weight: 600;
+    transition: background .15s;
+  }
+  .footer-nav-link:hover { background: var(--primary-700); }
+
+  /* ── MISC ────────────────────────────────────── */
+  .divider { border: none; border-top: 1px solid var(--neutral-100); margin: 0; }
+  .mt8  { margin-top: 8px; }
+  .mt12 { margin-top: 12px; }
+  .mt16 { margin-top: 16px; }
+  .mt24 { margin-top: 24px; }
+  .mt32 { margin-top: 32px; }
+  .mb8  { margin-bottom: 8px; }
+  .mb16 { margin-bottom: 16px; }
+  .mb24 { margin-bottom: 24px; }
+  .info-callout { background: var(--info-50); border: 1px solid var(--info-200); border-radius: 8px; padding: 14px 18px; font-size: 13px; color: var(--info-700); line-height: 1.6; }
+  .warn-callout { background: var(--warning-50); border: 1px solid var(--warning-200); border-radius: 8px; padding: 14px 18px; font-size: 13px; color: var(--warning-700); line-height: 1.6; }
+  .err-callout  { background: var(--error-50); border: 1px solid var(--error-200); border-radius: 8px; padding: 14px 18px; font-size: 13px; color: var(--error-700); line-height: 1.6; }
+
+  /* ═══════════════════════════════════════════
+     RESPONSIVE — MOBILE
+     ═══════════════════════════════════════════ */
+  @media (max-width: 768px) {
+    .page { padding: 0 16px 48px; }
+    .cover { padding: 40px 20px 36px; margin-bottom: 40px; }
+    .cover-title { font-size: 32px; }
+    .cover-sub { font-size: 14px; margin-bottom: 24px; }
+    .cover-meta { gap: 16px; }
+    .cover-meta-label { font-size: 9px; }
+    .cover-meta-value { font-size: 12px; }
+    .cover-libs { gap: 6px; margin-top: 20px; }
+    .lib-tag { font-size: 11px; padding: 4px 10px; }
+
+    .toc { padding: 20px; margin-bottom: 36px; }
+    .toc-grid { grid-template-columns: 1fr; }
+    .toc-file-label { margin-top: 14px; }
+
+    .section { margin-bottom: 48px; }
+    .section-title { font-size: 20px; }
+    .section-sub { font-size: 13px; }
+
+    .g2, .g3, .g4 { grid-template-columns: 1fr; }
+    .card { padding: 16px; }
+
+    /* Status palette strip — horizontal scroll */
+    .status-slots { grid-template-columns: repeat(6, minmax(120px, 1fr)); overflow-x: auto; }
+
+    /* Inline grids — collapse */
+    .resp-grid-5 { grid-template-columns: repeat(2, 1fr) !important; }
+    .resp-grid-4 { grid-template-columns: repeat(2, 1fr) !important; }
+    .resp-arch-grid { grid-template-columns: 1fr !important; gap: 12px !important; }
+    .resp-arch-grid > div:nth-child(2),
+    .resp-arch-grid > div:nth-child(4) { display: none; }
+
+    /* Tables — horizontal scroll */
+    .ds-table-wrap, .tbl-wrap, table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+    /* Code blocks */
+    .code-block { padding: 14px 16px; font-size: 11px; }
+
+    /* Token rows */
+    .token-row { flex-wrap: wrap; gap: 8px; }
+    .token-usage { max-width: 100%; }
+
+    /* Swatch rows */
+    .swatch-row { flex-wrap: wrap; }
+
+    /* Do/Don't cards */
+    .do-dont { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 480px) {
+    .cover-title { font-size: 26px; }
+    .cover-meta { flex-direction: column; gap: 12px; }
+    .resp-grid-5, .resp-grid-4 { grid-template-columns: 1fr !important; }
+    .status-slots { grid-template-columns: repeat(6, minmax(100px, 1fr)); }
+  }
+</style>
+</head>
+<body>
+<div class="cover">
+  <div class="cover-inner">
+    <div class="cover-eyebrow">
+      <span class="cover-eyebrow-dot"></span>
+      VendHub Design System
+    </div>
+    <h1 class="cover-title">Color System<br><span>Part 1 — Foundation</span></h1>
+    <p class="cover-sub">Primitive palettes, semantic tokens, and the architecture behind every color decision in VendHub. Built for designers and developers.</p>
+    <div class="cover-meta">
+      <div><div class="cover-meta-label">Document</div><div class="cover-meta-value">Color </div></div>
+      <div><div class="cover-meta-label">Version</div><div class="cover-meta-value">v2.0 — Rebuilt</div></div>
+      <div><div class="cover-meta-label">Stack</div><div class="cover-meta-value">Next.js + Tailwind CSS v3.4 + shadcn/ui</div></div>
+      <div><div class="cover-meta-label">Updated</div><div class="cover-meta-value">April 2026</div></div>
+    </div>
+    <div class="cover-libs">
+      <span class="lib-tag lib-primary">● Primitive Palette</span>
+      <span class="lib-tag lib-secondary">● Semantic Tokens</span>
+      <span class="lib-tag lib-warning">● Interactive States</span>
+      <span class="lib-tag lib-error">● Status Colors</span>
+    </div>
+    <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:8px 16px;margin-top:28px;font-size:12px;color:var(--neutral-400);font-weight:500;">
+      <strong style="color:#fff;"></strong>
+      <span style="color:var(--neutral-600);">·</span>
+      </div>
+  </div>
+</div>
+<div class="page">
+<div class="toc">
+  <div class="toc-title">On this page</div>
+  <div class="toc-file-label" style="margin-top:0">Foundation</div>
+  <div class="toc-grid">
+    <a href="#s1" class="toc-item"><span class="toc-num">01</span> Problems Identified</a>    <a href="#s2" class="toc-item"><span class="toc-num">02</span> Architecture Overview</a>    <a href="#s3" class="toc-item"><span class="toc-num">03</span> Neutral Palette</a>    <a href="#s4" class="toc-item"><span class="toc-num">04</span> Brand / Primary Palette</a>    <a href="#s5" class="toc-item"><span class="toc-num">05</span> Status Palettes</a>    <a href="#s6" class="toc-item"><span class="toc-num">06</span> Text Tokens</a>    <a href="#s7" class="toc-item"><span class="toc-num">07</span> Background Tokens</a>    <a href="#s8" class="toc-item"><span class="toc-num">08</span> Border Tokens</a>    <a href="#s9" class="toc-item"><span class="toc-num">09</span> Interactive Tokens</a>
+  </div>
+  <div class="toc-file-label">Implementation</div>
+  <div class="toc-grid">
+    <a href="#s1" class="toc-item"><span class="toc-num">10</span> globals.css Fixes</a>    <a href="#s2" class="toc-item"><span class="toc-num">11</span> Tailwind Config</a>    <a href="#s3" class="toc-item"><span class="toc-num">12</span> Status Pattern Anatomy</a>    <a href="#s4" class="toc-item"><span class="toc-num">13</span> Component Patterns</a>    <a href="#s5" class="toc-item"><span class="toc-num">14</span> Figma Variable Mapping</a>    <a href="#s6" class="toc-item"><span class="toc-num">15</span> Dark Mode Strategy</a>    <a href="#s7" class="toc-item"><span class="toc-num">16</span> Do's &amp; Don'ts</a>    <a href="#s8" class="toc-item"><span class="toc-num">17</span> Migration Map</a>    <a href="#s9" class="toc-item"><span class="toc-num">18</span> Governance</a>
+  </div>
+</div>
+
+<div class="section" id="s1">
+  <div class="section-header">
+    <div class="section-tag">01 · Problems</div>
+    <h2 class="section-title">10 Issues Found in the Current System</h2>
+    <p class="section-sub">Audit of <code>globals.css</code> (562 lines, 222 CSS variables) and <code>tailwind.config.ts</code> revealed critical token bugs, identity conflicts, and structural problems.</p>
+  </div>
+
+  <div class="g2">
+    <div>
+      <div class="prob prob-red">
+        <div class="prob-title">🔴 P0 — Primary Identity Conflict</div>
+        <div class="prob-desc"><code>--primary</code> (shadcn HSL, line 76) resolves to <strong>teal</strong> (#2a8a7e). <code>--primary500</code> (line 106) is <strong>green</strong> (#16A34A). shadcn components get teal; custom code using <code>bg-primary</code> gets green. Two different brand colors in production.</div>
+      </div>
+      <div class="prob prob-red">
+        <div class="prob-title">🔴 P0 — 6 Broken Tokens</div>
+        <div class="prob-desc"><code>--error</code>, <code>--error-foreground</code>, <code>--warning</code>, <code>--warning-foreground</code>, <code>--info</code>, <code>--info-foreground</code> are referenced in <code>tailwind.config.ts</code> but <strong>never defined</strong> in <code>:root</code>. Every <code>bg-error</code>, <code>bg-warning</code>, <code>bg-info</code> class produces <strong>invalid CSS</strong>.</div>
+      </div>
+      <div class="prob prob-red">
+        <div class="prob-title">🔴 P0 — Success Token Bugs</div>
+        <div class="prob-desc"><code>--success: 143, 35%, 44%</code> uses <strong>commas</strong> in HSL (invalid modern CSS — must be spaces). Worse: <code>--success-foreground</code> is set to the <strong>same value</strong> as <code>--success</code>. White-on-success text renders as green-on-green.</div>
+      </div>
+      <div class="prob prob-orange">
+        <div class="prob-title">🟠 P1 — 79% Raw Tailwind Colors</div>
+        <div class="prob-desc">Only 21% of color usage goes through the custom token system. <code>text-gray-*</code> (3,602), <code>bg-gray-*</code> (456+) bypass every token. The system exists but is largely ignored.</div>
+      </div>
+      <div class="prob prob-orange">
+        <div class="prob-title">🟠 P1 — Dual Text Color Systems</div>
+        <div class="prob-desc"><code>text-gray-*</code> (Tailwind defaults): 2,193 uses. <code>text-typography-*</code> (custom tokens): 384 uses. Two systems doing the same job, no consistency, impossible to theme.</div>
+      </div>
+    </div>
+    <div>
+      <div class="prob prob-orange">
+        <div class="prob-title">🟠 P1 — Orphaned Tertiary Scale</div>
+        <div class="prob-desc">13 <code>--tertiary-*</code> tokens defined (orange scale, #fffaf5 → #543112). <strong>Zero usage</strong> across entire codebase. Nearly identical to the warning scale (tertiary500 #e78128 vs warning500 #e77828 — 1 hex digit difference). Fully orphaned dead code.</div>
+      </div>
+      <div class="prob prob-orange">
+        <div class="prob-title">🟠 P1 — Broken Secondary Neutral</div>
+        <div class="prob-desc"><code>--secondary100: #f4fdff</code> has a <strong>strong blue tint</strong>, breaking what should be a pure neutral ramp. The secondary scale (near-white → #9d9d9d) also never reaches a true dark shade. Only 15 total uses.</div>
+      </div>
+      <div class="prob prob-yellow">
+        <div class="prob-title">🟡 P2 — Orphaned Standalone Tokens</div>
+        <div class="prob-desc">7 tokens with zero usage: <code>--text-label-white</code>, <code>--text-label-gray</code>, <code>--text-label-black</code>, <code>--purple-text</code>, <code>--purple-bg</code>, <code>--orange-text</code>, <code>--orange-bg</code>.</div>
+      </div>
+      <div class="prob prob-yellow">
+        <div class="prob-title">🟡 P2 — Conflicting @layer Blocks</div>
+        <div class="prob-desc">Three separate <code>@layer base</code> blocks exist in globals.css. Block #2 (lines 323–330) is dead code, fully superseded by Block #3 (lines 332–339). Creates confusion and bloat.</div>
+      </div>
+      <div class="prob prob-gray">
+        <div class="prob-title">⚪ P2 — 385 Hardcoded Hex Values</div>
+        <div class="prob-desc">~385 hardcoded hex colors in .tsx files (170+ unique values). Worst: CategoryModal.tsx (32 hardcoded colors), PartnershipGrid.tsx (21), CategoryComboBox.tsx (14). Untokenized and impossible to update systematically.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="err-callout mt16">
+    <strong>Impact summary:</strong> P0 bugs mean three core Tailwind utility classes (<code>bg-error</code>, <code>bg-warning</code>, <code>bg-info</code>) produce no styles in production. The 27 toast calls using <code>toast.error()</code> and <code>toast.warning()</code> render incorrectly because the underlying tokens are broken.
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     SECTION 2 — ARCHITECTURE
+════════════════════════════════════════════════════ -->
+<div class="section" id="s2">
+  <div class="section-header">
+    <div class="section-tag">02 · Architecture</div>
+    <h2 class="section-title">Two-Tier Color Architecture</h2>
+    <p class="section-sub">Every color in VendHub flows through two layers. Designers and developers should only ever reach for <strong>semantic tokens</strong> — never primitives directly.</p>
+  </div>
+
+  <div class="card mb24">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:24px;">
+      <div style="width:32px;height:32px;border-radius:50%;background:var(--primary-100);display:flex;align-items:center;justify-content:center;font-size:14px;">🎨</div>
+      <div style="font-size:15px;font-weight:700;color:var(--neutral-900)">Color Flow</div>
+    </div>
+    <div class="resp-arch-grid" style="display:grid;grid-template-columns:1fr 40px 1fr 40px 1fr;align-items:center;gap:0;">
+      <div class="arch-box" style="background:var(--neutral-50);border:1px solid var(--neutral-200);">
+        <div class="arch-label" style="color:var(--neutral-400)">Layer 0</div>
+        <div class="arch-name">Figma Variables</div>
+        <div class="arch-desc">Color styles defined in the design file. Single source of truth for designers.</div>
+      </div>
+      <div class="arch-arrow">→</div>
+      <div class="arch-box" style="background:var(--primary-50);border:1px solid var(--primary-200);">
+        <div class="arch-label" style="color:var(--primary-600)">Layer 1</div>
+        <div class="arch-name">CSS Primitives</div>
+        <div class="arch-desc">Raw palette variables in <code>:root</code>. Never used directly in components.</div>
+      </div>
+      <div class="arch-arrow">→</div>
+      <div class="arch-box" style="background:var(--neutral-900);border:1px solid #374151;">
+        <div class="arch-label" style="color:var(--primary-500)">Layer 2</div>
+        <div class="arch-name" style="color:#fff">Semantic Tokens</div>
+        <div class="arch-desc" style="color:var(--neutral-400)">Purpose-named tokens like <code>--text-default</code>, <code>--bg-surface</code>. What components consume.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="g2 mb16">
+    <div class="card">
+      <div class="card-title">Layer 1 — Primitive Palette</div>
+      <div class="card-body mt8">Raw color values organized by hue family. Six palettes: Neutral, Primary (brand green), Success (emerald), Warning (amber), Error (red), Info (blue). Each palette has 5–11 stops.<br><br>
+      <strong>Rule:</strong> These exist to give the semantic layer something to reference. They should never appear in component code.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Layer 2 — Semantic Tokens</div>
+      <div class="card-body mt8">Named by purpose, not appearance. Grouped into five categories: <strong>Text</strong> (what to render), <strong>Background</strong> (surfaces), <strong>Border</strong> (edges/dividers), <strong>Interactive</strong> (brand actions), <strong>Status</strong> (success/warning/error/info).<br><br>
+      <strong>Rule:</strong> Every component and page uses only these tokens.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title" style="margin-bottom:12px;">Cross-Reference — What World-Class Systems Do</div>
+    <table class="tbl">
+      <thead><tr>
+        <th>System</th><th>Primitive Layer</th><th>Semantic Layer</th><th>Key Insight Applied</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Material Design 3</strong></td>
+          <td>Tonal palettes (0–100)</td>
+          <td>Color roles: primary, on-primary, container, on-container</td>
+          <td>Every bg token has a paired "on-" foreground token</td>
+        </tr>
+        <tr>
+          <td><strong>GitHub Primer</strong></td>
+          <td>Scale tokens (fg.*, canvas.*)</td>
+          <td>fg.default / fg.muted / fg.subtle / fg.onEmphasis</td>
+          <td>4-level text hierarchy (default → muted → subtle → on-emphasis)</td>
+        </tr>
+        <tr>
+          <td><strong>Shopify Polaris v11</strong></td>
+          <td>Color scale</td>
+          <td>--p-color-bg-surface, --p-color-text, --p-color-border</td>
+          <td>Status colors use 4 slots: bg / border / text / icon</td>
+        </tr>
+        <tr>
+          <td><strong>IBM Carbon</strong></td>
+          <td>10-step hue scales</td>
+          <td>layer-01/02/03, text-primary/secondary/disabled</td>
+          <td>Layered background system (nested surfaces get darker)</td>
+        </tr>
+        <tr>
+          <td><strong>Vercel Geist</strong></td>
+          <td>Neutral ramp</td>
+          <td>bg-[value], text-[value], border-[value]</td>
+          <td>Minimal: default / muted / subtle / accent — easy to learn</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="info-callout mt16">
+    <strong>VendHub v2 approach:</strong> Adopts Polaris's 4-slot status pattern + Primer's 4-level text hierarchy + Material's "on-color" foreground pairing. Simpler than Carbon, more thorough than Geist.
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     SECTION 3 — NEUTRAL PALETTE
+════════════════════════════════════════════════════ -->
+<div class="section" id="s3">
+  <div class="section-header">
+    <div class="section-tag">03 · Neutral Palette</div>
+    <h2 class="section-title">Neutral Scale — 11 Stops</h2>
+    <p class="section-sub">The structural backbone. Used for text, backgrounds, borders, and all non-brand surfaces. Matches Tailwind's gray-* scale exactly — enabling a clean migration path.</p>
+  </div>
+
+  <!-- Color strip -->
+  <div class="palette-strip mb24">
+    <div class="palette-swatch" style="background:#FFFFFF;border-right:1px solid #e5e7eb;min-height:100px;">
+      <div class="swatch-tooltip">White · #FFFFFF<br>neutral-white</div>
+    </div>
+    <div class="palette-swatch" style="background:#F9FAFB;">
+      <div class="swatch-tooltip">neutral-50 · #F9FAFB</div>
+    </div>
+    <div class="palette-swatch" style="background:#F3F4F6;">
+      <div class="swatch-tooltip">neutral-100 · #F3F4F6</div>
+    </div>
+    <div class="palette-swatch" style="background:#E5E7EB;">
+      <div class="swatch-tooltip">neutral-200 · #E5E7EB</div>
+    </div>
+    <div class="palette-swatch" style="background:#D1D5DB;">
+      <div class="swatch-tooltip">neutral-300 · #D1D5DB</div>
+    </div>
+    <div class="palette-swatch" style="background:#9CA3AF;">
+      <div class="swatch-tooltip">neutral-400 · #9CA3AF</div>
+    </div>
+    <div class="palette-swatch" style="background:#6B7280;">
+      <div class="swatch-tooltip">neutral-500 · #6B7280</div>
+    </div>
+    <div class="palette-swatch" style="background:#4B5563;">
+      <div class="swatch-tooltip">neutral-600 · #4B5563</div>
+    </div>
+    <div class="palette-swatch" style="background:#374151;">
+      <div class="swatch-tooltip">neutral-700 · #374151</div>
+    </div>
+    <div class="palette-swatch" style="background:#1F2937;">
+      <div class="swatch-tooltip">neutral-800 · #1F2937</div>
+    </div>
+    <div class="palette-swatch" style="background:#111827;">
+      <div class="swatch-tooltip">neutral-900 · #111827</div>
+    </div>
+  </div>
+
+  <table class="tbl">
+    <thead><tr>
+      <th>Stop</th><th>Hex</th><th>Tailwind Equivalent</th><th>Primary Semantic Role</th><th>Component Usage</th>
+    </tr></thead>
+    <tbody>
+      <tr><td><span style="display:inline-block;width:14px;height:14px;border-radius:3px;background:#FFFFFF;border:1px solid #e5e7eb;vertical-align:middle;margin-right:6px;"></span><strong>White</strong></td><td><code>#FFFFFF</code></td><td>white</td><td>Default page background</td><td>Body, cards, modals</td></tr>
+      <tr><td><span style="display:inline-block;width:14px;height:14px;border-radius:3px;background:#F9FAFB;border:1px solid #e5e7eb;vertical-align:middle;margin-right:6px;"></span><strong>50</strong></td><td><code>#F9FAFB</code></td><td>gray-50</td><td>Subtle background</td><td>App chrome, sidebar, table alternating</td></tr>
+      <tr><td><span style="display:inline-block;width:14px;height:14px;border-radius:3px;background:#F3F4F6;border:1px solid #e5e7eb;vertical-align:middle;margin-right:6px;"></span><strong>100</strong></td><td><code>#F3F4F6</code></td><td>gray-100</td><td>Surface background</td><td>Input fill, card sections, skeleton</td></tr>
+      <tr><td><span style="display:inline-block;width:14px;height:14px;border-radius:3px;background:#E5E7EB;border:1px solid #e5e7eb;vertical-align:middle;margin-right:6px;"></span><strong>200</strong></td><td><code>#E5E7EB</code></td><td>gray-200</td><td>Default border</td><td>Card borders, input borders, dividers</td></tr>
+      <tr><td><span style="display:inline-block;width:14px;height:14px;border-radius:3px;background:#D1D5DB;border:1px solid #e5e7eb;vertical-align:middle;margin-right:6px;"></span><strong>300</strong></td><td><code>#D1D5DB</code></td><td>gray-300</td><td>Strong border / disabled bg</td><td>Disabled inputs, strong dividers</td></tr>
+      <tr><td><span style="display:inline-block;width:14px;height:14px;border-radius:3px;background:#9CA3AF;border:1px solid #e5e7eb;vertical-align:middle;margin-right:6px;"></span><strong>400</strong></td><td><code>#9CA3AF</code></td><td>gray-400</td><td>Disabled text</td><td>Placeholder text, disabled labels</td></tr>
+      <tr><td><span style="display:inline-block;width:14px;height:14px;border-radius:3px;background:#6B7280;border:1px solid #e5e7eb;vertical-align:middle;margin-right:6px;"></span><strong>500</strong></td><td><code>#6B7280</code></td><td>gray-500</td><td>Muted text</td><td>Helper text, metadata, timestamps</td></tr>
+      <tr><td><span style="display:inline-block;width:14px;height:14px;border-radius:3px;background:#4B5563;vertical-align:middle;margin-right:6px;"></span><strong>600</strong></td><td><code>#4B5563</code></td><td>gray-600</td><td>Secondary text</td><td>Body copy, descriptions, secondary labels</td></tr>
+      <tr><td><span style="display:inline-block;width:14px;height:14px;border-radius:3px;background:#374151;vertical-align:middle;margin-right:6px;"></span><strong>700</strong></td><td><code>#374151</code></td><td>gray-700</td><td>Strong text</td><td>Emphasized body text</td></tr>
+      <tr><td><span style="display:inline-block;width:14px;height:14px;border-radius:3px;background:#1F2937;vertical-align:middle;margin-right:6px;"></span><strong>800</strong></td><td><code>#1F2937</code></td><td>gray-800</td><td>Heading text</td><td>Sub-headings, card titles</td></tr>
+      <tr><td><span style="display:inline-block;width:14px;height:14px;border-radius:3px;background:#111827;vertical-align:middle;margin-right:6px;"></span><strong>900</strong></td><td><code>#111827</code></td><td>gray-900</td><td>Primary text</td><td>H1–H3, primary labels, nav items</td></tr>
+    </tbody>
+  </table>
+
+  <div class="warn-callout mt16">
+    <strong>Migration note:</strong> The neutral scale is identical to Tailwind's built-in <code>gray-*</code> scale. This means <code>text-gray-900</code> → <code>text-neutral-900</code> is a safe mechanical replacement. When these are mapped to semantic tokens (e.g. <code>--text-default</code>), you gain theming for free.
+  </div>
+
+  <!-- Example annotation (Figma style) -->
+  <div style="margin-top:24px;">
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--neutral-400);margin-bottom:12px;">Example</div>
+    <div style="display:flex;align-items:flex-start;gap:32px;">
+      <div style="background:#fff;border:1px solid #E5E7EB;border-radius:10px;padding:20px 24px;min-width:280px;max-width:320px;">
+        <div style="font-size:11px;font-weight:600;color:#6B7280;text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid #F3F4F6;">Seller Info</div>
+        <div style="margin-bottom:10px;">
+          <div style="font-size:11px;color:#6B7280;margin-bottom:2px;">Seller Name</div>
+          <div style="font-size:14px;font-weight:600;color:#1F2937;">Angelo Martinez</div>
+        </div>
+        <div style="margin-bottom:10px;">
+          <div style="font-size:11px;color:#6B7280;margin-bottom:2px;">Seller Email</div>
+          <div style="font-size:13px;color:#4B5563;">martinez245zeus@gmail.com</div>
+        </div>
+        <div>
+          <div style="font-size:11px;color:#6B7280;margin-bottom:2px;">Phone Number</div>
+          <div style="font-size:13px;font-weight:600;color:#1F2937;">(802) 555-2386</div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px;padding-top:12px;">
+        <div style="display:flex;align-items:center;gap:8px;font-size:12px;">
+          <div style="width:12px;height:12px;border-radius:50%;background:#1F2937;flex-shrink:0;"></div>
+          <span style="color:var(--neutral-500);">neutral-800</span>
+          <span style="background:#DCFCE7;color:#166534;font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;">headings</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:12px;">
+          <div style="width:12px;height:12px;border-radius:50%;background:#6B7280;flex-shrink:0;"></div>
+          <span style="color:var(--neutral-500);">neutral-500</span>
+          <span style="background:var(--neutral-100);color:var(--neutral-600);font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;">labels / muted</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:12px;">
+          <div style="width:12px;height:12px;border-radius:50%;background:#4B5563;flex-shrink:0;"></div>
+          <span style="color:var(--neutral-500);">neutral-600</span>
+          <span style="background:var(--neutral-100);color:var(--neutral-600);font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;">body text</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:12px;">
+          <div style="width:12px;height:12px;border-radius:50%;background:#E5E7EB;border:1px solid #d1d5db;flex-shrink:0;"></div>
+          <span style="color:var(--neutral-500);">neutral-200</span>
+          <span style="background:var(--neutral-100);color:var(--neutral-600);font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;">borders</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     SECTION 4 — BRAND / PRIMARY PALETTE
+════════════════════════════════════════════════════ -->
+<div class="section" id="s4">
+  <div class="section-header">
+    <div class="section-tag">04 · Brand Palette</div>
+    <h2 class="section-title">Primary / Brand — Green Scale</h2>
+    <p class="section-sub">VendHub's brand identity color. Primary-600 (#16A34A) is the main action color — buttons, links, focus rings, active states. Matches Tailwind's green-600.</p>
+  </div>
+
+  <div class="warn-callout" style="background:#FFFBEB;border:1px solid #FCD34D;border-radius:8px;padding:14px 18px;margin-bottom:24px;font-size:13px;line-height:1.6;">
+    <strong>⚠️ Production naming shift — read before coding.</strong><br>
+    The current production <code>globals.css</code> defines <code>--primary500: #16A34A</code> (line ~106). That is our <strong>primary-600</strong> in design system terms. Production's <code>--primary500</code> name was inherited from an older scale that started at 500 rather than 600. During the P0 fix (Implementation file, Section 01), this token is renamed to align with the standard scale — <code>--primary-600</code>. Any Tailwind class that currently reads <code>[--primary500]</code> or <code>text-primary500</code> in legacy code must be updated to the new semantic tokens (e.g. <code>text-primary-600</code> or <code>var(--brand-default)</code>). See Section 01 of the Implementation file for the full migration diff.
+  </div>
+
+  <div class="palette-strip mb24">
+    <div class="palette-swatch" style="background:#F0FDF4;border-right:1px solid #e5e7eb;"><div class="swatch-tooltip">primary-50 · #F0FDF4</div></div>
+    <div class="palette-swatch" style="background:#DCFCE7;"><div class="swatch-tooltip">primary-100 · #DCFCE7</div></div>
+    <div class="palette-swatch" style="background:#BBF7D0;"><div class="swatch-tooltip">primary-200 · #BBF7D0</div></div>
+    <div class="palette-swatch" style="background:#86EFAC;"><div class="swatch-tooltip">primary-300 · #86EFAC</div></div>
+    <div class="palette-swatch" style="background:#4ADE80;"><div class="swatch-tooltip">primary-400 · #4ADE80</div></div>
+    <div class="palette-swatch" style="background:#22C55E;"><div class="swatch-tooltip">primary-500 · #22C55E</div></div>
+    <div class="palette-swatch" style="background:#16A34A;position:relative;"><div class="swatch-tooltip">primary-600 · #16A34A ← BRAND</div></div>
+    <div class="palette-swatch" style="background:#15803D;"><div class="swatch-tooltip">primary-700 · #15803D</div></div>
+    <div class="palette-swatch" style="background:#166534;"><div class="swatch-tooltip">primary-800 · #166534</div></div>
+    <div class="palette-swatch" style="background:#14532D;"><div class="swatch-tooltip">primary-900 · #14532D</div></div>
+  </div>
+
+  <!-- Swatch grid focusing on used stops -->
+  <div class="resp-grid-5" style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:24px;">
+    <div class="swatch-card">
+      <div class="swatch-color" style="background:#F0FDF4;border-bottom:1px solid #e5e7eb;"></div>
+      <div class="swatch-info">
+        <span class="swatch-name">primary-50</span>
+        <span class="swatch-hex">#F0FDF4</span>
+        <span class="swatch-role">Hover bg, brand-tinted surfaces</span>
+      </div>
+    </div>
+    <div class="swatch-card">
+      <div class="swatch-color" style="background:#DCFCE7;border-bottom:1px solid #e5e7eb;"></div>
+      <div class="swatch-info">
+        <span class="swatch-name">primary-100</span>
+        <span class="swatch-hex">#DCFCE7</span>
+        <span class="swatch-role">Badge bg, active chip bg</span>
+      </div>
+    </div>
+    <div class="swatch-card">
+      <div class="swatch-color" style="background:#86EFAC;border-bottom:1px solid #e5e7eb;"></div>
+      <div class="swatch-info">
+        <span class="swatch-name">primary-300</span>
+        <span class="swatch-hex">#86EFAC</span>
+        <span class="swatch-role">Hover highlights, progress</span>
+      </div>
+    </div>
+    <div class="swatch-card" style="border-color:var(--primary-300);">
+      <div class="swatch-color" style="background:#16A34A;"></div>
+      <div class="swatch-info">
+        <span class="swatch-name">primary-600</span>
+        <span class="swatch-hex">#16A34A</span>
+        <span class="swatch-role">Primary buttons, links, focus</span>
+        <span class="swatch-badge swatch-badge-main">BRAND</span>
+      </div>
+    </div>
+    <div class="swatch-card">
+      <div class="swatch-color" style="background:#15803D;"></div>
+      <div class="swatch-info">
+        <span class="swatch-name">primary-700</span>
+        <span class="swatch-hex">#15803D</span>
+        <span class="swatch-role">Button hover, active state</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Example annotation (Figma style) -->
+  <div style="margin-bottom:24px;">
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--neutral-400);margin-bottom:12px;">Example</div>
+    <div style="display:flex;align-items:flex-start;gap:32px;">
+      <div style="background:#fff;border:1px solid #E5E7EB;border-radius:10px;padding:20px 24px;min-width:280px;max-width:320px;">
+        <div style="font-size:22px;font-weight:700;color:#111827;margin-bottom:2px;">$150,000</div>
+        <div style="font-size:12px;color:#6B7280;margin-bottom:14px;">Selling Price</div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+          <div style="font-size:11px;color:#6B7280;">Total Annual Revenue</div>
+          <div style="font-size:11px;color:#6B7280;">No. of locations</div>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:16px;">
+          <div style="font-size:14px;font-weight:600;color:#111827;">$143,000</div>
+          <div style="font-size:14px;font-weight:600;color:#111827;">2</div>
+        </div>
+        <div style="display:flex;gap:8px;">
+          <button style="flex:1;padding:8px;background:#fff;border:1px solid #E5E7EB;border-radius:6px;font-size:13px;font-weight:600;color:#EF4444;cursor:pointer;">Reject</button>
+          <button style="flex:1;padding:8px;background:#16A34A;border:none;border-radius:6px;font-size:13px;font-weight:600;color:#fff;cursor:pointer;">Approve</button>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px;padding-top:8px;">
+        <div style="display:flex;align-items:center;gap:8px;font-size:12px;">
+          <div style="width:12px;height:12px;border-radius:50%;background:#16A34A;flex-shrink:0;"></div>
+          <span style="color:var(--neutral-500);">primary-600</span>
+          <span style="background:#16A34A;color:#fff;font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;">primary buttons</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:12px;">
+          <div style="width:12px;height:12px;border-radius:50%;background:#15803D;flex-shrink:0;"></div>
+          <span style="color:var(--neutral-500);">primary-700</span>
+          <span style="background:#DCFCE7;color:#166534;font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;">hover state</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:12px;">
+          <div style="width:12px;height:12px;border-radius:50%;background:#F0FDF4;border:1px solid #bbf7d0;flex-shrink:0;"></div>
+          <span style="color:var(--neutral-500);">primary-50</span>
+          <span style="background:var(--neutral-100);color:var(--neutral-600);font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;">subtle bg</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="g2">
+    <div class="card">
+      <div class="card-title">Contrast: White on Primary-600</div>
+      <div class="card-body mt8">
+        White text on <code>#16A34A</code> achieves a contrast ratio of <strong>4.54:1</strong>. This passes <strong>WCAG AA</strong> for both normal text (4.5:1 required) and UI components (3:1 required). It does not reach AAA (7:1).<br><br>
+        <span class="badge bg-green" style="margin-right:6px;">AA ✓ Normal text</span>
+        <span class="badge bg-green">AA ✓ UI components</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">⚠️ Conflict Fix Required</div>
+      <div class="card-body mt8">
+        The shadcn <code>--primary</code> HSL token must be updated to match brand green. Add to <code>:root</code>:<br><br>
+        <code style="display:block;padding:8px 10px;background:var(--neutral-100);border-radius:4px;margin-top:8px;">--primary: 142 72% 29%;</code>
+        <span style="font-size:11px;color:var(--neutral-400);display:block;margin-top:6px;">hsl(142, 72%, 29%) ≈ #16A34A ✓</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     SECTION 5 — STATUS PALETTES
+════════════════════════════════════════════════════ -->
+<div class="section" id="s5">
+  <div class="section-header">
+    <div class="section-tag">05 · Status Palettes</div>
+    <h2 class="section-title">Status Colors — 6-Slot Pattern</h2>
+    <p class="section-sub">Each status color follows a consistent 6-slot anatomy: <strong>bg</strong> (alert background) → <strong>border</strong> (alert border) → <strong>text</strong> (readable text) → <strong>icon</strong> (icon/accent) → <strong>action</strong> (button) → <strong>on</strong> (foreground on action). Inspired by Shopify Polaris v11.</p>
+  </div>
+
+  <!-- Success -->
+  <div class="status-group mb16">
+    <div class="status-group-header">
+      <div class="status-group-dot" style="background:var(--success-500);"></div>
+      <div class="status-group-name">Success — Emerald</div>
+      <div class="status-group-sub">Confirmations · Completions · Positive states</div>
+    </div>
+    <div class="status-slots">
+      <div class="status-slot">
+        <div class="status-slot-color" style="background:#ECFDF5;"></div>
+        <div class="status-slot-label">bg</div>
+        <div class="status-slot-token">--success-bg</div>
+        <div class="status-slot-hex">#ECFDF5</div>
+        <div class="status-slot-use">Alert / toast background</div>
+      </div>
+      <div class="status-slot">
+        <div class="status-slot-color" style="background:#A7F3D0;"></div>
+        <div class="status-slot-label">border</div>
+        <div class="status-slot-token">--success-border</div>
+        <div class="status-slot-hex">#A7F3D0</div>
+        <div class="status-slot-use">Alert border, input outline</div>
+      </div>
+      <div class="status-slot">
+        <div class="status-slot-color" style="background:#047857;"></div>
+        <div class="status-slot-label">text</div>
+        <div class="status-slot-token">--success-text</div>
+        <div class="status-slot-hex">#047857</div>
+        <div class="status-slot-use">Text on success-bg (8.3:1 ✓✓)</div>
+      </div>
+      <div class="status-slot">
+        <div class="status-slot-color" style="background:#10B981;"></div>
+        <div class="status-slot-label">icon</div>
+        <div class="status-slot-token">--success-icon</div>
+        <div class="status-slot-hex">#10B981</div>
+        <div class="status-slot-use">Icon, accent, progress</div>
+      </div>
+      <div class="status-slot">
+        <div class="status-slot-color" style="background:#059669;"></div>
+        <div class="status-slot-label">action</div>
+        <div class="status-slot-token">--success-action</div>
+        <div class="status-slot-hex">#059669</div>
+        <div class="status-slot-use">Button, link, badge bg</div>
+      </div>
+      <div class="status-slot">
+        <div class="status-slot-color" style="background:#FFFFFF;border:1px solid #e5e7eb;"></div>
+        <div class="status-slot-label">on</div>
+        <div class="status-slot-token">--success-on</div>
+        <div class="status-slot-hex">#FFFFFF</div>
+        <div class="status-slot-use">Text ON action button (5.5:1 ✓)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Warning -->
+  <div class="status-group mb16">
+    <div class="status-group-header">
+      <div class="status-group-dot" style="background:var(--warning-500);"></div>
+      <div class="status-group-name">Warning — Amber</div>
+      <div class="status-group-sub">Cautions · Pending states · Non-blocking issues</div>
+    </div>
+    <div class="status-slots">
+      <div class="status-slot">
+        <div class="status-slot-color" style="background:#FFFBEB;"></div>
+        <div class="status-slot-label">bg</div>
+        <div class="status-slot-token">--warning-bg</div>
+        <div class="status-slot-hex">#FFFBEB</div>
+        <div class="status-slot-use">Alert / banner background</div>
+      </div>
+      <div class="status-slot">
+        <div class="status-slot-color" style="background:#FDE68A;"></div>
+        <div class="status-slot-label">border</div>
+        <div class="status-slot-token">--warning-border</div>
+        <div class="status-slot-hex">#FDE68A</div>
+        <div class="status-slot-use">Alert border</div>
+      </div>
+      <div class="status-slot">
+        <div class="status-slot-color" style="background:#B45309;"></div>
+        <div class="status-slot-label">text</div>
+        <div class="status-slot-token">--warning-text</div>
+        <div class="status-slot-hex">#B45309</div>
+        <div class="status-slot-use">Text on warning-bg (6.1:1 ✓)</div>
+      </div>
+      <div class="status-slot">
+        <div class="status-slot-color" style="background:#F59E0B;"></div>
+        <div class="status-slot-label">icon</div>
+        <div class="status-slot-token">--warning-icon</div>
+        <div class="status-slot-hex">#F59E0B</div>
+        <div class="status-slot-use">Icon, accent, indicator</div>
+      </div>
+      <div class="status-slot">
+        <div class="status-slot-color" style="background:#B45309;"></div>
+        <div class="status-slot-label">action</div>
+        <div class="status-slot-token">--warning-action</div>
+        <div class="status-slot-hex">#B45309</div>
+        <div class="status-slot-use">Button, link (darker for contrast)</div>
+      </div>
+      <div class="status-slot">
+        <div class="status-slot-color" style="background:#FFFFFF;border:1px solid #e5e7eb;"></div>
+        <div class="status-slot-label">on</div>
+        <div class="status-slot-token">--warning-on</div>
+        <div class="status-slot-hex">#FFFFFF</div>
+        <div class="status-slot-use">Text ON action button (4.9:1 ✓)</div>
+      </div>
+    </div>
+  </div>
+  <div class="warn-callout mb16" style="margin-top:-8px;">
+    <strong>⚠️ Warning action color is warning-700 (#B45309), not warning-600.</strong> White text on warning-600 (#D97706) only achieves 3.1:1 contrast — failing WCAG AA for normal text. Using warning-700 gives 4.9:1 (passes AA). This is intentional and follows Polaris and Carbon's same decision.
+  </div>
+
+  <!-- Error -->
+  <div class="status-group mb16">
+    <div class="status-group-header">
+      <div class="status-group-dot" style="background:var(--error-500);"></div>
+      <div class="status-group-name">Error — Red</div>
+      <div class="status-group-sub">Validation errors · Destructive actions · Critical failures</div>
+    </div>
+    <div class="status-slots">
+      <div class="status-slot">
+        <div class="status-slot-color" style="background:#FEF2F2;"></div>
+        <div class="status-slot-label">bg</div>
+        <div class="status-slot-token">--error-bg</div>
+        <div class="status-slot-hex">#FEF2F2</div>
+        <div class="status-slot-use">Form error, alert background</div>
+      </div>
+      <div class="status-slot">
+        <div class="status-slot-color" style="background:#FECACA;"></div>
+        <div class="status-slot-label">border</div>
+        <div class="status-slot-token">--error-border</div>
+        <div class="status-slot-hex">#FECACA</div>
+        <div class="status-slot-use">Input border, alert border</div>
+      </div>
+      <div class="status-slot">
+        <div class="status-slot-color" style="background:#B91C1C;"></div>
+        <div class="status-slot-label">text</div>
+        <div class="status-slot-token">--error-text</div>
+        <div class="status-slot-hex">#B91C1C</div>
+        <div class="status-slot-use">Error message text (8.0:1 ✓✓)</div>
+      </div>
+      <div class="status-slot">
+        <div class="status-slot-color" style="background:#EF4444;"></div>
+        <div class="status-slot-label">icon</div>
+        <div class="status-slot-token">--error-icon</div>
+        <div class="status-slot-hex">#EF4444</div>
+        <div class="status-slot-use">Error icon, accent</div>
+      </div>
+      <div class="status-slot">
+        <div class="status-slot-color" style="background:#DC2626;"></div>
+        <div class="status-slot-label">action</div>
+        <div class="status-slot-token">--error-action</div>
+        <div class="status-slot-hex">#DC2626</div>
+        <div class="status-slot-use">Destructive button, delete link</div>
+      </div>
+      <div class="status-slot">
+        <div class="status-slot-color" style="background:#FFFFFF;border:1px solid #e5e7eb;"></div>
+        <div class="status-slot-label">on</div>
+        <div class="status-slot-token">--error-on</div>
+        <div class="status-slot-hex">#FFFFFF</div>
+        <div class="status-slot-use">Text ON action button (5.9:1 ✓)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Info -->
+  <div class="status-group">
+    <div class="status-group-header">
+      <div class="status-group-dot" style="background:var(--info-500);"></div>
+      <div class="status-group-name">Info — Blue</div>
+      <div class="status-group-sub">Information · Tips · Neutral announcements</div>
+    </div>
+    <div class="status-slots">
+      <div class="status-slot">
+        <div class="status-slot-color" style="background:#EFF6FF;"></div>
+        <div class="status-slot-label">bg</div>
+        <div class="status-slot-token">--info-bg</div>
+        <div class="status-slot-hex">#EFF6FF</div>
+        <div class="status-slot-use">Info banner background</div>
+      </div>
+      <div class="status-slot">
+        <div class="status-slot-color" style="background:#BFDBFE;"></div>
+        <div class="status-slot-label">border</div>
+        <div class="status-slot-token">--info-border</div>
+        <div class="status-slot-hex">#BFDBFE</div>
+        <div class="status-slot-use">Info banner border</div>
+      </div>
+      <div class="status-slot">
+        <div class="status-slot-color" style="background:#1D4ED8;"></div>
+        <div class="status-slot-label">text</div>
+        <div class="status-slot-token">--info-text</div>
+        <div class="status-slot-hex">#1D4ED8</div>
+        <div class="status-slot-use">Text on info-bg (8.8:1 ✓✓)</div>
+      </div>
+      <div class="status-slot">
+        <div class="status-slot-color" style="background:#3B82F6;"></div>
+        <div class="status-slot-label">icon</div>
+        <div class="status-slot-token">--info-icon</div>
+        <div class="status-slot-hex">#3B82F6</div>
+        <div class="status-slot-use">Info icon, accent</div>
+      </div>
+      <div class="status-slot">
+        <div class="status-slot-color" style="background:#2563EB;"></div>
+        <div class="status-slot-label">action</div>
+        <div class="status-slot-token">--info-action</div>
+        <div class="status-slot-hex">#2563EB</div>
+        <div class="status-slot-use">Link, button in info context</div>
+      </div>
+      <div class="status-slot">
+        <div class="status-slot-color" style="background:#FFFFFF;border:1px solid #e5e7eb;"></div>
+        <div class="status-slot-label">on</div>
+        <div class="status-slot-token">--info-on</div>
+        <div class="status-slot-hex">#FFFFFF</div>
+        <div class="status-slot-use">Text ON action button (5.9:1 ✓)</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     SECTION 6 — SEMANTIC TEXT TOKENS
+════════════════════════════════════════════════════ -->
+<div class="section" id="s6">
+  <div class="section-header">
+    <div class="section-tag">06 · Text Tokens</div>
+    <h2 class="section-title">Semantic Text Tokens</h2>
+    <p class="section-sub">Seven purpose-named text colors. Inspired by GitHub Primer's <code>fg.*</code> hierarchy. Choose by role, never by the shade you need — the token communicates intent.</p>
+  </div>
+
+  <div class="card mb24">
+    <div class="token-row">
+      <div class="token-swatch" style="background:#111827;"></div>
+      <div class="token-info">
+        <div class="token-name">--text-default</div>
+        <div class="token-hex">#111827 · neutral-900</div>
+        <div class="token-source" style="margin-top:2px;">Tailwind: <code>text-gray-900</code></div>
+      </div>
+      <div class="token-usage">Page titles, nav items, primary labels, all H1–H3 headings</div>
+      <span class="token-wcag wcag-aaa">18.1:1 AAA ✓✓</span>
+    </div>
+    <div class="token-row">
+      <div class="token-swatch" style="background:#4B5563;"></div>
+      <div class="token-info">
+        <div class="token-name">--text-secondary</div>
+        <div class="token-hex">#4B5563 · neutral-600</div>
+        <div class="token-source" style="margin-top:2px;">Tailwind: <code>text-gray-600</code></div>
+      </div>
+      <div class="token-usage">Body copy, descriptions, table cell data</div>
+      <span class="token-wcag wcag-aa">7.5:1 AA ✓</span>
+    </div>
+    <div class="token-row">
+      <div class="token-swatch" style="background:#6B7280;"></div>
+      <div class="token-info">
+        <div class="token-name">--text-muted</div>
+        <div class="token-hex">#6B7280 · neutral-500</div>
+        <div class="token-source" style="margin-top:2px;">Tailwind: <code>text-gray-500</code></div>
+      </div>
+      <div class="token-usage">Helper text, placeholders, metadata, timestamps, table headers</div>
+      <span class="token-wcag wcag-aa">4.6:1 AA ✓</span>
+    </div>
+    <div class="token-row">
+      <div class="token-swatch" style="background:#9CA3AF;"></div>
+      <div class="token-info">
+        <div class="token-name">--text-disabled</div>
+        <div class="token-hex">#9CA3AF · neutral-400</div>
+        <div class="token-source" style="margin-top:2px;">Tailwind: <code>text-gray-400</code></div>
+      </div>
+      <div class="token-usage">Disabled inputs, unavailable options, read-only fields</div>
+      <span class="token-wcag wcag-intent">2.7:1 Intentional</span>
+    </div>
+    <div class="token-row">
+      <div class="token-swatch" style="background:#FFFFFF;border:1px solid #e5e7eb;"></div>
+      <div class="token-info">
+        <div class="token-name">--text-inverse</div>
+        <div class="token-hex">#FFFFFF</div>
+        <div class="token-source" style="margin-top:2px;">Tailwind: <code>text-white</code></div>
+      </div>
+      <div class="token-usage">Text on dark/brand backgrounds — headers, dark cards, buttons</div>
+      <span class="token-wcag wcag-aa">4.5:1+ AA ✓</span>
+    </div>
+    <div class="token-row">
+      <div class="token-swatch" style="background:#16A34A;"></div>
+      <div class="token-info">
+        <div class="token-name">--text-link</div>
+        <div class="token-hex">#16A34A · primary-600</div>
+        <div class="token-source" style="margin-top:2px;">Tailwind: <code>text-primary-600</code></div>
+      </div>
+      <div class="token-usage">Inline links, breadcrumbs, "view all" CTAs</div>
+      <span class="token-wcag wcag-aa">4.5:1 AA ✓</span>
+    </div>
+    <div class="token-row">
+      <div class="token-swatch" style="background:#16A34A;"></div>
+      <div class="token-info">
+        <div class="token-name">--text-brand</div>
+        <div class="token-hex">#16A34A · primary-600</div>
+        <div class="token-source" style="margin-top:2px;">Same as text-link, different semantic intent</div>
+      </div>
+      <div class="token-usage">Brand emphasis — logo text, "VendHub" brand mentions, feature highlights</div>
+      <span class="token-wcag wcag-aa">4.5:1 AA ✓</span>
+    </div>
+  </div>
+
+  <div class="info-callout">
+    <strong>Why text-disabled intentionally fails WCAG AA:</strong> This follows Material Design 3, Polaris, and Carbon's approach. Disabled elements communicate "unavailable" — making them legible would confuse users into thinking they're interactive. The 2.7:1 ratio is sufficient to see the text exists without implying actionability.
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     SECTION 7 — SEMANTIC BACKGROUND TOKENS
+════════════════════════════════════════════════════ -->
+<div class="section" id="s7">
+  <div class="section-header">
+    <div class="section-tag">07 · Background Tokens</div>
+    <h2 class="section-title">Semantic Background Tokens</h2>
+    <p class="section-sub">Layered backgrounds create depth. The hierarchy goes: <code>default</code> (white page) → <code>subtle</code> (chrome) → <code>surface</code> (cards) → <code>muted</code> (separators). Each level sits one stop darker than the previous.</p>
+  </div>
+
+  <div class="card mb24">
+    <div class="token-row">
+      <div class="token-swatch" style="background:#FFFFFF;border:1px solid #e5e7eb;"></div>
+      <div class="token-info">
+        <div class="token-name">--bg-default</div>
+        <div class="token-hex">#FFFFFF</div>
+      </div>
+      <div class="token-usage">Main page background. The canvas everything else sits on.</div>
+      <span class="token-wcag wcag-aaa">Base layer</span>
+    </div>
+    <div class="token-row">
+      <div class="token-swatch" style="background:#F9FAFB;border:1px solid #e5e7eb;"></div>
+      <div class="token-info">
+        <div class="token-name">--bg-subtle</div>
+        <div class="token-hex">#F9FAFB · neutral-50</div>
+      </div>
+      <div class="token-usage">Sidebar, nav chrome, app shell backgrounds, alternating table rows</div>
+      <span class="token-wcag wcag-aaa">Layer 1</span>
+    </div>
+    <div class="token-row">
+      <div class="token-swatch" style="background:#F3F4F6;border:1px solid #e5e7eb;"></div>
+      <div class="token-info">
+        <div class="token-name">--bg-surface</div>
+        <div class="token-hex">#F3F4F6 · neutral-100</div>
+      </div>
+      <div class="token-usage">Cards, panels, input fill backgrounds, tooltip backgrounds</div>
+      <span class="token-wcag wcag-aaa">Layer 2</span>
+    </div>
+    <div class="token-row">
+      <div class="token-swatch" style="background:#E5E7EB;border:1px solid #e5e7eb;"></div>
+      <div class="token-info">
+        <div class="token-name">--bg-muted</div>
+        <div class="token-hex">#E5E7EB · neutral-200</div>
+      </div>
+      <div class="token-usage">Skeleton loaders, dividers rendered as blocks, disabled input fill</div>
+      <span class="token-wcag wcag-aaa">Layer 3</span>
+    </div>
+    <div class="token-row">
+      <div class="token-swatch" style="background:#16A34A;"></div>
+      <div class="token-info">
+        <div class="token-name">--bg-brand</div>
+        <div class="token-hex">#16A34A · primary-600</div>
+      </div>
+      <div class="token-usage">CTA buttons, primary action backgrounds, brand-colored sections</div>
+      <span class="token-wcag wcag-aa">Use --text-inverse</span>
+    </div>
+    <div class="token-row">
+      <div class="token-swatch" style="background:#F0FDF4;border:1px solid #e5e7eb;"></div>
+      <div class="token-info">
+        <div class="token-name">--bg-brand-subtle</div>
+        <div class="token-hex">#F0FDF4 · primary-50</div>
+      </div>
+      <div class="token-usage">Brand-tinted surfaces — active nav items, selected rows, feature highlights</div>
+      <span class="token-wcag wcag-aaa">Use --text-link</span>
+    </div>
+    <div class="token-row">
+      <div class="token-swatch" style="background:rgba(0,0,0,.5);"></div>
+      <div class="token-info">
+        <div class="token-name">--bg-overlay</div>
+        <div class="token-hex">rgba(0,0,0,0.5)</div>
+      </div>
+      <div class="token-usage">Modal backdrop, drawer backdrop, popover scrim</div>
+      <span class="token-wcag wcag-aaa">Overlay</span>
+    </div>
+  </div>
+
+  <!-- Layer diagram -->
+  <div class="card">
+    <div class="card-title" style="margin-bottom:16px;">Visual Layer Hierarchy</div>
+    <div style="display:flex;flex-direction:column;gap:6px;">
+      <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:#111827;border-radius:6px;">
+        <div style="width:32px;height:32px;border-radius:4px;background:#111827;border:1px solid #374151;"></div>
+        <div style="color:#fff;font-size:12px;font-weight:600;">bg-overlay (scrim) <span style="color:#6B7280;font-weight:400;">— rgba(0,0,0,0.5)</span></div>
+        <div style="margin-left:auto;font-size:11px;color:#6B7280;">Modals, drawers</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:#FFFFFF;border:1px solid #e5e7eb;border-radius:6px;">
+        <div style="width:32px;height:32px;border-radius:4px;background:#FFFFFF;border:1px solid #E5E7EB;"></div>
+        <div style="font-size:12px;font-weight:600;color:#111827;">bg-default <span style="color:#6B7280;font-weight:400;">— #FFFFFF</span></div>
+        <div style="margin-left:auto;font-size:11px;color:#6B7280;">Page canvas</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:#F9FAFB;border:1px solid #e5e7eb;border-radius:6px;">
+        <div style="width:32px;height:32px;border-radius:4px;background:#F9FAFB;border:1px solid #E5E7EB;"></div>
+        <div style="font-size:12px;font-weight:600;color:#111827;">bg-subtle <span style="color:#6B7280;font-weight:400;">— #F9FAFB</span></div>
+        <div style="margin-left:auto;font-size:11px;color:#6B7280;">Sidebar, nav</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:#F3F4F6;border:1px solid #e5e7eb;border-radius:6px;">
+        <div style="width:32px;height:32px;border-radius:4px;background:#F3F4F6;border:1px solid #E5E7EB;"></div>
+        <div style="font-size:12px;font-weight:600;color:#111827;">bg-surface <span style="color:#6B7280;font-weight:400;">— #F3F4F6</span></div>
+        <div style="margin-left:auto;font-size:11px;color:#6B7280;">Cards, panels</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:#E5E7EB;border:1px solid #e5e7eb;border-radius:6px;">
+        <div style="width:32px;height:32px;border-radius:4px;background:#E5E7EB;border:1px solid #D1D5DB;"></div>
+        <div style="font-size:12px;font-weight:600;color:#111827;">bg-muted <span style="color:#6B7280;font-weight:400;">— #E5E7EB</span></div>
+        <div style="margin-left:auto;font-size:11px;color:#6B7280;">Skeleton, separators</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     SECTION 8 — SEMANTIC BORDER TOKENS
+════════════════════════════════════════════════════ -->
+<div class="section" id="s8">
+  <div class="section-header">
+    <div class="section-tag">08 · Border Tokens</div>
+    <h2 class="section-title">Semantic Border Tokens</h2>
+    <p class="section-sub">Five border tokens covering all use cases from invisible separators to high-contrast focus rings. Focus border uses brand primary for keyboard accessibility.</p>
+  </div>
+
+  <div class="card">
+    <div class="token-row">
+      <div class="token-swatch" style="background:#F3F4F6;border:2px solid #F3F4F6;"></div>
+      <div class="token-info">
+        <div class="token-name">--border-subtle</div>
+        <div class="token-hex">#F3F4F6 · neutral-100</div>
+      </div>
+      <div class="token-usage">Very light section dividers, internal card separators, list item dividers</div>
+      <span class="token-wcag wcag-aa">Subtle</span>
+    </div>
+    <div class="token-row">
+      <div class="token-swatch" style="background:#E5E7EB;border:2px solid #E5E7EB;"></div>
+      <div class="token-info">
+        <div class="token-name">--border-default</div>
+        <div class="token-hex">#E5E7EB · neutral-200</div>
+      </div>
+      <div class="token-usage">Cards, inputs, selects, tables, modals — the standard border</div>
+      <span class="token-wcag wcag-aa">Default</span>
+    </div>
+    <div class="token-row">
+      <div class="token-swatch" style="background:#D1D5DB;border:2px solid #D1D5DB;"></div>
+      <div class="token-info">
+        <div class="token-name">--border-strong</div>
+        <div class="token-hex">#D1D5DB · neutral-300</div>
+      </div>
+      <div class="token-usage">Emphasized borders, hover state borders, selected states</div>
+      <span class="token-wcag wcag-aa">Strong</span>
+    </div>
+    <div class="token-row">
+      <div class="token-swatch" style="background:#16A34A;border:2px solid #16A34A;"></div>
+      <div class="token-info">
+        <div class="token-name">--border-focus</div>
+        <div class="token-hex">#16A34A · primary-600</div>
+      </div>
+      <div class="token-usage">Keyboard focus rings on all interactive elements — inputs, buttons, links</div>
+      <span class="token-wcag wcag-aa">Brand focus</span>
+    </div>
+    <div class="token-row">
+      <div class="token-swatch" style="background:#16A34A;border:2px solid #16A34A;"></div>
+      <div class="token-info">
+        <div class="token-name">--border-brand</div>
+        <div class="token-hex">#16A34A · primary-600</div>
+      </div>
+      <div class="token-usage">Active tabs, selected cards, brand-accented UI elements</div>
+      <span class="token-wcag wcag-aa">Brand accent</span>
+    </div>
+  </div>
+
+  <div class="g2 mt16">
+    <div class="card">
+      <div class="card-title">Focus Ring Standard</div>
+      <div class="card-body mt8">All interactive elements must use <code>--border-focus</code> for keyboard navigation. Implementation in Tailwind: <code>focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2</code>. Never suppress focus outlines — they are a legal accessibility requirement.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Status Borders</div>
+      <div class="card-body mt8">Form fields with status (error/warning/success) should use the status-specific border token, not these neutral ones. Use <code>--error-border</code> for error inputs, <code>--success-border</code> for confirmed inputs. The neutral borders cover default and hover states only.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     SECTION 9 — INTERACTIVE TOKENS
+════════════════════════════════════════════════════ -->
+<div class="section" id="s9">
+  <div class="section-header">
+    <div class="section-tag">09 · Interactive Tokens</div>
+    <h2 class="section-title">Interactive / Brand Action Tokens</h2>
+    <p class="section-sub">The complete set of states for primary interactive elements. Every button, link, and actionable component follows this state machine: rest → hover → active → disabled.</p>
+  </div>
+
+  <!-- State demo -->
+  <div class="card mb24">
+    <div class="resp-grid-4" style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px;">
+      <div style="text-align:center;">
+        <div style="height:48px;background:#16A34A;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:600;margin-bottom:10px;">Save Changes</div>
+        <div style="font-size:11px;font-weight:700;color:var(--neutral-500);text-transform:uppercase;letter-spacing:.06em;">Rest</div>
+        <code style="display:block;margin-top:4px;font-size:10px;">#16A34A</code>
+      </div>
+      <div style="text-align:center;">
+        <div style="height:48px;background:#15803D;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:600;margin-bottom:10px;">Save Changes</div>
+        <div style="font-size:11px;font-weight:700;color:var(--neutral-500);text-transform:uppercase;letter-spacing:.06em;">Hover</div>
+        <code style="display:block;margin-top:4px;font-size:10px;">#15803D</code>
+      </div>
+      <div style="text-align:center;">
+        <div style="height:48px;background:#166534;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:600;margin-bottom:10px;">Save Changes</div>
+        <div style="font-size:11px;font-weight:700;color:var(--neutral-500);text-transform:uppercase;letter-spacing:.06em;">Active/Pressed</div>
+        <code style="display:block;margin-top:4px;font-size:10px;">#166534</code>
+      </div>
+      <div style="text-align:center;">
+        <div style="height:48px;background:#E5E7EB;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#9CA3AF;font-size:13px;font-weight:600;margin-bottom:10px;">Save Changes</div>
+        <div style="font-size:11px;font-weight:700;color:var(--neutral-500);text-transform:uppercase;letter-spacing:.06em;">Disabled</div>
+        <code style="display:block;margin-top:4px;font-size:10px;">#E5E7EB</code>
+      </div>
+    </div>
+
+    <table class="tbl">
+      <thead><tr><th>State</th><th>CSS Token</th><th>Hex Value</th><th>Primitive</th><th>Tailwind Class</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="badge bg-green">Rest</span></td>
+          <td><code>--interactive-primary</code></td>
+          <td><code>#16A34A</code></td>
+          <td>primary-600</td>
+          <td><code>bg-primary-600</code></td>
+        </tr>
+        <tr>
+          <td><span class="badge bg-gray">Hover</span></td>
+          <td><code>--interactive-primary-hover</code></td>
+          <td><code>#15803D</code></td>
+          <td>primary-700</td>
+          <td><code>hover:bg-primary-700</code></td>
+        </tr>
+        <tr>
+          <td><span class="badge bg-gray">Active</span></td>
+          <td><code>--interactive-primary-active</code></td>
+          <td><code>#166534</code></td>
+          <td>primary-800</td>
+          <td><code>active:bg-primary-800</code></td>
+        </tr>
+        <tr>
+          <td><span class="badge" style="background:var(--neutral-100);color:var(--neutral-500);">Disabled</span></td>
+          <td><code>--interactive-primary-disabled</code></td>
+          <td><code>#E5E7EB</code></td>
+          <td>neutral-200</td>
+          <td><code>disabled:bg-neutral-200</code></td>
+        </tr>
+        <tr>
+          <td><span class="badge bg-blue">Foreground</span></td>
+          <td><code>--interactive-primary-on</code></td>
+          <td><code>#FFFFFF</code></td>
+          <td>—</td>
+          <td><code>text-white</code></td>
+        </tr>
+        <tr>
+          <td><span class="badge" style="background:var(--primary-50);color:var(--primary-700);">Subtle bg</span></td>
+          <td><code>--interactive-primary-surface</code></td>
+          <td><code>#F0FDF4</code></td>
+          <td>primary-50</td>
+          <td><code>bg-primary-50</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="g2">
+    <div class="card">
+      <div class="card-title">Ghost / Outline Button States</div>
+      <div class="card-body mt8">
+        Outline buttons use the same token set but applied differently:<br>
+        Rest: <code>border-primary-600 text-primary-600 bg-transparent</code><br>
+        Hover: <code>bg-primary-50 border-primary-600</code><br>
+        Active: <code>bg-primary-100 border-primary-700</code><br>
+        Disabled: <code>border-neutral-200 text-neutral-400</code>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Secondary / Neutral Button States</div>
+      <div class="card-body mt8">
+        Secondary buttons use neutral tokens:<br>
+        Rest: <code>bg-white border-neutral-200 text-neutral-700</code><br>
+        Hover: <code>bg-neutral-50 border-neutral-300</code><br>
+        Active: <code>bg-neutral-100 border-neutral-300</code><br>
+        Disabled: <code>bg-neutral-50 border-neutral-200 text-neutral-400</code>
+      </div>
+    </div>
+  </div>
+
+<div class="section" id="s10">
+  <div class="section-header">
+    <div class="section-tag">10 · globals.css</div>
+    <h2 class="section-title">globals.css — What to Fix</h2>
+    <p class="section-sub">Seven targeted changes fix all P0 and P1 bugs. Apply in order. Each change is isolated — no cascading side effects when done correctly.</p>
+  </div>
+
+  <div class="card mb24">
+    <div class="step-row">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <strong>Fix shadcn --primary HSL conflict</strong><br>
+        Replace the existing <code>--primary</code> token in the shadcn block. The old value (<code>162 43% 34%</code>) resolves to teal. The new value must match brand green #16A34A.
+        <div class="code-block mt8">
+<span class="cm">/* BEFORE — teal (WRONG) */</span>
+<span class="prop">--primary</span>: <span class="str">162 43% 34%</span>;
+
+<span class="cm">/* AFTER — brand green ✓ */</span>
+<span class="prop">--primary</span>: <span class="str">142 72% 29%</span>;     <span class="cm">/* hsl(142,72%,29%) = #16A34A */</span>
+<span class="prop">--primary-foreground</span>: <span class="str">0 0% 100%</span>;  <span class="cm">/* white text on primary buttons */</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-row">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <strong>Fix --success syntax + foreground bug</strong><br>
+        HSL values must use spaces, not commas (modern CSS). Also fix <code>--success-foreground</code> which was set to the same value as <code>--success</code>.
+        <div class="code-block mt8">
+<span class="cm">/* BEFORE — broken */</span>
+<span class="del" style="color:#f87171;">--success: 143, 35%, 44%;                  /* commas = invalid */</span>
+<span class="del" style="color:#f87171;">--success-foreground: 143, 35%, 44%;       /* same as success = green-on-green */</span>
+
+<span class="cm">/* AFTER ✓ */</span>
+<span class="prop">--success</span>: <span class="str">160 84% 20%</span>;             <span class="cm">/* hsl(160,84%,20%) ≈ #059669 */</span>
+<span class="prop">--success-foreground</span>: <span class="str">0 0% 100%</span>;    <span class="cm">/* white ✓ */</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-row">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <strong>Define the 6 missing tokens</strong><br>
+        <code>--error</code>, <code>--error-foreground</code>, <code>--warning</code>, <code>--warning-foreground</code>, <code>--info</code>, <code>--info-foreground</code> are referenced in tailwind.config but never defined. Add these to <code>:root</code>:
+        <div class="code-block mt8">
+<span class="cm">/* Add to :root — fixes bg-error, bg-warning, bg-info */</span>
+<span class="prop">--error</span>:             <span class="str">0 72% 51%</span>;    <span class="cm">/* hsl = #DC2626 */</span>
+<span class="prop">--error-foreground</span>:  <span class="str">0 0% 100%</span>;    <span class="cm">/* white */</span>
+<span class="prop">--warning</span>:           <span class="str">32 95% 44%</span>;   <span class="cm">/* hsl = #D97706 */</span>
+<span class="prop">--warning-foreground</span>:<span class="str">0 0% 100%</span>;    <span class="cm">/* white */</span>
+<span class="prop">--info</span>:              <span class="str">221 83% 53%</span>;  <span class="cm">/* hsl = #2563EB */</span>
+<span class="prop">--info-foreground</span>:   <span class="str">0 0% 100%</span>;    <span class="cm">/* white */</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-row">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <strong>Add semantic token block</strong><br>
+        Add the full semantic token layer below the primitive palette block in <code>:root</code>. These power the new token system:
+        <div class="code-block mt8">
+<span class="cm">/* ── SEMANTIC TEXT ─────────────── */</span>
+<span class="prop">--text-default</span>:           <span class="str">var(--neutral-900)</span>;    <span class="cm">/* #111827 */</span>
+<span class="prop">--text-secondary</span>:         <span class="str">var(--neutral-600)</span>;    <span class="cm">/* #4B5563 */</span>
+<span class="prop">--text-muted</span>:             <span class="str">var(--neutral-500)</span>;    <span class="cm">/* #6B7280 */</span>
+<span class="prop">--text-disabled</span>:          <span class="str">var(--neutral-400)</span>;    <span class="cm">/* #9CA3AF */</span>
+<span class="prop">--text-inverse</span>:           <span class="str">#ffffff</span>;
+<span class="prop">--text-link</span>:              <span class="str">var(--primary-600)</span>;    <span class="cm">/* #16A34A */</span>
+<span class="prop">--text-brand</span>:             <span class="str">var(--primary-600)</span>;
+
+<span class="cm">/* ── SEMANTIC BACKGROUND ────────── */</span>
+<span class="prop">--bg-default</span>:             <span class="str">#ffffff</span>;
+<span class="prop">--bg-subtle</span>:              <span class="str">var(--neutral-50)</span>;     <span class="cm">/* #F9FAFB */</span>
+<span class="prop">--bg-surface</span>:             <span class="str">var(--neutral-100)</span>;    <span class="cm">/* #F3F4F6 */</span>
+<span class="prop">--bg-muted</span>:               <span class="str">var(--neutral-200)</span>;    <span class="cm">/* #E5E7EB */</span>
+<span class="prop">--bg-brand</span>:               <span class="str">var(--primary-600)</span>;
+<span class="prop">--bg-brand-subtle</span>:        <span class="str">var(--primary-50)</span>;
+<span class="prop">--bg-overlay</span>:             <span class="str">rgba(0,0,0,0.5)</span>;
+
+<span class="cm">/* ── SEMANTIC BORDER ────────────── */</span>
+<span class="prop">--border-subtle</span>:          <span class="str">var(--neutral-100)</span>;
+<span class="prop">--border-default</span>:         <span class="str">var(--neutral-200)</span>;
+<span class="prop">--border-strong</span>:          <span class="str">var(--neutral-300)</span>;
+<span class="prop">--border-focus</span>:           <span class="str">var(--primary-600)</span>;
+<span class="prop">--border-brand</span>:           <span class="str">var(--primary-600)</span>;
+
+<span class="cm">/* ── STATUS TOKENS ──────────────── */</span>
+<span class="prop">--success-bg</span>:     <span class="str">var(--success-50)</span>;   <span class="prop">--success-border</span>: <span class="str">var(--success-200)</span>;
+<span class="prop">--success-text</span>:   <span class="str">var(--success-700)</span>;  <span class="prop">--success-icon</span>:   <span class="str">var(--success-500)</span>;
+<span class="prop">--success-action</span>: <span class="str">var(--success-600)</span>;  <span class="prop">--success-on</span>:     <span class="str">#ffffff</span>;
+
+<span class="prop">--warning-bg</span>:     <span class="str">var(--warning-50)</span>;   <span class="prop">--warning-border</span>: <span class="str">var(--warning-200)</span>;
+<span class="prop">--warning-text</span>:   <span class="str">var(--warning-700)</span>;  <span class="prop">--warning-icon</span>:   <span class="str">var(--warning-500)</span>;
+<span class="prop">--warning-action</span>: <span class="str">var(--warning-700)</span>;  <span class="prop">--warning-on</span>:     <span class="str">#ffffff</span>;
+
+<span class="prop">--error-bg</span>:       <span class="str">var(--error-50)</span>;     <span class="prop">--error-border</span>:   <span class="str">var(--error-200)</span>;
+<span class="prop">--error-text</span>:     <span class="str">var(--error-700)</span>;    <span class="prop">--error-icon</span>:     <span class="str">var(--error-500)</span>;
+<span class="prop">--error-action</span>:   <span class="str">var(--error-600)</span>;    <span class="prop">--error-on</span>:       <span class="str">#ffffff</span>;
+
+<span class="prop">--info-bg</span>:        <span class="str">var(--info-50)</span>;      <span class="prop">--info-border</span>:    <span class="str">var(--info-200)</span>;
+<span class="prop">--info-text</span>:      <span class="str">var(--info-700)</span>;     <span class="prop">--info-icon</span>:      <span class="str">var(--info-500)</span>;
+<span class="prop">--info-action</span>:    <span class="str">var(--info-600)</span>;     <span class="prop">--info-on</span>:        <span class="str">#ffffff</span>;
+        </div>
+      </div>
+    </div>
+
+    <div class="step-row">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <strong>Remove / deprecate orphaned tokens</strong><br>
+        Delete these from globals.css — all have zero usage: <code>--primary250</code> (duplicate of primary50), entire <code>--tertiary-*</code> scale (13 tokens, zero usage), <code>--warning850</code>, <code>--text-label-white/gray/black</code>, <code>--purple-text</code>, <code>--purple-bg</code>, <code>--orange-text</code>, <code>--orange-bg</code>. Also remove the dead <code>@layer base</code> Block #2 (lines ~323–330).
+      </div>
+    </div>
+
+    <div class="step-row">
+      <div class="step-num">6</div>
+      <div class="step-body">
+        <strong>Rename secondary-* → neutral-*</strong><br>
+        The <code>--secondary-*</code> tokens (15 total uses) are neutral grays that duplicate the typography scale. Rename to <code>--neutral-*</code> and update the 15 usages. Fix the blue-tinted <code>--secondary100</code>: replace with <code>#F3F4F6</code>.
+      </div>
+    </div>
+
+    <div class="step-row">
+      <div class="step-num">7</div>
+      <div class="step-body">
+        <strong>Fix .animate-fade-in (bonus)</strong><br>
+        While in globals.css, fix the broken keyframe: <code>animate-fade-in</code> in tailwind.config.ts references a <code>fadeIn</code> keyframe that doesn't exist. Add it to globals.css: <code>@keyframes fadeIn { from { opacity:0 } to { opacity:1 } }</code>
+      </div>
+    </div>
+  </div>
+
+  <div class="success-callout">
+    <strong>After these 7 changes:</strong> All 6 broken Tailwind color classes become functional. The 27 toast failures resolve. The shadcn/custom color conflict disappears. Total estimated time: 45–90 minutes for a developer familiar with the codebase.
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     SECTION 2 — TAILWIND CONFIG
+════════════════════════════════════════════════════ -->
+<div class="section" id="s11">
+  <div class="section-header">
+    <div class="section-tag">11 · Tailwind Config</div>
+    <h2 class="section-title">tailwind.config.ts — Color Updates</h2>
+    <p class="section-sub">Add semantic color groups and the full primitive palette to Tailwind's <code>theme.extend.colors</code>. This makes all semantic tokens available as Tailwind utilities.</p>
+  </div>
+
+  <div class="code-block mb16">
+<span class="cm">// tailwind.config.ts — theme.extend.colors</span>
+<span class="kw">colors</span>: {
+  <span class="cm">// ── NEUTRAL (replaces gray-* in the semantic layer) ──────</span>
+  neutral: {
+    <span class="str">50</span>:  <span class="val">"#F9FAFB"</span>,  <span class="str">100</span>: <span class="val">"#F3F4F6"</span>,  <span class="str">200</span>: <span class="val">"#E5E7EB"</span>,
+    <span class="str">300</span>: <span class="val">"#D1D5DB"</span>,  <span class="str">400</span>: <span class="val">"#9CA3AF"</span>,  <span class="str">500</span>: <span class="val">"#6B7280"</span>,
+    <span class="str">600</span>: <span class="val">"#4B5563"</span>,  <span class="str">700</span>: <span class="val">"#374151"</span>,  <span class="str">800</span>: <span class="val">"#1F2937"</span>,  <span class="str">900</span>: <span class="val">"#111827"</span>,
+  },
+  <span class="cm">// ── PRIMARY / BRAND (full scale, consistent format) ──────</span>
+  primary: {
+    DEFAULT: <span class="val">"var(--interactive-primary, #16A34A)"</span>,
+    <span class="str">50</span>:  <span class="val">"#F0FDF4"</span>,  <span class="str">100</span>: <span class="val">"#DCFCE7"</span>,  <span class="str">200</span>: <span class="val">"#BBF7D0"</span>,
+    <span class="str">300</span>: <span class="val">"#86EFAC"</span>,  <span class="str">400</span>: <span class="val">"#4ADE80"</span>,  <span class="str">500</span>: <span class="val">"#22C55E"</span>,
+    <span class="str">600</span>: <span class="val">"#16A34A"</span>,  <span class="str">700</span>: <span class="val">"#15803D"</span>,  <span class="str">800</span>: <span class="val">"#166534"</span>,  <span class="str">900</span>: <span class="val">"#14532D"</span>,
+  },
+  <span class="cm">// ── SUCCESS ──────────────────────────────────────────────</span>
+  success: {
+    DEFAULT: <span class="val">"var(--success-action, #059669)"</span>,
+    bg:      <span class="val">"var(--success-bg)"</span>,    border: <span class="val">"var(--success-border)"</span>,
+    text:    <span class="val">"var(--success-text)"</span>,  icon:   <span class="val">"var(--success-icon)"</span>,
+    on:      <span class="val">"var(--success-on)"</span>,
+    <span class="str">50</span>: <span class="val">"#ECFDF5"</span>,  <span class="str">200</span>: <span class="val">"#A7F3D0"</span>,  <span class="str">500</span>: <span class="val">"#10B981"</span>,  <span class="str">600</span>: <span class="val">"#059669"</span>,  <span class="str">700</span>: <span class="val">"#047857"</span>,
+  },
+  <span class="cm">// ── WARNING ───────────────────────────────────────────────</span>
+  warning: {
+    DEFAULT: <span class="val">"var(--warning-action, #B45309)"</span>,
+    bg:      <span class="val">"var(--warning-bg)"</span>,    border: <span class="val">"var(--warning-border)"</span>,
+    text:    <span class="val">"var(--warning-text)"</span>,  icon:   <span class="val">"var(--warning-icon)"</span>,
+    on:      <span class="val">"var(--warning-on)"</span>,
+    <span class="str">50</span>: <span class="val">"#FFFBEB"</span>,  <span class="str">200</span>: <span class="val">"#FDE68A"</span>,  <span class="str">500</span>: <span class="val">"#F59E0B"</span>,  <span class="str">600</span>: <span class="val">"#D97706"</span>,  <span class="str">700</span>: <span class="val">"#B45309"</span>,
+  },
+  <span class="cm">// ── ERROR ─────────────────────────────────────────────────</span>
+  error: {
+    DEFAULT: <span class="val">"var(--error-action, #DC2626)"</span>,
+    bg:      <span class="val">"var(--error-bg)"</span>,      border: <span class="val">"var(--error-border)"</span>,
+    text:    <span class="val">"var(--error-text)"</span>,    icon:   <span class="val">"var(--error-icon)"</span>,
+    on:      <span class="val">"var(--error-on)"</span>,
+    <span class="str">50</span>: <span class="val">"#FEF2F2"</span>,  <span class="str">200</span>: <span class="val">"#FECACA"</span>,  <span class="str">500</span>: <span class="val">"#EF4444"</span>,  <span class="str">600</span>: <span class="val">"#DC2626"</span>,  <span class="str">700</span>: <span class="val">"#B91C1C"</span>,
+  },
+  <span class="cm">// ── INFO ──────────────────────────────────────────────────</span>
+  info: {
+    DEFAULT: <span class="val">"var(--info-action, #2563EB)"</span>,
+    bg:      <span class="val">"var(--info-bg)"</span>,       border: <span class="val">"var(--info-border)"</span>,
+    text:    <span class="val">"var(--info-text)"</span>,     icon:   <span class="val">"var(--info-icon)"</span>,
+    on:      <span class="val">"var(--info-on)"</span>,
+    <span class="str">50</span>: <span class="val">"#EFF6FF"</span>,  <span class="str">200</span>: <span class="val">"#BFDBFE"</span>,  <span class="str">500</span>: <span class="val">"#3B82F6"</span>,  <span class="str">600</span>: <span class="val">"#2563EB"</span>,  <span class="str">700</span>: <span class="val">"#1D4ED8"</span>,
+  },
+},
+  </div>
+
+  <!-- Semantic text color config -->
+  <div class="card mb16" style="border-color:var(--primary-200);background:var(--primary-50);">
+    <div class="card-title" style="color:var(--primary-700);margin-bottom:12px;">🎯 Resolving text-neutral-500 vs text-muted — add this to tailwind.config.ts</div>
+    <p style="font-size:13px;color:var(--primary-700);margin-bottom:12px;">Extending <code>textColor</code> (not <code>colors</code>) gives you <code>text-muted</code>, <code>text-default</code> etc. as direct Tailwind classes — without creating a <code>text-text-*</code> double prefix awkwardness.</p>
+    <div class="code-block">
+<span class="cm">// tailwind.config.ts — add inside theme.extend</span>
+<span class="kw">textColor</span>: {
+  <span class="cm">// Semantic text tokens → use THESE in all new code</span>
+  <span class="str">default</span>:   <span class="val">"var(--text-default)"</span>,    <span class="cm">/* text-default   → #111827 */</span>
+  <span class="str">secondary</span>: <span class="val">"var(--text-secondary)"</span>,  <span class="cm">/* text-secondary → #4B5563 */</span>
+  <span class="str">muted</span>:     <span class="val">"var(--text-muted)"</span>,      <span class="cm">/* text-muted     → #6B7280 */</span>
+  <span class="str">disabled</span>:  <span class="val">"var(--text-disabled)"</span>,   <span class="cm">/* text-disabled  → #9CA3AF */</span>
+  <span class="str">inverse</span>:   <span class="val">"var(--text-inverse)"</span>,    <span class="cm">/* text-inverse   → #FFFFFF */</span>
+  <span class="str">link</span>:      <span class="val">"var(--text-link)"</span>,       <span class="cm">/* text-link      → #16A34A */</span>
+  <span class="str">brand</span>:     <span class="val">"var(--text-brand)"</span>,      <span class="cm">/* text-brand     → #16A34A */</span>
+},
+
+<span class="cm">/* ── RULE ──────────────────────────────────────────────
+   In Figma variable panel → Text / Muted   (semantic name)
+   In Tailwind code        → text-muted   (semantic class)
+   During migration only   → text-neutral-500 (primitive fallback)
+   Never use               → text-gray-500 (raw Tailwind)
+   ──────────────────────────────────────────────────── */</span>
+    </div>
+  </div>
+
+  <div class="g2">
+    <div class="card">
+      <div class="card-title">What this enables</div>
+      <div class="card-body mt8">
+        Semantic slot classes: <code>bg-success-bg</code>, <code>border-success-border</code>, <code>text-success-text</code>, <code>text-success-icon</code> — making alert/badge/toast components fully token-driven.<br><br>
+        Primitive access: <code>bg-error-50</code>, <code>text-warning-700</code>, <code>bg-info-200</code> — when primitive values are genuinely needed (e.g. color pickers, design previews).
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Remove from config</div>
+      <div class="card-body mt8">
+        Delete the broken references:
+        <code style="display:block;margin-top:8px;padding:6px 8px;">error: { DEFAULT: "hsl(var(--error))" }</code>
+        <code style="display:block;margin-top:4px;padding:6px 8px;">warning: { DEFAULT: "hsl(var(--warning))" }</code>
+        <code style="display:block;margin-top:4px;padding:6px 8px;">info: { DEFAULT: "hsl(var(--info))" }</code>
+        These will be replaced by the updated blocks above which include the full slot system.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     SECTION 3 — STATUS PATTERN ANATOMY
+════════════════════════════════════════════════════ -->
+<div class="section" id="s12">
+  <div class="section-header">
+    <div class="section-tag">12 · Status Pattern</div>
+    <h2 class="section-title">Status Component Anatomy</h2>
+    <p class="section-sub">Every Alert, Toast, Badge, and inline message follows this exact 4-zone pattern. Consistent across all four statuses — only the color family changes.</p>
+  </div>
+
+  <!-- Live demos of all 4 alert patterns -->
+  <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:32px;">
+
+    <!-- Success alert -->
+    <div style="background:#ECFDF5;border:1px solid #A7F3D0;border-radius:10px;padding:16px 20px;display:flex;align-items:flex-start;gap:14px;">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" style="flex-shrink:0;margin-top:1px;"><circle cx="10" cy="10" r="9" stroke="#10B981" stroke-width="1.5"/><path d="M6.5 10.5L9 13L13.5 7.5" stroke="#10B981" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div style="flex:1;">
+        <div style="font-size:13px;font-weight:600;color:#047857;margin-bottom:3px;">Route created successfully</div>
+        <div style="font-size:12px;color:#047857;opacity:.8;">Your new delivery route has been saved and is ready for assignment.</div>
+      </div>
+      <div style="font-size:10px;color:#A7F3D0;font-weight:700;letter-spacing:.06em;text-transform:uppercase;align-self:flex-start;margin-top:3px;">✓ Dismiss</div>
+    </div>
+
+    <!-- Warning alert -->
+    <div style="background:#FFFBEB;border:1px solid #FDE68A;border-radius:10px;padding:16px 20px;display:flex;align-items:flex-start;gap:14px;">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" style="flex-shrink:0;margin-top:1px;"><path d="M10 2.5L17.5 16.5H2.5L10 2.5Z" stroke="#F59E0B" stroke-width="1.5" stroke-linejoin="round"/><path d="M10 8.5V11.5" stroke="#F59E0B" stroke-width="1.5" stroke-linecap="round"/><circle cx="10" cy="14" r=".75" fill="#F59E0B"/></svg>
+      <div style="flex:1;">
+        <div style="font-size:13px;font-weight:600;color:#B45309;margin-bottom:3px;">Payment method expiring soon</div>
+        <div style="font-size:12px;color:#B45309;opacity:.8;">Your card on file expires in 7 days. Update it to avoid service interruption.</div>
+      </div>
+      <div style="font-size:10px;color:#FDE68A;font-weight:700;letter-spacing:.06em;text-transform:uppercase;align-self:flex-start;margin-top:3px;">Update →</div>
+    </div>
+
+    <!-- Error alert -->
+    <div style="background:#FEF2F2;border:1px solid #FECACA;border-radius:10px;padding:16px 20px;display:flex;align-items:flex-start;gap:14px;">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" style="flex-shrink:0;margin-top:1px;"><circle cx="10" cy="10" r="9" stroke="#EF4444" stroke-width="1.5"/><path d="M7 7L13 13M13 7L7 13" stroke="#EF4444" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <div style="flex:1;">
+        <div style="font-size:13px;font-weight:600;color:#B91C1C;margin-bottom:3px;">Failed to save changes</div>
+        <div style="font-size:12px;color:#B91C1C;opacity:.8;">There was a problem connecting to the server. Please try again in a moment.</div>
+      </div>
+      <div style="font-size:10px;color:#FECACA;font-weight:700;letter-spacing:.06em;text-transform:uppercase;align-self:flex-start;margin-top:3px;">Retry →</div>
+    </div>
+
+    <!-- Info alert -->
+    <div style="background:#EFF6FF;border:1px solid #BFDBFE;border-radius:10px;padding:16px 20px;display:flex;align-items:flex-start;gap:14px;">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" style="flex-shrink:0;margin-top:1px;"><circle cx="10" cy="10" r="9" stroke="#3B82F6" stroke-width="1.5"/><path d="M10 9V14" stroke="#3B82F6" stroke-width="1.5" stroke-linecap="round"/><circle cx="10" cy="6.5" r=".75" fill="#3B82F6"/></svg>
+      <div style="flex:1;">
+        <div style="font-size:13px;font-weight:600;color:#1D4ED8;margin-bottom:3px;">New pricing structure effective May 1</div>
+        <div style="font-size:12px;color:#1D4ED8;opacity:.8;">Review the updated rate cards before your next invoice cycle.</div>
+      </div>
+      <div style="font-size:10px;color:#BFDBFE;font-weight:700;letter-spacing:.06em;text-transform:uppercase;align-self:flex-start;margin-top:3px;">Learn more →</div>
+    </div>
+  </div>
+
+  <!-- Code for the pattern -->
+  <div class="code-block mb16">
+<span class="cm">/* Generic alert using semantic slots — same structure for all 4 statuses */</span>
+&lt;<span class="fn">div</span> <span class="at">className</span>=<span class="str">"bg-success-bg border border-success-border rounded-container p-4 flex gap-3"</span>&gt;
+  &lt;<span class="fn">SuccessIcon</span> <span class="at">className</span>=<span class="str">"text-success-icon shrink-0 mt-0.5"</span> /&gt;
+  &lt;<span class="fn">div</span>&gt;
+    &lt;<span class="fn">p</span> <span class="at">className</span>=<span class="str">"text-label text-success-text"</span>&gt;{title}&lt;/<span class="fn">p</span>&gt;
+    &lt;<span class="fn">p</span> <span class="at">className</span>=<span class="str">"text-bodySm text-success-text opacity-80 mt-0.5"</span>&gt;{message}&lt;/<span class="fn">p</span>&gt;
+  &lt;/<span class="fn">div</span>&gt;
+&lt;/<span class="fn">div</span>&gt;
+
+<span class="cm">/* Swap success → warning / error / info throughout */</span>
+  </div>
+
+  <table class="tbl">
+    <thead><tr><th>Zone</th><th>Token</th><th>CSS Variable</th><th>Tailwind Class</th></tr></thead>
+    <tbody>
+      <tr><td>Background</td><td>bg</td><td><code>--{status}-bg</code></td><td><code>bg-{status}-bg</code></td></tr>
+      <tr><td>Border</td><td>border</td><td><code>--{status}-border</code></td><td><code>border-{status}-border</code></td></tr>
+      <tr><td>Title / Body text</td><td>text</td><td><code>--{status}-text</code></td><td><code>text-{status}-text</code></td></tr>
+      <tr><td>Icon color</td><td>icon</td><td><code>--{status}-icon</code></td><td><code>text-{status}-icon</code></td></tr>
+      <tr><td>Action button bg</td><td>action</td><td><code>--{status}-action</code></td><td><code>bg-{status}-action</code> or just <code>bg-{status}</code></td></tr>
+      <tr><td>Action button text</td><td>on</td><td><code>--{status}-on</code></td><td><code>text-{status}-on</code></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     SECTION 4 — COMPONENT COLOR PATTERNS
+════════════════════════════════════════════════════ -->
+<div class="section" id="s13">
+  <div class="section-header">
+    <div class="section-tag">13 · Component Patterns</div>
+    <h2 class="section-title">Component Color Reference</h2>
+    <p class="section-sub">Canonical color patterns for the most common VendHub components. Use these as the definitive reference — no ad-hoc decisions needed.</p>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:16px;">
+
+    <!-- Button patterns -->
+    <div class="card">
+      <div class="card-title" style="margin-bottom:16px;">Button Color Patterns</div>
+      <table class="tbl">
+        <thead><tr><th>Variant</th><th>Rest</th><th>Hover</th><th>Disabled</th><th>Text</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="badge bg-green">Primary</span></td>
+            <td><code>bg-primary-600</code></td>
+            <td><code>hover:bg-primary-700</code></td>
+            <td><code>disabled:bg-neutral-200</code></td>
+            <td><code>text-white</code> / <code>disabled:text-neutral-400</code></td>
+          </tr>
+          <tr>
+            <td><span class="badge bg-gray">Secondary</span></td>
+            <td><code>bg-white border-neutral-200</code></td>
+            <td><code>hover:bg-neutral-50</code></td>
+            <td><code>disabled:bg-neutral-50</code></td>
+            <td><code>text-neutral-700</code> / <code>disabled:text-neutral-400</code></td>
+          </tr>
+          <tr>
+            <td><span class="badge" style="background:transparent;border:1px solid var(--primary-600);color:var(--primary-600);">Outline</span></td>
+            <td><code>bg-transparent border-primary-600</code></td>
+            <td><code>hover:bg-primary-50</code></td>
+            <td><code>disabled:border-neutral-200</code></td>
+            <td><code>text-primary-600</code> / <code>disabled:text-neutral-400</code></td>
+          </tr>
+          <tr>
+            <td><span class="badge bg-red">Destructive</span></td>
+            <td><code>bg-error-600</code></td>
+            <td><code>hover:bg-error-700</code></td>
+            <td><code>disabled:bg-neutral-200</code></td>
+            <td><code>text-white</code></td>
+          </tr>
+          <tr>
+            <td><span class="badge bg-gray">Ghost</span></td>
+            <td><code>bg-transparent</code></td>
+            <td><code>hover:bg-neutral-100</code></td>
+            <td><code>disabled:opacity-40</code></td>
+            <td><code>text-neutral-700</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Badge / Tag patterns -->
+    <div class="card">
+      <div class="card-title" style="margin-bottom:16px;">Badge / Tag Patterns</div>
+      <div class="resp-grid-5" style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:16px;">
+        <div style="text-align:center;">
+          <div style="background:#DCFCE7;color:#15803D;padding:4px 12px;border-radius:4px;font-size:12px;font-weight:600;margin-bottom:6px;">Active</div>
+          <div style="font-size:10px;color:var(--neutral-400);">primary-100 / primary-700</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="background:#ECFDF5;color:#047857;padding:4px 12px;border-radius:4px;font-size:12px;font-weight:600;margin-bottom:6px;">Confirmed</div>
+          <div style="font-size:10px;color:var(--neutral-400);">success-50 / success-700</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="background:#FFFBEB;color:#B45309;padding:4px 12px;border-radius:4px;font-size:12px;font-weight:600;margin-bottom:6px;">Pending</div>
+          <div style="font-size:10px;color:var(--neutral-400);">warning-50 / warning-700</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="background:#FEF2F2;color:#B91C1C;padding:4px 12px;border-radius:4px;font-size:12px;font-weight:600;margin-bottom:6px;">Failed</div>
+          <div style="font-size:10px;color:var(--neutral-400);">error-50 / error-700</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="background:var(--neutral-100);color:var(--neutral-600);padding:4px 12px;border-radius:4px;font-size:12px;font-weight:600;margin-bottom:6px;">Draft</div>
+          <div style="font-size:10px;color:var(--neutral-400);">neutral-100 / neutral-600</div>
+        </div>
+      </div>
+      <div class="code-block" style="font-size:11px;">
+<span class="cm">/* Badge formula: bg=[status]-50, text=[status]-700 */</span>
+<span class="at">className</span>=<span class="str">"bg-success-50 text-success-700 text-labelSm rounded-pill px-2 py-0.5"</span>
+      </div>
+    </div>
+
+    <!-- Form field patterns -->
+    <div class="card">
+      <div class="card-title" style="margin-bottom:16px;">Form Input States</div>
+      <div class="resp-grid-4" style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px;">
+        <div>
+          <div style="border:1.5px solid #E5E7EB;border-radius:6px;padding:8px 12px;font-size:12px;color:#111827;background:#fff;margin-bottom:6px;">Email address</div>
+          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--neutral-400);">Default</div>
+          <div style="font-size:10px;color:var(--neutral-400);margin-top:2px;">border-neutral-200</div>
+        </div>
+        <div>
+          <div style="border:1.5px solid #16A34A;border-radius:6px;padding:8px 12px;font-size:12px;color:#111827;background:#fff;box-shadow:0 0 0 3px rgba(22,163,74,.15);margin-bottom:6px;">Email address</div>
+          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--neutral-400);">Focus</div>
+          <div style="font-size:10px;color:var(--neutral-400);margin-top:2px;">border-primary-600 + ring</div>
+        </div>
+        <div>
+          <div style="border:1.5px solid #FECACA;border-radius:6px;padding:8px 12px;font-size:12px;color:#111827;background:#FEF2F2;margin-bottom:6px;">not-an-email</div>
+          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--neutral-400);">Error</div>
+          <div style="font-size:10px;color:var(--neutral-400);margin-top:2px;">border-error-border bg-error-bg</div>
+        </div>
+        <div>
+          <div style="border:1.5px solid #E5E7EB;border-radius:6px;padding:8px 12px;font-size:12px;color:#9CA3AF;background:#F3F4F6;margin-bottom:6px;">Email address</div>
+          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--neutral-400);">Disabled</div>
+          <div style="font-size:10px;color:var(--neutral-400);margin-top:2px;">bg-surface text-disabled</div>
+        </div>
+      </div>
+      <div class="code-block" style="font-size:11px;">
+<span class="cm">/* Input state classes */</span>
+Default:  <span class="str">"border-neutral-200 bg-white"</span>
+Focus:    <span class="str">"border-primary-600 ring-2 ring-primary-600/15"</span>
+Error:    <span class="str">"border-error-border bg-error-bg text-neutral-900"</span>
+Disabled: <span class="str">"border-neutral-200 bg-neutral-100 text-neutral-400 cursor-not-allowed"</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     SECTION 5 — FIGMA VARIABLE MAPPING
+════════════════════════════════════════════════════ -->
+<div class="section" id="s14">
+  <div class="section-header">
+    <div class="section-tag">14 · Figma Variables</div>
+    <h2 class="section-title">Figma → Code Variable Mapping</h2>
+    <p class="section-sub">Every semantic CSS token maps to a Figma variable. Designers use Figma variable names; developers use the corresponding CSS/Tailwind token.</p>
+  </div>
+
+  <p style="font-size:13px;color:var(--neutral-600);margin-bottom:16px;">The <strong>Semantic</strong> variable collection in Figma contains 27 variables that alias the primitive Color collection. The table below lists every variable by its exact Figma name (with spaces around slashes, e.g. <code>Text / Primary</code>) alongside the corresponding CSS custom property and Tailwind utility class.</p>
+
+  <table class="tbl mb16">
+    <thead><tr>
+      <th>Figma Variable Name</th><th>CSS Token</th><th>Tailwind Class</th><th>Hex Value</th>
+    </tr></thead>
+    <tbody>
+
+      <!-- ── TEXT (6 variables) ── -->
+      <tr><td colspan="4" style="background:var(--neutral-50);font-weight:700;font-size:11px;color:var(--neutral-500);text-transform:uppercase;letter-spacing:.06em;">Text — 6 variables</td></tr>
+      <tr><td>Text / Primary</td><td><code>--text-primary</code></td><td><code>text-neutral-900</code></td><td>#111827</td></tr>
+      <tr><td>Text / Heading</td><td><code>--text-heading</code></td><td><code>text-neutral-900</code></td><td>#111827</td></tr>
+      <tr><td>Text / Strong</td><td><code>--text-strong</code></td><td><code>text-neutral-800</code></td><td>#1F2937</td></tr>
+      <tr><td>Text / Secondary</td><td><code>--text-secondary</code></td><td><code>text-neutral-600</code></td><td>#4B5563</td></tr>
+      <tr><td>Text / Muted</td><td><code>--text-muted</code></td><td><code>text-neutral-500</code></td><td>#6B7280</td></tr>
+      <tr><td>Text / Disabled</td><td><code>--text-disabled</code></td><td><code>text-neutral-400</code></td><td>#9CA3AF</td></tr>
+
+      <!-- ── BACKGROUND (3 variables) ── -->
+      <tr><td colspan="4" style="background:var(--neutral-50);font-weight:700;font-size:11px;color:var(--neutral-500);text-transform:uppercase;letter-spacing:.06em;">Background — 3 variables</td></tr>
+      <tr><td>Background / Default</td><td><code>--bg-default</code></td><td><code>bg-white</code></td><td>#FFFFFF</td></tr>
+      <tr><td>Background / Subtle</td><td><code>--bg-subtle</code></td><td><code>bg-neutral-50</code></td><td>#F9FAFB</td></tr>
+      <tr><td>Background / Surface</td><td><code>--bg-surface</code></td><td><code>bg-neutral-100</code></td><td>#F3F4F6</td></tr>
+
+      <!-- ── BORDER (2 variables) ── -->
+      <tr><td colspan="4" style="background:var(--neutral-50);font-weight:700;font-size:11px;color:var(--neutral-500);text-transform:uppercase;letter-spacing:.06em;">Border — 2 variables</td></tr>
+      <tr><td>Border / Default</td><td><code>--border-default</code></td><td><code>border-neutral-200</code></td><td>#E5E7EB</td></tr>
+      <tr><td>Border / Strong</td><td><code>--border-strong</code></td><td><code>border-neutral-300</code></td><td>#D1D5DB</td></tr>
+
+      <!-- ── BRAND (4 variables) ── -->
+      <tr><td colspan="4" style="background:var(--neutral-50);font-weight:700;font-size:11px;color:var(--neutral-500);text-transform:uppercase;letter-spacing:.06em;">Brand — 4 variables</td></tr>
+      <tr><td>Brand / Default</td><td><code>--brand-default</code></td><td><code>bg-primary-600</code></td><td>#16A34A</td></tr>
+      <tr><td>Brand / Hover</td><td><code>--brand-hover</code></td><td><code>bg-primary-700</code></td><td>#15803D</td></tr>
+      <tr><td>Brand / Subtle</td><td><code>--brand-subtle</code></td><td><code>bg-primary-50</code></td><td>#F0FDF4</td></tr>
+      <tr><td>Brand / Muted</td><td><code>--brand-muted</code></td><td><code>bg-primary-100</code></td><td>#DCFCE7</td></tr>
+
+      <!-- ── STATUS (12 variables — 3 per status × 4 statuses) ── -->
+      <tr><td colspan="4" style="background:var(--neutral-50);font-weight:700;font-size:11px;color:var(--neutral-500);text-transform:uppercase;letter-spacing:.06em;">Status — 12 variables (3 per status × 4 statuses)</td></tr>
+      <tr><td>Status / Success / Subtle</td><td><code>--status-success-subtle</code></td><td><code>bg-green-50</code></td><td>#F0FDF4</td></tr>
+      <tr><td>Status / Success / Muted</td><td><code>--status-success-muted</code></td><td><code>bg-green-100</code></td><td>#DCFCE7</td></tr>
+      <tr><td>Status / Success / Default</td><td><code>--status-success</code></td><td><code>text-green-700</code></td><td>#15803D</td></tr>
+      <tr><td>Status / Error / Subtle</td><td><code>--status-error-subtle</code></td><td><code>bg-red-50</code></td><td>#FEF2F2</td></tr>
+      <tr><td>Status / Error / Muted</td><td><code>--status-error-muted</code></td><td><code>bg-red-100</code></td><td>#FEE2E2</td></tr>
+      <tr><td>Status / Error / Default</td><td><code>--status-error</code></td><td><code>text-red-700</code></td><td>#B91C1C</td></tr>
+      <tr><td>Status / Warning / Subtle</td><td><code>--status-warning-subtle</code></td><td><code>bg-amber-50</code></td><td>#FFFBEB</td></tr>
+      <tr><td>Status / Warning / Muted</td><td><code>--status-warning-muted</code></td><td><code>bg-amber-100</code></td><td>#FEF3C7</td></tr>
+      <tr><td>Status / Warning / Default</td><td><code>--status-warning</code></td><td><code>text-amber-700</code></td><td>#B45309</td></tr>
+      <tr><td>Status / Info / Subtle</td><td><code>--status-info-subtle</code></td><td><code>bg-blue-50</code></td><td>#EFF6FF</td></tr>
+      <tr><td>Status / Info / Muted</td><td><code>--status-info-muted</code></td><td><code>bg-blue-100</code></td><td>#DBEAFE</td></tr>
+      <tr><td>Status / Info / Default</td><td><code>--status-info</code></td><td><code>text-blue-700</code></td><td>#1D4ED8</td></tr>
+
+    </tbody>
+  </table>
+
+  <div class="info-callout">
+    <strong>Figma naming convention:</strong> All Semantic variables use spaces around the slash separator — e.g. <code>Text / Primary</code>, <strong>not</strong> <code>Text/Default</code> or <code>Text/Primary</code>. This matches Figma's slash-grouping syntax and keeps the variable panel organised into collapsible groups (Text, Background, Border, Brand, Status). When applying a variable in Figma, select the fill/stroke → click the style icon → switch to Variables → expand the Semantic collection and pick the correct group.
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     SECTION 6 — DARK MODE STRATEGY
+════════════════════════════════════════════════════ -->
+<div class="section" id="s15">
+  <div class="section-header">
+    <div class="section-tag">15 · Dark Mode</div>
+    <h2 class="section-title">Dark Mode Strategy</h2>
+    <p class="section-sub">The app is currently light-mode only in practice — dark mode only overrides shadcn's 12 tokens, leaving 100+ custom tokens unchanged. Here's the minimum viable dark mode approach.</p>
+  </div>
+
+  <div class="warn-callout mb24">
+    <strong>Current reality:</strong> The dark mode block in globals.css (<code>.dark { ... }</code>) only overrides shadcn tokens. When a user enables dark mode, all custom backgrounds, borders, and text remain their light-mode values. This is confusing and inconsistent. Fix in two phases.
+  </div>
+
+  <div class="g2 mb24">
+    <div class="card">
+      <div class="card-title">Phase 1 — Minimum Viable (Now)</div>
+      <div class="card-body mt8">
+        Override only the semantic layer tokens in the <code>.dark</code> block. Since all components should be using semantic tokens (after migration), this single block gives you a full dark mode:
+        <div class="code-block mt12" style="font-size:11px;">
+<span class="cm">/* globals.css */</span>
+<span class="kw">.dark</span> {
+  <span class="cm">/* Text */</span>
+  <span class="prop">--text-default</span>:    <span class="str">#F9FAFB</span>;
+  <span class="prop">--text-secondary</span>:  <span class="str">#D1D5DB</span>;
+  <span class="prop">--text-muted</span>:      <span class="str">#9CA3AF</span>;
+  <span class="prop">--text-disabled</span>:   <span class="str">#6B7280</span>;
+  <span class="cm">/* Backgrounds */</span>
+  <span class="prop">--bg-default</span>:      <span class="str">#111827</span>;
+  <span class="prop">--bg-subtle</span>:       <span class="str">#1F2937</span>;
+  <span class="prop">--bg-surface</span>:      <span class="str">#374151</span>;
+  <span class="prop">--bg-muted</span>:        <span class="str">#4B5563</span>;
+  <span class="cm">/* Borders */</span>
+  <span class="prop">--border-subtle</span>:   <span class="str">#1F2937</span>;
+  <span class="prop">--border-default</span>:  <span class="str">#374151</span>;
+  <span class="prop">--border-strong</span>:   <span class="str">#4B5563</span>;
+}
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Phase 2 — Full Dark Mode (Future)</div>
+      <div class="card-body mt8">
+        After the token migration is complete (all raw Tailwind replaced with semantic tokens), dark mode becomes a single-file change — only <code>globals.css</code> needs updating.<br><br>
+        <strong>Pre-requisite:</strong> Migrate ~6,400 raw Tailwind color uses to semantic tokens. Until then, dark mode will be incomplete even with the Phase 1 block in place.<br><br>
+        Brand/status colors in dark mode should use lighter stops: <code>--primary-400</code> (#4ADE80) on dark surfaces passes better contrast than primary-600.
+      </div>
+    </div>
+  </div>
+
+  <table class="tbl">
+    <thead><tr><th>Semantic Token</th><th>Light Value</th><th>Dark Override</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td><code>--text-default</code></td><td>#111827</td><td>#F9FAFB</td><td>Near-white on dark</td></tr>
+      <tr><td><code>--text-secondary</code></td><td>#4B5563</td><td>#D1D5DB</td><td>Stays readable</td></tr>
+      <tr><td><code>--text-muted</code></td><td>#6B7280</td><td>#9CA3AF</td><td>Slightly lighter</td></tr>
+      <tr><td><code>--bg-default</code></td><td>#FFFFFF</td><td>#111827</td><td>Deep dark base</td></tr>
+      <tr><td><code>--bg-subtle</code></td><td>#F9FAFB</td><td>#1F2937</td><td>Dark chrome</td></tr>
+      <tr><td><code>--bg-surface</code></td><td>#F3F4F6</td><td>#374151</td><td>Dark cards</td></tr>
+      <tr><td><code>--border-default</code></td><td>#E5E7EB</td><td>#374151</td><td>Subtle dark border</td></tr>
+      <tr><td><code>--interactive-primary</code></td><td>#16A34A</td><td>#4ADE80</td><td>Lighter green for dark bg</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     SECTION 7 — DO'S & DON'TS
+════════════════════════════════════════════════════ -->
+<div class="section" id="s16">
+  <div class="section-header">
+    <div class="section-tag">16 · Do's &amp; Don'ts</div>
+    <h2 class="section-title">Color Usage Rules</h2>
+    <p class="section-sub">Common mistakes to avoid, based on the 10 bugs found in the audit and patterns observed across 8,000+ color uses in the codebase.</p>
+  </div>
+
+  <div class="g2 mb16">
+    <div class="do-card">
+      <div class="do-label">✓ Do</div>
+      <div class="card-body">
+        Use <code>--text-default</code> for all primary text content. It maps to neutral-900 in light mode and automatically inverts in dark mode when the semantic token is overridden.
+      </div>
+    </div>
+    <div class="dont-card">
+      <div class="dont-label">✗ Don't</div>
+      <div class="card-body">
+        Don't use <code>text-gray-900</code> directly in new code. It bypasses the token system and will not respond to dark mode overrides or future brand changes.
+      </div>
+    </div>
+  </div>
+  <div class="g2 mb16">
+    <div class="do-card">
+      <div class="do-label">✓ Do</div>
+      <div class="card-body">
+        Use the 6-slot pattern for status components: <code>bg-error-bg border-error-border text-error-text</code>. The slots are designed to always produce accessible combinations.
+      </div>
+    </div>
+    <div class="dont-card">
+      <div class="dont-label">✗ Don't</div>
+      <div class="card-body">
+        Don't mix status families: <code>bg-error-50 text-warning-700</code>. Mixing slots from different statuses produces visually incoherent and potentially confusing results.
+      </div>
+    </div>
+  </div>
+  <div class="g2 mb16">
+    <div class="do-card">
+      <div class="do-label">✓ Do</div>
+      <div class="card-body">
+        For warning components, always use <code>text-warning-text</code> (warning-700, #B45309) for text — not <code>text-warning-600</code>. The -600 stop fails WCAG AA on the warning-50 background.
+      </div>
+    </div>
+    <div class="dont-card">
+      <div class="dont-label">✗ Don't</div>
+      <div class="card-body">
+        Don't use white text on <code>bg-warning-500</code> (#F59E0B) or <code>bg-warning-600</code> (#D97706). Both fail WCAG AA contrast for normal text (3.1:1 and 2.7:1 respectively).
+      </div>
+    </div>
+  </div>
+  <div class="g2 mb16">
+    <div class="do-card">
+      <div class="do-label">✓ Do</div>
+      <div class="card-body">
+        Hardcode hex values only in CSS variable definitions in <code>globals.css</code>. Everywhere else — JSX, TSX, Tailwind classes — use tokens exclusively.
+      </div>
+    </div>
+    <div class="dont-card">
+      <div class="dont-label">✗ Don't</div>
+      <div class="card-body">
+        Don't add inline styles with hex colors: <code>style={{ color: "#16A34A" }}</code>. There are already 385 of these in the codebase. Don't add more. Use <code>className="text-primary-600"</code>.
+      </div>
+    </div>
+  </div>
+  <div class="g2">
+    <div class="do-card">
+      <div class="do-label">✓ Do</div>
+      <div class="card-body">
+        For icons, use the <code>-icon</code> slot (<code>text-success-icon</code>) when the icon accompanies a status message. This uses the medium-weight stop (500) which is more visually balanced than the action stop (600).
+      </div>
+    </div>
+    <div class="dont-card">
+      <div class="dont-label">✗ Don't</div>
+      <div class="card-body">
+        Don't reach for primitive palette values when a semantic token exists. If you're writing <code>bg-green-100</code> for a success state, use <code>bg-success-50</code> instead — it communicates intent and enables theming.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     SECTION 8 — MIGRATION MAP
+════════════════════════════════════════════════════ -->
+<div class="section" id="s17">
+  <div class="section-header">
+    <div class="section-tag">17 · Migration</div>
+    <h2 class="section-title">Raw Tailwind → Semantic Token Migration</h2>
+    <p class="section-sub">79% of all color usage (6,459 instances) uses raw Tailwind classes. This table shows the canonical replacements. High-occurrence items are prioritized.</p>
+  </div>
+
+  <div class="warn-callout mb16">
+    <strong>Recommended approach:</strong> Don't do a big-bang migration. Instead, fix tokens as you touch files for other reasons (bug fixes, feature work). Target P0 files first (the ones with 20+ hardcoded colors). The migration map below makes each change mechanical.
+  </div>
+
+  <table class="tbl mb16">
+    <thead><tr>
+      <th>Old (raw Tailwind)</th><th>New (semantic token)</th><th>Count</th><th>Why</th>
+    </tr></thead>
+    <tbody>
+      <tr><td colspan="4" style="background:var(--neutral-50);font-size:11px;font-weight:700;color:var(--neutral-500);text-transform:uppercase;letter-spacing:.06em;">Text Colors</td></tr>
+      <tr>
+        <td><span class="mig-old">text-gray-500</span></td>
+        <td><span class="mig-new">text-neutral-500</span> or <code>text-muted</code></td>
+        <td><span class="mig-count">644</span></td>
+        <td>Helper text, metadata</td>
+      </tr>
+      <tr>
+        <td><span class="mig-old">text-gray-900</span></td>
+        <td><span class="mig-new">text-neutral-900</span> or <code>text-default</code></td>
+        <td><span class="mig-count">556</span></td>
+        <td>Primary text, headings</td>
+      </tr>
+      <tr>
+        <td><span class="mig-old">text-gray-600</span></td>
+        <td><span class="mig-new">text-neutral-600</span> or <code>text-secondary</code></td>
+        <td><span class="mig-count">492</span></td>
+        <td>Body copy</td>
+      </tr>
+      <tr>
+        <td><span class="mig-old">text-gray-700</span></td>
+        <td><span class="mig-new">text-neutral-700</span></td>
+        <td><span class="mig-count">~300</span></td>
+        <td>Strong body text</td>
+      </tr>
+      <tr>
+        <td><span class="mig-old">text-gray-400</span></td>
+        <td><span class="mig-new">text-neutral-400</span> or <code>text-disabled</code></td>
+        <td><span class="mig-count">~200</span></td>
+        <td>Disabled / placeholder</td>
+      </tr>
+      <tr>
+        <td><span class="mig-old">text-red-600 / text-red-700</span></td>
+        <td><span class="mig-new">text-error-text</span> or <code>text-error-700</code></td>
+        <td><span class="mig-count">~300</span></td>
+        <td>Error messages, form validation</td>
+      </tr>
+      <tr>
+        <td><span class="mig-old">text-green-600 / text-green-700</span></td>
+        <td><span class="mig-new">text-primary-600</span> or <code>text-success-text</code></td>
+        <td><span class="mig-count">~260</span></td>
+        <td>Determine context: brand or success?</td>
+      </tr>
+      <tr><td colspan="4" style="background:var(--neutral-50);font-size:11px;font-weight:700;color:var(--neutral-500);text-transform:uppercase;letter-spacing:.06em;">Background Colors</td></tr>
+      <tr>
+        <td><span class="mig-old">bg-gray-200</span></td>
+        <td><span class="mig-new">bg-neutral-200</span> or <code>bg-muted</code></td>
+        <td><span class="mig-count">456</span></td>
+        <td>Skeleton, divider blocks</td>
+      </tr>
+      <tr>
+        <td><span class="mig-old">bg-gray-100</span></td>
+        <td><span class="mig-new">bg-neutral-100</span> or <code>bg-surface</code></td>
+        <td><span class="mig-count">312</span></td>
+        <td>Cards, input fill</td>
+      </tr>
+      <tr>
+        <td><span class="mig-old">bg-gray-50</span></td>
+        <td><span class="mig-new">bg-neutral-50</span> or <code>bg-subtle</code></td>
+        <td><span class="mig-count">294</span></td>
+        <td>Sidebar, table alternate</td>
+      </tr>
+      <tr>
+        <td><span class="mig-old">bg-red-50 / bg-red-100</span></td>
+        <td><span class="mig-new">bg-error-bg</span> or <code>bg-error-50</code></td>
+        <td><span class="mig-count">~200</span></td>
+        <td>Error alert backgrounds</td>
+      </tr>
+      <tr>
+        <td><span class="mig-old">bg-green-50 / bg-green-100</span></td>
+        <td><span class="mig-new">bg-primary-50</span> or <code>bg-success-bg</code></td>
+        <td><span class="mig-count">~150</span></td>
+        <td>Brand subtle / success bg</td>
+      </tr>
+      <tr><td colspan="4" style="background:var(--neutral-50);font-size:11px;font-weight:700;color:var(--neutral-500);text-transform:uppercase;letter-spacing:.06em;">Border Colors</td></tr>
+      <tr>
+        <td><span class="mig-old">border-gray-200</span></td>
+        <td><span class="mig-new">border-neutral-200</span> or <code>border-default</code></td>
+        <td><span class="mig-count">381</span></td>
+        <td>Standard component borders</td>
+      </tr>
+      <tr>
+        <td><span class="mig-old">border-gray-100</span></td>
+        <td><span class="mig-new">border-neutral-100</span> or <code>border-subtle</code></td>
+        <td><span class="mig-count">~180</span></td>
+        <td>Light dividers</td>
+      </tr>
+      <tr>
+        <td><span class="mig-old">border-red-200 / border-red-300</span></td>
+        <td><span class="mig-new">border-error-border</span></td>
+        <td><span class="mig-count">~120</span></td>
+        <td>Error input borders</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="info-callout">
+    <strong>Automation tip:</strong> For mechanical renames (e.g. <code>text-gray-900</code> → <code>text-neutral-900</code>), use a codemod or global find-replace. For semantic upgrades (e.g. <code>bg-gray-100</code> → <code>bg-surface</code> vs <code>bg-neutral-100</code>), manual review per file is needed — the semantic intent depends on context.
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     SECTION 9 — GOVERNANCE
+════════════════════════════════════════════════════ -->
+<div class="section" id="s18">
+  <div class="section-header">
+    <div class="section-tag">18 · Governance</div>
+    <h2 class="section-title">Color System Governance</h2>
+    <p class="section-sub">Rules for maintaining the system as it evolves. Prevents re-accumulating the token debt that led to the 10 audit findings.</p>
+  </div>
+
+  <div class="g2 mb24">
+    <div class="card">
+      <div class="card-title" style="margin-bottom:12px;">✅ Approved Practices</div>
+      <div class="gov-row"><div class="gov-check">✓</div><div>Use only semantic tokens (<code>--text-*</code>, <code>--bg-*</code>, <code>--border-*</code>, status slots) in all component code.</div></div>
+      <div class="gov-row"><div class="gov-check">✓</div><div>Access primitive values (<code>primary-600</code>, <code>neutral-500</code>) directly in Tailwind when no semantic token fits the use case.</div></div>
+      <div class="gov-row"><div class="gov-check">✓</div><div>Hardcode hex values only inside <code>:root</code> in globals.css — nowhere else in the codebase.</div></div>
+      <div class="gov-row"><div class="gov-check">✓</div><div>Use the 6-slot status pattern for all alert, toast, badge, and inline feedback components.</div></div>
+      <div class="gov-row"><div class="gov-check">✓</div><div>Include <code>focus-visible:ring-2 ring-primary-600</code> on every interactive element for keyboard accessibility.</div></div>
+    </div>
+    <div class="card">
+      <div class="card-title" style="margin-bottom:12px;">🚫 Banned Practices</div>
+      <div class="gov-row"><div class="gov-x">✗</div><div>No <code>style={{ color: "#hex" }}</code> or <code>style={{ backgroundColor: "#hex" }}</code> in .tsx/.jsx files.</div></div>
+      <div class="gov-row"><div class="gov-x">✗</div><div>No new raw Tailwind color classes (<code>text-gray-*</code>, <code>bg-red-*</code>, etc.) in new code. Migrate existing ones opportunistically.</div></div>
+      <div class="gov-row"><div class="gov-x">✗</div><div>No new CSS custom properties added to globals.css without a documented use case and at least 3 component usages.</div></div>
+      <div class="gov-row"><div class="gov-x">✗</div><div>No mixing status color families (no <code>bg-error-bg text-warning-text</code>).</div></div>
+      <div class="gov-row"><div class="gov-x">✗</div><div>No white text on warning-500 or warning-600 backgrounds — contrast fails WCAG AA.</div></div>
+    </div>
+  </div>
+
+  <div class="card mb16">
+    <div class="card-title" style="margin-bottom:16px;">PR Checklist — Color Changes</div>
+    <div class="gov-row"><div class="gov-check">✓</div><div><strong>No new hardcoded hex values</strong> in any .tsx, .jsx, .ts, .js file. Run <code>grep -r "#[0-9a-fA-F]\{3,6\}" --include="*.tsx"</code> to verify.</div></div>
+    <div class="gov-row"><div class="gov-check">✓</div><div><strong>All new status UI</strong> (alerts, toasts, banners, badges) uses the 6-slot pattern from Section 03.</div></div>
+    <div class="gov-row"><div class="gov-check">✓</div><div><strong>Contrast verified</strong> for any new text-on-background combination using the contrast ratios in Section 06 of Part 1.</div></div>
+    <div class="gov-row"><div class="gov-check">✓</div><div><strong>New CSS tokens</strong> (if any) are documented in the Figma design system file before being added to globals.css.</div></div>
+    <div class="gov-row"><div class="gov-check">✓</div><div><strong>Focus rings present</strong> on all new interactive elements — inspect in keyboard navigation mode before merge.</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title" style="margin-bottom:16px;">When to Add a New Color Token</div>
+    <table class="tbl">
+      <thead><tr><th>Scenario</th><th>Action</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>Need a color not in the palette (e.g. purple for a new feature)</td>
+          <td>Add a full 5-stop primitive scale (50/200/500/600/700) + semantic slots. Document in Figma first. Min 3 component usages to justify.</td>
+        </tr>
+        <tr>
+          <td>Need a new shade of an existing palette</td>
+          <td>Check if an existing stop satisfies the need. If genuinely a new stop is needed, add it to the primitive scale only — then use it via a semantic token, never directly.</td>
+        </tr>
+        <tr>
+          <td>Need a one-off color for a specific feature (e.g. banner builder)</td>
+          <td>Use an isolated, well-named token block (like the existing banner-builder palette). Never add these to the main semantic layer.</td>
+        </tr>
+        <tr>
+          <td>A component needs a color that doesn't match any semantic role</td>
+          <td>Re-examine the semantic intent. If genuinely novel, propose a new semantic token in the design system file first, get designer + lead dev review before adding to globals.css.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</body>
+</html>
