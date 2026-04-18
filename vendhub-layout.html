@@ -4,1988 +4,378 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>VendHub — Layout System</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:#050A06;color:#E5E7EB;line-height:1.5;-webkit-font-smoothing:antialiased}
+html{scroll-behavior:smooth}
 
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+/* ═══ HERO ═══ */
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:60px 24px}
+.hero::before{content:'';position:absolute;width:900px;height:900px;top:-250px;left:50%;transform:translateX(-50%);background:radial-gradient(circle,rgba(22,163,74,.1) 0%,transparent 60%);pointer-events:none}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(34,197,94,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(34,197,94,.03) 1px,transparent 1px);background-size:48px 48px;mask-image:radial-gradient(ellipse 60% 50% at 50% 40%,black,transparent 80%);-webkit-mask-image:radial-gradient(ellipse 60% 50% at 50% 40%,black,transparent 80%)}
+.hero-content{position:relative;text-align:center;max-width:800px}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(22,163,74,.1);border:1px solid rgba(22,163,74,.25);border-radius:100px;padding:6px 16px;font-size:12px;font-weight:600;color:#4ADE80;margin-bottom:28px;animation:fadeIn .6s both}
+.hero-badge-dot{width:7px;height:7px;border-radius:50%;background:#22C55E;box-shadow:0 0 10px rgba(34,197,94,.6)}
+.hero-title{font-size:clamp(40px,7vw,80px);font-weight:800;color:#fff;line-height:1;letter-spacing:-.04em;margin-bottom:20px;animation:fadeIn .6s .1s both}
+.hero-title span{background:linear-gradient(135deg,#4ADE80,#22C55E);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:clamp(15px,2vw,18px);color:#9CA3AF;line-height:1.7;max-width:540px;margin:0 auto 48px;animation:fadeIn .6s .2s both}
 
-  :root {
-    --primary-50:  #F0FDF4; --primary-100: #DCFCE7; --primary-200: #BBF7D0;
-    --primary-500: #22C55E; --primary-600: #16A34A; --primary-700: #15803D;
-    --neutral-50:  #F9FAFB; --neutral-100: #F3F4F6; --neutral-200: #E5E7EB;
-    --neutral-300: #D1D5DB; --neutral-400: #9CA3AF; --neutral-500: #6B7280;
-    --neutral-600: #4B5563; --neutral-700: #374151; --neutral-800: #1F2937; --neutral-900: #111827;
-    --error-50: #FEF2F2; --error-100: #FEE2E2; --error-200: #FECACA; --error-500: #EF4444;
-    --error-600: #DC2626; --error-700: #B91C1C;
-    --warning-50: #FFFBEB; --warning-200: #FDE68A; --warning-700: #B45309;
-    --info-50: #EFF6FF; --info-200: #BFDBFE; --info-700: #1D4ED8;
-    --success-50: #ECFDF5; --success-200: #A7F3D0; --success-700: #047857;
-    --radius-sm: 4px; --radius-md: 8px; --radius-lg: 12px;
-    /* layout doc colors */
-    --grid-col:    rgba(236,72,153,.12);
-    --grid-border: rgba(236,72,153,.5);
-    --grid-label:  #db2777;
-  }
+/* Hero mini grid */
+.hero-mini-grid{display:flex;gap:3px;max-width:480px;margin:0 auto;animation:fadeIn .8s .4s both}
+.hero-col{flex:1;height:48px;background:rgba(236,72,153,.12);border:1px solid rgba(236,72,153,.3);border-radius:4px;transition:all .5s cubic-bezier(.4,0,.2,1);display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;color:rgba(236,72,153,.5)}
+.hero-col:hover{background:rgba(236,72,153,.25);border-color:rgba(236,72,153,.6)}
 
-  html { font-size: 14px; }
-  body { font-family: 'Plus Jakarta Sans', sans-serif; background: #FAFAFA; color: var(--neutral-800); line-height: 1.5; }
-  .page { max-width: 1120px; margin: 0 auto; padding: 0 48px 80px; }
+@keyframes fadeIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 
-  /* COVER */
-  .cover { background: var(--neutral-900); padding: 64px 48px 56px; margin-bottom: 64px; position: relative; overflow: hidden; }
-  .cover::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(45deg, transparent, transparent 40px, rgba(255,255,255,.015) 40px, rgba(255,255,255,.015) 41px); }
-  .cover-inner { position: relative; z-index: 1; max-width: 1120px; margin: 0 auto; }
-  .cover-eyebrow { display: inline-flex; align-items: center; gap: 8px; background: rgba(22,163,74,.15); border: 1px solid rgba(22,163,74,.3); border-radius: 20px; padding: 4px 14px; font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--primary-500); margin-bottom: 24px; }
-  .cover-eyebrow-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--primary-500); }
-  .cover-title { font-size: 52px; font-weight: 700; color: #fff; line-height: 1.1; margin-bottom: 16px; letter-spacing: -.02em; }
-  .cover-title span { color: var(--primary-500); }
-  .cover-sub { font-size: 16px; color: var(--neutral-400); max-width: 620px; line-height: 1.7; margin-bottom: 40px; }
-  .cover-meta { display: flex; gap: 32px; flex-wrap: wrap; }
-  .cover-meta-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--neutral-600); margin-bottom: 4px; }
-  .cover-meta-value { font-size: 13px; color: var(--neutral-300); font-weight: 500; }
-  .cover-libs { display: flex; gap: 10px; margin-top: 32px; flex-wrap: wrap; }
-  .lib-tag { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; }
-  .lib-pink   { background: rgba(236,72,153,.15); color: #f472b6; border: 1px solid rgba(236,72,153,.25); }
-  .lib-green  { background: rgba(22,163,74,.15);  color: var(--primary-500); border: 1px solid rgba(22,163,74,.25); }
-  .lib-blue   { background: rgba(37,99,235,.15);  color: #60a5fa; border: 1px solid rgba(37,99,235,.25); }
-  .lib-violet { background: rgba(139,92,246,.15); color: #a78bfa; border: 1px solid rgba(139,92,246,.25); }
-  .part-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12); border-radius: 8px; padding: 8px 16px; margin-top: 28px; font-size: 12px; color: var(--neutral-400); font-weight: 500; }
-  .part-badge strong { color: #fff; }
-  .part-badge a { color: var(--primary-500); text-decoration: none; font-weight: 600; }
+/* ═══ NAV ═══ */
+.nav-pills{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;position:sticky;top:0;z-index:50;background:rgba(5,10,6,.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);padding:16px 0}
+.nav-pill{padding:7px 16px;border-radius:100px;font-size:12px;font-weight:600;color:#9CA3AF;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);text-decoration:none;transition:all .2s}
+.nav-pill:hover,.nav-pill.active{background:rgba(22,163,74,.12);border-color:rgba(22,163,74,.3);color:#4ADE80}
 
-  /* TOC */
-  .toc { background: #fff; border: 1px solid var(--neutral-200); border-radius: var(--radius-lg); padding: 28px 32px; margin-bottom: 56px; }
-  .toc-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--neutral-500); margin-bottom: 20px; }
-  .toc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom:8px; }
-  .toc-item { display: flex; align-items: center; gap: 8px; padding: 10px 14px; border-radius: var(--radius-md); background: var(--neutral-50); border: 1px solid var(--neutral-100); font-size: 12px; font-weight: 600; color: var(--neutral-600); text-decoration: none; transition: all .15s; }
-  .toc-item:hover { background: var(--primary-50); border-color: var(--primary-200); color: var(--primary-700); }
-  .toc-num { font-size: 10px; font-weight: 700; color: var(--neutral-400); }
-  .toc-file-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--neutral-500); margin-bottom: 10px; margin-top: 20px; padding-bottom: 6px; border-bottom: 1px solid var(--neutral-100); }
+/* ═══ LAYOUT ═══ */
+.page{max-width:1120px;margin:0 auto;padding:0 32px 80px}
+.section{margin-bottom:80px}
+.section-header{margin-bottom:32px}
+.section-tag{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#22C55E;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.section-tag::after{content:'';flex:1;height:1px;background:rgba(22,163,74,.2)}
+.section-title{font-size:28px;font-weight:700;color:#fff;margin-bottom:8px;letter-spacing:-.01em}
+.section-sub{font-size:14px;color:#9CA3AF;line-height:1.7;max-width:640px}
 
-  /* SECTION */
-  .section { margin-bottom: 80px; }
-  .section-header { margin-bottom: 32px; }
-  .section-tag { font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--primary-600); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
-  .section-tag::after { content: ''; flex: 1; height: 1px; background: var(--primary-100); }
-  .section-title { font-size: 26px; font-weight: 700; color: var(--neutral-900); margin-bottom: 8px; letter-spacing: -.01em; }
-  .section-sub { font-size: 14px; color: var(--neutral-500); line-height: 1.7; max-width: 700px; }
+/* ═══ INTERACTIVE GRID ═══ */
+.grid-tabs{display:flex;gap:6px;margin-bottom:20px;flex-wrap:wrap}
+.grid-tab{padding:8px 20px;border-radius:100px;font-size:13px;font-weight:600;cursor:pointer;transition:all .25s;border:1px solid rgba(236,72,153,.2);color:#F472B6;background:rgba(236,72,153,.06)}
+.grid-tab.active{background:#EC4899;border-color:#EC4899;color:#fff}
+.grid-demo{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:24px;margin-bottom:16px}
+.grid-columns{display:flex;gap:4px;height:80px;transition:all .4s}
+.grid-column{flex:1;background:rgba(236,72,153,.1);border:1px solid rgba(236,72,153,.3);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:rgba(236,72,153,.6);transition:all .4s cubic-bezier(.4,0,.2,1)}
+.grid-meta-row{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;background:rgba(0,0,0,.2);border-radius:10px}
+.grid-meta-item{text-align:center}
+.grid-meta-value{font-size:20px;font-weight:800;color:#fff}
+.grid-meta-label{font-size:10px;font-weight:600;color:#6B7280;text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
 
-  /* CARDS */
-  .card { background: #fff; border: 1px solid var(--neutral-200); border-radius: var(--radius-lg); padding: 24px; }
-  .card-title { font-size: 13px; font-weight: 700; color: var(--neutral-800); margin-bottom: 12px; }
-  .card-body { font-size: 13px; color: var(--neutral-600); line-height: 1.7; }
-  .g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  .g3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
-  .g4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 16px; }
-  .mb8  { margin-bottom: 8px; }
-  .mb16 { margin-bottom: 16px; }
-  .mb24 { margin-bottom: 24px; }
-  .mb32 { margin-bottom: 32px; }
-  .mt16 { margin-top: 16px; }
+/* ═══ BREAKPOINTS ═══ */
+.bp-strip{display:flex;gap:0;border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,.06)}
+.bp-seg{flex:1;padding:16px 14px;border-right:1px solid rgba(255,255,255,.06);transition:all .3s;cursor:pointer}
+.bp-seg:last-child{border-right:none}
+.bp-seg:hover{background:rgba(255,255,255,.04)}
+.bp-seg.active{background:rgba(22,163,74,.08)}
+.bp-name{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.bp-val{font-size:18px;font-weight:800;color:#fff;margin-bottom:4px}
+.bp-desc{font-size:11px;color:#6B7280}
+.bp-badge{font-size:9px;font-weight:700;padding:2px 8px;border-radius:100px;margin-top:6px;display:inline-block}
+.bp-xs .bp-name{color:#C084FC} .bp-xs{background:rgba(139,92,246,.04)}
+.bp-sm .bp-name{color:#93C5FD} .bp-sm{background:rgba(59,130,246,.04)}
+.bp-md .bp-name{color:#FDE68A} .bp-md{background:rgba(245,158,11,.04)}
+.bp-lg .bp-name{color:#86EFAC} .bp-lg{background:rgba(34,197,94,.04)}
+.bp-xl .bp-name{color:#4ADE80} .bp-xl{background:rgba(34,197,94,.06)}
 
-  /* TABLE */
-  .tbl { width: 100%; border-collapse: collapse; font-size: 13px; }
-  .tbl thead tr { background: var(--neutral-50); border-bottom: 1px solid var(--neutral-200); }
-  .tbl th { padding: 10px 14px; text-align: left; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--neutral-500); }
-  .tbl td { padding: 11px 14px; border-bottom: 1px solid var(--neutral-100); color: var(--neutral-700); vertical-align: middle; }
-  .tbl tr:last-child td { border-bottom: none; }
-  .tbl tr:hover td { background: var(--neutral-50); }
+.bp-detail{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:20px 24px;margin-top:16px;display:grid;grid-template-columns:repeat(4,1fr);gap:16px;transition:all .3s}
+.bp-detail-item{text-align:center}
+.bp-detail-val{font-size:16px;font-weight:700;color:#fff}
+.bp-detail-label{font-size:10px;color:#6B7280;margin-top:2px}
 
-  /* BADGE */
-  .badge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; }
-  .bg-green  { background: var(--primary-100); color: var(--primary-700); }
-  .bg-blue   { background: var(--info-50);     color: var(--info-700); }
-  .bg-red    { background: var(--error-50);    color: var(--error-700); }
-  .bg-yellow { background: var(--warning-50);  color: var(--warning-700); }
-  .bg-gray   { background: var(--neutral-100); color: var(--neutral-600); }
-  .bg-pink   { background: #fdf2f8; color: #be185d; }
+/* ═══ SIDEBAR STATES ═══ */
+.sidebar-demo{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.sidebar-card{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);border-radius:14px;overflow:hidden;cursor:pointer;transition:all .3s}
+.sidebar-card:hover{border-color:rgba(255,255,255,.12)}
+.sidebar-card.active{border-color:rgba(22,163,74,.4)}
+.sidebar-mockup{height:100px;display:flex;overflow:hidden}
+.sidebar-bar{display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff;flex-shrink:0;transition:width .5s cubic-bezier(.4,0,.2,1)}
+.sidebar-content{flex:1;background:rgba(255,255,255,.03);padding:8px}
+.sidebar-content-nav{height:10px;background:rgba(255,255,255,.06);border-radius:3px;margin-bottom:6px}
+.sidebar-content-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;flex:1}
+.sidebar-content-cell{background:rgba(255,255,255,.04);border-radius:3px}
+.sidebar-info{padding:14px 16px}
+.sidebar-state-name{font-size:13px;font-weight:700;color:#fff;margin-bottom:2px}
+.sidebar-state-detail{font-size:11px;color:#6B7280}
 
-  /* CALLOUTS */
-  .info-callout { background: var(--info-50); border: 1px solid var(--info-200); border-radius: var(--radius-md); padding: 14px 18px; font-size: 13px; color: #1e40af; line-height: 1.6; }
-  .warn-callout { background: var(--warning-50); border: 1px solid var(--warning-200); border-radius: var(--radius-md); padding: 14px 18px; font-size: 13px; color: #92400e; line-height: 1.6; }
-  .error-callout { background: var(--error-50); border: 1px solid var(--error-200); border-radius: var(--radius-md); padding: 14px 18px; font-size: 13px; color: #7f1d1d; line-height: 1.6; }
-  .success-callout { background: var(--success-50); border: 1px solid var(--success-200); border-radius: var(--radius-md); padding: 14px 18px; font-size: 13px; color: #064e3b; line-height: 1.6; }
+/* ═══ LAYOUT VARIANTS ═══ */
+.variant-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.variant-card{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);border-radius:14px;overflow:hidden;transition:all .3s}
+.variant-card:hover{border-color:rgba(255,255,255,.12);transform:translateY(-2px)}
+.variant-mockup{height:100px;padding:8px;display:flex;gap:0}
+.variant-sidebar-mock{background:rgba(17,24,39,.6);display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;color:#9CA3AF;flex-shrink:0;border-radius:4px 0 0 4px}
+.variant-content-mock{flex:1;background:rgba(255,255,255,.03);border-radius:0 4px 4px 0;padding:6px;display:flex;flex-direction:column;gap:3px}
+.variant-nav-mock{height:8px;background:rgba(255,255,255,.06);border-radius:2px}
+.variant-body-mock{flex:1;border-radius:2px;display:flex;gap:3px}
+.variant-col-mock{flex:1;background:rgba(255,255,255,.04);border-radius:2px}
+.variant-info{padding:16px 20px}
+.variant-badge{font-size:10px;font-weight:700;padding:2px 10px;border-radius:100px;margin-bottom:8px;display:inline-block}
+.variant-name{font-size:15px;font-weight:700;color:#fff;margin-bottom:4px}
+.variant-desc{font-size:12px;color:#6B7280;line-height:1.5}
 
-  code { font-family: 'SF Mono','Fira Code','Consolas',monospace; font-size: 11px; background: var(--neutral-100); color: var(--neutral-700); padding: 1px 6px; border-radius: 4px; border: 1px solid var(--neutral-200); }
+/* ═══ MISC ═══ */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .6s,transform .6s}.reveal.visible{opacity:1;transform:translateY(0)}
+.footer{text-align:center;padding:48px 24px;border-top:1px solid rgba(255,255,255,.05);font-size:12px;color:#4B5563}
+.footer a{color:#6B7280;text-decoration:none}.footer a:hover{color:#4ADE80}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:#9CA3AF;text-decoration:none;margin-bottom:12px;transition:color .2s}.back-link:hover{color:#4ADE80}
 
-  /* GRID DIAGRAM */
-  .grid-diagram { background: #f8f0f8; border: 1px solid #e9d5f0; border-radius: var(--radius-lg); padding: 24px; }
-  .grid-cols { display: flex; gap: 4px; margin-bottom: 16px; }
-  .grid-col-track { flex: 1; background: var(--grid-col); border: 1px solid var(--grid-border); border-radius: 4px; min-height: 80px; display: flex; align-items: center; justify-content: center; }
-  .grid-col-label { font-size: 9px; font-weight: 700; color: var(--grid-label); }
-  .grid-span-demo { display: flex; flex-direction: column; gap: 8px; }
-  .grid-span-row { display: flex; align-items: center; gap: 12px; }
-  .grid-span-bar { background: #fff; border: 2px solid #d1d5db; border-radius: 6px; display: flex; align-items: center; justify-content: center; padding: 6px 12px; font-size: 12px; font-weight: 600; color: var(--neutral-700); }
-  .grid-meta { font-size: 11px; color: var(--neutral-500); }
-
-  /* BREAKPOINT VISUAL */
-  .bp-strip { display: flex; gap: 0; border: 1px solid var(--neutral-200); border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 24px; }
-  .bp-seg { flex: 1; padding: 16px 14px; font-size: 12px; border-right: 1px solid var(--neutral-200); }
-  .bp-seg:last-child { border-right: none; }
-  .bp-seg-name { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; margin-bottom: 4px; }
-  .bp-seg-val { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
-  .bp-seg-desc { font-size: 11px; color: var(--neutral-500); }
-  .bp-xs  { background: #fdf4ff; } .bp-xs .bp-seg-name  { color: #9333ea; }
-  .bp-sm  { background: var(--info-50); } .bp-sm .bp-seg-name  { color: var(--info-700); }
-  .bp-md  { background: var(--warning-50); } .bp-md .bp-seg-name  { color: var(--warning-700); }
-  .bp-lg  { background: var(--success-50); } .bp-lg .bp-seg-name  { color: var(--success-700); }
-  .bp-xl  { background: var(--primary-50); } .bp-xl .bp-seg-name  { color: var(--primary-700); }
-
-  /* CONTAINER DIAGRAM */
-  .container-diagram { background: var(--neutral-50); border: 1px solid var(--neutral-200); border-radius: var(--radius-lg); padding: 20px; }
-  .viewport-bar { background: var(--neutral-200); border-radius: 4px; height: 48px; display: flex; align-items: center; justify-content: center; font-size: 11px; color: var(--neutral-500); font-weight: 600; margin-bottom: 8px; }
-  .container-bar { background: #fff; border: 2px solid var(--primary-300); border-radius: 4px; height: 40px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: var(--primary-700); margin: 0 32px 8px; }
-  .grid-bar { background: var(--grid-col); border: 1px dashed var(--grid-border); border-radius: 4px; height: 32px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 600; color: var(--grid-label); margin: 0 64px; }
-
-  /* LAYOUT VARIANT CARDS */
-  .layout-card { background: #fff; border: 1px solid var(--neutral-200); border-radius: var(--radius-lg); overflow: hidden; }
-  .layout-card-header { padding: 14px 20px; border-bottom: 1px solid var(--neutral-100); display: flex; align-items: center; gap: 10px; }
-  .layout-card-title { font-size: 13px; font-weight: 700; color: var(--neutral-900); }
-  .layout-card-body { padding: 16px 20px; }
-  .layout-mockup { background: var(--neutral-50); border-radius: 6px; overflow: hidden; display: flex; height: 120px; }
-  .layout-sidebar { background: var(--neutral-800); display: flex; align-items: center; justify-content: center; font-size: 10px; color: #fff; font-weight: 700; flex-shrink: 0; }
-  .layout-content { flex: 1; padding: 8px; }
-  .layout-content-grid { display: flex; flex-direction: column; gap: 4px; height: 100%; }
-  .layout-nav { background: var(--neutral-200); border-radius: 3px; height: 14px; }
-  .layout-main { flex: 1; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px; }
-  .layout-cell { background: var(--neutral-200); border-radius: 3px; }
-
-  /* DO / DON'T */
-  .do-card   { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: var(--radius-lg); padding: 20px; }
-  .dont-card { background: #fff5f5; border: 1px solid var(--error-200); border-radius: var(--radius-lg); padding: 20px; }
-  .do-label   { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--primary-700); margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
-  .dont-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--error-700); margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
-  .rule-row { font-size: 13px; line-height: 1.7; padding: 6px 0; border-bottom: 1px solid rgba(0,0,0,.05); color: var(--neutral-700); }
-  .rule-row:last-child { border-bottom: none; }
-
-  /* SIDEBAR STATES */
-  .sidebar-states { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
-  .state-card { border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--neutral-200); }
-  .state-mockup { height: 80px; display: flex; }
-  .state-sidebar { display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; color: #fff; }
-  .state-content { flex: 1; background: var(--neutral-50); }
-  .state-label { padding: 10px 12px; font-size: 11px; }
-  .state-name { font-weight: 700; color: var(--neutral-800); }
-  .state-detail { color: var(--neutral-500); font-size: 10px; margin-top: 2px; }
-
-  /* FOOTER */
-  .footer-nav { display: flex; justify-content: flex-end; margin-top: 80px; padding-top: 32px; border-top: 1px solid var(--neutral-200); }
-  .footer-nav-link { display: inline-flex; align-items: center; gap: 10px; background: var(--primary-600); color: #fff; text-decoration: none; padding: 12px 24px; border-radius: 8px; font-size: 14px; font-weight: 600; }
-
-
-  /* ── CODE BLOCKS ── */
-  .code-block { background: var(--neutral-900); border-radius: var(--radius-md); padding: 20px 24px; font-family: 'SF Mono','Fira Code','Consolas',monospace; font-size: 12px; line-height: 1.9; color: #e2e8f0; overflow-x: auto; }
-  .code-block .kw   { color: #c084fc; }
-  .code-block .fn   { color: #67e8f9; }
-  .code-block .str  { color: #86efac; }
-  .code-block .cm   { color: #64748b; }
-  .code-block .at   { color: #fbbf24; }
-  .code-block .num  { color: #fb923c; }
-  .code-block .prop { color: #f9a8d4; }
-  .code-block .val  { color: #fde68a; }
-  .code-block .type { color: #93c5fd; }
-
-  /* ── CALLOUT BOXES ── */
-  .info-box  { background: var(--info-50);    border: 1px solid var(--info-200);    border-radius: var(--radius-md); padding: 16px 20px; font-size: 13px; color: var(--info-700);    line-height: 1.7; }
-  .warn-box  { background: var(--warning-50); border: 1px solid var(--warning-200); border-radius: var(--radius-md); padding: 16px 20px; font-size: 13px; color: var(--warning-700); line-height: 1.7; }
-  .error-box { background: var(--error-50);   border: 1px solid var(--error-200);   border-radius: var(--radius-md); padding: 16px 20px; font-size: 13px; color: var(--error-700);   line-height: 1.7; }
-  .ok-box    { background: var(--success-50); border: 1px solid var(--success-200); border-radius: var(--radius-md); padding: 16px 20px; font-size: 13px; color: var(--success-700); line-height: 1.7; }
-  .callout-title { font-weight: 700; margin-bottom: 6px; font-size: 13px; }
-
-  /* ── DIFF BLOCKS ── */
-  .diff-block { border-radius: var(--radius-md); overflow: hidden; font-family: 'SF Mono','Fira Code','Consolas',monospace; font-size: 12px; line-height: 1.8; }
-  .diff-before { background: #1c1917; padding: 16px 20px; }
-  .diff-after  { background: #0f2014; padding: 16px 20px; }
-  .diff-label  { font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding: 6px 12px; }
-  .diff-label-before { background: rgba(239,68,68,.12); color: #fca5a5; border-radius: 4px 4px 0 0; display: inline-block; margin-bottom: 4px; }
-  .diff-label-after  { background: rgba(22,163,74,.12);  color: #86efac; border-radius: 4px 4px 0 0; display: inline-block; margin-bottom: 4px; }
-  .diff-minus { color: #fca5a5; }
-  .diff-plus  { color: #86efac; }
-  .diff-ctx   { color: #94a3b8; }
-  .before-after { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--neutral-200); }
-
-  /* ── STEPS ── */
-  .step-list { display: flex; flex-direction: column; gap: 16px; }
-  .step { display: flex; gap: 16px; align-items: flex-start; }
-  .step-num { width: 28px; height: 28px; border-radius: 50%; background: var(--primary-600); color: #fff; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
-  .step-body { flex: 1; }
-  .step-title { font-size: 13px; font-weight: 600; color: var(--neutral-800); margin-bottom: 4px; }
-  .step-desc  { font-size: 13px; color: var(--neutral-500); line-height: 1.7; }
-
-  /* ── FIX CARDS ── */
-  .fix-card { border-radius: var(--radius-lg); overflow: hidden; border: 1px solid; }
-  .fix-card-p0 { border-color: var(--error-200); }
-  .fix-card-p1 { border-color: var(--warning-200); }
-  .fix-card-header { padding: 14px 20px; font-size: 13px; font-weight: 700; display: flex; align-items: center; gap: 10px; }
-  .fix-card-header-p0 { background: var(--error-50); color: var(--error-700); }
-  .fix-card-header-p1 { background: var(--warning-50); color: var(--warning-700); }
-  .fix-card-body { padding: 20px; background: #fff; }
-
-  /* ── MISC ── */
-  .divider { height: 1px; background: var(--neutral-100); margin: 24px 0; }
-  .filepath { font-family: 'SF Mono','Fira Code','Consolas',monospace; font-size: 11px; background: var(--neutral-900); color: #86efac; padding: 2px 8px; border-radius: 4px; display: inline-block; }
-  .grid-vis { display: flex; gap: 4px; padding: 12px; background: var(--neutral-50); border-radius: var(--radius-md); border: 1px solid var(--neutral-200); }
-  .grid-col { flex: 1; height: 32px; border-radius: 3px; background: var(--primary-100); border: 1px solid var(--primary-200); }
-  .grid-col-active { background: var(--primary-400); border-color: var(--primary-500); }
-  .tbl-wrap { border: 1px solid var(--neutral-200); border-radius: var(--radius-lg); overflow: hidden; }
-  .tbl td.old-val { color: var(--error-700); background: var(--error-50); font-family: 'SF Mono','Fira Code','Consolas',monospace; font-size: 11px; }
-  .tbl td.new-val { color: var(--success-700); background: var(--success-50); font-family: 'SF Mono','Fira Code','Consolas',monospace; font-size: 11px; }
-  .card-sm { padding: 16px 20px; }
-  .bg-violet { background: #f5f3ff; color: #6d28d9; }
-  .bg-amber  { background: var(--warning-50); color: var(--warning-700); }
-  .lib-gray  { background: rgba(107,114,128,.1); color: var(--neutral-400); border: 1px solid rgba(107,114,128,.2); }
-
-
-  /* ═══════════════════════════════════════════
-     RESPONSIVE — MOBILE
-     ═══════════════════════════════════════════ */
-  @media (max-width: 768px) {
-    .page { padding: 0 16px 48px; }
-    .cover { padding: 40px 20px 36px; margin-bottom: 40px; }
-    .cover-title { font-size: 32px; }
-    .cover-sub { font-size: 14px; margin-bottom: 24px; }
-    .cover-meta { gap: 16px; }
-    .cover-meta-label { font-size: 9px; }
-    .cover-meta-value { font-size: 12px; }
-    .cover-libs { gap: 6px; margin-top: 20px; }
-    .lib-tag { font-size: 11px; padding: 4px 10px; }
-
-    .toc { padding: 20px; margin-bottom: 36px; }
-    .toc-grid { grid-template-columns: 1fr; }
-    .toc-file-label { margin-top: 14px; }
-
-    .section { margin-bottom: 48px; }
-    .section-title { font-size: 20px; }
-    .section-sub { font-size: 13px; }
-
-    .g2, .g3, .g4 { grid-template-columns: 1fr; }
-    .card { padding: 16px; }
-
-    /* Tables — horizontal scroll */
-    table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-    .ds-table-wrap, .tbl-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-
-    /* Code blocks */
-    .code-block { padding: 14px 16px; font-size: 11px; }
-
-    /* Do/Don't cards */
-    .do-card, .dont-card { padding: 16px; }
-
-    /* Breakpoint strip — horizontal scroll */
-    .bp-strip { flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-    .bp-seg { min-width: 140px; flex-shrink: 0; }
-
-    /* Grid diagram */
-    .grid-diagram { padding: 16px; overflow-x: auto; }
-    .grid-cols { min-width: 500px; }
-
-    /* Container diagram */
-    .container-diagram { padding: 12px; }
-    .container-bar { margin: 0 12px 8px; }
-    .grid-bar { margin: 0 24px; }
-
-    /* Layout mockups */
-    .layout-mockup { height: 100px; }
-
-    /* Sidebar states — stack */
-    .sidebar-states { grid-template-columns: 1fr; }
-
-    /* Before/After diffs */
-    .before-after { grid-template-columns: 1fr; }
-    .diff-before, .diff-after { font-size: 11px; padding: 12px 14px; }
-
-    /* Fix cards */
-    .fix-card-header { font-size: 12px; flex-wrap: wrap; }
-
-    /* Step list */
-    .step { gap: 10px; }
-
-    /* Grid visual */
-    .grid-vis { overflow-x: auto; min-width: 0; }
-
-    /* Footer nav */
-    .footer-nav { flex-direction: column; gap: 12px; }
-  }
-
-  @media (max-width: 480px) {
-    .cover-title { font-size: 26px; }
-    .cover-meta { flex-direction: column; gap: 12px; }
-  }
-
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:768px){
+  .page{padding:0 16px 48px}
+  .hero{padding:40px 20px;min-height:auto}
+  .hero-mini-grid{max-width:100%}
+  .hero-col{height:32px;font-size:6px}
+  .nav-pills{gap:4px;padding:12px 16px}
+  .nav-pill{font-size:11px;padding:5px 12px}
+  .section{margin-bottom:48px}
+  .section-title{font-size:22px}
+  .grid-columns{height:56px}
+  .grid-meta-row{flex-wrap:wrap;gap:12px}
+  .grid-meta-item{flex:1;min-width:60px}
+  .bp-strip{flex-direction:column}
+  .bp-seg{border-right:none;border-bottom:1px solid rgba(255,255,255,.06)}
+  .bp-seg:last-child{border-bottom:none}
+  .bp-detail{grid-template-columns:1fr 1fr}
+  .sidebar-demo{grid-template-columns:1fr}
+  .variant-grid{grid-template-columns:1fr}
+}
+@media(max-width:480px){
+  .hero-title{font-size:36px}
+  .bp-detail{grid-template-columns:1fr}
+  .grid-meta-value{font-size:16px}
+}
 </style>
 </head>
 <body>
 
-<!-- COVER -->
-<div class="cover">
-  <div class="cover-inner">
-    <div class="cover-eyebrow"><span class="cover-eyebrow-dot"></span>VendHub Design System</div>
-    <h1 class="cover-title">Layout, Grid<br><span>&amp; Breakpoints</span></h1>
-    <p class="cover-sub">The complete layout system — container types, three-tier grid, breakpoints, sidebar states, layout variants, Tailwind config, code patterns, and production fixes.</p>
-    <div class="cover-meta">
-      <div><div class="cover-meta-label">Document</div><div class="cover-meta-value">Layout System (Combined)</div></div>
-      <div><div class="cover-meta-label">Artboard Width</div><div class="cover-meta-value">1440px desktop</div></div>
-      <div><div class="cover-meta-label">Container</div><div class="cover-meta-value">1280px centered</div></div>
-      <div><div class="cover-meta-label">Stack</div><div class="cover-meta-value">Next.js + Tailwind CSS v3.4</div></div>
-    </div>
-    <div class="cover-libs">
-      <span class="lib-tag lib-pink">● Grid System</span>
-      <span class="lib-tag lib-green">● Breakpoints</span>
-      <span class="lib-tag lib-blue">● Container Types</span>
-      <span class="lib-tag lib-violet">● Layout Variants</span>
-      <span class="lib-tag lib-gray">● Implementation</span>
-    </div>
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-badge"><span class="hero-badge-dot"></span>VendHub Design System</div>
+    <h1 class="hero-title">Layout, Grid &<br><span>Breakpoints</span></h1>
+    <p class="hero-sub">12-column desktop grid, 5 breakpoints, 2 container types, and 4 layout patterns — the structural foundation of every VendHub page.</p>
+    <div class="hero-mini-grid" id="hero-grid-anim"></div>
   </div>
-</div>
+</section>
+
+<!-- ═══ NAV ═══ -->
+<nav class="nav-pills">
+  <a class="nav-pill active" href="#grid">Grid System</a>
+  <a class="nav-pill" href="#breakpoints">Breakpoints</a>
+  <a class="nav-pill" href="#sidebar">Sidebar</a>
+  <a class="nav-pill" href="#variants">Layout Variants</a>
+</nav>
 
 <div class="page">
 
-<!-- TOC -->
-<div class="toc">
-  <div class="toc-title">Contents</div>
-  <div class="toc-file-label">Foundation — Grid &amp; Containers</div>
-  <div class="toc-grid">
-    <a href="#s1" class="toc-item"><span class="toc-num">01</span> Three-Tier Grid System</a>
-    <a href="#s2" class="toc-item"><span class="toc-num">02</span> Container Types</a>
-    <a href="#s3" class="toc-item"><span class="toc-num">03</span> Column Spans</a>
-  </div>
-  <div class="toc-file-label">Foundation — Breakpoints &amp; Responsive</div>
-  <div class="toc-grid">
-    <a href="#s4" class="toc-item"><span class="toc-num">04</span> Breakpoint System</a>
-    <a href="#s5" class="toc-item"><span class="toc-num">05</span> Sidebar Responsive States</a>
-    <a href="#s6" class="toc-item"><span class="toc-num">06</span> Responsive Behavior</a>
-  </div>
-  <div class="toc-file-label">Foundation — Layout Variants &amp; Rules</div>
-  <div class="toc-grid">
-    <a href="#s7" class="toc-item"><span class="toc-num">07</span> Layout Variants</a>
-    <a href="#s8" class="toc-item"><span class="toc-num">08</span> Spacing &amp; Alignment Rules</a>
-    <a href="#s9" class="toc-item"><span class="toc-num">09</span> Do's &amp; Don'ts</a>
-  </div>
-  <div class="toc-file-label">Implementation — Config &amp; Components</div>
-  <div class="toc-grid">
-    <a href="#s10" class="toc-item"><span class="toc-num">10</span> Tailwind Config</a>
-    <a href="#s11" class="toc-item"><span class="toc-num">11</span> Figma Grid Variables</a>
-    <a href="#s12" class="toc-item"><span class="toc-num">12</span> PageContainer Component</a>
-  </div>
-  <div class="toc-file-label">Implementation — Code Patterns</div>
-  <div class="toc-grid">
-    <a href="#s13" class="toc-item"><span class="toc-num">13</span> Responsive Code Patterns</a>
-    <a href="#s14" class="toc-item"><span class="toc-num">14</span> Layout Variant Code</a>
-    <a href="#s15" class="toc-item"><span class="toc-num">15</span> Sidebar Implementation</a>
-  </div>
-  <div class="toc-file-label">Implementation — Fixes &amp; Governance</div>
-  <div class="toc-grid">
-    <a href="#s16" class="toc-item"><span class="toc-num">16</span> P0 / P1 Fixes</a>
-    <a href="#s17" class="toc-item"><span class="toc-num">17</span> Magic Number Migration</a>
-    <a href="#s18" class="toc-item"><span class="toc-num">18</span> Governance</a>
-    <a href="#s19" class="toc-item"><span class="toc-num">19</span> Layout Components</a>
-  </div>
-</div>
-
-
-<!-- ═══════════════════════════════════════════════
-     SECTION 1 — THREE-TIER GRID SYSTEM
-════════════════════════════════════════════════ -->
-<div class="section" id="s1">
+<!-- ═══ 01 INTERACTIVE GRID ═══ -->
+<div class="section reveal" id="grid">
   <div class="section-header">
-    <div class="section-tag">01 · Grid System</div>
-    <h2 class="section-title">Three-Tier Grid System</h2>
-    <p class="section-sub">VendHub uses a responsive column grid that shifts across three breakpoints — 12 columns on desktop, 8 on tablet, 4 on mobile. The grid is applied to the content area frame, never the full viewport or artboard.</p>
+    <div class="section-tag">01 · Grid</div>
+    <h2 class="section-title">Three-Tier Grid — Toggle to Compare</h2>
+    <p class="section-sub">The grid shifts across breakpoints — 12 columns on desktop, 8 on tablet, 4 on mobile. Click to switch.</p>
   </div>
 
-  <div class="warn-callout mb24">
-    <strong>Critical rule:</strong> The grid is applied to the <strong>content area frame only</strong> — not the full 1440px artboard. In admin layouts, the grid starts after the sidebar. Column widths (e.g., 84.67px) are Figma display values only — never written in code. Browsers handle sub-pixel rendering automatically with <code>grid-template-columns: repeat(12, 1fr)</code>.
+  <div class="grid-tabs" id="grid-tabs">
+    <div class="grid-tab active" data-cols="12" data-gutter="24" data-container="1280" data-device="Desktop">Desktop · 12 columns</div>
+    <div class="grid-tab" data-cols="8" data-gutter="24" data-container="720" data-device="Tablet">Tablet · 8 columns</div>
+    <div class="grid-tab" data-cols="4" data-gutter="12" data-container="358" data-device="Mobile">Mobile · 4 columns</div>
   </div>
 
-  <!-- Desktop grid -->
-  <div class="card mb16">
-    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
-      <span class="badge bg-green">Desktop</span>
-      <span style="font-size:16px;font-weight:700;color:var(--neutral-900);">12 Grid Column — 1440px Frame · 1280px Container</span>
-    </div>
-    <div class="grid-diagram mb16">
-      <div class="grid-cols">
-        <div class="grid-col-track"><span class="grid-col-label">01</span></div>
-        <div class="grid-col-track"><span class="grid-col-label">02</span></div>
-        <div class="grid-col-track"><span class="grid-col-label">03</span></div>
-        <div class="grid-col-track"><span class="grid-col-label">04</span></div>
-        <div class="grid-col-track"><span class="grid-col-label">05</span></div>
-        <div class="grid-col-track"><span class="grid-col-label">06</span></div>
-        <div class="grid-col-track"><span class="grid-col-label">07</span></div>
-        <div class="grid-col-track"><span class="grid-col-label">08</span></div>
-        <div class="grid-col-track"><span class="grid-col-label">09</span></div>
-        <div class="grid-col-track"><span class="grid-col-label">10</span></div>
-        <div class="grid-col-track"><span class="grid-col-label">11</span></div>
-        <div class="grid-col-track"><span class="grid-col-label">12</span></div>
-      </div>
-      <div style="display:flex;align-items:center;justify-content:space-between;font-size:11px;color:var(--grid-label);font-weight:700;">
-        <span>← 80px side (auto-generated)</span>
-        <span>Container 1280px — Grid Applied Here</span>
-        <span>80px side (auto-generated) →</span>
-      </div>
-    </div>
-    <table class="tbl">
-      <thead><tr><th>Property</th><th>Value</th><th>Token</th><th>Notes</th></tr></thead>
-      <tbody>
-        <tr><td>Columns</td><td><strong>12</strong></td><td>—</td><td>Standard for all desktop layouts</td></tr>
-        <tr><td>Gutter</td><td><strong>24px</strong></td><td><code>space-6</code></td><td>Between columns inside content area</td></tr>
-        <tr><td>Container</td><td><strong>1280px</strong></td><td><code>max-w-[1280px]</code></td><td>Grid applied here — not full 1440px frame</td></tr>
-        <tr><td>Side padding</td><td><strong>80px</strong></td><td>—</td><td>Auto-generated: (1440−1280)÷2 = 80px. Never write manually.</td></tr>
-        <tr><td>Column width</td><td>84.67px</td><td>—</td><td>Figma display only — never in code</td></tr>
-        <tr><td>Frame</td><td>1440px</td><td>—</td><td>Artboard width only</td></tr>
-      </tbody>
-    </table>
+  <div class="grid-demo">
+    <div class="grid-columns" id="grid-columns"></div>
   </div>
 
-  <!-- Tablet grid -->
-  <div class="card mb16">
-    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
-      <span class="badge bg-blue">Tablet</span>
-      <span style="font-size:16px;font-weight:700;color:var(--neutral-900);">8 Grid Column — 768px Frame · 720px Container</span>
-    </div>
-    <div class="grid-diagram mb16">
-      <div class="grid-cols">
-        <div class="grid-col-track"><span class="grid-col-label">01</span></div>
-        <div class="grid-col-track"><span class="grid-col-label">02</span></div>
-        <div class="grid-col-track"><span class="grid-col-label">03</span></div>
-        <div class="grid-col-track"><span class="grid-col-label">04</span></div>
-        <div class="grid-col-track"><span class="grid-col-label">05</span></div>
-        <div class="grid-col-track"><span class="grid-col-label">06</span></div>
-        <div class="grid-col-track"><span class="grid-col-label">07</span></div>
-        <div class="grid-col-track"><span class="grid-col-label">08</span></div>
-      </div>
-      <div style="text-align:center;font-size:11px;color:var(--grid-label);font-weight:700;">Container 720px — 24px padding each side</div>
-    </div>
-    <table class="tbl">
-      <thead><tr><th>Property</th><th>Value</th><th>Token</th><th>Notes</th></tr></thead>
-      <tbody>
-        <tr><td>Columns</td><td><strong>8</strong></td><td>—</td><td>Standard for tablet</td></tr>
-        <tr><td>Gutter</td><td><strong>24px</strong></td><td><code>space-6</code></td><td>Same as desktop</td></tr>
-        <tr><td>Container</td><td><strong>720px</strong></td><td>—</td><td>Grid applied here</td></tr>
-        <tr><td>Container padding</td><td><strong>24px</strong></td><td><code>px-6</code></td><td>Each side</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- Mobile grid -->
-  <div class="card">
-    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
-      <span class="badge bg-yellow">Mobile</span>
-      <span style="font-size:16px;font-weight:700;color:var(--neutral-900);">4 Grid Column — 390px Frame · 358px Container</span>
-    </div>
-    <div class="grid-diagram mb16">
-      <div class="grid-cols">
-        <div class="grid-col-track"><span class="grid-col-label">01</span></div>
-        <div class="grid-col-track"><span class="grid-col-label">02</span></div>
-        <div class="grid-col-track"><span class="grid-col-label">03</span></div>
-        <div class="grid-col-track"><span class="grid-col-label">04</span></div>
-      </div>
-      <div style="text-align:center;font-size:11px;color:var(--grid-label);font-weight:700;">Container 343px — 16px padding each side</div>
-    </div>
-    <div class="g2">
-      <table class="tbl">
-        <thead><tr><th>Property</th><th>Value</th><th>Token</th></tr></thead>
-        <tbody>
-          <tr><td>Columns</td><td><strong>4</strong></td><td>—</td></tr>
-          <tr><td>Gutter</td><td><strong>12px</strong></td><td><code>space-3</code></td></tr>
-          <tr><td>Container</td><td><strong>343px</strong></td><td>—</td></tr>
-          <tr><td>Container padding</td><td><strong>16px</strong></td><td><code>px-4</code></td></tr>
-        </tbody>
-      </table>
-      <div class="card" style="background:var(--warning-50);border-color:var(--warning-200);">
-        <div class="card-title" style="color:var(--warning-700);">Mobile grid rules</div>
-        <div class="card-body" style="font-size:12px;">
-          <div class="rule-row">Layouts collapse to single column</div>
-          <div class="rule-row">Use only spans 2 and 4</div>
-          <div class="rule-row">Tables scroll horizontally</div>
-          <div class="rule-row">Cards stack to 1 per row where needed</div>
-          <div class="rule-row">Grid is strict — no arbitrary widths</div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <div class="grid-meta-row" id="grid-meta"></div>
 </div>
 
-
-<!-- ═══════════════════════════════════════════════
-     SECTION 2 — CONTAINER TYPES
-════════════════════════════════════════════════ -->
-<div class="section" id="s2">
+<!-- ═══ 02 BREAKPOINTS ═══ -->
+<div class="section reveal" id="breakpoints">
   <div class="section-header">
-    <div class="section-tag">02 · Container Types</div>
-    <h2 class="section-title">Container Types</h2>
-    <p class="section-sub">VendHub has two distinct container types. The Admin fluid layout uses a sidebar-defined content area. The Customer centered layout uses a 1280px max-width centered container. Every page must use one of these — no arbitrary widths.</p>
+    <div class="section-tag">02 · Breakpoints</div>
+    <h2 class="section-title">5 Breakpoints — Click for Details</h2>
+    <p class="section-sub">Each breakpoint defines columns, gutter, sidebar state, and padding. Click any segment to see the full spec.</p>
   </div>
 
-  <div class="g2 mb24">
-    <!-- Admin container -->
-    <div class="layout-card">
-      <div class="layout-card-header">
-        <span class="badge bg-gray">Admin — Fluid Layout</span>
-      </div>
-      <div class="layout-card-body">
-        <div style="margin-bottom:16px;">
-          <div class="layout-mockup mb8">
-            <div class="layout-sidebar" style="width:60px;background:var(--neutral-800);">256px</div>
-            <div class="layout-content">
-              <div class="layout-content-grid">
-                <div class="layout-nav"></div>
-                <div class="layout-main">
-                  <div class="layout-cell"></div>
-                  <div class="layout-cell"></div>
-                  <div class="layout-cell"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div style="font-size:11px;color:var(--neutral-500);text-align:center;">Standard — 256px sidebar → 1184px content</div>
-        </div>
-        <table class="tbl">
-          <thead><tr><th>Property</th><th>Standard (256px)</th><th>Builder (412px)</th></tr></thead>
-          <tbody>
-            <tr><td>Sidebar</td><td>256px fixed</td><td>412px fixed</td></tr>
-            <tr><td>Content area @ 1440px</td><td><strong>1184px</strong></td><td><strong>1028px</strong></td></tr>
-            <tr><td>Inner padding</td><td>24px (space-6)</td><td>24px (space-6)</td></tr>
-            <tr><td>Grid</td><td>12 cols / 1184px</td><td>12 cols / 1028px</td></tr>
-            <tr><td>Gutter</td><td>24px</td><td>24px</td></tr>
-            <tr><td>Usage</td><td>Tables, forms, dashboards</td><td>Banner builder, visual tools</td></tr>
-          </tbody>
-        </table>
-        <div class="info-callout mt16" style="font-size:12px;">
-          <strong>Key rule:</strong> Sidebar is outside the grid system. Grid starts after the sidebar. Never describe content area as "full width" — always state the exact width: 1184px (standard) or 1028px (builder tools).
-        </div>
-      </div>
-    </div>
-
-    <!-- Customer container -->
-    <div class="layout-card">
-      <div class="layout-card-header">
-        <span class="badge bg-green">Customer — Centered Container</span>
-      </div>
-      <div class="layout-card-body">
-        <div style="margin-bottom:16px;">
-          <!-- Diagram -->
-          <div class="container-diagram mb8">
-            <div class="viewport-bar">Viewport (any width)</div>
-            <div class="container-bar">Container 1280px · margin: auto</div>
-            <div class="grid-bar">12-column grid inside container · 24px gutter</div>
-          </div>
-          <div style="font-size:11px;color:var(--neutral-500);text-align:center;">80px side space is auto-generated — never set manually</div>
-        </div>
-        <table class="tbl">
-          <thead><tr><th>Property</th><th>Value</th></tr></thead>
-          <tbody>
-            <tr><td>Container</td><td><strong>max-width: 1280px · margin: auto</strong></td></tr>
-            <tr><td>Inner padding</td><td>24px horizontal (space-6)</td></tr>
-            <tr><td>Grid</td><td>12 columns, 24px gutter</td></tr>
-            <tr><td>Side space</td><td>80px auto-generated — (1440−1280)÷2</td></tr>
-            <tr><td>Navigation</td><td>Top horizontal nav — not sidebar</td></tr>
-            <tr><td>Usage</td><td>Home, category, product listing, search</td></tr>
-          </tbody>
-        </table>
-        <div class="warn-callout mt16" style="font-size:12px;">
-          <strong>80px side space is NOT a margin.</strong> It is auto-generated from container centering: (1440 − 1280) ÷ 2 = 80px. Never write <code>margin: 80px</code> or treat it as a spacing token.
-        </div>
-      </div>
-    </div>
-  </div>
+  <div class="bp-strip" id="bp-strip"></div>
+  <div class="bp-detail" id="bp-detail"></div>
 </div>
 
-
-<!-- ═══════════════════════════════════════════════
-     SECTION 3 — COLUMN SPANS
-════════════════════════════════════════════════ -->
-<div class="section" id="s3">
+<!-- ═══ 03 SIDEBAR STATES ═══ -->
+<div class="section reveal" id="sidebar">
   <div class="section-header">
-    <div class="section-tag">03 · Column Spans</div>
-    <h2 class="section-title">Column Span Usage Guide</h2>
-    <p class="section-sub">Content must use standard column spans — never arbitrary widths. Desktop uses spans 3, 4, 6, 12. Tablet uses 2, 4, 8. Mobile uses 2, 4.</p>
+    <div class="section-tag">03 · Sidebar</div>
+    <h2 class="section-title">3 Responsive Sidebar States</h2>
+    <p class="section-sub">The admin sidebar transitions across breakpoints — full at desktop, icon-rail at tablet, hidden with overlay at mobile.</p>
   </div>
 
-  <div class="card mb24" style="padding:0;overflow:hidden;">
-    <table class="tbl">
-      <thead><tr><th>Span</th><th>Desktop (12-col)</th><th>Tablet (8-col)</th><th>Mobile (4-col)</th><th>Primary Use Cases</th></tr></thead>
-      <tbody>
-        <tr>
-          <td><strong>2</strong></td>
-          <td>—</td>
-          <td>cols 01–02</td>
-          <td>cols 01–02</td>
-          <td>Small cards (2 per row mobile), compact widgets</td>
-        </tr>
-        <tr>
-          <td><strong>3</strong></td>
-          <td>cols 01–03</td>
-          <td>—</td>
-          <td>—</td>
-          <td>Stat widgets, small tiles, product tiles (4 per row)</td>
-        </tr>
-        <tr>
-          <td><strong>4</strong></td>
-          <td>cols 01–04</td>
-          <td>cols 01–04 (4/4 split)</td>
-          <td>span full</td>
-          <td>Balanced card layouts, 3-per-row grids, full mobile content</td>
-        </tr>
-        <tr>
-          <td><strong>6</strong></td>
-          <td>cols 01–06 (6/6 split)</td>
-          <td>—</td>
-          <td>—</td>
-          <td>Charts & graphs, side-by-side layouts, media blocks, detail sidebar</td>
-        </tr>
-        <tr>
-          <td><strong>8</strong></td>
-          <td>—</td>
-          <td>span full</td>
-          <td>—</td>
-          <td>Tables, full-width tablet content</td>
-        </tr>
-        <tr>
-          <td><strong>12</strong></td>
-          <td>span full</td>
-          <td>—</td>
-          <td>—</td>
-          <td>Data tables, hero sections, navigation bars, full-width content</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- Product grid exception -->
-  <div class="card" style="border-color:var(--warning-200);background:var(--warning-50);">
-    <div style="display:flex;align-items:flex-start;gap:12px;">
-      <div style="font-size:20px;">⚠️</div>
-      <div>
-        <div class="card-title" style="color:var(--warning-700);">Product Grid — Documented Exception to the 12-Column System</div>
-        <p style="font-size:13px;color:#78350F;line-height:1.7;margin-bottom:12px;">Product cards use a <strong>fixed nested grid</strong> inside the container — not column spans. This is intentional and follows the same pattern used by Amazon, Shopify, and most e-commerce platforms.</p>
-        <table class="tbl" style="background:#fff;border-radius:6px;overflow:hidden;">
-          <thead><tr><th>Property</th><th>Value</th><th>Notes</th></tr></thead>
-          <tbody>
-            <tr><td>Type</td><td>Nested fixed grid</td><td>Not span-based</td></tr>
-            <tr><td>Columns</td><td><strong>5</strong></td><td>Fixed — not flexible</td></tr>
-            <tr><td>Card width</td><td><strong>240px</strong></td><td>Exactly 240px — never arbitrary</td></tr>
-            <tr><td>Gap</td><td><strong>20px (space-5)</strong></td><td>Between all cards — NOT 16px</td></tr>
-            <tr><td>Follows 12-col grid?</td><td>No</td><td>Intentional documented exception</td></tr>
-          </tbody>
-        </table>
-        <div style="margin-top:12px;font-size:12px;color:#78350F;">
-          <strong>Math verification:</strong> Desktop: 5 × 240 + 4 × 20 = 1200 + 80 = <strong>1280px ✓ exact fit</strong> · Tablet: 3 × 240 + 2 × 20 = 720 + 40 = <strong>760px ✓</strong> · Mobile: 2 × 240 + 1 × 20 = 480 + 20 = <strong>500px ✓</strong>
-        </div>
-        <div style="margin-top:10px;font-size:12px;color:#78350F;">
-          <strong>Two display modes:</strong> Shelf (scroll on home page rows) — <code>overflow-x: scroll; scroll-snap-type: x mandatory</code>. Grid (wrap on listing pages) — <code>display: grid; grid-template-columns: repeat(5, 240px); gap: 20px</code>
-        </div>
-      </div>
-    </div>
-  </div>
+  <div class="sidebar-demo" id="sidebar-demo"></div>
 </div>
 
-
-<!-- ═══════════════════════════════════════════════
-     SECTION 4 — BREAKPOINT SYSTEM
-════════════════════════════════════════════════ -->
-<div class="section" id="s4">
+<!-- ═══ 04 LAYOUT VARIANTS ═══ -->
+<div class="section reveal" id="variants">
   <div class="section-header">
-    <div class="section-tag">04 · Breakpoints</div>
-    <h2 class="section-title">Breakpoint System</h2>
-    <p class="section-sub">VendHub uses five breakpoints. <code>xs</code> is a legacy value retained from the existing codebase — do not add new <code>xs:</code> classes. Use <code>sm</code> as the minimum for all new development.</p>
+    <div class="section-tag">04 · Variants</div>
+    <h2 class="section-title">4 Layout Patterns</h2>
+    <p class="section-sub">Every VendHub page maps to one of these patterns. No mixing on the same page.</p>
   </div>
 
-  <div class="bp-strip mb16">
-    <div class="bp-seg bp-xs">
-      <div class="bp-seg-name">xs</div>
-      <div class="bp-seg-val">395px</div>
-      <div class="bp-seg-desc">Small phones</div>
-      <div style="margin-top:6px;"><span class="badge bg-gray" style="font-size:9px;">Legacy</span></div>
-    </div>
-    <div class="bp-seg bp-sm">
-      <div class="bp-seg-name">sm</div>
-      <div class="bp-seg-val">640px</div>
-      <div class="bp-seg-desc">Mobile</div>
-      <div style="margin-top:6px;"><span class="badge bg-green" style="font-size:9px;">Min for new code</span></div>
-    </div>
-    <div class="bp-seg bp-md">
-      <div class="bp-seg-name">md</div>
-      <div class="bp-seg-val">768px</div>
-      <div class="bp-seg-desc">Tablet</div>
-      <div style="margin-top:6px;"><span class="badge bg-green" style="font-size:9px;">Active</span></div>
-    </div>
-    <div class="bp-seg bp-lg">
-      <div class="bp-seg-name">lg</div>
-      <div class="bp-seg-val">1024px</div>
-      <div class="bp-seg-desc">Desktop min · sidebar full</div>
-      <div style="margin-top:6px;"><span class="badge bg-green" style="font-size:9px;">Active</span></div>
-    </div>
-    <div class="bp-seg bp-xl">
-      <div class="bp-seg-name">xl</div>
-      <div class="bp-seg-val">1280px</div>
-      <div class="bp-seg-desc">Desktop max</div>
-      <div style="margin-top:6px;"><span class="badge bg-green" style="font-size:9px;">Active</span></div>
-    </div>
-  </div>
-
-  <div class="card mb16" style="padding:0;overflow:hidden;">
-    <table class="tbl">
-      <thead><tr><th>Breakpoint</th><th>Grid Cols</th><th>Gutter</th><th>Sidebar</th><th>Padding</th><th>Product Cards</th></tr></thead>
-      <tbody>
-        <tr><td><strong>lg+ (1024px)</strong></td><td>12</td><td>24px</td><td>256px full</td><td>24px</td><td>5 per row</td></tr>
-        <tr><td><strong>md (768px)</strong></td><td>8</td><td>24px</td><td>64px icon rail</td><td>16px</td><td>3 per row</td></tr>
-        <tr><td><strong>sm (640px)</strong></td><td>4</td><td>12px</td><td>Hidden / overlay</td><td>16px</td><td>2 per row</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="warn-callout">
-    <strong>xs: 395px</strong> is a legacy breakpoint retained from the existing codebase. Keep it — removing it would break existing code. But do not add new <code>xs:</code> modifier classes anywhere. All new responsive code starts at <code>sm:</code>.
-  </div>
+  <div class="variant-grid" id="variant-grid"></div>
 </div>
-
-
-<!-- ═══════════════════════════════════════════════
-     SECTION 5 — SIDEBAR RESPONSIVE STATES
-════════════════════════════════════════════════ -->
-<div class="section" id="s5">
-  <div class="section-header">
-    <div class="section-tag">05 · Sidebar States</div>
-    <h2 class="section-title">Sidebar Responsive States</h2>
-    <p class="section-sub">Sidebar states must be tied to exact breakpoints. It is not sufficient to say "visible → collapsed → hidden" — each state must have an exact pixel value. This is a hard rule.</p>
-  </div>
-
-  <div class="sidebar-states mb24">
-    <div class="state-card">
-      <div class="state-mockup">
-        <div class="state-sidebar" style="width:64px;background:var(--neutral-800);">256px</div>
-        <div class="state-content"></div>
-      </div>
-      <div class="state-label">
-        <div class="state-name">lg (1024px+) — Fully visible</div>
-        <div class="state-detail">256px fixed · Icons + labels</div>
-      </div>
-    </div>
-    <div class="state-card">
-      <div class="state-mockup">
-        <div class="state-sidebar" style="width:20px;background:var(--neutral-600);">64</div>
-        <div class="state-content"></div>
-      </div>
-      <div class="state-label">
-        <div class="state-name">md (768px) — Icon rail</div>
-        <div class="state-detail">64px fixed · Icons only, no labels</div>
-      </div>
-    </div>
-    <div class="state-card">
-      <div class="state-mockup" style="position:relative;">
-        <div class="state-content" style="background:var(--neutral-50);width:100%;"></div>
-        <div style="position:absolute;left:0;top:0;bottom:0;width:12px;background:var(--neutral-400);display:flex;align-items:center;justify-content:center;font-size:7px;color:#fff;font-weight:700;writing-mode:vertical-rl;">☰</div>
-      </div>
-      <div class="state-label">
-        <div class="state-name">sm (640px) — Hidden + overlay</div>
-        <div class="state-detail">0px · Hamburger → overlay drawer (z-40)</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="card" style="padding:0;overflow:hidden;">
-    <table class="tbl">
-      <thead><tr><th>Breakpoint</th><th>State</th><th>Width</th><th>Navigation</th></tr></thead>
-      <tbody>
-        <tr><td><code>lg</code> (1024px+)</td><td>Fully visible</td><td><strong>256px</strong> fixed</td><td>Icons + labels</td></tr>
-        <tr><td><code>md</code> (768px)</td><td>Collapsed icon rail</td><td><strong>64px</strong> fixed</td><td>Icons only — no labels</td></tr>
-        <tr><td><code>sm</code> (640px)</td><td>Hidden</td><td><strong>0px</strong></td><td>Hamburger → overlay drawer at z-40</td></tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-
-
-<!-- ═══════════════════════════════════════════════
-     SECTION 6 — RESPONSIVE BEHAVIOR
-════════════════════════════════════════════════ -->
-<div class="section" id="s6">
-  <div class="section-header">
-    <div class="section-tag">06 · Responsive Behavior</div>
-    <h2 class="section-title">Component Responsive Behavior</h2>
-    <p class="section-sub">How each major component type adapts across the three active breakpoints. Side-by-side layouts stack vertically at mobile. Tables scroll horizontally — never collapse columns.</p>
-  </div>
-
-  <div class="card mb24" style="padding:0;overflow:hidden;">
-    <table class="tbl">
-      <thead><tr><th>Component</th><th>Desktop (lg+)</th><th>Tablet (md)</th><th>Mobile (sm)</th></tr></thead>
-      <tbody>
-        <tr><td><strong>Product cards</strong></td><td>5 per row · 240px fixed</td><td>3 per row</td><td>2 per row</td></tr>
-        <tr><td><strong>Feature cards</strong></td><td>Side-by-side (span 4)</td><td>Side-by-side (span 4)</td><td>Stacked (span 4 full)</td></tr>
-        <tr><td><strong>Sidebar</strong></td><td>256px visible</td><td>64px icon rail</td><td>Hidden / overlay drawer</td></tr>
-        <tr><td><strong>Data tables</strong></td><td>Full width (span 12)</td><td>Full width (span 8)</td><td>Horizontal scroll</td></tr>
-        <tr><td><strong>Forms</strong></td><td>Centered 720px</td><td>Centered 720px</td><td>Full width − 32px padding</td></tr>
-        <tr><td><strong>Detail layouts</strong></td><td>Side-by-side (6+6)</td><td>Side-by-side</td><td>Stacked</td></tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-
-
-<!-- ═══════════════════════════════════════════════
-     SECTION 7 — LAYOUT VARIANTS
-════════════════════════════════════════════════ -->
-<div class="section" id="s7">
-  <div class="section-header">
-    <div class="section-tag">07 · Layout Variants</div>
-    <h2 class="section-title">Four Layout Variants</h2>
-    <p class="section-sub">Every page in VendHub maps to one of four layout patterns. Mix-and-matching layout types on the same page is not allowed.</p>
-  </div>
-
-  <div class="g2 mb16">
-    <div class="layout-card">
-      <div class="layout-card-header">
-        <span class="badge bg-gray">Admin Layout</span>
-        <span class="layout-card-title">Sidebar + Content Area</span>
-      </div>
-      <div class="layout-card-body">
-        <div class="layout-mockup mb16">
-          <div class="layout-sidebar" style="width:56px;background:var(--neutral-800);">256px</div>
-          <div class="layout-content">
-            <div class="layout-content-grid">
-              <div class="layout-nav"></div>
-              <div class="layout-main">
-                <div class="layout-cell"></div>
-                <div class="layout-cell"></div>
-                <div class="layout-cell"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div style="font-size:12px;color:var(--neutral-600);line-height:1.7;">
-          <div class="rule-row">Sidebar: 256px standard · 412px builder tools</div>
-          <div class="rule-row">12-column grid inside content area</div>
-          <div class="rule-row">Content area: 1184px (std) · 1028px (builder)</div>
-          <div class="rule-row">24px inner content padding</div>
-          <div class="rule-row">Grid applied to content frame only</div>
-          <div class="rule-row">Usage: Tables, forms, dashboards</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="layout-card">
-      <div class="layout-card-header">
-        <span class="badge bg-green">Market / Customer Layout</span>
-        <span class="layout-card-title">Top Nav + Centered Container</span>
-      </div>
-      <div class="layout-card-body">
-        <div class="layout-mockup mb16">
-          <div class="layout-content" style="padding:6px;">
-            <div class="layout-content-grid">
-              <div class="layout-nav"></div>
-              <div style="flex:1;background:var(--primary-50);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--primary-700);font-weight:700;">1280px container</div>
-            </div>
-          </div>
-        </div>
-        <div style="font-size:12px;color:var(--neutral-600);line-height:1.7;">
-          <div class="rule-row">Container: 1280px centered (margin: auto)</div>
-          <div class="rule-row">12-column grid inside container</div>
-          <div class="rule-row">24px horizontal padding</div>
-          <div class="rule-row">80px side space auto-generated</div>
-          <div class="rule-row">Top horizontal navigation only</div>
-          <div class="rule-row">Usage: Home, category, product listing, search</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="layout-card">
-      <div class="layout-card-header">
-        <span class="badge bg-blue">Form Layout</span>
-        <span class="layout-card-title">Centered Narrow Container</span>
-      </div>
-      <div class="layout-card-body">
-        <div class="layout-mockup mb16">
-          <div class="layout-content" style="padding:6px;">
-            <div class="layout-content-grid">
-              <div class="layout-nav"></div>
-              <div style="flex:1;display:flex;align-items:stretch;gap:4px;padding:4px 20px;">
-                <div style="flex:1;background:var(--info-50);border:1px solid var(--info-200);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--info-700);font-weight:700;">720px</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div style="font-size:12px;color:var(--neutral-600);line-height:1.7;">
-          <div class="rule-row">Container: 720px centered</div>
-          <div class="rule-row">Desktop &amp; tablet: centered 720px</div>
-          <div class="rule-row">Mobile: full width − 32px padding</div>
-          <div class="rule-row">Usage: Checkout, settings, onboarding, add forms</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="layout-card">
-      <div class="layout-card-header">
-        <span class="badge bg-pink">Details Layout</span>
-        <span class="layout-card-title">Side-by-Side Detail View</span>
-      </div>
-      <div class="layout-card-body">
-        <div class="layout-mockup mb16">
-          <div class="layout-content" style="padding:6px;">
-            <div class="layout-content-grid">
-              <div class="layout-nav"></div>
-              <div style="flex:1;display:flex;gap:4px;padding:2px;">
-                <div style="flex:1;background:#fdf2f8;border:1px solid #fbcfe8;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:9px;color:#be185d;font-weight:700;">Main (span 6)</div>
-                <div style="flex:1;background:var(--neutral-100);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--neutral-500);font-weight:700;">Sidebar (span 6)</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div style="font-size:12px;color:var(--neutral-600);line-height:1.7;">
-          <div class="rule-row">Desktop: side-by-side (span 6 + span 6)</div>
-          <div class="rule-row">Tablet: side-by-side (adapted spans)</div>
-          <div class="rule-row">Mobile: stacked full width</div>
-          <div class="rule-row">Usage: Route detail, product detail, lead detail</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<!-- ═══════════════════════════════════════════════
-     SECTION 8 — SPACING & ALIGNMENT RULES
-════════════════════════════════════════════════ -->
-<div class="section" id="s8">
-  <div class="section-header">
-    <div class="section-tag">08 · Spacing &amp; Alignment</div>
-    <h2 class="section-title">Layout Spacing &amp; Alignment Rules</h2>
-    <p class="section-sub">All layout spacing must use design tokens. Arbitrary values like <code>pt-28</code>, <code>px-10</code>, <code>h-[62px]</code>, or <code>max-w-[93rem]</code> are prohibited. These are the production audit failures.</p>
-  </div>
-
-  <div class="g2 mb24">
-    <div>
-      <div class="card" style="padding:0;overflow:hidden;">
-        <div style="padding:14px 20px;font-weight:700;font-size:12px;background:var(--neutral-50);border-bottom:1px solid var(--neutral-100);color:var(--neutral-700);">Layout Spacing Tokens</div>
-        <table class="tbl">
-          <thead><tr><th>Context</th><th>Values</th><th>Token / Class</th></tr></thead>
-          <tbody>
-            <tr><td>Page padding (H)</td><td>16 / 24 / 32px</td><td><code>px-4 / px-6 / px-8</code></td></tr>
-            <tr><td>Section gap (V)</td><td>24 / 32px</td><td><code>mb-6 / mb-8</code></td></tr>
-            <tr><td>Card padding</td><td>16 / 24px</td><td><code>p-4 / p-6</code></td></tr>
-            <tr><td>Top navbar height</td><td>64px</td><td><code>h-16</code> / <code>pt-16</code></td></tr>
-            <tr><td>Product card gap</td><td>20px</td><td><code>gap-5</code></td></tr>
-            <tr><td>Column gutter</td><td>24px</td><td><code>gap-6</code></td></tr>
-            <tr><td>Mobile gutter</td><td>12px</td><td><code>gap-3</code></td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-    <div>
-      <div class="card mb16" style="background:var(--error-50);border-color:var(--error-200);">
-        <div class="card-title" style="color:var(--error-700);">Prohibited Magic Numbers — Production Audit</div>
-        <div style="font-size:12px;line-height:1.7;color:#7F1D1D;">
-          <div class="rule-row"><code>pt-[62px]</code> — header offset (header is 64px, not 62px)</div>
-          <div class="rule-row"><code>min-h-[calc(100vh-64px)]</code> — use token instead</div>
-          <div class="rule-row"><code>max-h-[calc(100vh-50px)]</code>, <code>h-[calc(100vh-200px)]</code></div>
-          <div class="rule-row"><code>md:w-[553px]</code> — arbitrary card width</div>
-          <div class="rule-row"><code>max-w-[93rem]</code> — custom constraint on route detail</div>
-          <div class="rule-row"><code>pb-24</code>, <code>pb-20</code> — fixed footer offset guesses</div>
-          <div class="rule-row"><code>md:max-w-8xl</code> — undefined class (no-op)</div>
-          <div class="rule-row"><code>margin: 80px</code> — layout result, not a token</div>
-        </div>
-      </div>
-      <div class="card" style="background:var(--success-50);border-color:var(--success-200);">
-        <div class="card-title" style="color:var(--success-700);">Alignment Rules</div>
-        <div style="font-size:12px;line-height:1.7;color:#064E3B;">
-          <div class="rule-row">Align to container — not the viewport or page frame</div>
-          <div class="rule-row">Use grid spans (3, 4, 6, 12) — no arbitrary widths</div>
-          <div class="rule-row">Consistent left edge — all sections share the same baseline</div>
-          <div class="rule-row">Navbar content aligns with page content (same left edge)</div>
-          <div class="rule-row">Grid applies to content area frame — not the 1440px artboard</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<!-- ═══════════════════════════════════════════════
-     SECTION 9 — DO'S & DON'TS
-════════════════════════════════════════════════ -->
-<div class="section" id="s9">
-  <div class="section-header">
-    <div class="section-tag">09 · Do's &amp; Don'ts</div>
-    <h2 class="section-title">Do's &amp; Don'ts</h2>
-    <p class="section-sub">The definitive rules from the Figma design system. These apply equally to designers working in Figma and developers writing code.</p>
-  </div>
-
-  <div class="g2">
-    <div class="do-card">
-      <div class="do-label">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
-        Do
-      </div>
-      <div style="font-size:13px;color:var(--neutral-700);line-height:1.7;">
-        <div class="rule-row">Use containers — every page must use a defined container type</div>
-        <div class="rule-row">Use grid — 12-column inside content area or container</div>
-        <div class="rule-row">Keep alignment consistent — all content aligns to container edge</div>
-        <div class="rule-row">Use spacing tokens only: <code>space-4</code>, <code>space-6</code>, <code>space-8</code>, <code>space-16</code></div>
-        <div class="rule-row">Express page top as <code>pt-16</code> (64px) — never <code>pt-[62px]</code></div>
-        <div class="rule-row">Let 80px side space auto-generate from container centering</div>
-        <div class="rule-row">Apply grid to the content area frame — not the 1440px artboard</div>
-        <div class="rule-row">Start grid after sidebar — cols 01–12 inside content area only</div>
-        <div class="rule-row">Document intentional exceptions (product grid) in the design system</div>
-        <div class="rule-row">Use same breakpoints (sm / md / lg / xl) everywhere</div>
-        <div class="rule-row">Assign sidebar states to exact pixel values at each breakpoint</div>
-      </div>
-    </div>
-    <div class="dont-card">
-      <div class="dont-label">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-        Don't
-      </div>
-      <div style="font-size:13px;color:var(--neutral-700);line-height:1.7;">
-        <div class="rule-row">Use random widths — always use container types or grid spans</div>
-        <div class="rule-row">Break alignment — no elements outside the container boundary</div>
-        <div class="rule-row">Mix layout types on the same page</div>
-        <div class="rule-row">Use arbitrary spacing: <code>pt-28</code>, <code>px-10</code>, <code>h-[62px]</code>, <code>max-w-[93rem]</code></div>
-        <div class="rule-row">Write <code>margin: 80px</code> — it's a layout result, not a design token</div>
-        <div class="rule-row">Force product grid into 12-column spans — it's a documented exception</div>
-        <div class="rule-row">Apply layout grid to the 1440px artboard — apply to content frame only</div>
-        <div class="rule-row">Draw grid columns from page left edge — they start after the sidebar</div>
-        <div class="rule-row">Leave sidebar breakpoint states vague — all 3 must have exact px values</div>
-        <div class="rule-row">Use ~720px approximations — be exact: 720px</div>
-        <div class="rule-row">Add new <code>xs:</code> classes — use <code>sm:</code> as the minimum</div>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-  <!-- ═══════════════════════════════════════════════════════════ -->
-  <!-- 01 TAILWIND CONFIG -->
-  <!-- ═══════════════════════════════════════════════════════════ -->
-  <div class="section" id="s10">
-    <div class="section-header">
-      <div class="section-tag">10 · Tailwind Config</div>
-      <div class="section-title">tailwind.config.ts additions</div>
-      <div class="section-sub">All screens and max-width tokens that must be present. Copy this block into the <code>theme.extend</code> section of your existing config — do not replace the whole file.</div>
-    </div>
-
-    <div class="info-box" style="margin-bottom:20px;">
-      <div class="callout-title">ℹ️ Merge, don't overwrite</div>
-      Add these blocks inside <code>theme: { extend: { … } }</code>. Any existing keys you already have (e.g. <code>colors</code>, <code>fontFamily</code>) are unaffected.
-    </div>
-
-    <div class="code-block" style="margin-bottom:20px;">
-<span class="cm">// tailwind.config.ts — theme.extend additions</span>
-
-<span class="kw">screens</span>: {
-  <span class="str">'xs'</span>: <span class="str">'395px'</span>,   <span class="cm">// Legacy breakpoint — read-only, no new xs: usage</span>
-  <span class="str">'sm'</span>: <span class="str">'640px'</span>,   <span class="cm">// Minimum breakpoint for all new responsive code</span>
-  <span class="str">'md'</span>: <span class="str">'768px'</span>,   <span class="cm">// Tablet — 8-col grid, sidebar collapses to icon rail</span>
-  <span class="str">'lg'</span>: <span class="str">'1024px'</span>,  <span class="cm">// Desktop small — full sidebar at 256px</span>
-  <span class="str">'xl'</span>: <span class="str">'1280px'</span>,  <span class="cm">// Desktop standard — customer centered container</span>
-},
-
-<span class="kw">maxWidth</span>: {
-  <span class="str">'page'</span>:    <span class="str">'1280px'</span>,  <span class="cm">// ✅ Replaces broken max-w-8xl (see §07)</span>
-  <span class="str">'content'</span>: <span class="str">'1280px'</span>,  <span class="cm">// Customer centered layout outer bound</span>
-  <span class="str">'prose'</span>:   <span class="str">'680px'</span>,   <span class="cm">// Long-form text / form columns</span>
-},
-
-<span class="kw">spacing</span>: {
-  <span class="cm">// Sidebar widths — use these, not magic numbers</span>
-  <span class="str">'sidebar-full'</span>: <span class="str">'256px'</span>,
-  <span class="str">'sidebar-rail'</span>: <span class="str">'64px'</span>,
-},
-    </div>
-
-    <div class="g2">
-      <div class="ok-box">
-        <div class="callout-title">✅ After adding screens</div>
-        Classes like <code>md:grid-cols-2</code>, <code>lg:hidden</code>, <code>xl:max-w-content</code> will correctly map to the breakpoint pixel values above. No further CSS is needed.
-      </div>
-      <div class="warn-box">
-        <div class="callout-title">⚠️ xs breakpoint — legacy only</div>
-        <code>xs:</code> prefix is defined so existing code doesn't break. Do <strong>not</strong> write new <code>xs:</code> responsive classes. Use <code>sm:</code> as the lowest breakpoint for all new code.
-      </div>
-    </div>
-  </div>
-
-  <!-- ═══════════════════════════════════════════════════════════ -->
-  <!-- 02 FIGMA GRID VARIABLES -->
-  <!-- ═══════════════════════════════════════════════════════════ -->
-  <div class="section" id="s11">
-    <div class="section-header">
-      <div class="section-tag">11 · Figma Grid Variables</div>
-      <div class="section-title">Figma ↔ Tailwind mapping</div>
-      <div class="section-sub">Grid Setup variables in Figma (Design → Grid Setup collection) and their Tailwind equivalents. Use this as a reference when a designer hands you a redline.</div>
-    </div>
-
-    <div class="tbl-wrap" style="margin-bottom:20px;">
-      <table class="tbl">
-        <thead>
-          <tr>
-            <th>Figma Variable</th>
-            <th>Value</th>
-            <th>Tailwind Class / Token</th>
-            <th>Context</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td><code>Desktop / Columns</code></td><td>12</td><td><code>grid-cols-12</code></td><td>≥ lg (1024px+)</td></tr>
-          <tr><td><code>Desktop / Gutter</code></td><td>24px</td><td><code>gap-6</code></td><td>Column gap in 12-col grid</td></tr>
-          <tr><td><code>Desktop / Margin</code></td><td>80px</td><td>auto (centering math)</td><td>(1440−1280)÷2 — never written as a class</td></tr>
-          <tr><td><code>Desktop / Container</code></td><td>1280px</td><td><code>max-w-content</code></td><td>Customer-facing pages</td></tr>
-          <tr><td><code>Tablet / Columns</code></td><td>8</td><td><code>md:grid-cols-8</code></td><td>768px–1023px</td></tr>
-          <tr><td><code>Tablet / Gutter</code></td><td>20px</td><td><code>md:gap-5</code></td><td>Column gap on tablet</td></tr>
-          <tr><td><code>Tablet / Margin</code></td><td>24px</td><td><code>md:px-6</code></td><td>Horizontal page padding at tablet</td></tr>
-          <tr><td><code>Mobile / Columns</code></td><td>4</td><td><code>grid-cols-4</code></td><td>Default (mobile-first &lt; sm)</td></tr>
-          <tr><td><code>Mobile / Gutter</code></td><td>16px</td><td><code>gap-4</code></td><td>Default column gap</td></tr>
-          <tr><td><code>Mobile / Margin</code></td><td>16px</td><td><code>px-4</code></td><td>Default horizontal page padding</td></tr>
-          <tr><td><code>Admin / Sidebar Width</code></td><td>256px</td><td><code>w-[256px]</code> / <code>w-sidebar-full</code></td><td>lg+ expanded</td></tr>
-          <tr><td><code>Admin / Sidebar Rail</code></td><td>64px</td><td><code>w-[64px]</code> / <code>w-sidebar-rail</code></td><td>md icon rail</td></tr>
-          <tr><td><code>Admin / Content (full sidebar)</code></td><td>1184px</td><td>flex-1 (auto-calculated)</td><td>1440−256=1184px</td></tr>
-          <tr><td><code>Admin / Content (rail sidebar)</code></td><td>1376px</td><td>flex-1 (auto-calculated)</td><td>1440−64=1376px</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="info-box">
-      <div class="callout-title">ℹ️ Admin content width is never hard-coded</div>
-      The admin content area uses <code>flex-1</code> or <code>min-w-0</code> so it always equals viewport minus sidebar. Hard-coding <code>1184px</code> or <code>1376px</code> would break at non-1440 viewports. Let flexbox do the math.
-    </div>
-  </div>
-
-  <!-- ═══════════════════════════════════════════════════════════ -->
-  <!-- 03 PAGECONTAINER COMPONENT -->
-  <!-- ═══════════════════════════════════════════════════════════ -->
-  <div class="section" id="s12">
-    <div class="section-header">
-      <div class="section-tag">12 · PageContainer Component</div>
-      <div class="section-title">Shared layout wrapper</div>
-      <div class="section-sub">A single component that enforces consistent max-width, horizontal padding, and page-level spacing across all admin and customer-facing pages. Replace ad-hoc <code>div className="max-w-… mx-auto px-…"</code> patterns with this.</div>
-    </div>
-
-    <div class="filepath" style="margin-bottom:10px;">components/layout/page-container.tsx</div>
-
-    <div class="code-block" style="margin-bottom:20px;">
-<span class="kw">import</span> { <span class="fn">cn</span> } <span class="kw">from</span> <span class="str">'@/lib/utils'</span>
-
-<span class="kw">type</span> <span class="type">ContainerVariant</span> = <span class="str">'admin'</span> | <span class="str">'customer'</span> | <span class="str">'form'</span> | <span class="str">'full'</span>
-
-<span class="kw">interface</span> <span class="type">PageContainerProps</span> {
-  <span class="prop">children</span>:   <span class="type">React.ReactNode</span>
-  <span class="prop">variant</span>?:   <span class="type">ContainerVariant</span>  <span class="cm">// default: 'admin'</span>
-  <span class="prop">className</span>?: <span class="type">string</span>
-}
-
-<span class="kw">const</span> <span class="at">variantClasses</span>: <span class="type">Record</span>&lt;<span class="type">ContainerVariant</span>, <span class="type">string</span>&gt; = {
-  <span class="cm">// Admin — fluid, respects sidebar, standard page padding</span>
-  <span class="str">admin</span>:    <span class="str">'w-full px-4 md:px-6 lg:px-8 py-6'</span>,
-  <span class="cm">// Customer — centered, 1280px cap, generous horizontal padding</span>
-  <span class="str">customer</span>: <span class="str">'mx-auto w-full max-w-content px-4 sm:px-6 xl:px-8 py-8'</span>,
-  <span class="cm">// Form — narrower centred column, ideal for checkout / settings</span>
-  <span class="str">form</span>:     <span class="str">'mx-auto w-full max-w-prose px-4 sm:px-6 py-8'</span>,
-  <span class="cm">// Full — edge-to-edge, no horizontal padding (use for maps, dashboards)</span>
-  <span class="str">full</span>:     <span class="str">'w-full'</span>,
-}
-
-<span class="kw">export function</span> <span class="fn">PageContainer</span>({
-  <span class="prop">children</span>,
-  <span class="prop">variant</span> = <span class="str">'admin'</span>,
-  <span class="prop">className</span>,
-}: <span class="type">PageContainerProps</span>) {
-  <span class="kw">return</span> (
-    &lt;<span class="fn">div</span> <span class="at">className</span>={<span class="fn">cn</span>(<span class="at">variantClasses</span>[<span class="prop">variant</span>], <span class="prop">className</span>)}&gt;
-      {<span class="prop">children</span>}
-    &lt;/<span class="fn">div</span>&gt;
-  )
-}
-    </div>
-
-    <div class="card" style="margin-bottom:20px;">
-      <div class="card-title">Usage examples</div>
-      <div class="code-block" style="margin-top:12px;">
-<span class="cm">// Admin dashboard page</span>
-&lt;<span class="fn">PageContainer</span>&gt;
-  &lt;<span class="fn">DashboardContent</span> /&gt;
-&lt;/<span class="fn">PageContainer</span>&gt;
-
-<span class="cm">// Customer marketplace page</span>
-&lt;<span class="fn">PageContainer</span> <span class="at">variant</span>=<span class="str">"customer"</span>&gt;
-  &lt;<span class="fn">MarketplaceGrid</span> /&gt;
-&lt;/<span class="fn">PageContainer</span>&gt;
-
-<span class="cm">// Settings / onboarding form</span>
-&lt;<span class="fn">PageContainer</span> <span class="at">variant</span>=<span class="str">"form"</span>&gt;
-  &lt;<span class="fn">ProfileForm</span> /&gt;
-&lt;/<span class="fn">PageContainer</span>&gt;
-
-<span class="cm">// Extend with one-off overrides</span>
-&lt;<span class="fn">PageContainer</span> <span class="at">className</span>=<span class="str">"pt-0"</span>&gt;
-  &lt;<span class="fn">SpecialPage</span> /&gt;
-&lt;/<span class="fn">PageContainer</span>&gt;
-      </div>
-    </div>
-
-    <div class="g2">
-      <div class="info-box">
-        <div class="callout-title">ℹ️ Why four variants?</div>
-        Each variant encodes a complete set of width + padding rules. Passing <code>variant</code> is safer than composing Tailwind classes ad-hoc because it prevents invalid combos like mixing <code>max-w-content</code> with fluid admin padding.
-      </div>
-      <div class="warn-box">
-        <div class="callout-title">⚠️ Don't nest PageContainers</div>
-        Only wrap the <em>outermost</em> content region of a page. Nesting two containers doubles the padding and can break max-width constraints. If you need inner capping, use a plain <code>div</code> with a <code>max-w-prose</code> class directly.
-      </div>
-    </div>
-  </div>
-
-  <!-- ═══════════════════════════════════════════════════════════ -->
-  <!-- 04 RESPONSIVE CODE PATTERNS -->
-  <!-- ═══════════════════════════════════════════════════════════ -->
-  <div class="section" id="s13">
-    <div class="section-header">
-      <div class="section-tag">13 · Responsive Code Patterns</div>
-      <div class="section-title">Copy-paste snippets per breakpoint</div>
-      <div class="section-sub">Authoritative column-span patterns for each tier. These snippets align to the Figma grid specs — use them as the starting point for every new grid layout.</div>
-    </div>
-
-    <!-- Desktop 12-col -->
-    <div class="card" style="margin-bottom:20px;">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
-        <span class="badge bg-green">Desktop · lg+</span>
-        <span style="font-size:13px;font-weight:600;color:var(--neutral-700);">12-column grid · 24px gap</span>
-      </div>
-      <div class="code-block">
-<span class="cm">// Full-width section (span 12) — page title bar, alerts</span>
-&lt;<span class="fn">div</span> <span class="at">className</span>=<span class="str">"col-span-12"</span>&gt;…&lt;/<span class="fn">div</span>&gt;
-
-<span class="cm">// Half-width columns (span 6) — two-column dashboards</span>
-&lt;<span class="fn">div</span> <span class="at">className</span>=<span class="str">"grid grid-cols-12 gap-6"</span>&gt;
-  &lt;<span class="fn">div</span> <span class="at">className</span>=<span class="str">"col-span-12 lg:col-span-6"</span>&gt;…&lt;/<span class="fn">div</span>&gt;
-  &lt;<span class="fn">div</span> <span class="at">className</span>=<span class="str">"col-span-12 lg:col-span-6"</span>&gt;…&lt;/<span class="fn">div</span>&gt;
-&lt;/<span class="fn">div</span>&gt;
-
-<span class="cm">// Third-width columns (span 4) — 3-stat cards row</span>
-&lt;<span class="fn">div</span> <span class="at">className</span>=<span class="str">"grid grid-cols-12 gap-6"</span>&gt;
-  &lt;<span class="fn">div</span> <span class="at">className</span>=<span class="str">"col-span-12 md:col-span-4"</span>&gt;…&lt;/<span class="fn">div</span>&gt;
-  <span class="cm">{/* × 3 */}</span>
-&lt;/<span class="fn">div</span>&gt;
-
-<span class="cm">// Quarter-width columns (span 3) — 4-metric cards row</span>
-&lt;<span class="fn">div</span> <span class="at">className</span>=<span class="str">"grid grid-cols-12 gap-6"</span>&gt;
-  &lt;<span class="fn">div</span> <span class="at">className</span>=<span class="str">"col-span-12 sm:col-span-6 lg:col-span-3"</span>&gt;…&lt;/<span class="fn">div</span>&gt;
-  <span class="cm">{/* × 4 */}</span>
-&lt;/<span class="fn">div</span>&gt;
-      </div>
-    </div>
-
-    <!-- Tablet 8-col -->
-    <div class="card" style="margin-bottom:20px;">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
-        <span class="badge bg-blue">Tablet · md</span>
-        <span style="font-size:13px;font-weight:600;color:var(--neutral-700);">8-column grid · 20px gap</span>
-      </div>
-      <div class="code-block">
-<span class="cm">// Tablet-specific grid (8 cols, 20px gap)</span>
-&lt;<span class="fn">div</span> <span class="at">className</span>=<span class="str">"grid grid-cols-4 gap-4 md:grid-cols-8 md:gap-5 lg:grid-cols-12 lg:gap-6"</span>&gt;
-
-  <span class="cm">// Span 8 = full width on tablet</span>
-  &lt;<span class="fn">div</span> <span class="at">className</span>=<span class="str">"col-span-4 md:col-span-8 lg:col-span-12"</span>&gt;…&lt;/<span class="fn">div</span>&gt;
-
-  <span class="cm">// Span 4 = half width on tablet</span>
-  &lt;<span class="fn">div</span> <span class="at">className</span>=<span class="str">"col-span-4 md:col-span-4 lg:col-span-6"</span>&gt;…&lt;/<span class="fn">div</span>&gt;
-
-  <span class="cm">// Span 2 = quarter width on tablet</span>
-  &lt;<span class="fn">div</span> <span class="at">className</span>=<span class="str">"col-span-2 md:col-span-2 lg:col-span-3"</span>&gt;…&lt;/<span class="fn">div</span>&gt;
-
-&lt;/<span class="fn">div</span>&gt;
-      </div>
-    </div>
-
-    <!-- Mobile 4-col -->
-    <div class="card" style="margin-bottom:20px;">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
-        <span class="badge bg-violet">Mobile · default</span>
-        <span style="font-size:13px;font-weight:600;color:var(--neutral-700);">4-column grid · 16px gap</span>
-      </div>
-      <div class="code-block">
-<span class="cm">// Mobile-first base (default, no breakpoint prefix)</span>
-&lt;<span class="fn">div</span> <span class="at">className</span>=<span class="str">"grid grid-cols-4 gap-4"</span>&gt;
-
-  <span class="cm">// Full-width on mobile (span 4)</span>
-  &lt;<span class="fn">div</span> <span class="at">className</span>=<span class="str">"col-span-4"</span>&gt;…&lt;/<span class="fn">div</span>&gt;
-
-  <span class="cm">// Half-width on mobile (span 2) — e.g. small action buttons</span>
-  &lt;<span class="fn">div</span> <span class="at">className</span>=<span class="str">"col-span-2"</span>&gt;…&lt;/<span class="fn">div</span>&gt;
-
-&lt;/<span class="fn">div</span>&gt;
-      </div>
-    </div>
-
-    <!-- Product grid exception -->
-    <div class="warn-box">
-      <div class="callout-title">⚠️ Product grid — documented exception (not span-based)</div>
-      The vendor/product card grid uses <strong>5 × 240px fixed columns</strong> at desktop. This is the only case in the system that uses a fixed pixel column count.
-      <div class="code-block" style="margin-top:12px;">
-<span class="cm">// Product / vendor card grid — exception, not span-based</span>
-&lt;<span class="fn">div</span>
-  <span class="at">className</span>=<span class="str">"grid gap-5"</span>
-  <span class="at">style</span>={{ <span class="prop">gridTemplateColumns</span>: <span class="str">'repeat(5, 240px)'</span> }}
-&gt;
-  <span class="cm">{/* 5 × 240px + 4 × 20px gap = 1280px  ✓ */}</span>
-  {<span class="prop">products</span>.<span class="fn">map</span>((<span class="prop">p</span>) =&gt; &lt;<span class="fn">ProductCard</span> <span class="at">key</span>={<span class="prop">p</span>.<span class="prop">id</span>} {...<span class="prop">p</span>} /&gt;)}
-&lt;/<span class="fn">div</span>&gt;
-      </div>
-      On tablet/mobile, collapse to <code>grid-cols-2</code> or <code>grid-cols-1</code> without the fixed widths.
-    </div>
-  </div>
-
-  <!-- ═══════════════════════════════════════════════════════════ -->
-  <!-- 05 LAYOUT VARIANT CODE -->
-  <!-- ═══════════════════════════════════════════════════════════ -->
-  <div class="section" id="s14">
-    <div class="section-header">
-      <div class="section-tag">14 · Layout Variant Code</div>
-      <div class="section-title">All four layout shells</div>
-      <div class="section-sub">Root layout wrappers for Admin, Market/Customer, Form, and Details pages. These go in <code>app/**/layout.tsx</code> files, not in leaf page components.</div>
-    </div>
-
-    <!-- Admin Layout -->
-    <div class="card" style="margin-bottom:20px;">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px;">
-        <span class="badge bg-green">Admin Layout</span>
-        <span class="filepath">app/(admin)/layout.tsx</span>
-      </div>
-      <div style="font-size:12px;color:var(--neutral-500);margin-bottom:14px;">Fluid width, sidebar + main column, no outer max-width cap.</div>
-      <div class="code-block">
-<span class="kw">export default function</span> <span class="fn">AdminLayout</span>({ <span class="prop">children</span> }: { <span class="prop">children</span>: <span class="type">React.ReactNode</span> }) {
-  <span class="kw">return</span> (
-    &lt;<span class="fn">div</span> <span class="at">className</span>=<span class="str">"flex h-screen overflow-hidden bg-background"</span>&gt;
-
-      {<span class="cm">/* Sidebar — responsive widths handled in &lt;AppSidebar /&gt; */</span>}
-      &lt;<span class="fn">AppSidebar</span> /&gt;
-
-      {<span class="cm">/* Main content — flex-1 automatically fills remaining width */</span>}
-      &lt;<span class="fn">main</span> <span class="at">className</span>=<span class="str">"flex flex-col flex-1 min-w-0 overflow-y-auto"</span>&gt;
-        &lt;<span class="fn">TopNav</span> /&gt;
-        &lt;<span class="fn">PageContainer</span> <span class="at">variant</span>=<span class="str">"admin"</span>&gt;
-          {<span class="prop">children</span>}
-        &lt;/<span class="fn">PageContainer</span>&gt;
-      &lt;/<span class="fn">main</span>&gt;
-
-    &lt;/<span class="fn">div</span>&gt;
-  )
-}
-      </div>
-    </div>
-
-    <!-- Customer / Market Layout -->
-    <div class="card" style="margin-bottom:20px;">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px;">
-        <span class="badge bg-blue">Market / Customer Layout</span>
-        <span class="filepath">app/(market)/layout.tsx</span>
-      </div>
-      <div style="font-size:12px;color:var(--neutral-500);margin-bottom:14px;">Centered, 1280px max-width, full-bleed background support.</div>
-      <div class="code-block">
-<span class="kw">export default function</span> <span class="fn">MarketLayout</span>({ <span class="prop">children</span> }: { <span class="prop">children</span>: <span class="type">React.ReactNode</span> }) {
-  <span class="kw">return</span> (
-    &lt;<span class="fn">div</span> <span class="at">className</span>=<span class="str">"min-h-screen flex flex-col bg-background"</span>&gt;
-
-      {<span class="cm">/* Header spans full viewport width */</span>}
-      &lt;<span class="fn">MarketHeader</span> /&gt;
-
-      {<span class="cm">/* Content centered with 1280px cap */</span>}
-      &lt;<span class="fn">main</span> <span class="at">className</span>=<span class="str">"flex-1"</span>&gt;
-        &lt;<span class="fn">PageContainer</span> <span class="at">variant</span>=<span class="str">"customer"</span>&gt;
-          {<span class="prop">children</span>}
-        &lt;/<span class="fn">PageContainer</span>&gt;
-      &lt;/<span class="fn">main</span>&gt;
-
-      &lt;<span class="fn">MarketFooter</span> /&gt;
-
-    &lt;/<span class="fn">div</span>&gt;
-  )
-}
-      </div>
-    </div>
-
-    <!-- Form Layout -->
-    <div class="card" style="margin-bottom:20px;">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px;">
-        <span class="badge bg-violet">Form Layout</span>
-        <span class="filepath">app/(onboarding)/layout.tsx · app/settings/layout.tsx</span>
-      </div>
-      <div style="font-size:12px;color:var(--neutral-500);margin-bottom:14px;">Narrow centered column (680px prose width), no sidebar, used for onboarding, checkout, settings.</div>
-      <div class="code-block">
-<span class="kw">export default function</span> <span class="fn">FormLayout</span>({ <span class="prop">children</span> }: { <span class="prop">children</span>: <span class="type">React.ReactNode</span> }) {
-  <span class="kw">return</span> (
-    &lt;<span class="fn">div</span> <span class="at">className</span>=<span class="str">"min-h-screen flex flex-col items-center justify-start bg-neutral-50 py-12"</span>&gt;
-
-      {<span class="cm">/* Narrow prose column — 680px max */</span>}
-      &lt;<span class="fn">PageContainer</span> <span class="at">variant</span>=<span class="str">"form"</span> <span class="at">className</span>=<span class="str">"w-full"</span>&gt;
-        {<span class="prop">children</span>}
-      &lt;/<span class="fn">PageContainer</span>&gt;
-
-    &lt;/<span class="fn">div</span>&gt;
-  )
-}
-      </div>
-    </div>
-
-    <!-- Details Layout -->
-    <div class="card" style="margin-bottom:20px;">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px;">
-        <span class="badge bg-gray">Details Layout</span>
-        <span class="filepath">app/(admin)/vendors/[id]/layout.tsx</span>
-      </div>
-      <div style="font-size:12px;color:var(--neutral-500);margin-bottom:14px;">Admin + internal side panel. Left column is primary content; right column is a contextual metadata drawer.</div>
-      <div class="code-block">
-<span class="kw">export default function</span> <span class="fn">DetailsLayout</span>({ <span class="prop">children</span> }: { <span class="prop">children</span>: <span class="type">React.ReactNode</span> }) {
-  <span class="kw">return</span> (
-    &lt;<span class="fn">PageContainer</span> <span class="at">variant</span>=<span class="str">"admin"</span>&gt;
-      &lt;<span class="fn">div</span> <span class="at">className</span>=<span class="str">"grid grid-cols-12 gap-6"</span>&gt;
-
-        {<span class="cm">/* Primary content — span 8 (desktop), full on tablet/mobile */</span>}
-        &lt;<span class="fn">div</span> <span class="at">className</span>=<span class="str">"col-span-12 lg:col-span-8"</span>&gt;
-          {<span class="prop">children</span>}
-        &lt;/<span class="fn">div</span>&gt;
-
-        {<span class="cm">/* Contextual metadata panel — span 4, hidden on mobile */</span>}
-        &lt;<span class="fn">aside</span> <span class="at">className</span>=<span class="str">"col-span-12 lg:col-span-4 hidden lg:block"</span>&gt;
-          &lt;<span class="fn">DetailsPanel</span> /&gt;
-        &lt;/<span class="fn">aside</span>&gt;
-
-      &lt;/<span class="fn">div</span>&gt;
-    &lt;/<span class="fn">PageContainer</span>&gt;
-  )
-}
-      </div>
-    </div>
-  </div>
-
-  <!-- ═══════════════════════════════════════════════════════════ -->
-  <!-- 06 SIDEBAR IMPLEMENTATION -->
-  <!-- ═══════════════════════════════════════════════════════════ -->
-  <div class="section" id="s15">
-    <div class="section-header">
-      <div class="section-tag">15 · Sidebar Implementation</div>
-      <div class="section-title">Responsive sidebar with three states</div>
-      <div class="section-sub">Full sidebar (256px) at lg+, icon rail (64px) at md, hidden with overlay at sm and below. Uses CSS transforms so the DOM is always present — no mounting/unmounting flash.</div>
-    </div>
-
-    <div class="tbl-wrap" style="margin-bottom:20px;">
-      <table class="tbl">
-        <thead><tr><th>Breakpoint</th><th>State</th><th>Width</th><th>Tailwind classes (on sidebar element)</th></tr></thead>
-        <tbody>
-          <tr>
-            <td><span class="badge bg-green">lg · 1024px+</span></td>
-            <td>Full expanded</td>
-            <td>256px</td>
-            <td><code>lg:w-[256px] lg:translate-x-0</code></td>
-          </tr>
-          <tr>
-            <td><span class="badge bg-blue">md · 768px–1023px</span></td>
-            <td>Icon rail</td>
-            <td>64px</td>
-            <td><code>md:w-[64px] md:translate-x-0</code></td>
-          </tr>
-          <tr>
-            <td><span class="badge bg-violet">sm · &lt;768px</span></td>
-            <td>Hidden + overlay</td>
-            <td>256px (overlay)</td>
-            <td><code>-translate-x-full</code> (open: <code>translate-x-0 z-40</code>)</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="filepath" style="margin-bottom:10px;">components/layout/app-sidebar.tsx</div>
-    <div class="code-block" style="margin-bottom:20px;">
-<span class="kw">export function</span> <span class="fn">AppSidebar</span>() {
-  <span class="kw">const</span> [<span class="prop">mobileOpen</span>, <span class="fn">setMobileOpen</span>] = <span class="fn">useState</span>(<span class="kw">false</span>)
-
-  <span class="kw">return</span> (
-    &lt;&gt;
-      {<span class="cm">/* Sidebar — always in DOM, CSS controls visibility */</span>}
-      &lt;<span class="fn">aside</span>
-        <span class="at">className</span>={<span class="fn">cn</span>(
-          <span class="str">"fixed inset-y-0 left-0 flex flex-col bg-neutral-900 transition-all duration-300 ease-in-out"</span>,
-          <span class="str">"w-[256px]"</span>,                         <span class="cm">// base width (mobile overlay)</span>
-          <span class="str">"md:relative md:translate-x-0"</span>,        <span class="cm">// always visible at md+</span>
-          <span class="str">"md:w-[64px] lg:w-[256px]"</span>,            <span class="cm">// rail at md, full at lg</span>
-          <span class="prop">mobileOpen</span>
-            ? <span class="str">"translate-x-0 z-40"</span>              <span class="cm">// open on mobile</span>
-            : <span class="str">"-translate-x-full md:translate-x-0"</span> <span class="cm">// hidden on mobile</span>
-        )}
-      &gt;
-        {<span class="cm">/* Logo — full at lg, icon only at md */</span>}
-        &lt;<span class="fn">SidebarLogo</span> <span class="at">collapsed</span>={<span class="str">"md:not-sr-only"</span>} /&gt;
-
-        {<span class="cm">/* Nav links */</span>}
-        &lt;<span class="fn">SidebarNav</span> /&gt;
-
-        {<span class="cm">/* Labels hidden at md (icon rail), visible at lg */</span>}
-        <span class="cm">{/* Individual NavItem: &lt;span className="lg:block hidden"&gt;Label&lt;/span&gt; */}</span>
-
-      &lt;/<span class="fn">aside</span>&gt;
-
-      {<span class="cm">/* Mobile overlay backdrop */</span>}
-      {<span class="prop">mobileOpen</span> &amp;&amp; (
-        &lt;<span class="fn">div</span>
-          <span class="at">className</span>=<span class="str">"fixed inset-0 bg-black/40 z-30 md:hidden"</span>
-          <span class="at">onClick</span>={() =&gt; <span class="fn">setMobileOpen</span>(<span class="kw">false</span>)}
-        /&gt;
-      )}
-
-      {<span class="cm">/* Mobile hamburger — shown only below md */</span>}
-      &lt;<span class="fn">button</span>
-        <span class="at">className</span>=<span class="str">"fixed top-4 left-4 z-50 md:hidden p-2 rounded-md bg-neutral-800 text-white"</span>
-        <span class="at">onClick</span>={() =&gt; <span class="fn">setMobileOpen</span>(<span class="prop">prev</span> =&gt; !<span class="prop">prev</span>)}
-      &gt;
-        &lt;<span class="fn">MenuIcon</span> <span class="at">size</span>={<span class="num">20</span>} /&gt;
-      &lt;/<span class="fn">button</span>&gt;
-    &lt;/&gt;
-  )
-}
-    </div>
-
-    <div class="g2">
-      <div class="ok-box">
-        <div class="callout-title">✅ Nav item label visibility pattern</div>
-        Inside each nav item, wrap label text with <code>className="lg:block hidden"</code>. At <code>md</code> (icon rail) only the icon renders; at <code>lg</code> the full label appears. No JS state needed.
-      </div>
-      <div class="warn-box">
-        <div class="callout-title">⚠️ Admin sidebar 2px gap — P1 fix</div>
-        The sidebar currently has a 2px gap between sidebar and main content at md breakpoint. Root cause: <code>border-r</code> on sidebar + <code>border-l</code> on main. Remove one of the duplicate borders. See §16 for the full fix.
-      </div>
-    </div>
-  </div>
-
-  <!-- ═══════════════════════════════════════════════════════════ -->
-  <!-- 07 P0 / P1 FIXES -->
-  <!-- ═══════════════════════════════════════════════════════════ -->
-  <div class="section" id="s16">
-    <div class="section-header">
-      <div class="section-tag">16 · P0 / P1 Fixes</div>
-      <div class="section-title">Before → After for all critical layout bugs</div>
-      <div class="section-sub">Four audit-identified layout defects. P0 fixes should ship before the next production release. P1 fixes should ship in the next sprint.</div>
-    </div>
-
-    <!-- P0 Fix 1: max-w-8xl -->
-    <div class="fix-card fix-card-p0" style="margin-bottom:24px;">
-      <div class="fix-card-header fix-card-header-p0">
-        🚨 P0 · Fix 1 — <code>max-w-8xl</code> is undefined (no CSS generated, layouts appear full-bleed)
-      </div>
-      <div class="fix-card-body">
-        <div class="card-body" style="margin-bottom:16px;">
-          <code>max-w-8xl</code> is not defined in <code>tailwind.config.ts</code>. Tailwind silently generates zero CSS for it, so the three affected layouts have no width cap — content stretches to the viewport edge on large monitors. After adding <code>max-w-page: '1280px'</code> in §01, replace all three occurrences.
-        </div>
-
-        <div style="margin-bottom:12px;">
-          <div class="filepath" style="margin-bottom:6px;">FILE 1 — app/dashboard/page.tsx</div>
-          <div class="before-after">
-            <div class="diff-before">
-              <span class="diff-label diff-label-before">BEFORE</span><br>
-              <span class="diff-minus">- &lt;div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8"&gt;</span>
-            </div>
-            <div class="diff-after">
-              <span class="diff-label diff-label-after">AFTER</span><br>
-              <span class="diff-plus">+ &lt;div className="max-w-page mx-auto px-4 sm:px-6 lg:px-8"&gt;</span>
-            </div>
-          </div>
-        </div>
-
-        <div style="margin-bottom:12px;">
-          <div class="filepath" style="margin-bottom:6px;">FILE 2 — app/routes/layout.tsx</div>
-          <div class="before-after">
-            <div class="diff-before">
-              <span class="diff-label diff-label-before">BEFORE</span><br>
-              <span class="diff-minus">- &lt;main className="max-w-8xl mx-auto w-full"&gt;</span>
-            </div>
-            <div class="diff-after">
-              <span class="diff-label diff-label-after">AFTER</span><br>
-              <span class="diff-plus">+ &lt;main className="max-w-page mx-auto w-full"&gt;</span>
-            </div>
-          </div>
-        </div>
-
-        <div style="margin-bottom:16px;">
-          <div class="filepath" style="margin-bottom:6px;">FILE 3 — app/leads/layout.tsx</div>
-          <div class="before-after">
-            <div class="diff-before">
-              <span class="diff-label diff-label-before">BEFORE</span><br>
-              <span class="diff-minus">- &lt;section className="max-w-8xl mx-auto"&gt;</span>
-            </div>
-            <div class="diff-after">
-              <span class="diff-label diff-label-after">AFTER</span><br>
-              <span class="diff-plus">+ &lt;section className="max-w-page mx-auto"&gt;</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="info-box">
-          <div class="callout-title">Grep to find all occurrences</div>
-          <code>grep -rn "max-w-8xl" app/ components/ --include="*.tsx"</code><br>
-          If any results appear beyond the 3 files above, replace them with <code>max-w-page</code> as well.
-        </div>
-      </div>
-    </div>
-
-    <!-- P0 Fix 2: Magic number padding -->
-    <div class="fix-card fix-card-p0" style="margin-bottom:24px;">
-      <div class="fix-card-header fix-card-header-p0">
-        🚨 P0 · Fix 2 — Inconsistent page padding (magic numbers instead of design tokens)
-      </div>
-      <div class="fix-card-body">
-        <div class="card-body" style="margin-bottom:16px;">
-          Several page-level wrappers use arbitrary pixel padding values (<code>p-[20px]</code>, <code>px-[32px]</code>) instead of the standard Tailwind spacing scale. This causes layout misalignment at different viewport widths. Replace with the responsive padding pattern from PageContainer.
-        </div>
-        <div class="before-after" style="margin-bottom:16px;">
-          <div class="diff-before">
-            <span class="diff-label diff-label-before">BEFORE — magic numbers</span><br>
-            <span class="diff-minus">- &lt;div className="px-[32px] py-[20px]"&gt;</span><br>
-            <span class="diff-minus">- &lt;div className="p-[24px]"&gt;</span><br>
-            <span class="diff-minus">- &lt;section style={{ padding: '20px 32px' }}&gt;</span>
-          </div>
-          <div class="diff-after">
-            <span class="diff-label diff-label-after">AFTER — design tokens</span><br>
-            <span class="diff-plus">+ &lt;div className="px-4 md:px-6 lg:px-8 py-5 md:py-6"&gt;</span><br>
-            <span class="diff-plus">+ &lt;div className="p-6"&gt;</span><br>
-            <span class="diff-plus">+ &lt;section className="px-4 md:px-6 py-5"&gt;</span>
-          </div>
-        </div>
-        <div class="info-box">
-          <div class="callout-title">Grep for inline style padding</div>
-          <code>grep -rn "style=.*padding" app/ components/ --include="*.tsx"</code>
-        </div>
-      </div>
-    </div>
-
-    <!-- P1 Fix 1: Admin sidebar 2px gap -->
-    <div class="fix-card fix-card-p1" style="margin-bottom:24px;">
-      <div class="fix-card-header fix-card-header-p1">
-        ⚠️ P1 · Fix 3 — Admin sidebar 2px gap at md breakpoint
-      </div>
-      <div class="fix-card-body">
-        <div class="card-body" style="margin-bottom:16px;">
-          A 2px gap is visible between the icon-rail sidebar and the main content area at the <code>md</code> breakpoint. Root cause: duplicate borders — sidebar has <code>border-r</code> and main has <code>border-l</code>. Remove the <code>border-l</code> from the main element.
-        </div>
-        <div class="before-after" style="margin-bottom:16px;">
-          <div class="diff-before">
-            <span class="diff-label diff-label-before">BEFORE — duplicate borders</span><br>
-            <span class="diff-ctx">  &lt;aside className="... border-r border-neutral-200"&gt;</span><br>
-            <span class="diff-ctx">  &lt;main className="...</span> <span class="diff-minus">border-l border-neutral-200</span><span class="diff-ctx">"&gt;</span>
-          </div>
-          <div class="diff-after">
-            <span class="diff-label diff-label-after">AFTER — single border</span><br>
-            <span class="diff-ctx">  &lt;aside className="... border-r border-neutral-200"&gt;</span><br>
-            <span class="diff-plus">  &lt;main className="... {/* border-l removed */}"&gt;</span>
-          </div>
-        </div>
-        <div class="filepath">components/layout/app-sidebar.tsx or app/(admin)/layout.tsx</div>
-      </div>
-    </div>
-
-    <!-- P1 Fix 2: Inconsistent section spacing -->
-    <div class="fix-card fix-card-p1" style="margin-bottom:0;">
-      <div class="fix-card-header fix-card-header-p1">
-        ⚠️ P1 · Fix 4 — Inconsistent section-level vertical spacing
-      </div>
-      <div class="fix-card-body">
-        <div class="card-body" style="margin-bottom:16px;">
-          Sections inside admin pages use a mix of <code>mb-4</code>, <code>mb-6</code>, <code>mb-8</code>, and <code>space-y-5</code> without a consistent pattern. Standardise all section-level gaps to <code>space-y-6</code> for the page body and <code>gap-6</code> for grid children.
-        </div>
-        <div class="before-after">
-          <div class="diff-before">
-            <span class="diff-label diff-label-before">BEFORE — mixed</span><br>
-            <span class="diff-minus">- &lt;div className="space-y-4"&gt;</span><br>
-            <span class="diff-minus">- &lt;div className="mb-4"&gt;…&lt;/div&gt;</span><br>
-            <span class="diff-minus">- &lt;div className="mt-6"&gt;…&lt;/div&gt;</span>
-          </div>
-          <div class="diff-after">
-            <span class="diff-label diff-label-after">AFTER — unified</span><br>
-            <span class="diff-plus">+ &lt;div className="space-y-6"&gt;</span><br>
-            <span class="diff-plus">+ &lt;div&gt;…&lt;/div&gt;</span><br>
-            <span class="diff-plus">+ &lt;div&gt;…&lt;/div&gt;</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- ═══════════════════════════════════════════════════════════ -->
-  <!-- 08 MAGIC NUMBER MIGRATION MAP -->
-  <!-- ═══════════════════════════════════════════════════════════ -->
-  <div class="section" id="s17">
-    <div class="section-header">
-      <div class="section-tag">17 · Magic Number Migration</div>
-      <div class="section-title">Replace arbitrary values with design tokens</div>
-      <div class="section-sub">Every hard-coded pixel value in layout contexts that has a design-system equivalent. Use the grep command for each group to find and replace across the codebase.</div>
-    </div>
-
-    <div class="tbl-wrap" style="margin-bottom:20px;">
-      <table class="tbl">
-        <thead>
-          <tr>
-            <th>Old class / style</th>
-            <th>Replace with</th>
-            <th>Token value</th>
-            <th>Notes</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td class="old-val">w-[256px] (sidebar)</td><td class="new-val">w-sidebar-full</td><td>256px (via spacing extension)</td><td>After adding sidebar-full token in tailwind.config</td></tr>
-          <tr><td class="old-val">w-[64px] (sidebar rail)</td><td class="new-val">w-sidebar-rail</td><td>64px</td><td>After adding sidebar-rail token</td></tr>
-          <tr><td class="old-val">max-w-[1280px]</td><td class="new-val">max-w-content</td><td>1280px</td><td>Customer pages outer bound</td></tr>
-          <tr><td class="old-val">max-w-[1120px]</td><td class="new-val">max-w-page</td><td>1280px</td><td>Standardize to page container width</td></tr>
-          <tr><td class="old-val">max-w-[680px]</td><td class="new-val">max-w-prose</td><td>680px</td><td>Form / text columns (override Tailwind default 65ch)</td></tr>
-          <tr><td class="old-val">px-[16px]</td><td class="new-val">px-4</td><td>16px</td><td>Mobile default padding</td></tr>
-          <tr><td class="old-val">px-[24px]</td><td class="new-val">px-6</td><td>24px</td><td>Tablet horizontal padding</td></tr>
-          <tr><td class="old-val">px-[32px]</td><td class="new-val">px-8</td><td>32px</td><td>Desktop horizontal padding</td></tr>
-          <tr><td class="old-val">gap-[20px]</td><td class="new-val">gap-5</td><td>20px</td><td>Tablet grid gutter</td></tr>
-          <tr><td class="old-val">gap-[24px]</td><td class="new-val">gap-6</td><td>24px</td><td>Desktop grid gutter</td></tr>
-          <tr><td class="old-val">style={{ padding: '...' }}</td><td class="new-val">className="p-*"</td><td>—</td><td>All inline style padding → Tailwind class</td></tr>
-          <tr><td class="old-val">style={{ margin: '...' }}</td><td class="new-val">className="m-*"</td><td>—</td><td>All inline style margin → Tailwind class</td></tr>
-          <tr><td class="old-val">style={{ width: '80px' }} (gutter)</td><td class="new-val">Remove entirely</td><td>auto (centering)</td><td>80px side margin = auto from container centering, never written</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="card">
-      <div class="card-title">Batch grep commands</div>
-      <div class="code-block" style="margin-top:12px;">
-<span class="cm"># Find all arbitrary width values in layout context</span>
-grep -rn <span class="str">"w-\[.*px\]"</span> app/ components/ --include=<span class="str">"*.tsx"</span>
-
-<span class="cm"># Find all arbitrary padding/margin values</span>
-grep -rn <span class="str">"[pm][xylrtb]-\[.*px\]"</span> app/ components/ --include=<span class="str">"*.tsx"</span>
-
-<span class="cm"># Find all inline style layout properties</span>
-grep -rn <span class="str">"style=.*\(padding\|margin\|width\|max-width\)"</span> app/ components/ --include=<span class="str">"*.tsx"</span>
-
-<span class="cm"># Find remaining max-w-8xl after P0 fix</span>
-grep -rn <span class="str">"max-w-8xl"</span> app/ components/ --include=<span class="str">"*.tsx"</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- ═══════════════════════════════════════════════════════════ -->
-  <!-- 09 GOVERNANCE -->
-  <!-- ═══════════════════════════════════════════════════════════ -->
-  <div class="section" id="s18">
-    <div class="section-header">
-      <div class="section-tag">18 · Governance</div>
-      <div class="section-title">Rules that prevent layout drift</div>
-      <div class="section-sub">Treat these as PR review checklist items. Any layout change should pass all applicable rules before merge.</div>
-    </div>
-
-    <div class="g2" style="margin-bottom:20px;">
-      <!-- DOs -->
-      <div class="card">
-        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--success-700);margin-bottom:16px;">✅ Required</div>
-        <div class="step-list">
-          <div class="step">
-            <div class="step-num">1</div>
-            <div class="step-body"><div class="step-title">Use PageContainer for every page</div><div class="step-desc">No page-level wrapper should duplicate max-width + padding logic inline.</div></div>
-          </div>
-          <div class="step">
-            <div class="step-num">2</div>
-            <div class="step-body"><div class="step-title">Mobile-first column spans</div><div class="step-desc">Always write the mobile default first, then add <code>sm:</code>, <code>md:</code>, <code>lg:</code> overrides. Never omit the base (no-prefix) value.</div></div>
-          </div>
-          <div class="step">
-            <div class="step-num">3</div>
-            <div class="step-body"><div class="step-title">Use approved column spans only</div><div class="step-desc">Desktop: 3, 4, 6, 12. Tablet: 2, 4, 8. Mobile: 2, 4. Any other span needs design approval.</div></div>
-          </div>
-          <div class="step">
-            <div class="step-num">4</div>
-            <div class="step-body"><div class="step-title">Use gap-4 / gap-5 / gap-6</div><div class="step-desc">16px mobile, 20px tablet, 24px desktop grid gutters — always via Tailwind gap class, never margin hacks.</div></div>
-          </div>
-          <div class="step">
-            <div class="step-num">5</div>
-            <div class="step-body"><div class="step-title">Use design token max-widths</div><div class="step-desc"><code>max-w-page</code>, <code>max-w-content</code>, <code>max-w-prose</code>. No arbitrary <code>max-w-[*px]</code> in layout wrappers.</div></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- DON'Ts -->
-      <div class="card">
-        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--error-700);margin-bottom:16px;">🚫 Prohibited</div>
-        <div class="step-list">
-          <div class="step">
-            <div class="step-num" style="background:var(--error-500);">1</div>
-            <div class="step-body"><div class="step-title">No <code>max-w-8xl</code></div><div class="step-desc">Undefined — generates no CSS. Use <code>max-w-page</code> instead (1280px).</div></div>
-          </div>
-          <div class="step">
-            <div class="step-num" style="background:var(--error-500);">2</div>
-            <div class="step-body"><div class="step-title">No magic number padding in layout wrappers</div><div class="step-desc">No <code>px-[32px]</code>, <code>py-[20px]</code>, or <code>style={{ padding: … }}</code> at page/section level.</div></div>
-          </div>
-          <div class="step">
-            <div class="step-num" style="background:var(--error-500);">3</div>
-            <div class="step-body"><div class="step-title">No <code>xs:</code> breakpoint in new code</div><div class="step-desc">The <code>xs:</code> prefix exists only for legacy support. All new responsive code starts at <code>sm:</code>.</div></div>
-          </div>
-          <div class="step">
-            <div class="step-num" style="background:var(--error-500);">4</div>
-            <div class="step-body"><div class="step-title">No hard-coded sidebar widths</div><div class="step-desc">Use <code>w-sidebar-full</code> (256px) or <code>w-sidebar-rail</code> (64px) tokens, not <code>w-[256px]</code> literals scattered across files.</div></div>
-          </div>
-          <div class="step">
-            <div class="step-num" style="background:var(--error-500);">5</div>
-            <div class="step-body"><div class="step-title">Never nest PageContainers</div><div class="step-desc">One PageContainer per page root. Inner content regions use a plain <code>div</code> with specific width utilities if needed.</div></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="info-box" style="margin-bottom:20px;">
-      <div class="callout-title">ℹ️ PR review checklist</div>
-      For any PR touching layout files, verify: (1) no <code>max-w-8xl</code>, (2) no arbitrary bracket padding at page level, (3) PageContainer used, (4) column spans are in the approved set, (5) mobile breakpoint is always the base (no-prefix) class.
-    </div>
-
-    <div class="g2">
-      <div class="card card-sm">
-        <div class="card-title">Related documents</div>
-        <div style="display:flex;flex-direction:column;gap:8px;margin-top:10px;">
-          <a href="#s1" style="font-size:13px;color:var(--primary-600);font-weight:600;text-decoration:none;">← Layout, Grid &amp; Breakpoints — Foundation</a>
-          <a href="vendhub-spacing.html" style="font-size:13px;color:var(--primary-600);font-weight:600;text-decoration:none;">← Spacing System — Implementation</a>
-          <a href="vendhub-typography.html" style="font-size:13px;color:var(--primary-600);font-weight:600;text-decoration:none;">← Typography System — Implementation</a>
-          <a href="vendhub-colors.html" style="font-size:13px;color:var(--primary-600);font-weight:600;text-decoration:none;">← Color System — Implementation</a>
-        </div>
-      </div>
-      <div class="card card-sm">
-        <div class="card-title">Quick-start: new page checklist</div>
-        <div style="font-size:13px;color:var(--neutral-600);line-height:1.9;margin-top:8px;">
-          ☐ Choose layout shell from §05<br>
-          ☐ Wrap content in <code>&lt;PageContainer variant="…"&gt;</code><br>
-          ☐ Use <code>grid-cols-12 gap-6</code> for desktop grid<br>
-          ☐ Add <code>md:grid-cols-8 md:gap-5</code> for tablet<br>
-          ☐ Add <code>grid-cols-4 gap-4</code> as mobile base<br>
-          ☐ No arbitrary padding or max-width values<br>
-          ☐ Verify sidebar-related classes use tokens
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-
-  <!-- ═══════════════════════════════════════════════════════════ -->
-  <!-- 10 LAYOUT COMPOSITION COMPONENTS -->
-  <!-- ═══════════════════════════════════════════════════════════ -->
-  <div class="section" id="s19">
-    <div class="section-header">
-      <div class="section-tag">19 · Layout Components</div>
-      <div class="section-title">Stack, Inline &amp; Grid Layout Components</div>
-      <div class="section-sub">Addresses audit finding P2: "No shared Stack, Inline, or PageWrapper components." These enforce consistent spacing without manual utility class assembly. Inspired by Shopify Polaris (<code>&lt;BlockStack&gt;</code>, <code>&lt;InlineGrid&gt;</code>) and GitHub Primer (<code>&lt;Stack&gt;</code>).</div>
-    </div>
-
-    <div class="info-box" style="margin-bottom:24px;">
-      <div class="callout-title">Why components, not just utility classes?</div>
-      Utility classes like <code>space-y-6</code> work but can drift — one developer uses <code>space-y-4</code>, another <code>gap-8</code>. Components enforce the spacing token through props with a constrained API. Use these for all new page layouts. Existing pages can migrate incrementally.
-    </div>
-
-    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--neutral-500);margin-bottom:12px">Stack — vertical spacing between sections</div>
-    <div class="code-block" style="margin-bottom:24px;font-size:10.5px;">
-<span class="cm">// components/layout/stack.tsx</span>
-<span class="kw">import</span> { <span class="fn">cn</span> } <span class="kw">from</span> <span class="str">"@/lib/utils"</span>
-
-<span class="kw">const</span> <span class="fn">gapMap</span> = {
-  <span class="num">4</span>:  <span class="str">"gap-4"</span>,   <span class="cm">// 16px — compact</span>
-  <span class="num">5</span>:  <span class="str">"gap-5"</span>,   <span class="cm">// 20px — form fields</span>
-  <span class="num">6</span>:  <span class="str">"gap-6"</span>,   <span class="cm">// 24px — default section gap</span>
-  <span class="num">8</span>:  <span class="str">"gap-8"</span>,   <span class="cm">// 32px — between major sections</span>
-  <span class="num">12</span>: <span class="str">"gap-12"</span>,  <span class="cm">// 48px — page-level separation</span>
-} <span class="kw">as const</span>
-
-<span class="kw">interface</span> <span class="type">StackProps</span> <span class="kw">extends</span> <span class="type">React.HTMLAttributes</span>&lt;<span class="type">HTMLDivElement</span>&gt; {
-  <span class="at">gap</span>?: <span class="kw">keyof typeof</span> gapMap
-}
-
-<span class="kw">export function</span> <span class="fn">Stack</span>({ <span class="at">gap</span> = <span class="num">6</span>, <span class="at">className</span>, <span class="at">children</span>, ...<span class="at">props</span> }: <span class="type">StackProps</span>) {
-  <span class="kw">return</span> (
-    &lt;<span class="fn">div</span> <span class="at">className</span>={<span class="fn">cn</span>(<span class="str">"flex flex-col"</span>, gapMap[gap], className)} {...props}&gt;
-      {children}
-    &lt;/<span class="fn">div</span>&gt;
-  )
-}
-
-<span class="cm">// Usage:</span>
-<span class="cm">// &lt;Stack gap={6}&gt;                    ← 24px gap (default)</span>
-<span class="cm">//   &lt;Heading level={1}&gt;Dashboard&lt;/Heading&gt;</span>
-<span class="cm">//   &lt;StatsGrid /&gt;</span>
-<span class="cm">//   &lt;RecentOrders /&gt;</span>
-<span class="cm">// &lt;/Stack&gt;</span>
-    </div>
-
-    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--neutral-500);margin-bottom:12px">Inline — horizontal layout with responsive wrapping</div>
-    <div class="code-block" style="margin-bottom:24px;font-size:10.5px;">
-<span class="cm">// components/layout/inline.tsx</span>
-<span class="kw">import</span> { <span class="fn">cn</span> } <span class="kw">from</span> <span class="str">"@/lib/utils"</span>
-
-<span class="kw">interface</span> <span class="type">InlineProps</span> <span class="kw">extends</span> <span class="type">React.HTMLAttributes</span>&lt;<span class="type">HTMLDivElement</span>&gt; {
-  <span class="at">gap</span>?: <span class="num">2</span> | <span class="num">3</span> | <span class="num">4</span> | <span class="num">6</span> | <span class="num">8</span>
-  <span class="at">align</span>?: <span class="str">"start"</span> | <span class="str">"center"</span> | <span class="str">"end"</span> | <span class="str">"between"</span>
-  <span class="at">wrap</span>?: <span class="kw">boolean</span>
-}
-
-<span class="kw">export function</span> <span class="fn">Inline</span>({
-  <span class="at">gap</span> = <span class="num">4</span>, <span class="at">align</span> = <span class="str">"start"</span>, <span class="at">wrap</span> = <span class="kw">false</span>,
-  <span class="at">className</span>, <span class="at">children</span>, ...<span class="at">props</span>
-}: <span class="type">InlineProps</span>) {
-  <span class="kw">return</span> (
-    &lt;<span class="fn">div</span> <span class="at">className</span>={<span class="fn">cn</span>(
-      <span class="str">"flex"</span>,
-      <span class="str">`gap-${gap}`</span>,
-      align === <span class="str">"between"</span> ? <span class="str">"justify-between"</span> : <span class="str">`items-${align}`</span>,
-      wrap &amp;&amp; <span class="str">"flex-wrap"</span>,
-      className
-    )} {...props}&gt;{children}&lt;/<span class="fn">div</span>&gt;
-  )
-}
-
-<span class="cm">// Usage:</span>
-<span class="cm">// &lt;Inline gap={4} align="between"&gt;</span>
-<span class="cm">//   &lt;Heading level={2}&gt;Orders&lt;/Heading&gt;</span>
-<span class="cm">//   &lt;Button&gt;Export&lt;/Button&gt;</span>
-<span class="cm">// &lt;/Inline&gt;</span>
-    </div>
-
-    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--neutral-500);margin-bottom:12px">ResponsiveGrid — the three-tier grid as a component</div>
-    <div class="code-block" style="margin-bottom:24px;font-size:10.5px;">
-<span class="cm">// components/layout/responsive-grid.tsx</span>
-<span class="kw">import</span> { <span class="fn">cn</span> } <span class="kw">from</span> <span class="str">"@/lib/utils"</span>
-
-<span class="kw">interface</span> <span class="type">ResponsiveGridProps</span> <span class="kw">extends</span> <span class="type">React.HTMLAttributes</span>&lt;<span class="type">HTMLDivElement</span>&gt; {
-  <span class="at">cols</span>?: { <span class="at">mobile</span>?: <span class="num">1</span>|<span class="num">2</span>|<span class="num">4</span>, <span class="at">tablet</span>?: <span class="num">2</span>|<span class="num">4</span>|<span class="num">8</span>, <span class="at">desktop</span>?: <span class="num">3</span>|<span class="num">4</span>|<span class="num">6</span>|<span class="num">12</span> }
-}
-
-<span class="kw">export function</span> <span class="fn">ResponsiveGrid</span>({
-  <span class="at">cols</span> = { mobile: <span class="num">1</span>, tablet: <span class="num">2</span>, desktop: <span class="num">3</span> },
-  <span class="at">className</span>, <span class="at">children</span>, ...<span class="at">props</span>
-}: <span class="type">ResponsiveGridProps</span>) {
-  <span class="kw">return</span> (
-    &lt;<span class="fn">div</span> <span class="at">className</span>={<span class="fn">cn</span>(
-      <span class="str">"grid gap-4 md:gap-5 lg:gap-6"</span>,
-      <span class="str">`grid-cols-${cols.mobile}`</span>,
-      <span class="str">`md:grid-cols-${cols.tablet}`</span>,
-      <span class="str">`lg:grid-cols-${cols.desktop}`</span>,
-      className
-    )} {...props}&gt;{children}&lt;/<span class="fn">div</span>&gt;
-  )
-}
-
-<span class="cm">// Usage:</span>
-<span class="cm">// &lt;ResponsiveGrid cols={{ mobile: 1, tablet: 2, desktop: 3 }}&gt;</span>
-<span class="cm">//   &lt;StatCard /&gt; &lt;StatCard /&gt; &lt;StatCard /&gt;</span>
-<span class="cm">// &lt;/ResponsiveGrid&gt;</span>
-    </div>
-
-    <div class="g2">
-      <div class="card">
-        <div class="card-title">Gradual adoption</div>
-        <div class="card-body">Use these components in all <strong>new code</strong>. For existing files, migrate when touching a file for other reasons (bug fixes, features). The utility class patterns from Section 13 still work — these are an ergonomic layer on top.</div>
-      </div>
-      <div class="card">
-        <div class="card-title">Why only 5 gap values in Stack?</div>
-        <div class="card-body">The constrained <code>gap</code> prop (4/5/6/8/12) maps to the spacing system's component and layout tiers. This prevents developers from picking arbitrary values. If a new gap is genuinely needed, it must go through a design token PR first.</div>
-      </div>
-    </div>
-  </div>
-
 
 </div><!-- /page -->
+
+<footer class="footer">
+  <a href="index.html" class="back-link">← Back to Design System</a><br>
+  VendHub Design System · Designed & documented by <a href="https://sorwoar.framer.website/" target="_blank">Sorwoar Resim</a>
+</footer>
+
+<script>
+// ═══ HERO GRID ANIM ═══
+const heroGrid = document.getElementById('hero-grid-anim');
+for(let i=0;i<12;i++){const c=document.createElement('div');c.className='hero-col';c.textContent=String(i+1).padStart(2,'0');heroGrid.appendChild(c)}
+
+// ═══ INTERACTIVE GRID ═══
+const gridCols = document.getElementById('grid-columns');
+const gridMeta = document.getElementById('grid-meta');
+const gridTabs = document.querySelectorAll('.grid-tab');
+let currentCols = 12;
+
+function renderGrid(cols, gutter, container, device) {
+  gridCols.innerHTML = '';
+  for(let i=0;i<cols;i++){
+    const col = document.createElement('div');
+    col.className = 'grid-column';
+    col.textContent = String(i+1).padStart(2,'0');
+    col.style.animationDelay = (i * 40) + 'ms';
+    gridCols.appendChild(col);
+  }
+  gridCols.style.gap = (gutter > 16 ? 4 : 3) + 'px';
+  gridMeta.innerHTML = `
+    <div class="grid-meta-item"><div class="grid-meta-value">${cols}</div><div class="grid-meta-label">Columns</div></div>
+    <div class="grid-meta-item"><div class="grid-meta-value">${gutter}px</div><div class="grid-meta-label">Gutter</div></div>
+    <div class="grid-meta-item"><div class="grid-meta-value">${container}px</div><div class="grid-meta-label">Container</div></div>
+    <div class="grid-meta-item"><div class="grid-meta-value">${device}</div><div class="grid-meta-label">Device</div></div>
+  `;
+}
+
+gridTabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    gridTabs.forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    renderGrid(+tab.dataset.cols, +tab.dataset.gutter, +tab.dataset.container, tab.dataset.device);
+  });
+});
+renderGrid(12, 24, 1280, 'Desktop');
+
+// ═══ BREAKPOINTS ═══
+const bpData = [
+  {name:'xs',val:'395px',desc:'Small phones',cols:4,gutter:'12px',sidebar:'Hidden',padding:'16px',cls:'bp-xs',badge:'Legacy',badgeBg:'rgba(107,114,128,.15)',badgeColor:'#9CA3AF'},
+  {name:'sm',val:'640px',desc:'Mobile',cols:4,gutter:'12px',sidebar:'Hidden / overlay',padding:'16px',cls:'bp-sm',badge:'Active',badgeBg:'rgba(34,197,94,.1)',badgeColor:'#4ADE80'},
+  {name:'md',val:'768px',desc:'Tablet',cols:8,gutter:'24px',sidebar:'64px icon rail',padding:'16px',cls:'bp-md',badge:'Active',badgeBg:'rgba(34,197,94,.1)',badgeColor:'#4ADE80'},
+  {name:'lg',val:'1024px',desc:'Desktop min',cols:12,gutter:'24px',sidebar:'256px full',padding:'24px',cls:'bp-lg',badge:'Active',badgeBg:'rgba(34,197,94,.1)',badgeColor:'#4ADE80'},
+  {name:'xl',val:'1280px',desc:'Desktop max',cols:12,gutter:'24px',sidebar:'256px full',padding:'24px',cls:'bp-xl',badge:'Active',badgeBg:'rgba(34,197,94,.1)',badgeColor:'#4ADE80'},
+];
+
+const bpStrip = document.getElementById('bp-strip');
+const bpDetail = document.getElementById('bp-detail');
+let activeBp = 3;
+
+function renderBpDetail(idx) {
+  const b = bpData[idx];
+  activeBp = idx;
+  bpDetail.innerHTML = `
+    <div class="bp-detail-item"><div class="bp-detail-val">${b.cols}</div><div class="bp-detail-label">Columns</div></div>
+    <div class="bp-detail-item"><div class="bp-detail-val">${b.gutter}</div><div class="bp-detail-label">Gutter</div></div>
+    <div class="bp-detail-item"><div class="bp-detail-val">${b.sidebar}</div><div class="bp-detail-label">Sidebar</div></div>
+    <div class="bp-detail-item"><div class="bp-detail-val">${b.padding}</div><div class="bp-detail-label">Padding</div></div>
+  `;
+  document.querySelectorAll('.bp-seg').forEach((s,i) => s.classList.toggle('active', i === idx));
+}
+
+bpData.forEach((b, i) => {
+  const seg = document.createElement('div');
+  seg.className = `bp-seg ${b.cls}`;
+  seg.innerHTML = `
+    <div class="bp-name">${b.name}</div>
+    <div class="bp-val">${b.val}</div>
+    <div class="bp-desc">${b.desc}</div>
+    <span class="bp-badge" style="background:${b.badgeBg};color:${b.badgeColor}">${b.badge}</span>
+  `;
+  seg.addEventListener('click', () => renderBpDetail(i));
+  bpStrip.appendChild(seg);
+});
+renderBpDetail(3);
+
+// ═══ SIDEBAR STATES ═══
+const sidebarStates = [
+  {name:'lg (1024px+)',state:'Fully visible',width:'256px',detail:'Icons + labels',barW:'56px',barBg:'#1F2937'},
+  {name:'md (768px)',state:'Icon rail',width:'64px',detail:'Icons only, no labels',barW:'20px',barBg:'#374151'},
+  {name:'sm (640px)',state:'Hidden + overlay',width:'0px',detail:'Hamburger → overlay drawer',barW:'0px',barBg:'transparent'},
+];
+
+const sidebarDemo = document.getElementById('sidebar-demo');
+sidebarStates.forEach((s, i) => {
+  const card = document.createElement('div');
+  card.className = 'sidebar-card' + (i === 0 ? ' active' : '');
+  card.innerHTML = `
+    <div class="sidebar-mockup">
+      <div class="sidebar-bar" style="width:${s.barW};background:${s.barBg}">${s.barW !== '0px' ? '☰' : ''}</div>
+      <div class="sidebar-content">
+        <div class="sidebar-content-nav"></div>
+        <div class="sidebar-content-grid">
+          <div class="sidebar-content-cell"></div>
+          <div class="sidebar-content-cell"></div>
+          <div class="sidebar-content-cell"></div>
+        </div>
+      </div>
+    </div>
+    <div class="sidebar-info">
+      <div class="sidebar-state-name">${s.name} — ${s.state}</div>
+      <div class="sidebar-state-detail">${s.width} · ${s.detail}</div>
+    </div>
+  `;
+  sidebarDemo.appendChild(card);
+});
+
+// ═══ LAYOUT VARIANTS ═══
+const variants = [
+  {name:'Admin Layout',badge:'Admin',badgeBg:'rgba(107,114,128,.15)',badgeColor:'#9CA3AF',desc:'Sidebar + fluid content area. Tables, forms, dashboards.',hasSidebar:true,sidebarW:'48px',cols:3},
+  {name:'Customer / Market',badge:'Customer',badgeBg:'rgba(34,197,94,.1)',badgeColor:'#4ADE80',desc:'Top nav + 1280px centered container. Home, category, search.',hasSidebar:false,sidebarW:'0',cols:3,centered:true},
+  {name:'Form Layout',badge:'Form',badgeBg:'rgba(59,130,246,.1)',badgeColor:'#93C5FD',desc:'Narrow 680px centered column. Checkout, settings, onboarding.',hasSidebar:false,sidebarW:'0',cols:1,narrow:true},
+  {name:'Details Layout',badge:'Details',badgeBg:'rgba(236,72,153,.1)',badgeColor:'#F472B6',desc:'Side-by-side split (8+4 or 6+6). Route, product, lead detail.',hasSidebar:true,sidebarW:'48px',cols:2,split:true},
+];
+
+const variantGrid = document.getElementById('variant-grid');
+variants.forEach(v => {
+  const card = document.createElement('div');
+  card.className = 'variant-card';
+
+  let bodyMock = '';
+  if(v.split) {
+    bodyMock = '<div style="flex:2;background:rgba(236,72,153,.06);border:1px solid rgba(236,72,153,.15);border-radius:2px"></div><div style="flex:1;background:rgba(255,255,255,.04);border-radius:2px"></div>';
+  } else if(v.narrow) {
+    bodyMock = '<div style="flex:1"></div><div style="flex:1.5;background:rgba(59,130,246,.06);border:1px solid rgba(59,130,246,.15);border-radius:2px"></div><div style="flex:1"></div>';
+  } else {
+    for(let i=0;i<v.cols;i++) bodyMock += '<div class="variant-col-mock"></div>';
+  }
+
+  card.innerHTML = `
+    <div class="variant-mockup">
+      ${v.hasSidebar ? `<div class="variant-sidebar-mock" style="width:${v.sidebarW}">☰</div>` : ''}
+      <div class="variant-content-mock" style="${!v.hasSidebar ? 'border-radius:4px' : ''}">
+        <div class="variant-nav-mock"></div>
+        <div class="variant-body-mock">${bodyMock}</div>
+      </div>
+    </div>
+    <div class="variant-info">
+      <span class="variant-badge" style="background:${v.badgeBg};color:${v.badgeColor}">${v.badge}</span>
+      <div class="variant-name">${v.name}</div>
+      <div class="variant-desc">${v.desc}</div>
+    </div>
+  `;
+  variantGrid.appendChild(card);
+});
+
+// ═══ SCROLL REVEAL + NAV ═══
+const obs = new IntersectionObserver(e => { e.forEach(x => { if(x.isIntersecting){x.target.classList.add('visible');obs.unobserve(x.target)} }) }, {threshold:.1,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+const navLinks = document.querySelectorAll('.nav-pill');
+const navObs = new IntersectionObserver(e => { e.forEach(x => { if(x.isIntersecting){navLinks.forEach(l=>l.classList.remove('active'));const a=document.querySelector(`.nav-pill[href="#${x.target.id}"]`);if(a)a.classList.add('active')} }) }, {threshold:.2,rootMargin:'-80px 0px -60% 0px'});
+document.querySelectorAll('.section').forEach(s => navObs.observe(s));
+</script>
 </body>
 </html>

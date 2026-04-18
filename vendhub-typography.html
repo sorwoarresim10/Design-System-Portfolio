@@ -4,2405 +4,480 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>VendHub — Typography System</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --primary-50:#F0FDF4;--primary-100:#DCFCE7;--primary-200:#BBF7D0;
+  --primary-500:#22C55E;--primary-600:#16A34A;--primary-700:#15803D;
+  --neutral-50:#F9FAFB;--neutral-100:#F3F4F6;--neutral-200:#E5E7EB;
+  --neutral-300:#D1D5DB;--neutral-400:#9CA3AF;--neutral-500:#6B7280;
+  --neutral-600:#4B5563;--neutral-700:#374151;--neutral-800:#1F2937;--neutral-900:#111827;
+  --info-50:#EFF6FF;--info-200:#BFDBFE;--info-700:#1D4ED8;
+  --warning-50:#FFFBEB;--warning-200:#FDE68A;--warning-700:#B45309;
+  --error-50:#FEF2F2;--error-200:#FECACA;--error-700:#B91C1C;
+  --radius-md:8px;--radius-lg:12px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:#050A06;color:#E5E7EB;line-height:1.5;-webkit-font-smoothing:antialiased}
 
-  :root {
-    --primary-50:  #F0FDF4;
-    --primary-100: #DCFCE7;
-    --primary-200: #BBF7D0;
-    --primary-300: #86EFAC;
-    --primary-500: #22C55E;
-    --primary-600: #16A34A;
-    --primary-700: #15803D;
-    --neutral-50:  #F9FAFB;
-    --neutral-100: #F3F4F6;
-    --neutral-200: #E5E7EB;
-    --neutral-300: #D1D5DB;
-    --neutral-400: #9CA3AF;
-    --neutral-500: #6B7280;
-    --neutral-600: #4B5563;
-    --neutral-700: #374151;
-    --neutral-800: #1F2937;
-    --neutral-900: #111827;
-    --error-50:    #FEF2F2;
-    --error-200:   #FECACA;
-    --error-500:   #EF4444;
-    --error-700:   #B91C1C;
-    --warning-50:  #FFFBEB;
-    --warning-200: #FDE68A;
-    --warning-500: #F59E0B;
-    --warning-700: #B45309;
-    --success-50:  #ECFDF5;
-    --success-200: #A7F3D0;
-    --success-500: #10B981;
-    --success-700: #047857;
-    --info-50:     #EFF6FF;
-    --info-200:    #BFDBFE;
-    --info-500:    #3B82F6;
-    --info-700:    #1D4ED8;
-    --radius-sm: 4px;
-    --radius-md: 8px;
-    --radius-lg: 12px;
-  }
+/* ═══ HERO ═══ */
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:60px 24px}
+.hero::before{content:'';position:absolute;width:800px;height:800px;top:-200px;left:50%;transform:translateX(-50%);background:radial-gradient(circle,rgba(22,163,74,.1) 0%,transparent 65%);pointer-events:none}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(34,197,94,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(34,197,94,.03) 1px,transparent 1px);background-size:48px 48px;mask-image:radial-gradient(ellipse 60% 50% at 50% 40%,black,transparent 80%);-webkit-mask-image:radial-gradient(ellipse 60% 50% at 50% 40%,black,transparent 80%)}
+.hero-content{position:relative;text-align:center;max-width:800px}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(22,163,74,.1);border:1px solid rgba(22,163,74,.25);border-radius:100px;padding:6px 16px;font-size:12px;font-weight:600;color:#4ADE80;margin-bottom:28px;animation:fadeIn .6s both}
+.hero-badge-dot{width:7px;height:7px;border-radius:50%;background:#22C55E;box-shadow:0 0 10px rgba(34,197,94,.6)}
+.hero-title{font-size:clamp(40px,7vw,80px);font-weight:800;color:#fff;line-height:1;letter-spacing:-.04em;margin-bottom:20px;animation:fadeIn .6s .1s both}
+.hero-title span{background:linear-gradient(135deg,#4ADE80,#22C55E);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:clamp(15px,2vw,18px);color:var(--neutral-400);line-height:1.7;max-width:520px;margin:0 auto 40px;animation:fadeIn .6s .2s both}
 
-  body {
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    background: #FAFAFA;
-    color: var(--neutral-800);
-    line-height: 1.5;
-    font-size: 14px;
-  }
+/* Live type cascade in hero */
+.hero-cascade{display:flex;flex-direction:column;align-items:center;gap:0;animation:fadeIn .8s .4s both}
+.cascade-line{color:rgba(255,255,255,.06);transition:color .4s,transform .4s;cursor:default;white-space:nowrap}
+.cascade-line:hover{color:rgba(255,255,255,.7);transform:translateX(4px)}
+.cascade-xl{font-size:clamp(36px,5vw,72px);font-weight:700;letter-spacing:-.02em;line-height:1.15}
+.cascade-lg{font-size:clamp(24px,3.5vw,48px);font-weight:700;letter-spacing:-.015em;line-height:1.2}
+.cascade-page{font-size:clamp(18px,2.5vw,32px);font-weight:700;line-height:1.25}
+.cascade-section{font-size:clamp(16px,2vw,24px);font-weight:600;line-height:1.33}
+.cascade-body{font-size:clamp(13px,1.2vw,16px);font-weight:400;line-height:1.5}
+.cascade-caption{font-size:clamp(10px,1vw,12px);font-weight:400;line-height:1.33;letter-spacing:.01em}
 
-  /* ── LAYOUT ─────────────────────────────── */
-  .page { max-width: 1120px; margin: 0 auto; padding: 0 48px 80px; }
+@keyframes fadeIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 
-  /* ── COVER ──────────────────────────────── */
-  .cover {
-    background: var(--neutral-900);
-    padding: 64px 48px 56px;
-    margin-bottom: 64px;
-    position: relative; overflow: hidden;
-  }
-  .cover::before {
-    content: ''; position: absolute; inset: 0;
-    background: repeating-linear-gradient(45deg, transparent, transparent 40px, rgba(255,255,255,.015) 40px, rgba(255,255,255,.015) 41px);
-  }
-  .cover-inner { position: relative; z-index: 1; max-width: 1120px; margin: 0 auto; }
-  .cover-eyebrow {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: rgba(22,163,74,.15); border: 1px solid rgba(22,163,74,.3);
-    border-radius: 20px; padding: 4px 14px;
-    font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
-    color: var(--primary-500); margin-bottom: 24px;
-  }
-  .cover-eyebrow-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--primary-500); }
-  .cover-title { font-size: 52px; font-weight: 700; color: #fff; line-height: 1.1; margin-bottom: 16px; letter-spacing: -.02em; }
-  .cover-title span { color: var(--primary-500); }
-  .cover-sub { font-size: 16px; color: var(--neutral-400); max-width: 620px; line-height: 1.7; margin-bottom: 40px; }
-  .cover-meta { display: flex; gap: 32px; flex-wrap: wrap; }
-  .cover-meta-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--neutral-600); margin-bottom: 4px; }
-  .cover-meta-value { font-size: 13px; color: var(--neutral-300); font-weight: 500; }
-  .cover-libs { display: flex; gap: 10px; margin-top: 32px; flex-wrap: wrap; }
-  .lib-tag { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; }
-  .lib-primary   { background: rgba(22,163,74,.15);  color: var(--primary-500); border: 1px solid rgba(22,163,74,.25); }
-  .lib-secondary { background: rgba(59,130,246,.1);  color: #60a5fa;            border: 1px solid rgba(59,130,246,.2); }
-  .lib-amber     { background: rgba(245,158,11,.1);  color: #fbbf24;            border: 1px solid rgba(245,158,11,.2); }
-  .lib-gray      { background: rgba(107,114,128,.1); color: var(--neutral-400); border: 1px solid rgba(107,114,128,.2); }
-  .lib-num { font-size: 10px; font-weight: 700; opacity: .6; margin-right: 2px; }
-  .part-badge {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12);
-    border-radius: 8px; padding: 8px 16px; margin-top: 28px;
-    font-size: 12px; color: var(--neutral-400); font-weight: 500;
-  }
-  .part-badge strong { color: #fff; }
-  .part-badge a { color: var(--primary-500); text-decoration: none; font-weight: 600; }
-  .part-badge a:hover { text-decoration: underline; }
+/* ═══ LAYOUT ═══ */
+.page{max-width:1120px;margin:0 auto;padding:0 32px 80px}
+.section{margin-bottom:80px}
+.section-header{margin-bottom:32px}
+.section-tag{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--primary-500);margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.section-tag::after{content:'';flex:1;height:1px;background:rgba(22,163,74,.2)}
+.section-title{font-size:28px;font-weight:700;color:#fff;margin-bottom:8px;letter-spacing:-.01em}
+.section-sub{font-size:14px;color:var(--neutral-400);line-height:1.7;max-width:640px}
 
-  /* ── SECTION ─────────────────────────────── */
-  .section { margin-bottom: 80px; }
-  .section-header { margin-bottom: 32px; }
-  .section-tag {
-    font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
-    color: var(--primary-600); margin-bottom: 8px; display: flex; align-items: center; gap: 8px;
-  }
-  .section-tag::after { content: ''; flex: 1; height: 1px; background: var(--primary-100); }
-  .section-title { font-size: 26px; font-weight: 700; color: var(--neutral-900); margin-bottom: 8px; letter-spacing: -.01em; }
-  .section-sub { font-size: 14px; color: var(--neutral-500); line-height: 1.7; max-width: 680px; }
+/* ═══ NAVIGATION PILLS ═══ */
+.nav-pills{display:flex;justify-content:center;gap:6px;margin-bottom:48px;flex-wrap:wrap;position:sticky;top:0;z-index:50;background:rgba(5,10,6,.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);padding:16px 0}
+.nav-pill{padding:7px 16px;border-radius:100px;font-size:12px;font-weight:600;color:var(--neutral-400);background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);text-decoration:none;transition:all .2s;cursor:pointer}
+.nav-pill:hover,.nav-pill.active{background:rgba(22,163,74,.12);border-color:rgba(22,163,74,.3);color:#4ADE80}
 
-  /* ── TOC ─────────────────────────────────── */
-  .toc { background: #fff; border: 1px solid var(--neutral-200); border-radius: var(--radius-lg); padding: 28px 32px; margin-bottom: 56px; }
-  .toc-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--neutral-500); margin-bottom: 20px; }
-  .toc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-  .toc-item {
-    display: flex; align-items: center; gap: 8px; padding: 10px 14px;
-    border-radius: var(--radius-md); background: var(--neutral-50); border: 1px solid var(--neutral-100);
-    font-size: 12px; font-weight: 600; color: var(--neutral-600); text-decoration: none; transition: all .15s;
-  }
-  .toc-item:hover { background: var(--primary-50); border-color: var(--primary-200); color: var(--primary-700); }
-  .toc-num { font-size: 10px; font-weight: 700; color: var(--neutral-400); }
-  .toc-file-label {
-    font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em;
-    color: var(--neutral-500); margin-bottom: 10px; margin-top: 20px;
-    padding-bottom: 6px; border-bottom: 1px solid var(--neutral-100);
-  }
+/* ═══ 3-LAYER ARCHITECTURE ═══ */
+.arch-layers{display:flex;flex-direction:column;gap:12px;margin-bottom:32px}
+.arch-layer{border-radius:var(--radius-lg);padding:20px 24px;display:flex;align-items:center;gap:20px;cursor:pointer;transition:all .3s;border:1px solid transparent;position:relative;overflow:hidden}
+.arch-layer::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px}
+.arch-layer:hover{transform:translateX(4px)}
+.arch-display{background:rgba(139,92,246,.06);border-color:rgba(139,92,246,.15)}
+.arch-display::before{background:#8B5CF6}
+.arch-display:hover{background:rgba(139,92,246,.1)}
+.arch-heading{background:rgba(59,130,246,.06);border-color:rgba(59,130,246,.15)}
+.arch-heading::before{background:#3B82F6}
+.arch-heading:hover{background:rgba(59,130,246,.1)}
+.arch-body{background:rgba(34,197,94,.06);border-color:rgba(34,197,94,.15)}
+.arch-body::before{background:#22C55E}
+.arch-body:hover{background:rgba(34,197,94,.1)}
+.arch-label{background:rgba(245,158,11,.06);border-color:rgba(245,158,11,.15)}
+.arch-label::before{background:#F59E0B}
+.arch-label:hover{background:rgba(245,158,11,.1)}
+.arch-caption{background:rgba(107,114,128,.06);border-color:rgba(107,114,128,.15)}
+.arch-caption::before{background:#6B7280}
+.arch-caption:hover{background:rgba(107,114,128,.1)}
+.arch-name{font-size:15px;font-weight:700;color:#fff;min-width:120px}
+.arch-tokens{display:flex;gap:6px;flex-wrap:wrap;flex:1}
+.arch-token{font-family:'SF Mono','Fira Code',monospace;font-size:11px;padding:3px 10px;border-radius:6px;transition:all .2s}
+.arch-display .arch-token{background:rgba(139,92,246,.12);color:#C4B5FD;border:1px solid rgba(139,92,246,.2)}
+.arch-heading .arch-token{background:rgba(59,130,246,.1);color:#93C5FD;border:1px solid rgba(59,130,246,.2)}
+.arch-body .arch-token{background:rgba(34,197,94,.1);color:#86EFAC;border:1px solid rgba(34,197,94,.2)}
+.arch-label .arch-token{background:rgba(245,158,11,.1);color:#FDE68A;border:1px solid rgba(245,158,11,.2)}
+.arch-caption .arch-token{background:rgba(107,114,128,.1);color:var(--neutral-300);border:1px solid rgba(107,114,128,.2)}
+.arch-rule{font-size:12px;color:var(--neutral-500);white-space:nowrap}
 
-  /* ── CARDS ──────────────────────────────── */
-  .card { background: #fff; border: 1px solid var(--neutral-200); border-radius: var(--radius-lg); padding: 24px; }
-  .card-sm { padding: 16px 20px; }
-  .card-title { font-size: 13px; font-weight: 600; color: var(--neutral-800); margin-bottom: 6px; }
-  .card-body { font-size: 13px; color: var(--neutral-500); line-height: 1.7; }
+/* ═══ INTERACTIVE TYPE SCALE ═══ */
+.scale-card{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:8px;cursor:pointer;transition:all .3s}
+.scale-card:hover{border-color:rgba(22,163,74,.2);background:rgba(255,255,255,.04)}
+.scale-card.active{border-color:rgba(22,163,74,.35);background:rgba(22,163,74,.04)}
+.scale-header{display:flex;align-items:center;gap:16px;padding:16px 20px}
+.scale-token-name{font-family:'SF Mono','Fira Code',monospace;font-size:12px;font-weight:600;min-width:110px}
+.scale-props{font-size:11px;color:var(--neutral-500);min-width:120px}
+.scale-preview{flex:1;overflow:hidden;color:#fff}
+.scale-expand{display:none;padding:0 20px 20px}
+.scale-card.active .scale-expand{display:block}
 
-  /* ── GRID ────────────────────────────────── */
-  .g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  .g3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
-  .g4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 12px; }
+/* Layer colors for token names */
+.t-display{color:#C4B5FD}.t-heading{color:#93C5FD}.t-body{color:#86EFAC}.t-label{color:#FDE68A}.t-caption{color:var(--neutral-400)}
 
-  /* ── BADGE ───────────────────────────────── */
-  .badge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; }
-  .bg-green   { background: var(--primary-100); color: var(--primary-700); }
-  .bg-blue    { background: var(--info-50);     color: var(--info-700); }
-  .bg-yellow  { background: var(--warning-50);  color: var(--warning-700); }
-  .bg-red     { background: var(--error-50);    color: var(--error-700); }
-  .bg-gray    { background: var(--neutral-100); color: var(--neutral-600); }
-  .bg-purple  { background: #faf5ff; color: #6d28d9; }
+/* ═══ LIVE TESTER ═══ */
+.tester{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);border-radius:var(--radius-lg);padding:32px;margin-bottom:48px}
+.tester-input{width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:var(--radius-md);padding:14px 18px;font-family:inherit;font-size:16px;color:#fff;outline:none;transition:border-color .2s;margin-bottom:24px}
+.tester-input:focus{border-color:rgba(22,163,74,.4)}
+.tester-input::placeholder{color:var(--neutral-600)}
+.tester-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.tester-preview{background:rgba(0,0,0,.2);border:1px solid rgba(255,255,255,.05);border-radius:var(--radius-md);padding:20px;transition:all .3s}
+.tester-preview-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--neutral-500);margin-bottom:8px}
+.tester-preview-text{color:#fff;overflow:hidden;word-break:break-word}
 
-  /* ── CODE ────────────────────────────────── */
-  code {
-    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
-    font-size: 11px; background: var(--neutral-100); color: var(--neutral-700);
-    padding: 1px 6px; border-radius: 4px; border: 1px solid var(--neutral-200);
-  }
-  .code-block {
-    background: var(--neutral-900); border-radius: var(--radius-md); padding: 20px 24px;
-    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
-    font-size: 12px; line-height: 1.9; color: #e2e8f0; overflow-x: auto;
-  }
-  .code-block .kw  { color: #c084fc; }
-  .code-block .fn  { color: #67e8f9; }
-  .code-block .str { color: #86efac; }
-  .code-block .cm  { color: #64748b; }
-  .code-block .at  { color: #fbbf24; }
-  .code-block .num { color: #fb923c; }
+/* ═══ WEIGHT SYSTEM ═══ */
+.weight-demo{display:flex;flex-direction:column;gap:2px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);border-radius:var(--radius-lg);overflow:hidden}
+.weight-row{display:flex;align-items:center;padding:16px 24px;transition:background .2s;cursor:default;border-bottom:1px solid rgba(255,255,255,.04)}
+.weight-row:last-child{border-bottom:none}
+.weight-row:hover{background:rgba(255,255,255,.03)}
+.weight-num{font-family:'SF Mono','Fira Code',monospace;font-size:12px;color:var(--neutral-500);width:60px;flex-shrink:0}
+.weight-name{font-size:12px;color:var(--neutral-400);width:100px;flex-shrink:0}
+.weight-sample{flex:1;font-size:24px;color:#fff}
+.weight-use{font-size:11px;color:var(--neutral-500);max-width:200px;text-align:right}
 
-  /* ── TABLE ───────────────────────────────── */
-  .tbl { width: 100%; border-collapse: collapse; font-size: 13px; }
-  .tbl thead tr { background: var(--neutral-50); border-bottom: 1px solid var(--neutral-200); }
-  .tbl th { padding: 10px 14px; text-align: left; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--neutral-500); }
-  .tbl td { padding: 12px 14px; border-bottom: 1px solid var(--neutral-100); color: var(--neutral-700); vertical-align: middle; }
-  .tbl tr:last-child td { border-bottom: none; }
-  .tbl tr:hover td { background: var(--neutral-50); }
+/* ═══ COLOR PAIRS ═══ */
+.color-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.color-pair{border-radius:var(--radius-md);overflow:hidden;border:1px solid rgba(255,255,255,.06);transition:all .3s}
+.color-pair:hover{border-color:rgba(255,255,255,.12);transform:translateY(-2px)}
+.color-swatch{height:56px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600}
+.color-pair-info{padding:12px 16px;background:rgba(255,255,255,.02)}
+.color-pair-token{font-family:'SF Mono','Fira Code',monospace;font-size:11px;color:var(--neutral-300)}
+.color-pair-desc{font-size:11px;color:var(--neutral-500);margin-top:2px}
 
-  /* ── PROBLEM BOX ─────────────────────────── */
-  .prob { border-left: 3px solid; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 12px 16px; margin-bottom: 10px; }
-  .prob-orange { border-color: #fb923c; background: #fff7ed; }
-  .prob-blue   { border-color: var(--info-500); background: var(--info-50); }
-  .prob-purple { border-color: #a78bfa; background: #faf5ff; }
-  .prob-gray   { border-color: var(--neutral-300); background: var(--neutral-50); }
-  .prob-title  { font-size: 12px; font-weight: 600; margin-bottom: 4px; }
-  .prob-orange .prob-title { color: #c2410c; }
-  .prob-blue   .prob-title { color: var(--info-700); }
-  .prob-purple .prob-title { color: #6d28d9; }
-  .prob-gray   .prob-title { color: var(--neutral-700); }
-  .prob-desc   { font-size: 12px; line-height: 1.6; }
-  .prob-orange .prob-desc { color: #9a3412; }
-  .prob-blue   .prob-desc { color: #1e40af; }
-  .prob-purple .prob-desc { color: #5b21b6; }
-  .prob-gray   .prob-desc { color: var(--neutral-500); }
+/* ═══ SCROLL REVEAL ═══ */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .6s,transform .6s}.reveal.visible{opacity:1;transform:translateY(0)}
 
-  /* ── DO / DON'T ──────────────────────────── */
-  .do-card   { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: var(--radius-lg); padding: 20px; }
-  .dont-card { background: #fff5f5; border: 1px solid var(--error-200); border-radius: var(--radius-lg); padding: 20px; }
-  .do-label   { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--primary-700); margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
-  .dont-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--error-700);    margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+/* ═══ FOOTER ═══ */
+.footer{text-align:center;padding:48px 24px;border-top:1px solid rgba(255,255,255,.05);font-size:12px;color:var(--neutral-600)}
+.footer a{color:var(--neutral-500);text-decoration:none}
+.footer a:hover{color:#4ADE80}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--neutral-400);text-decoration:none;margin-bottom:12px;transition:color .2s}
+.back-link:hover{color:#4ADE80}
 
-  /* ── SPECIMEN ────────────────────────────── */
-  .specimen-row {
-    display: grid; grid-template-columns: 200px 1fr 200px; align-items: center;
-    gap: 24px; padding: 20px 0; border-bottom: 1px solid var(--neutral-100);
-  }
-  .specimen-row:last-child { border-bottom: none; }
-  .specimen-meta { }
-  .specimen-token { font-family: 'SF Mono','Fira Code',monospace; font-size: 11px; color: var(--primary-700); background: var(--primary-50); padding: 3px 8px; border-radius: 4px; border: 1px solid var(--primary-100); display: inline-block; margin-bottom: 6px; }
-  .specimen-props { font-size: 11px; color: var(--neutral-400); line-height: 1.7; }
-  .specimen-props span { display: block; }
-  .specimen-text { min-height: 40px; display: flex; align-items: center; }
-  .specimen-badge-col { display: flex; flex-direction: column; gap: 6px; align-items: flex-end; }
-
-  /* ── LAYER CARD ──────────────────────────── */
-  .layer-card {
-    border-radius: var(--radius-lg); padding: 20px 24px;
-    border: 1px solid; position: relative; overflow: hidden;
-  }
-  .layer-card::before { content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 4px; }
-  .layer-display { background: #faf5ff; border-color: #ddd6fe; }
-  .layer-display::before { background: #8b5cf6; }
-  .layer-heading { background: #eff6ff; border-color: var(--info-200); }
-  .layer-heading::before { background: var(--info-500); }
-  .layer-body    { background: var(--primary-50); border-color: var(--primary-200); }
-  .layer-body::before { background: var(--primary-600); }
-  .layer-label   { background: var(--warning-50); border-color: var(--warning-200); }
-  .layer-label::before { background: var(--warning-500); }
-  .layer-caption { background: var(--neutral-50); border-color: var(--neutral-200); }
-  .layer-caption::before { background: var(--neutral-400); }
-  .layer-name { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
-  .layer-display .layer-name { color: #5b21b6; }
-  .layer-heading .layer-name { color: var(--info-700); }
-  .layer-body    .layer-name { color: var(--primary-700); }
-  .layer-label   .layer-name { color: var(--warning-700); }
-  .layer-caption .layer-name { color: var(--neutral-700); }
-  .layer-desc { font-size: 12px; line-height: 1.6; color: var(--neutral-500); margin-bottom: 12px; }
-  .layer-tokens { display: flex; flex-wrap: wrap; gap: 4px; }
-  .layer-token { font-family: 'SF Mono',monospace; font-size: 10px; padding: 2px 7px; border-radius: 4px; border: 1px solid; }
-  .layer-display .layer-token { background: #ede9fe; color: #5b21b6; border-color: #c4b5fd; }
-  .layer-heading .layer-token { background: var(--info-50);  color: var(--info-700); border-color: var(--info-200); }
-  .layer-body    .layer-token { background: var(--primary-100); color: var(--primary-700); border-color: var(--primary-200); }
-  .layer-label   .layer-token { background: var(--warning-50); color: var(--warning-700); border-color: var(--warning-200); }
-  .layer-caption .layer-token { background: var(--neutral-100); color: var(--neutral-600); border-color: var(--neutral-200); }
-
-  /* ── WEIGHT DEMO ─────────────────────────── */
-  .weight-row { display: flex; align-items: center; gap: 0; border-bottom: 1px solid var(--neutral-100); }
-  .weight-row:last-child { border-bottom: none; }
-  .weight-label { width: 200px; flex-shrink: 0; padding: 14px 16px; font-size: 11px; font-family: 'SF Mono',monospace; color: var(--neutral-500); }
-  .weight-num   { width: 80px;  flex-shrink: 0; padding: 14px 0; font-size: 11px; color: var(--neutral-400); }
-  .weight-text  { flex: 1; padding: 14px 0; }
-  .weight-status { padding: 14px 16px; }
-
-  /* ── INFO BOX ────────────────────────────── */
-  .info-box { background: var(--info-50); border: 1px solid var(--info-200); border-radius: var(--radius-md); padding: 14px 18px; }
-  .info-box-title { font-size: 12px; font-weight: 700; color: var(--info-700); margin-bottom: 4px; }
-  .info-box-body  { font-size: 12px; color: #1e40af; line-height: 1.6; }
-  .warn-box { background: var(--warning-50); border: 1px solid var(--warning-200); border-radius: var(--radius-md); padding: 14px 18px; }
-  .warn-box-title { font-size: 12px; font-weight: 700; color: var(--warning-700); margin-bottom: 4px; }
-  .warn-box-body  { font-size: 12px; color: #92400e; line-height: 1.6; }
-
-  /* ── COLOR PAIR ──────────────────────────── */
-  .color-pair { display: flex; border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--neutral-200); }
-  .color-swatch { width: 48px; flex-shrink: 0; }
-  .color-pair-body { flex: 1; padding: 10px 14px; background: #fff; }
-  .color-pair-token { font-family: 'SF Mono',monospace; font-size: 11px; color: var(--neutral-600); }
-  .color-pair-desc  { font-size: 11px; color: var(--neutral-400); margin-top: 2px; }
-
-  hr { border: none; border-top: 1px solid var(--neutral-100); margin: 0; }
-
-  /* ═══════════════════════════════════════════
-     RESPONSIVE — MOBILE
-     ═══════════════════════════════════════════ */
-  @media (max-width: 768px) {
-    .page { padding: 0 16px 48px; }
-    .cover { padding: 40px 20px 36px; margin-bottom: 40px; }
-    .cover-title { font-size: 32px; }
-    .cover-sub { font-size: 14px; margin-bottom: 24px; }
-    .cover-meta { gap: 16px; }
-    .cover-meta-label { font-size: 9px; }
-    .cover-meta-value { font-size: 12px; }
-    .cover-libs { gap: 6px; margin-top: 20px; }
-    .lib-tag { font-size: 11px; padding: 4px 10px; }
-
-    .toc { padding: 20px; margin-bottom: 36px; }
-    .toc-grid { grid-template-columns: 1fr; }
-    .toc-file-label { margin-top: 14px; }
-
-    .section { margin-bottom: 48px; }
-    .section-title { font-size: 20px; }
-    .section-sub { font-size: 13px; }
-
-    .g2, .g3, .g4 { grid-template-columns: 1fr; }
-    .card { padding: 16px; }
-
-    /* Specimen rows — stack on mobile */
-    .specimen-row { grid-template-columns: 1fr; gap: 8px; padding: 14px 0; }
-    .specimen-badge-col { align-items: flex-start; flex-direction: row; flex-wrap: wrap; }
-
-    /* Weight demo — stack */
-    .weight-row { flex-wrap: wrap; }
-    .weight-label { width: 100%; padding: 8px 0 2px; }
-    .weight-num { width: auto; padding: 0 0 4px; }
-    .weight-text { width: 100%; padding: 8px 0; }
-
-    /* Inline grids */
-    .resp-grid-3 { grid-template-columns: 1fr !important; }
-
-    /* Tables — horizontal scroll */
-    .ds-table-wrap, table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-
-    /* Code blocks */
-    .code-block { padding: 14px 16px; font-size: 11px; }
-
-    /* Color pairs — keep as-is, they're already narrow */
-
-    /* Layer cards in grid */
-    .layer-tokens { gap: 4px; }
-  }
-
-  @media (max-width: 480px) {
-    .cover-title { font-size: 26px; }
-    .cover-meta { flex-direction: column; gap: 12px; }
-    .specimen-row { gap: 6px; }
-    .weight-label { font-size: 10px; }
-  }
-
-  @media print {
-    body { background: #fff; }
-    .cover { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  }
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:768px){
+  .page{padding:0 16px 48px}
+  .hero{padding:40px 20px;min-height:auto}
+  .hero-title{margin-bottom:16px}
+  .nav-pills{gap:4px;padding:12px 16px}
+  .nav-pill{font-size:11px;padding:5px 12px}
+  .section{margin-bottom:48px}
+  .section-title{font-size:22px}
+  .arch-layer{flex-direction:column;align-items:flex-start;gap:10px;padding:16px}
+  .arch-name{min-width:auto}
+  .arch-rule{display:none}
+  .scale-header{flex-wrap:wrap;gap:8px;padding:12px 16px}
+  .scale-token-name{min-width:auto}
+  .scale-props{min-width:auto}
+  .tester-grid{grid-template-columns:1fr}
+  .weight-row{flex-wrap:wrap;gap:4px;padding:12px 16px}
+  .weight-num{width:50px}
+  .weight-name{width:80px}
+  .weight-sample{font-size:18px;width:100%;order:10;margin-top:4px}
+  .weight-use{display:none}
+  .color-grid{grid-template-columns:1fr}
+}
+@media(max-width:480px){
+  .cascade-xl{font-size:28px}
+  .scale-header{padding:10px 14px}
+}
 </style>
 </head>
 <body>
-<div class="cover">
-  <div class="cover-inner">
-    <div class="cover-eyebrow"><span class="cover-eyebrow-dot"></span>VendHub Design System</div>
-    <h1 class="cover-title">Typography <span>System</span></h1>
-    <p class="cover-sub">A 3-layer semantic scale — from Display to Caption — built for composability. Every size, weight, line-height, and usage rule documented for designers and developers.</p>
-    <div class="cover-meta">
-      <div class="cover-meta-item"><div class="cover-meta-label">Version</div><div class="cover-meta-value">2.0</div></div>
-      <div class="cover-meta-item"><div class="cover-meta-label">Stack</div><div class="cover-meta-value">Next.js + Tailwind CSS v3.4</div></div>
-      <div class="cover-meta-item"><div class="cover-meta-label">Typeface</div><div class="cover-meta-value">Plus Jakarta Sans</div></div>
-      <div class="cover-meta-item"><div class="cover-meta-label">Updated</div><div class="cover-meta-value">April 2026</div></div>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-badge"><span class="hero-badge-dot"></span>VendHub Design System</div>
+    <h1 class="hero-title">Typography <span>System</span></h1>
+    <p class="hero-sub">13 semantic tokens across a 3-layer architecture — from 72px display headings to 12px captions. Built on Plus Jakarta Sans.</p>
+    <div class="hero-cascade">
+      <div class="cascade-line cascade-xl">displayXL — 72px</div>
+      <div class="cascade-line cascade-lg">displayLG — 48px</div>
+      <div class="cascade-line cascade-page">pageTitle — 32px</div>
+      <div class="cascade-line cascade-section">sectionTitle — 24px</div>
+      <div class="cascade-line cascade-body">body — 16px · bodySm — 14px</div>
+      <div class="cascade-line cascade-caption">caption — 12px</div>
     </div>
-    <div class="cover-libs">
-      <span class="lib-tag lib-primary">Display Layer — Bold always</span>
-      <span class="lib-tag lib-secondary">Heading Layer — SemiBold always</span>
-      <span class="lib-tag lib-amber">Label Layer — Medium always</span>
-      <span class="lib-tag lib-gray">Body + Caption — Composable weight</span>
-    </div>
-    
   </div>
-</div>
+</section>
+
+<!-- ═══ STICKY NAV ═══ -->
+<nav class="nav-pills" id="nav">
+  <a class="nav-pill active" href="#architecture">Architecture</a>
+  <a class="nav-pill" href="#scale">Type Scale</a>
+  <a class="nav-pill" href="#tester">Live Tester</a>
+  <a class="nav-pill" href="#weights">Weights</a>
+  <a class="nav-pill" href="#colors">Color Pairing</a>
+</nav>
+
 <div class="page">
-<div class="toc">
-  <div class="toc-title">On this page</div>
-  <div class="toc-file-label" style="margin-top:0">Foundation</div>
-  <div class="toc-grid">
-    <a href="#problems"      class="toc-item"><span class="toc-num">01</span> Problems Identified</a>    <a href="#architecture"  class="toc-item"><span class="toc-num">02</span> Architecture</a>    <a href="#scale"         class="toc-item"><span class="toc-num">03</span> Complete Type Scale</a>    <a href="#display"       class="toc-item"><span class="toc-num">04</span> Display & Heading Layer</a>    <a href="#body"          class="toc-item"><span class="toc-num">05</span> Body Layer</a>    <a href="#label"         class="toc-item"><span class="toc-num">06</span> Label Layer</a>    <a href="#caption"       class="toc-item"><span class="toc-num">07</span> Caption Layer</a>    <a href="#weights"       class="toc-item"><span class="toc-num">08</span> Font Weights & Loading</a>    <a href="#color-pairing" class="toc-item"><span class="toc-num">09</span> Color Pairing Rules</a>
-  </div>
-  <div class="toc-file-label">Implementation</div>
-  <div class="toc-grid">
-    <a href="#config"     class="toc-item"><span class="toc-num">10</span> Tailwind Config</a>    <a href="#figma"      class="toc-item"><span class="toc-num">11</span> Figma Text Styles</a>    <a href="#usage"      class="toc-item"><span class="toc-num">12</span> Developer Usage Guide</a>    <a href="#decision"   class="toc-item"><span class="toc-num">13</span> Decision Tree</a>    <a href="#migration"  class="toc-item"><span class="toc-num">14</span> Migration Map</a>    <a href="#patterns"   class="toc-item"><span class="toc-num">15</span> Component Patterns</a>    <a href="#dodont"     class="toc-item"><span class="toc-num">16</span> Do's &amp; Don'ts</a>    <a href="#before"     class="toc-item"><span class="toc-num">17</span> Before vs After</a>    <a href="#governance" class="toc-item"><span class="toc-num">18</span> Governance</a>    <a href="#responsive" class="toc-item"><span class="toc-num">19</span> Responsive Typography</a>    <a href="#components" class="toc-item"><span class="toc-num">20</span> Typography Components</a>
-  </div>
-</div>
 
-<div class="section" id="problems">
+<!-- ═══ 01 ARCHITECTURE ═══ -->
+<div class="section reveal" id="architecture">
   <div class="section-header">
-    <div class="section-tag">01</div>
-    <h2 class="section-title">Problems identified</h2>
-    <p class="section-sub">7 root causes diagnosed from the full codebase audit. These are the exact issues the v2 system solves — understanding them first makes every design decision below obvious.</p>
+    <div class="section-tag">01 · Architecture</div>
+    <h2 class="section-title">3-Layer Type Hierarchy</h2>
+    <p class="section-sub">Every text element maps to exactly one layer. Display & Heading lock weight. Body composes weight freely. Label & Caption serve utility roles.</p>
   </div>
 
-  <div class="g3" style="gap:24px">
-    <div>
-      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#c2410c;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid #fed7aa">Scale & Hierarchy</div>
-      <div class="prob prob-orange">
-        <div class="prob-title">P1 — Wrong body text size</div>
-        <div class="prob-desc"><code>text-sm</code> (14px) is used as body text in 50.5% of cases. Standard SaaS uses 16px as body, 14px as secondary. Causes cramped interfaces and accessibility issues.</div>
+  <div class="arch-layers">
+    <div class="arch-layer arch-display" data-layer="display">
+      <div class="arch-name">Display</div>
+      <div class="arch-tokens">
+        <span class="arch-token">displayXL</span>
+        <span class="arch-token">displayLG</span>
       </div>
-      <div class="prob prob-orange">
-        <div class="prob-title">P2 — Heading hierarchy is broken</div>
-        <div class="prob-desc">H3 can render larger than H1. Every heading level uses wildly different sizes per page with no enforced rule. An H3 at <code>text-2xl</code> beats an H1 at <code>text-xl</code>.</div>
-      </div>
-      <div class="prob prob-orange">
-        <div class="prob-title">P3 — 51 arbitrary pixel sizes</div>
-        <div class="prob-desc"><code>text-[7px]</code> <code>text-[9px]</code> <code>text-[10px]</code> <code>text-[11px]</code> <code>text-[41px]</code> <code>text-[72px]</code> break consistency and are impossible to update globally.</div>
-      </div>
+      <div class="arch-rule">Weight: 700 fixed</div>
     </div>
-    <div>
-      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--info-700);margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid var(--info-200)">Weights & Colors</div>
-      <div class="prob prob-blue">
-        <div class="prob-title">P4 — Unloaded font weights used</div>
-        <div class="prob-desc">Plus Jakarta Sans loads 400/500/600/700. But <code>font-light</code> (300) is used 24× and <code>font-extralight</code> (200) twice. Browsers simulate → blurry, inconsistent rendering.</div>
+    <div class="arch-layer arch-heading" data-layer="heading">
+      <div class="arch-name">Heading</div>
+      <div class="arch-tokens">
+        <span class="arch-token">pageTitle</span>
+        <span class="arch-token">sectionTitle</span>
+        <span class="arch-token">subheading</span>
       </div>
-      <div class="prob prob-blue">
-        <div class="prob-title">P5 — Split text color system</div>
-        <div class="prob-desc"><code>text-gray-*</code> (2,193 uses) and <code>text-typography-*</code> (384 uses) coexist for the same purpose. Developers have no rule for which to reach for.</div>
-      </div>
+      <div class="arch-rule">Weight: 600–700 fixed</div>
     </div>
-    <div>
-      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#6d28d9;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid #ddd6fe">Architecture</div>
-      <div class="prob prob-purple">
-        <div class="prob-title">P6 — No typography components</div>
-        <div class="prob-desc">No shared <code>&lt;Heading&gt;</code> <code>&lt;Text&gt;</code> <code>&lt;Caption&gt;</code>. Every file manually assembles <code>text-sm font-medium text-gray-500</code> combinations — 424 instances of the most common pattern alone.</div>
+    <div class="arch-layer arch-body" data-layer="body">
+      <div class="arch-name">Body</div>
+      <div class="arch-tokens">
+        <span class="arch-token">body</span>
+        <span class="arch-token">bodySm</span>
       </div>
-      <div class="prob prob-purple">
-        <div class="prob-title">P7 — Weight variation unsolvable in v1</div>
-        <div class="prob-desc">The original 8 tokens embedded <code>fontWeight</code> inside <code>fontSize</code> tokens. When you added <code>font-medium</code> on top, two CSS rules fought over <code>font-weight</code> — unpredictable override order.</div>
-      </div>
+      <div class="arch-rule">Weight: composable</div>
     </div>
-  </div>
-
-  <div style="margin-top:24px">
-    <div class="info-box">
-      <div class="info-box-title">Cross-reference: How top design systems solve this</div>
-      <div class="info-box-body">Material Design 3 (15 tokens), Shopify Polaris v11 (14 tokens), and GitHub Primer all separate <strong>size and weight into independent dimensions</strong>. They also give the same font size a <strong>different semantic name</strong> when the weight changes role — e.g. Material's "Title Medium" (16px/500) and "Body Large" (16px/400) are the same size, different weight, different name. VendHub v2 follows this exact pattern with the <strong>label</strong> token.</div>
+    <div class="arch-layer arch-label" data-layer="label">
+      <div class="arch-name">Label</div>
+      <div class="arch-tokens">
+        <span class="arch-token">label</span>
+        <span class="arch-token">labelSm</span>
+      </div>
+      <div class="arch-rule">Weight: 500 fixed</div>
+    </div>
+    <div class="arch-layer arch-caption" data-layer="caption">
+      <div class="arch-name">Caption</div>
+      <div class="arch-tokens">
+        <span class="arch-token">caption</span>
+      </div>
+      <div class="arch-rule">Weight: composable</div>
     </div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════
-     02 ARCHITECTURE
-══════════════════════════════════════════ -->
-<div class="section" id="architecture">
+
+<!-- ═══ 02 TYPE SCALE ═══ -->
+<div class="section reveal" id="scale">
   <div class="section-header">
-    <div class="section-tag">02</div>
-    <h2 class="section-title">Architecture — 3-Layer System</h2>
-    <p class="section-sub">Tokens are organized into three layers. Each layer has a clear rule about how weight works. Knowing which layer you're in tells you everything about how to use it.</p>
+    <div class="section-tag">02 · Type Scale</div>
+    <h2 class="section-title">13 Tokens — Click to Explore</h2>
+    <p class="section-sub">Each token encodes size, line-height, weight, and letter-spacing. Click any row to see details and a live specimen.</p>
   </div>
 
-  <div class="resp-grid-3" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:32px">
-    <div class="layer-card layer-display">
-      <div class="layer-name">Layer 1 — Display</div>
-      <div class="layer-desc">Marketing, heroes, landing pages. Weight is always Bold (700). Never override. These sizes only appear in promotional context.</div>
-      <div class="layer-tokens">
-        <span class="layer-token">displayXL</span>
-        <span class="layer-token">displayLG</span>
-      </div>
-      <div style="margin-top:12px;font-size:11px;color:#6d28d9;font-weight:600">Weight: 700 embedded · Never composable</div>
-    </div>
-    <div class="layer-card layer-heading">
-      <div class="layer-name">Layer 2 — Heading</div>
-      <div class="layer-desc">Page structure, section headers, sub-sections. Weight is always SemiBold or Bold (600/700). Semantic HTML anchor: H1/H2/H3.</div>
-      <div class="layer-tokens">
-        <span class="layer-token">pageTitle</span>
-        <span class="layer-token">sectionTitle</span>
-        <span class="layer-token">subheading</span>
-      </div>
-      <div style="margin-top:12px;font-size:11px;color:var(--info-700);font-weight:600">Weight: 700/600 embedded · Never composable</div>
-    </div>
-    <div class="layer-card layer-body" style="grid-column:span 1">
-      <div class="layer-name">Layer 3 — Body, Label & Caption</div>
-      <div class="layer-desc">Content, UI chrome, metadata. Split into three roles. Body + Caption are composable. Label always Medium.</div>
-      <div class="layer-tokens">
-        <span class="layer-token">body</span>
-        <span class="layer-token">bodySm</span>
-        <span class="layer-token">label</span>
-        <span class="layer-token">labelSm</span>
-        <span class="layer-token">caption</span>
-      </div>
-      <div style="margin-top:12px;font-size:11px;color:var(--primary-700);font-weight:600">body/caption: composable · label: 500 embedded</div>
-    </div>
+  <div id="scale-list"></div>
+</div>
+
+
+<!-- ═══ 03 LIVE TESTER ═══ -->
+<div class="section reveal" id="tester">
+  <div class="section-header">
+    <div class="section-tag">03 · Playground</div>
+    <h2 class="section-title">Live Type Tester</h2>
+    <p class="section-sub">Type anything to see it rendered across all 4 layers simultaneously.</p>
   </div>
 
-  <div class="card" style="background:var(--neutral-900);border-color:var(--neutral-700)">
-    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--neutral-500);margin-bottom:16px">Architecture Diagram</div>
-    <div style="font-family:'SF Mono','Fira Code',monospace;font-size:12px;line-height:2;color:#e2e8f0">
-      <span style="color:#64748b">Typography Scale (13 tokens)</span><br>
-      ├── <span style="color:#c084fc">DISPLAY LAYER</span> &nbsp;<span style="color:#64748b">— weight: 700 embedded</span><br>
-      │&nbsp;&nbsp;&nbsp;├── <span style="color:#86efac">displayXL</span> &nbsp;&nbsp;&nbsp;<span style="color:#64748b">72px / 86px lh</span><br>
-      │&nbsp;&nbsp;&nbsp;└── <span style="color:#86efac">displayLG</span> &nbsp;&nbsp;&nbsp;<span style="color:#64748b">48px / 58px lh</span><br>
-      ├── <span style="color:#67e8f9">HEADING LAYER</span> &nbsp;<span style="color:#64748b">— weight: 700 / 600 embedded</span><br>
-      │&nbsp;&nbsp;&nbsp;├── <span style="color:#86efac">pageTitle</span> &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#64748b">32px / 40px lh / Bold</span><br>
-      │&nbsp;&nbsp;&nbsp;├── <span style="color:#86efac">sectionTitle</span> &nbsp;<span style="color:#64748b">24px / 32px lh / SemiBold</span><br>
-      │&nbsp;&nbsp;&nbsp;└── <span style="color:#86efac">subheading</span> &nbsp;&nbsp;&nbsp;<span style="color:#64748b">20px / 28px lh / SemiBold</span><br>
-      └── <span style="color:#fbbf24">CONTENT LAYER</span> &nbsp;<span style="color:#64748b">— weight varies by sub-role</span><br>
-      &nbsp;&nbsp;&nbsp;&nbsp;├── <span style="color:#86efac">body</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#64748b">16px / 24px lh / composable</span><br>
-      &nbsp;&nbsp;&nbsp;&nbsp;├── <span style="color:#86efac">bodySm</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#64748b">14px / 20px lh / composable</span><br>
-      &nbsp;&nbsp;&nbsp;&nbsp;├── <span style="color:#fbbf24">label</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#64748b">14px / 20px lh / Medium 500 embedded</span><br>
-      &nbsp;&nbsp;&nbsp;&nbsp;├── <span style="color:#fbbf24">labelSm</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#64748b">12px / 16px lh / Medium 500 embedded</span><br>
-      &nbsp;&nbsp;&nbsp;&nbsp;└── <span style="color:#86efac">caption</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#64748b">12px / 16px lh / composable</span>
+  <div class="tester">
+    <input type="text" class="tester-input" id="tester-input" placeholder="Type something…" value="VendHub Marketplace">
+    <div class="tester-grid" id="tester-grid"></div>
+  </div>
+</div>
+
+
+<!-- ═══ 04 WEIGHTS ═══ -->
+<div class="section reveal" id="weights">
+  <div class="section-header">
+    <div class="section-tag">04 · Weights</div>
+    <h2 class="section-title">4 Weights — Plus Jakarta Sans</h2>
+    <p class="section-sub">Only four weights are loaded. Each has a specific role in the system — no freestyle weight selection.</p>
+  </div>
+
+  <div class="weight-demo">
+    <div class="weight-row">
+      <div class="weight-num">400</div>
+      <div class="weight-name">Regular</div>
+      <div class="weight-sample" style="font-weight:400">The quick brown fox jumps over the lazy dog</div>
+      <div class="weight-use">Body text, descriptions</div>
+    </div>
+    <div class="weight-row">
+      <div class="weight-num">500</div>
+      <div class="weight-name">Medium</div>
+      <div class="weight-sample" style="font-weight:500">The quick brown fox jumps over the lazy dog</div>
+      <div class="weight-use">Labels, nav items</div>
+    </div>
+    <div class="weight-row">
+      <div class="weight-num">600</div>
+      <div class="weight-name">SemiBold</div>
+      <div class="weight-sample" style="font-weight:600">The quick brown fox jumps over the lazy dog</div>
+      <div class="weight-use">Section titles, buttons</div>
+    </div>
+    <div class="weight-row">
+      <div class="weight-num">700</div>
+      <div class="weight-name">Bold</div>
+      <div class="weight-sample" style="font-weight:700">The quick brown fox jumps over the lazy dog</div>
+      <div class="weight-use">Display, page titles</div>
     </div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════
-     03 COMPLETE TYPE SCALE
-══════════════════════════════════════════ -->
-<div class="section" id="scale">
+
+<!-- ═══ 05 COLOR PAIRING ═══ -->
+<div class="section reveal" id="colors">
   <div class="section-header">
-    <div class="section-tag">03</div>
-    <h2 class="section-title">Complete Type Scale</h2>
-    <p class="section-sub">All 13 tokens with live specimen previews. Each row shows the token name, size/weight/line-height properties, a live text preview, and the semantic role badge.</p>
+    <div class="section-tag">05 · Color Pairing</div>
+    <h2 class="section-title">Text Color Rules</h2>
+    <p class="section-sub">Every token has a default color pairing. These aren't suggestions — they're the contract between design and code.</p>
   </div>
 
-  <div class="card" style="padding:0;overflow:hidden">
-    <table class="tbl" style="font-size:13px">
-      <thead>
-        <tr>
-          <th style="width:170px">Token</th>
-          <th style="width:160px">Properties</th>
-          <th>Specimen Preview</th>
-          <th style="width:140px">Role</th>
-          <th style="width:110px">Weight Rule</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- DISPLAY LAYER -->
-        <tr style="background:#faf5ff">
-          <td><code style="background:#ede9fe;color:#5b21b6;border-color:#c4b5fd">displayXL</code></td>
-          <td style="font-size:11px;color:var(--neutral-500);line-height:1.8">72px · lh 86px<br>Bold (700)</td>
-          <td><div style="font-size:72px;font-weight:700;line-height:1.19;color:var(--neutral-900);letter-spacing:-.02em;overflow:hidden;max-height:92px">VendHub</div></td>
-          <td><span class="badge bg-purple">Display</span><div style="font-size:11px;color:var(--neutral-500);margin-top:4px">Marketing hero</div></td>
-          <td><span class="badge" style="background:#ede9fe;color:#5b21b6">700 fixed</span></td>
-        </tr>
-        <tr style="background:#faf5ff">
-          <td><code style="background:#ede9fe;color:#5b21b6;border-color:#c4b5fd">displayLG</code></td>
-          <td style="font-size:11px;color:var(--neutral-500);line-height:1.8">48px · lh 58px<br>Bold (700)</td>
-          <td><div style="font-size:48px;font-weight:700;line-height:1.21;color:var(--neutral-900);letter-spacing:-.015em;overflow:hidden;max-height:62px">Buy & sell routes</div></td>
-          <td><span class="badge bg-purple">Display</span><div style="font-size:11px;color:var(--neutral-500);margin-top:4px">Landing sections</div></td>
-          <td><span class="badge" style="background:#ede9fe;color:#5b21b6">700 fixed</span></td>
-        </tr>
-        <!-- HEADING LAYER -->
-        <tr style="background:#eff6ff">
-          <td><code style="background:var(--info-50);color:var(--info-700);border-color:var(--info-200)">pageTitle</code></td>
-          <td style="font-size:11px;color:var(--neutral-500);line-height:1.8">32px · lh 40px<br>Bold (700)</td>
-          <td><div style="font-size:32px;font-weight:700;line-height:1.25;color:var(--neutral-900)">Route Dashboard</div></td>
-          <td><span class="badge bg-blue">Heading</span><div style="font-size:11px;color:var(--neutral-500);margin-top:4px">Page H1</div></td>
-          <td><span class="badge bg-blue">700 fixed</span></td>
-        </tr>
-        <tr style="background:#eff6ff">
-          <td><code style="background:var(--info-50);color:var(--info-700);border-color:var(--info-200)">sectionTitle</code></td>
-          <td style="font-size:11px;color:var(--neutral-500);line-height:1.8">24px · lh 32px<br>SemiBold (600)</td>
-          <td><div style="font-size:24px;font-weight:600;line-height:1.33;color:var(--neutral-900)">Order Summary</div></td>
-          <td><span class="badge bg-blue">Heading</span><div style="font-size:11px;color:var(--neutral-500);margin-top:4px">Cards, H2</div></td>
-          <td><span class="badge bg-blue">600 fixed</span></td>
-        </tr>
-        <tr style="background:#eff6ff">
-          <td><code style="background:var(--info-50);color:var(--info-700);border-color:var(--info-200)">subheading</code></td>
-          <td style="font-size:11px;color:var(--neutral-500);line-height:1.8">20px · lh 28px<br>SemiBold (600)</td>
-          <td><div style="font-size:20px;font-weight:600;line-height:1.4;color:var(--neutral-900)">Delivery Options</div></td>
-          <td><span class="badge bg-blue">Heading</span><div style="font-size:11px;color:var(--neutral-500);margin-top:4px">Sub-sections, H3</div></td>
-          <td><span class="badge bg-blue">600 fixed</span></td>
-        </tr>
-        <!-- BODY LAYER -->
-        <tr>
-          <td><code style="background:var(--primary-100);color:var(--primary-700);border-color:var(--primary-200)">body</code></td>
-          <td style="font-size:11px;color:var(--neutral-500);line-height:1.8">16px · lh 24px<br>No default weight</td>
-          <td>
-            <div style="font-size:16px;font-weight:400;line-height:1.5;color:var(--neutral-700)">Regular — Pick up at OpCo location</div>
-            <div style="font-size:16px;font-weight:500;line-height:1.5;color:var(--neutral-700);margin-top:2px">Medium — Important delivery note</div>
-            <div style="font-size:16px;font-weight:600;line-height:1.5;color:var(--neutral-700);margin-top:2px">SemiBold — Action required</div>
-          </td>
-          <td><span class="badge bg-green">Body</span><div style="font-size:11px;color:var(--neutral-500);margin-top:4px">Main content</div></td>
-          <td><span class="badge bg-green">Composable</span></td>
-        </tr>
-        <tr>
-          <td><code style="background:var(--primary-100);color:var(--primary-700);border-color:var(--primary-200)">bodySm</code></td>
-          <td style="font-size:11px;color:var(--neutral-500);line-height:1.8">14px · lh 20px<br>No default weight</td>
-          <td>
-            <div style="font-size:14px;font-weight:400;line-height:1.43;color:var(--neutral-600)">Regular — 12ct · $1.11 ea · CS</div>
-            <div style="font-size:14px;font-weight:500;line-height:1.43;color:var(--neutral-600);margin-top:2px">Medium — Status: Pending review</div>
-            <div style="font-size:14px;font-weight:600;line-height:1.43;color:var(--neutral-600);margin-top:2px">SemiBold — Order overdue</div>
-          </td>
-          <td><span class="badge bg-green">Body</span><div style="font-size:11px;color:var(--neutral-500);margin-top:4px">Secondary content</div></td>
-          <td><span class="badge bg-green">Composable</span></td>
-        </tr>
-        <!-- LABEL LAYER -->
-        <tr style="background:#fffbeb">
-          <td><code style="background:var(--warning-50);color:var(--warning-700);border-color:var(--warning-200)">label</code></td>
-          <td style="font-size:11px;color:var(--neutral-500);line-height:1.8">14px · lh 20px<br>Medium (500)</td>
-          <td><div style="font-size:14px;font-weight:500;line-height:1.43;color:var(--neutral-800)">Email Address &nbsp;·&nbsp; Route Name &nbsp;·&nbsp; Dashboard</div></td>
-          <td><span class="badge bg-yellow">Label</span><div style="font-size:11px;color:var(--neutral-500);margin-top:4px">Form labels, nav, table headers</div></td>
-          <td><span class="badge bg-yellow">500 fixed</span></td>
-        </tr>
-        <tr style="background:#fffbeb">
-          <td><code style="background:var(--warning-50);color:var(--warning-700);border-color:var(--warning-200)">labelSm</code></td>
-          <td style="font-size:11px;color:var(--neutral-500);line-height:1.8">12px · lh 16px<br>Medium (500)</td>
-          <td>
-            <span style="font-size:12px;font-weight:500;background:var(--primary-100);color:var(--primary-700);padding:2px 8px;border-radius:9999px">Active</span>&nbsp;
-            <span style="font-size:12px;font-weight:500;background:var(--warning-50);color:var(--warning-700);padding:2px 8px;border-radius:9999px">Pending</span>&nbsp;
-            <span style="font-size:12px;font-weight:500;background:var(--error-50);color:var(--error-700);padding:2px 8px;border-radius:9999px">Failed</span>
-          </td>
-          <td><span class="badge bg-yellow">Label</span><div style="font-size:11px;color:var(--neutral-500);margin-top:4px">Badges, chips, status tags</div></td>
-          <td><span class="badge bg-yellow">500 fixed</span></td>
-        </tr>
-        <!-- CAPTION LAYER -->
-        <tr>
-          <td><code style="background:var(--neutral-100);color:var(--neutral-600);border-color:var(--neutral-200)">caption</code></td>
-          <td style="font-size:11px;color:var(--neutral-500);line-height:1.8">12px · lh 16px<br>No default weight</td>
-          <td>
-            <div style="font-size:12px;font-weight:400;color:var(--neutral-500)">Posted Jan 8, 2025 &nbsp;·&nbsp; 3 items selected &nbsp;·&nbsp; Expires in 24h</div>
-            <div style="font-size:12px;font-weight:500;color:var(--neutral-500);margin-top:2px">Medium — 47 locations · 168 machines</div>
-          </td>
-          <td><span class="badge bg-gray">Caption</span><div style="font-size:11px;color:var(--neutral-500);margin-top:4px">Timestamps, metadata</div></td>
-          <td><span class="badge bg-gray">Composable</span></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════
-     04 DISPLAY & HEADING LAYER
-══════════════════════════════════════════ -->
-<div class="section" id="display">
-  <div class="section-header">
-    <div class="section-tag">04</div>
-    <h2 class="section-title">Display & Heading Layer</h2>
-    <p class="section-sub">Five tokens with fixed, invariable weights. These are the only tokens where you should never add a <code>font-*</code> class — the weight is semantic.</p>
-  </div>
-
-  <div class="g2" style="margin-bottom:24px">
-    <div class="do-card">
-      <div class="do-label">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
-        Correct — Use token only
-      </div>
-      <div class="code-block" style="font-size:11px">
-<span class="kw">&lt;h1</span> <span class="at">class</span>=<span class="str">"text-pageTitle"</span><span class="kw">&gt;</span>Route Dashboard<span class="kw">&lt;/h1&gt;</span>
-<span class="kw">&lt;h2</span> <span class="at">class</span>=<span class="str">"text-sectionTitle"</span><span class="kw">&gt;</span>Order Summary<span class="kw">&lt;/h2&gt;</span>
-<span class="kw">&lt;h3</span> <span class="at">class</span>=<span class="str">"text-subheading"</span><span class="kw">&gt;</span>Delivery Options<span class="kw">&lt;/h3&gt;</span>
+  <div class="color-grid">
+    <div class="color-pair">
+      <div class="color-swatch" style="background:#111827;color:#fff">neutral-900 on white</div>
+      <div class="color-pair-info">
+        <div class="color-pair-token">Headings · Display</div>
+        <div class="color-pair-desc">Maximum contrast for titles and hero text</div>
       </div>
     </div>
-    <div class="dont-card">
-      <div class="dont-label">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-        Wrong — Don't stack weight classes
-      </div>
-      <div class="code-block" style="font-size:11px">
-<span class="cm"><!-- Don't add font-bold — it's already embedded --></span>
-<span class="kw">&lt;h1</span> <span class="at">class</span>=<span class="str">"text-pageTitle font-bold"</span><span class="kw">&gt;</span>...<span class="kw">&lt;/h1&gt;</span>
-
-<span class="cm"><!-- Don't use heading tokens for non-heading UI --></span>
-<span class="kw">&lt;span</span> <span class="at">class</span>=<span class="str">"text-sectionTitle"</span><span class="kw">&gt;</span>Card label<span class="kw">&lt;/span&gt;</span>
+    <div class="color-pair">
+      <div class="color-swatch" style="background:#1F2937;color:#fff">neutral-800 on white</div>
+      <div class="color-pair-info">
+        <div class="color-pair-token">Body · Primary content</div>
+        <div class="color-pair-desc">Slightly softer than headings, still WCAG AAA</div>
       </div>
     </div>
-  </div>
-
-  <div class="card" style="padding:0;overflow:hidden">
-    <div style="padding:16px 24px;border-bottom:1px solid var(--neutral-100);font-size:12px;font-weight:600;color:var(--neutral-700)">Display tokens — marketing / hero context only</div>
-    <div style="padding:32px 40px;background:var(--neutral-900);border-bottom:1px solid var(--neutral-100)">
-      <div style="font-size:72px;font-weight:700;color:#fff;line-height:1.1;letter-spacing:-.02em;margin-bottom:8px">VendHub</div>
-      <div style="font-size:13px;font-family:'SF Mono',monospace;color:var(--neutral-500)">displayXL · 72px · Bold 700 · lh 86px</div>
-      <div style="margin-top:24px;font-size:48px;font-weight:700;color:#fff;line-height:1.21;letter-spacing:-.015em;margin-bottom:8px">Buy &amp; sell vending routes</div>
-      <div style="font-size:13px;font-family:'SF Mono',monospace;color:var(--neutral-500)">displayLG · 48px · Bold 700 · lh 58px</div>
+    <div class="color-pair">
+      <div class="color-swatch" style="background:#374151;color:#fff">neutral-700 on white</div>
+      <div class="color-pair-info">
+        <div class="color-pair-token">Body Small · Secondary</div>
+        <div class="color-pair-desc">Table cells, descriptions, supporting text</div>
+      </div>
     </div>
-    <div style="padding:24px 40px">
-      <div style="font-size:32px;font-weight:700;color:var(--neutral-900);margin-bottom:4px">Route Dashboard</div>
-      <div style="font-size:12px;font-family:'SF Mono',monospace;color:var(--neutral-400);margin-bottom:20px">pageTitle · 32px · Bold 700 · lh 40px</div>
-      <div style="font-size:24px;font-weight:600;color:var(--neutral-900);margin-bottom:4px">Order Summary</div>
-      <div style="font-size:12px;font-family:'SF Mono',monospace;color:var(--neutral-400);margin-bottom:20px">sectionTitle · 24px · SemiBold 600 · lh 32px</div>
-      <div style="font-size:20px;font-weight:600;color:var(--neutral-900);margin-bottom:4px">Delivery Options</div>
-      <div style="font-size:12px;font-family:'SF Mono',monospace;color:var(--neutral-400)">subheading · 20px · SemiBold 600 · lh 28px</div>
+    <div class="color-pair">
+      <div class="color-swatch" style="background:#6B7280;color:#fff">neutral-500 on white</div>
+      <div class="color-pair-info">
+        <div class="color-pair-token">Caption · Metadata</div>
+        <div class="color-pair-desc">Timestamps, helper text, placeholder labels</div>
+      </div>
+    </div>
+    <div class="color-pair">
+      <div class="color-swatch" style="background:#16A34A;color:#fff">primary-600</div>
+      <div class="color-pair-info">
+        <div class="color-pair-token">Links · Interactive text</div>
+        <div class="color-pair-desc">All clickable text elements — never underline-only</div>
+      </div>
+    </div>
+    <div class="color-pair">
+      <div class="color-swatch" style="background:#DC2626;color:#fff">error-600</div>
+      <div class="color-pair-info">
+        <div class="color-pair-token">Error messages · Validation</div>
+        <div class="color-pair-desc">Form errors, destructive action labels</div>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════
-     05 BODY LAYER
-══════════════════════════════════════════ -->
-<div class="section" id="body">
-  <div class="section-header">
-    <div class="section-tag">05</div>
-    <h2 class="section-title">Body Layer — Composable Weight</h2>
-    <p class="section-sub">Two tokens with no embedded weight. Always pair with an explicit <code>font-*</code> utility. This solves the v1 conflict where embedded <code>fontWeight: 400</code> fought against <code>font-medium</code>.</p>
-  </div>
+</div><!-- /page -->
 
-  <div class="warn-box" style="margin-bottom:24px">
-    <div class="warn-box-title">Developer rule — always be explicit about weight</div>
-    <div class="warn-box-body">Body tokens have no default <code>font-weight</code> in the Tailwind config. Always write <code>text-body font-normal</code>, <code>text-bodySm font-medium</code> etc. "No weight class" means the element inherits from its parent — that can be unpredictable.</div>
-  </div>
+<!-- ═══ FOOTER ═══ -->
+<footer class="footer">
+  <a href="index.html" class="back-link">← Back to Design System</a><br>
+  VendHub Design System · Designed & documented by <a href="https://sorwoar.framer.website/" target="_blank">Sorwoar Resim</a>
+</footer>
 
-  <!-- body full demo -->
-  <div class="card" style="margin-bottom:16px;padding:0;overflow:hidden">
-    <div style="padding:14px 20px;border-bottom:1px solid var(--neutral-100);background:var(--primary-50)">
-      <code style="background:var(--primary-100);color:var(--primary-700);border-color:var(--primary-200)">text-body</code>
-      <span style="margin-left:10px;font-size:12px;color:var(--neutral-500)">16px / 24px line-height — main reading content</span>
-    </div>
-    <div class="weight-row">
-      <div class="weight-label">font-normal</div>
-      <div class="weight-num" style="color:var(--neutral-400)">400</div>
-      <div class="weight-text"><span style="font-size:16px;font-weight:400;color:var(--neutral-700)">Pick up at OpCo Distribution Center - North, 1234 Industrial Blvd</span></div>
-      <div class="weight-status"><span class="badge bg-green">Default reading</span></div>
-    </div>
-    <div class="weight-row">
-      <div class="weight-label">font-medium</div>
-      <div class="weight-num" style="color:var(--neutral-400)">500</div>
-      <div class="weight-text"><span style="font-size:16px;font-weight:500;color:var(--neutral-700)">Important: Will-call pickups must be confirmed by phone.</span></div>
-      <div class="weight-status"><span class="badge bg-green">Mild emphasis</span></div>
-    </div>
-    <div class="weight-row">
-      <div class="weight-label">font-semibold</div>
-      <div class="weight-num" style="color:var(--neutral-400)">600</div>
-      <div class="weight-text"><span style="font-size:16px;font-weight:600;color:var(--neutral-700)">Your checkout session has expired.</span></div>
-      <div class="weight-status"><span class="badge bg-yellow">Strong emphasis</span></div>
-    </div>
-    <div class="weight-row">
-      <div class="weight-label">font-bold</div>
-      <div class="weight-num" style="color:var(--neutral-400)">700</div>
-      <div class="weight-text"><span style="font-size:16px;font-weight:700;color:var(--neutral-700)">Action required — payment overdue</span></div>
-      <div class="weight-status"><span class="badge bg-red">Critical only</span></div>
-    </div>
-  </div>
 
-  <!-- bodySm full demo -->
-  <div class="card" style="padding:0;overflow:hidden">
-    <div style="padding:14px 20px;border-bottom:1px solid var(--neutral-100);background:var(--primary-50)">
-      <code style="background:var(--primary-100);color:var(--primary-700);border-color:var(--primary-200)">text-bodySm</code>
-      <span style="margin-left:10px;font-size:12px;color:var(--neutral-500)">14px / 20px line-height — secondary content, descriptions</span>
-    </div>
-    <div class="weight-row">
-      <div class="weight-label">font-normal</div>
-      <div class="weight-num" style="color:var(--neutral-400)">400</div>
-      <div class="weight-text"><span style="font-size:14px;font-weight:400;color:var(--neutral-600)">12ct · $1.11 ea · CS &nbsp;·&nbsp; Posted Jan 8, 2025</span></div>
-      <div class="weight-status"><span class="badge bg-green">Content text</span></div>
-    </div>
-    <div class="weight-row">
-      <div class="weight-label">font-medium</div>
-      <div class="weight-num" style="color:var(--neutral-400)">500</div>
-      <div class="weight-text"><span style="font-size:14px;font-weight:500;color:var(--neutral-700)">Status: Pending review &nbsp;·&nbsp; 47 locations</span></div>
-      <div class="weight-status"><span class="badge bg-yellow">Most common ← 424×</span></div>
-    </div>
-    <div class="weight-row">
-      <div class="weight-label">font-semibold</div>
-      <div class="weight-num" style="color:var(--neutral-400)">600</div>
-      <div class="weight-text"><span style="font-size:14px;font-weight:600;color:var(--neutral-700)">Order overdue &nbsp;·&nbsp; Account suspended</span></div>
-      <div class="weight-status"><span class="badge bg-red">Strong alert</span></div>
-    </div>
-  </div>
-</div>
+<script>
+// ═══ TYPE SCALE DATA ═══
+const tokens = [
+  { name:'displayXL', layer:'display', size:72, lh:86, weight:700, ls:'-.02em', role:'Marketing hero', preview:'VendHub' },
+  { name:'displayLG', layer:'display', size:48, lh:58, weight:700, ls:'-.015em', role:'Landing sections', preview:'Buy & sell routes' },
+  { name:'pageTitle', layer:'heading', size:32, lh:40, weight:700, ls:'0', role:'Page H1', preview:'Route Dashboard' },
+  { name:'sectionTitle', layer:'heading', size:24, lh:32, weight:600, ls:'-.005em', role:'Cards, H2', preview:'Order Summary' },
+  { name:'subheading', layer:'heading', size:20, lh:28, weight:600, ls:'0', role:'Sub-sections, H3', preview:'Delivery Options' },
+  { name:'body', layer:'body', size:16, lh:24, weight:'400–600', ls:'0', role:'Main content', preview:'Pick up at OpCo location' },
+  { name:'bodySm', layer:'body', size:14, lh:20, weight:'400–600', ls:'0', role:'Secondary content', preview:'12ct · $1.11 ea · CS' },
+  { name:'label', layer:'label', size:14, lh:20, weight:500, ls:'0', role:'Form labels, nav', preview:'Email Address · Route Name' },
+  { name:'labelSm', layer:'label', size:12, lh:16, weight:500, ls:'0', role:'Badges, chips', preview:'Active · Pending · Failed' },
+  { name:'caption', layer:'caption', size:12, lh:16, weight:'400–500', ls:'.01em', role:'Timestamps, metadata', preview:'Posted Jan 8, 2025 · 3 items' },
+];
 
-<!-- ══════════════════════════════════════════
-     06 LABEL LAYER
-══════════════════════════════════════════ -->
-<div class="section" id="label">
-  <div class="section-header">
-    <div class="section-tag">06</div>
-    <h2 class="section-title">Label Layer — Always Medium</h2>
-    <p class="section-sub">Two tokens with Medium (500) weight embedded. These are for UI chrome — the structural text that frames your content. Unlike <code>bodySm</code> (same size, composable weight), <code>label</code> is always Medium. This follows Material Design 3's concept of "Title Medium" vs "Body Medium" — same size, different semantic role.</p>
-  </div>
+const layerColors = { display:'#C4B5FD', heading:'#93C5FD', body:'#86EFAC', label:'#FDE68A', caption:'#9CA3AF' };
+const layerBgs = { display:'rgba(139,92,246,.08)', heading:'rgba(59,130,246,.08)', body:'rgba(34,197,94,.08)', label:'rgba(245,158,11,.08)', caption:'rgba(107,114,128,.08)' };
 
-  <div class="info-box" style="margin-bottom:24px">
-    <div class="info-box-title">label vs bodySm — same size (14px), different role</div>
-    <div class="info-box-body">
-      <strong>text-label</strong> = UI chrome. Form labels, table column headers, navigation items, button text context. Always reads at Medium — no weight override needed.<br>
-      <strong>text-bodySm font-medium</strong> = Content text that happens to need emphasis. A product description that needs highlighting, a status inside a paragraph. Composable.
+// ═══ RENDER TYPE SCALE ═══
+const scaleList = document.getElementById('scale-list');
+tokens.forEach((t, i) => {
+  const card = document.createElement('div');
+  card.className = 'scale-card';
+  card.innerHTML = `
+    <div class="scale-header">
+      <div class="scale-token-name" style="color:${layerColors[t.layer]}">${t.name}</div>
+      <div class="scale-props">${t.size}px / ${t.lh}px · ${typeof t.weight === 'number' ? t.weight : t.weight}</div>
+      <div class="scale-preview" style="font-size:${Math.min(t.size, 36)}px;font-weight:${typeof t.weight === 'number' ? t.weight : 400};line-height:${t.lh/t.size};letter-spacing:${t.ls};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${t.preview}</div>
     </div>
-  </div>
-
-  <div class="g2" style="margin-bottom:24px">
-    <div class="card" style="padding:0;overflow:hidden">
-      <div style="padding:14px 20px;border-bottom:1px solid var(--neutral-100);background:var(--warning-50)">
-        <code style="background:var(--warning-50);color:var(--warning-700);border-color:var(--warning-200)">text-label</code>
-        <span style="margin-left:10px;font-size:12px;color:var(--neutral-500)">14px / 500 — UI chrome</span>
-      </div>
-      <div style="padding:20px">
-        <!-- Form context -->
-        <div style="margin-bottom:20px">
-          <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--neutral-400);margin-bottom:12px">Form labels</div>
-          <div style="display:flex;flex-direction:column;gap:12px">
-            <div>
-              <div style="font-size:14px;font-weight:500;color:var(--neutral-800);margin-bottom:4px">Email Address</div>
-              <div style="height:36px;border:1px solid var(--neutral-200);border-radius:6px;background:#fff;padding:0 12px;display:flex;align-items:center;font-size:14px;color:var(--neutral-400)"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="cca1adbeb8a5a2a9b68ca9a1ada5a0e2afa3a1">[email&#160;protected]</a></div>
-            </div>
-            <div>
-              <div style="font-size:14px;font-weight:500;color:var(--neutral-800);margin-bottom:4px">Selling Price</div>
-              <div style="height:36px;border:1px solid var(--neutral-200);border-radius:6px;background:#fff;padding:0 12px;display:flex;align-items:center;font-size:14px;color:var(--neutral-400)">$100,000</div>
-            </div>
-          </div>
+    <div class="scale-expand">
+      <div style="display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start">
+        <div style="flex:1;min-width:200px">
+          <div style="font-size:${t.size}px;font-weight:${typeof t.weight === 'number' ? t.weight : 400};line-height:${t.lh/t.size};letter-spacing:${t.ls};color:#fff;margin-bottom:16px;overflow:hidden;max-height:${t.lh * 2}px">${t.preview}</div>
         </div>
-        <!-- Table context -->
-        <div>
-          <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--neutral-400);margin-bottom:10px">Table column headers</div>
-          <div style="border:1px solid var(--neutral-200);border-radius:8px;overflow:hidden">
-            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;background:var(--neutral-50);padding:10px 14px;gap:8px">
-              <div style="font-size:14px;font-weight:500;color:var(--neutral-700)">Route Name</div>
-              <div style="font-size:14px;font-weight:500;color:var(--neutral-700)">Location</div>
-              <div style="font-size:14px;font-weight:500;color:var(--neutral-700)">Status</div>
-            </div>
-            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;padding:10px 14px;gap:8px;border-top:1px solid var(--neutral-100)">
-              <div style="font-size:14px;color:var(--neutral-600)">NC Route w/ 26</div>
-              <div style="font-size:14px;color:var(--neutral-600)">Hickory</div>
-              <span class="badge bg-green">Active</span>
-            </div>
+        <div style="min-width:160px">
+          <div style="font-size:11px;color:var(--neutral-500);line-height:2">
+            <span style="color:var(--neutral-400)">Size:</span> ${t.size}px<br>
+            <span style="color:var(--neutral-400)">Line-height:</span> ${t.lh}px<br>
+            <span style="color:var(--neutral-400)">Weight:</span> ${t.weight}<br>
+            <span style="color:var(--neutral-400)">Tracking:</span> ${t.ls}<br>
+            <span style="color:var(--neutral-400)">Role:</span> ${t.role}
           </div>
         </div>
       </div>
     </div>
-
-    <div class="card" style="padding:0;overflow:hidden">
-      <div style="padding:14px 20px;border-bottom:1px solid var(--neutral-100);background:var(--warning-50)">
-        <code style="background:var(--warning-50);color:var(--warning-700);border-color:var(--warning-200)">text-labelSm</code>
-        <span style="margin-left:10px;font-size:12px;color:var(--neutral-500)">12px / 500 — Badges, chips, tags</span>
-      </div>
-      <div style="padding:20px">
-        <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--neutral-400);margin-bottom:12px">Status badges</div>
-        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px">
-          <span style="font-size:12px;font-weight:500;background:var(--primary-100);color:var(--primary-700);padding:3px 10px;border-radius:9999px">Active</span>
-          <span style="font-size:12px;font-weight:500;background:var(--warning-50);color:var(--warning-700);padding:3px 10px;border-radius:9999px">Pending</span>
-          <span style="font-size:12px;font-weight:500;background:var(--error-50);color:var(--error-700);padding:3px 10px;border-radius:9999px">Failed</span>
-          <span style="font-size:12px;font-weight:500;background:var(--info-50);color:var(--info-700);padding:3px 10px;border-radius:9999px">In Progress</span>
-          <span style="font-size:12px;font-weight:500;background:var(--neutral-100);color:var(--neutral-600);padding:3px 10px;border-radius:9999px">Draft</span>
-          <span style="font-size:12px;font-weight:500;background:var(--success-50);color:var(--success-700);padding:3px 10px;border-radius:9999px">Completed</span>
-        </div>
-        <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--neutral-400);margin-bottom:12px">Category chips</div>
-        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px">
-          <span style="font-size:12px;font-weight:500;background:var(--neutral-100);color:var(--neutral-700);padding:4px 10px;border-radius:6px;border:1px solid var(--neutral-200)">Refrigerated</span>
-          <span style="font-size:12px;font-weight:500;background:var(--neutral-100);color:var(--neutral-700);padding:4px 10px;border-radius:6px;border:1px solid var(--neutral-200)">Frozen Foods</span>
-          <span style="font-size:12px;font-weight:500;background:var(--primary-100);color:var(--primary-700);padding:4px 10px;border-radius:6px;border:1px solid var(--primary-200)">Rebate Eligible</span>
-        </div>
-        <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--neutral-400);margin-bottom:12px">Quantity / count tags</div>
-        <div style="display:flex;align-items:center;gap:6px">
-          <span style="font-size:12px;font-weight:500;color:var(--neutral-600)">47 locations</span>
-          <span style="color:var(--neutral-300)">·</span>
-          <span style="font-size:12px;font-weight:500;color:var(--neutral-600)">168 machines</span>
-          <span style="color:var(--neutral-300)">·</span>
-          <span style="font-size:12px;font-weight:500;background:var(--neutral-100);color:var(--neutral-700);padding:2px 7px;border-radius:4px">54 products</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════
-     07 CAPTION LAYER
-══════════════════════════════════════════ -->
-<div class="section" id="caption">
-  <div class="section-header">
-    <div class="section-tag">07</div>
-    <h2 class="section-title">Caption Layer</h2>
-    <p class="section-sub">One token at the smallest size (12px). Composable weight — usually Regular for timestamps and metadata, Medium for minor emphasis. Never drop below 12px.</p>
-  </div>
-
-  <div class="g2">
-    <div class="card" style="padding:0;overflow:hidden">
-      <div style="padding:14px 20px;border-bottom:1px solid var(--neutral-100);background:var(--neutral-50)">
-        <code>text-caption font-normal</code>
-        <span style="margin-left:8px;font-size:12px;color:var(--neutral-500)">12px / 400 — metadata</span>
-      </div>
-      <div style="padding:20px;display:flex;flex-direction:column;gap:10px">
-        <div style="font-size:12px;font-weight:400;color:var(--neutral-500)">Posted Jan 8, 2025</div>
-        <div style="font-size:12px;font-weight:400;color:var(--neutral-500)">Last updated 2 hours ago</div>
-        <div style="font-size:12px;font-weight:400;color:var(--neutral-500)">You won't be charged until your order ships</div>
-        <div style="font-size:12px;font-weight:400;color:var(--neutral-500)">Expires in 24:00:00</div>
-      </div>
-    </div>
-    <div class="card" style="padding:0;overflow:hidden">
-      <div style="padding:14px 20px;border-bottom:1px solid var(--neutral-100);background:var(--neutral-50)">
-        <code>text-caption font-medium</code>
-        <span style="margin-left:8px;font-size:12px;color:var(--neutral-500)">12px / 500 — minor emphasis</span>
-      </div>
-      <div style="padding:20px;display:flex;flex-direction:column;gap:10px">
-        <div style="font-size:12px;font-weight:500;color:var(--neutral-600)">3 items selected</div>
-        <div style="font-size:12px;font-weight:500;color:var(--neutral-600)">Showing 1–10 of 258</div>
-        <div style="font-size:12px;font-weight:500;color:var(--primary-600)">View all routes →</div>
-        <div style="font-size:12px;font-weight:500;color:var(--warning-700)">Most orders ready next day</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="warn-box" style="margin-top:16px">
-    <div class="warn-box-title">Minimum size rule — 12px floor</div>
-    <div class="warn-box-body">The audit found 39 instances of sub-12px text (7px, 8px, 9px, 10px, 11px). These all violate WCAG minimum text size guidelines and cause blurry rendering on non-retina displays. Replace all sub-12px text with <code>text-caption</code> or redesign the component to need less text.</div>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════
-     08 FONT WEIGHTS & LOADING
-══════════════════════════════════════════ -->
-<div class="section" id="weights">
-  <div class="section-header">
-    <div class="section-tag">08</div>
-    <h2 class="section-title">Font Weights &amp; Loading</h2>
-    <p class="section-sub">Plus Jakarta Sans loads exactly 4 weights. The system is designed around these 4 — no synthetic weights, no degraded rendering.</p>
-  </div>
-
-  <div class="card" style="padding:0;overflow:hidden;margin-bottom:24px">
-    <table class="tbl">
-      <thead>
-        <tr>
-          <th>Weight</th>
-          <th>Value</th>
-          <th>Tailwind Class</th>
-          <th>Used In</th>
-          <th>Loaded?</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><span style="font-size:16px;font-weight:400;color:var(--neutral-800)">Regular</span></td>
-          <td>400</td>
-          <td><code>font-normal</code></td>
-          <td>body, bodySm, caption (default reading)</td>
-          <td><span class="badge bg-green">✓ Loaded</span></td>
-        </tr>
-        <tr>
-          <td><span style="font-size:16px;font-weight:500;color:var(--neutral-800)">Medium</span></td>
-          <td>500</td>
-          <td><code>font-medium</code></td>
-          <td>label, labelSm (embedded) · body/bodySm emphasis</td>
-          <td><span class="badge bg-green">✓ Loaded</span></td>
-        </tr>
-        <tr>
-          <td><span style="font-size:16px;font-weight:600;color:var(--neutral-800)">SemiBold</span></td>
-          <td>600</td>
-          <td><code>font-semibold</code></td>
-          <td>sectionTitle, subheading (embedded) · body strong</td>
-          <td><span class="badge bg-green">✓ Loaded</span></td>
-        </tr>
-        <tr>
-          <td><span style="font-size:16px;font-weight:700;color:var(--neutral-800)">Bold</span></td>
-          <td>700</td>
-          <td><code>font-bold</code></td>
-          <td>displayXL, displayLG, pageTitle (embedded)</td>
-          <td><span class="badge bg-green">✓ Loaded</span></td>
-        </tr>
-        <tr style="background:var(--error-50)">
-          <td><span style="font-size:16px;font-weight:300;color:var(--error-700)">Light</span> <span style="font-size:11px;color:var(--error-500)">(synthesized)</span></td>
-          <td>300</td>
-          <td><code>font-light</code></td>
-          <td>Found 24× in codebase — all to be removed</td>
-          <td><span class="badge bg-red">✗ Not loaded</span></td>
-        </tr>
-        <tr style="background:var(--error-50)">
-          <td><span style="font-size:16px;font-weight:200;color:var(--error-700)">ExtraLight</span> <span style="font-size:11px;color:var(--error-500)">(synthesized)</span></td>
-          <td>200</td>
-          <td><code>font-extralight</code></td>
-          <td>Found 2× in codebase — both to be removed</td>
-          <td><span class="badge bg-red">✗ Not loaded</span></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="g2">
-    <div class="card">
-      <div class="card-title">Next.js font loading — globals or layout</div>
-      <div class="code-block" style="margin-top:12px;font-size:11px">
-<span class="cm">// app/layout.tsx or app/globals.css</span>
-<span class="cm">// Load exactly: 400, 500, 600, 700</span>
-
-<span class="at">@import</span> <span class="str">url('https://fonts.googleapis.com/css2?</span>
-<span class="str">  family=Plus+Jakarta+Sans:</span>
-<span class="str">  wght@400;500;600;700</span>
-<span class="str">  &display=swap'</span>);
-
-<span class="cm">// OR via next/font (preferred):</span>
-<span class="kw">const</span> <span class="fn">jakarta</span> = <span class="fn">PlusJakartaSans</span>({
-  <span class="at">subsets</span>: [<span class="str">'latin'</span>],
-  <span class="at">weight</span>: [<span class="str">'400'</span>, <span class="str">'500'</span>, <span class="str">'600'</span>, <span class="str">'700'</span>],
-  <span class="at">variable</span>: <span class="str">'--font-plus-jakarta'</span>,
+  `;
+  card.addEventListener('click', () => {
+    document.querySelectorAll('.scale-card').forEach(c => { if(c !== card) c.classList.remove('active'); });
+    card.classList.toggle('active');
+  });
+  scaleList.appendChild(card);
 });
-      </div>
+
+// ═══ LIVE TESTER ═══
+const testerInput = document.getElementById('tester-input');
+const testerGrid = document.getElementById('tester-grid');
+const testerTokens = [
+  { name:'pageTitle', size:32, weight:700, layer:'heading' },
+  { name:'sectionTitle', size:24, weight:600, layer:'heading' },
+  { name:'body', size:16, weight:400, layer:'body' },
+  { name:'bodySm', size:14, weight:400, layer:'body' },
+  { name:'label', size:14, weight:500, layer:'label' },
+  { name:'caption', size:12, weight:400, layer:'caption' },
+];
+
+function renderTester() {
+  const text = testerInput.value || 'VendHub Marketplace';
+  testerGrid.innerHTML = testerTokens.map(t => `
+    <div class="tester-preview">
+      <div class="tester-preview-label" style="color:${layerColors[t.layer]}">${t.name} · ${t.size}px</div>
+      <div class="tester-preview-text" style="font-size:${t.size}px;font-weight:${t.weight};line-height:1.4">${text}</div>
     </div>
-    <div>
-      <div class="do-card" style="margin-bottom:12px">
-        <div class="do-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> Never use these classes</div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap">
-          <code style="background:var(--error-50);color:var(--error-700);border-color:var(--error-200)">font-light</code>
-          <code style="background:var(--error-50);color:var(--error-700);border-color:var(--error-200)">font-extralight</code>
-          <code style="background:var(--error-50);color:var(--error-700);border-color:var(--error-200)">font-thin</code>
-        </div>
-        <div style="margin-top:10px;font-size:12px;color:#166534;line-height:1.6">These weights are not loaded. Browsers <strong>simulate</strong> them by algorithmically thinning the 400 weight — resulting in blurry, inconsistent text across different rendering engines.</div>
-      </div>
-      <div class="info-box">
-        <div class="info-box-title">Remove font-jakarta redundancy (78 instances)</div>
-        <div class="info-box-body">The font is applied globally on <code>&lt;html&gt;</code> via the layout. The 78 explicit <code>font-jakarta</code> classes across the codebase are redundant — safe to remove.</div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════
-     09 COLOR PAIRING RULES
-══════════════════════════════════════════ -->
-<div class="section" id="color-pairing">
-  <div class="section-header">
-    <div class="section-tag">09</div>
-    <h2 class="section-title">Color Pairing Rules</h2>
-    <p class="section-sub">Every typography token pairs with a semantic color token — never with raw Tailwind colors like <code>text-gray-500</code>. This section is the bridge between the Typography system and the Color system.</p>
-  </div>
-
-  <div class="info-box" style="margin-bottom:24px">
-    <div class="info-box-title">Design principle — text color follows role, not shade</div>
-    <div class="info-box-body">Choose text color by <strong>semantic role</strong> (primary, secondary, muted, disabled, status) rather than by shade number. This lets the system retheme or support dark mode by changing one variable per role. The full migration map from <code>text-gray-*</code> to <code>text-neutral-*</code> is in <a href="#migration" style="color:var(--info-700);font-weight:600">Implementation → Migration Map</a>.</div>
-  </div>
-
-  <div class="card" style="padding:0;overflow:hidden;margin-bottom:24px">
-    <table class="tbl">
-      <thead>
-        <tr>
-          <th>Role</th>
-          <th>Semantic Token</th>
-          <th>Preview</th>
-          <th>When to Use</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><strong>Primary</strong></td>
-          <td><code style="background:var(--primary-50);color:var(--primary-700);border-color:var(--primary-100)">text-neutral-900</code></td>
-          <td><span style="font-size:14px;font-weight:500;color:#111827">Headings, key data</span></td>
-          <td style="font-size:12px;color:var(--neutral-500)">Page titles, card titles, primary labels, important values</td>
-        </tr>
-        <tr>
-          <td><strong>Strong</strong></td>
-          <td><code style="background:var(--primary-50);color:var(--primary-700);border-color:var(--primary-100)">text-neutral-700</code></td>
-          <td><span style="font-size:14px;font-weight:500;color:#374151">Emphasis, labels</span></td>
-          <td style="font-size:12px;color:var(--neutral-500)">Form labels, navigation items, emphasized content</td>
-        </tr>
-        <tr>
-          <td><strong>Body</strong></td>
-          <td><code style="background:var(--primary-50);color:var(--primary-700);border-color:var(--primary-100)">text-neutral-600</code></td>
-          <td><span style="font-size:14px;font-weight:400;color:#4B5563">Paragraphs, descriptions</span></td>
-          <td style="font-size:12px;color:var(--neutral-500)">Default body text, descriptions, secondary content</td>
-        </tr>
-        <tr>
-          <td><strong>Muted</strong></td>
-          <td><code style="background:var(--primary-50);color:var(--primary-700);border-color:var(--primary-100)">text-neutral-500</code></td>
-          <td><span style="font-size:14px;font-weight:400;color:#6B7280">Metadata, captions</span></td>
-          <td style="font-size:12px;color:var(--neutral-500)">Timestamps, helper text, supplementary info</td>
-        </tr>
-        <tr>
-          <td><strong>Disabled</strong></td>
-          <td><code style="background:var(--primary-50);color:var(--primary-700);border-color:var(--primary-100)">text-neutral-400</code></td>
-          <td><span style="font-size:14px;font-weight:400;color:#9CA3AF">Placeholder text</span></td>
-          <td style="font-size:12px;color:var(--neutral-500)">Disabled controls, input placeholders</td>
-        </tr>
-        <tr>
-          <td><strong>Inverse</strong></td>
-          <td><code style="background:var(--primary-50);color:var(--primary-700);border-color:var(--primary-100)">text-white</code></td>
-          <td><span style="font-size:14px;font-weight:500;background:var(--neutral-800);color:#fff;padding:2px 8px;border-radius:4px">On dark bg</span></td>
-          <td style="font-size:12px;color:var(--neutral-500)">Text on dark backgrounds, buttons, banners</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- Semantic color usage by role -->
-  <div class="g2">
-    <div class="card">
-      <div class="card-title" style="margin-bottom:16px">Status / feedback text colors</div>
-      <div style="display:flex;flex-direction:column;gap:10px">
-        <div style="display:flex;align-items:center;gap:12px">
-          <div style="width:4px;height:40px;background:var(--success-500);border-radius:2px;flex-shrink:0"></div>
-          <div>
-            <div style="font-size:14px;font-weight:500;color:var(--success-700)">Success — Order submitted</div>
-            <code style="font-size:10px">text-success-700</code>
-          </div>
-        </div>
-        <div style="display:flex;align-items:center;gap:12px">
-          <div style="width:4px;height:40px;background:var(--warning-500);border-radius:2px;flex-shrink:0"></div>
-          <div>
-            <div style="font-size:14px;font-weight:500;color:var(--warning-700)">Warning — Checkout expiring</div>
-            <code style="font-size:10px">text-warning-700</code>
-          </div>
-        </div>
-        <div style="display:flex;align-items:center;gap:12px">
-          <div style="width:4px;height:40px;background:var(--error-500);border-radius:2px;flex-shrink:0"></div>
-          <div>
-            <div style="font-size:14px;font-weight:500;color:var(--error-700)">Error — Payment failed</div>
-            <code style="font-size:10px">text-error-700</code>
-          </div>
-        </div>
-        <div style="display:flex;align-items:center;gap:12px">
-          <div style="width:4px;height:40px;background:var(--info-500);border-radius:2px;flex-shrink:0"></div>
-          <div>
-            <div style="font-size:14px;font-weight:500;color:var(--info-700)">Info — System message</div>
-            <code style="font-size:10px">text-info-700</code>
-          </div>
-        </div>
-        <div style="display:flex;align-items:center;gap:12px">
-          <div style="width:4px;height:40px;background:var(--primary-600);border-radius:2px;flex-shrink:0"></div>
-          <div>
-            <div style="font-size:14px;font-weight:500;color:var(--primary-700)">Brand — Primary action link</div>
-            <code style="font-size:10px">text-primary-700</code>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-title" style="margin-bottom:16px">Typography + color — real VendHub combinations</div>
-      <div style="display:flex;flex-direction:column;gap:12px">
-        <div style="padding:12px;background:var(--neutral-50);border-radius:8px;border:1px solid var(--neutral-100)">
-          <div style="font-size:24px;font-weight:600;color:var(--neutral-900);line-height:1.2;margin-bottom:2px">Order Summary</div>
-          <div style="font-size:11px;font-family:monospace;color:var(--neutral-400)">text-sectionTitle + text-neutral-900</div>
-        </div>
-        <div style="padding:12px;background:var(--neutral-50);border-radius:8px;border:1px solid var(--neutral-100)">
-          <div style="font-size:14px;font-weight:500;color:var(--neutral-800);margin-bottom:2px">Email Address</div>
-          <div style="font-size:11px;font-family:monospace;color:var(--neutral-400)">text-label + text-neutral-800</div>
-        </div>
-        <div style="padding:12px;background:var(--neutral-50);border-radius:8px;border:1px solid var(--neutral-100)">
-          <div style="font-size:14px;font-weight:400;color:var(--neutral-500);margin-bottom:2px">Posted Jan 8, 2025 · Frankfort, 60423</div>
-          <div style="font-size:11px;font-family:monospace;color:var(--neutral-400)">text-bodySm font-normal + text-neutral-500</div>
-        </div>
-        <div style="padding:12px;background:var(--neutral-50);border-radius:8px;border:1px solid var(--neutral-100)">
-          <div style="font-size:12px;font-weight:500;color:var(--neutral-500);margin-bottom:2px">47 locations · 168 machines</div>
-          <div style="font-size:11px;font-family:monospace;color:var(--neutral-400)">text-caption font-medium + text-neutral-500</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="section" id="config">
-  <div class="section-header">
-    <div class="section-tag">10</div>
-    <h2 class="section-title">Tailwind Config</h2>
-    <p class="section-sub">Drop this into <code>tailwind.config.ts</code> under <code>theme.extend</code>. The key change from v1: Display and Heading tokens embed <code>fontWeight</code>, Body and Caption tokens do not.</p>
-  </div>
-
-  <div class="code-block" style="margin-bottom:16px">
-<span class="cm">// tailwind.config.ts — theme.extend.fontSize</span>
-<span class="cm">// 13 tokens · 3-layer system · v2</span>
-<span class="cm">// All values in rem for browser-zoom accessibility (1rem = 16px default)</span>
-
-<span class="at">fontSize</span>: {
-
-  <span class="cm">// ── DISPLAY LAYER ──────────────────────────────────────────</span>
-  <span class="cm">// fontWeight + letterSpacing embedded. Never add font-* on top.</span>
-  <span class="fn">displayXL</span>:    [<span class="str">"4.5rem"</span>, { <span class="at">lineHeight</span>: <span class="str">"5.375rem"</span>, <span class="at">fontWeight</span>: <span class="str">"700"</span>, <span class="at">letterSpacing</span>: <span class="str">"-0.02em"</span> }],
-  <span class="fn">displayLG</span>:    [<span class="str">"3rem"</span>,   { <span class="at">lineHeight</span>: <span class="str">"3.625rem"</span>, <span class="at">fontWeight</span>: <span class="str">"700"</span>, <span class="at">letterSpacing</span>: <span class="str">"-0.015em"</span> }],
-
-  <span class="cm">// ── HEADING LAYER ──────────────────────────────────────────</span>
-  <span class="cm">// fontWeight + letterSpacing embedded. Use with H1/H2/H3 tags.</span>
-  <span class="fn">pageTitle</span>:    [<span class="str">"2rem"</span>,   { <span class="at">lineHeight</span>: <span class="str">"2.5rem"</span>,   <span class="at">fontWeight</span>: <span class="str">"700"</span>, <span class="at">letterSpacing</span>: <span class="str">"-0.01em"</span> }],
-  <span class="fn">sectionTitle</span>: [<span class="str">"1.5rem"</span>, { <span class="at">lineHeight</span>: <span class="str">"2rem"</span>,     <span class="at">fontWeight</span>: <span class="str">"600"</span>, <span class="at">letterSpacing</span>: <span class="str">"-0.005em"</span> }],
-  <span class="fn">subheading</span>:   [<span class="str">"1.25rem"</span>,{ <span class="at">lineHeight</span>: <span class="str">"1.75rem"</span>,  <span class="at">fontWeight</span>: <span class="str">"600"</span>, <span class="at">letterSpacing</span>: <span class="str">"-0.005em"</span> }],
-
-  <span class="cm">// ── BODY LAYER ─────────────────────────────────────────────</span>
-  <span class="cm">// NO fontWeight. Always pair with font-normal / font-medium / font-semibold.</span>
-  <span class="fn">body</span>:         [<span class="str">"1rem"</span>,    { <span class="at">lineHeight</span>: <span class="str">"1.5rem"</span> }],
-  <span class="fn">bodySm</span>:       [<span class="str">"0.875rem"</span>,{ <span class="at">lineHeight</span>: <span class="str">"1.25rem"</span> }],
-
-  <span class="cm">// ── LABEL LAYER ────────────────────────────────────────────</span>
-  <span class="cm">// fontWeight: 500 embedded. Always Medium — UI chrome.</span>
-  <span class="fn">label</span>:        [<span class="str">"0.875rem"</span>,{ <span class="at">lineHeight</span>: <span class="str">"1.25rem"</span>,  <span class="at">fontWeight</span>: <span class="str">"500"</span> }],
-  <span class="fn">labelSm</span>:      [<span class="str">"0.75rem"</span>, { <span class="at">lineHeight</span>: <span class="str">"1rem"</span>,     <span class="at">fontWeight</span>: <span class="str">"500"</span> }],
-
-  <span class="cm">// ── CAPTION LAYER ──────────────────────────────────────────</span>
-  <span class="cm">// NO fontWeight. Composable. Usually font-normal, sometimes font-medium.</span>
-  <span class="fn">caption</span>:      [<span class="str">"0.75rem"</span>, { <span class="at">lineHeight</span>: <span class="str">"1rem"</span> }],
-
-},
-  </div>
-
-  <div class="g2">
-    <div class="info-box">
-      <div class="info-box-title">Why no fontWeight on body/caption?</div>
-      <div class="info-box-body">In v1, <code>bodySm: ["14px", { lineHeight: "20px", fontWeight: "400" }]</code> generated <code>.text-bodySm { font-weight: 400 }</code>. When you added <code>font-medium</code>, both classes set <code>font-weight</code> and CSS specificity determined the winner unpredictably. Removing <code>fontWeight</code> from the config means the font-size token no longer sets weight at all — only your explicit <code>font-*</code> class does.</div>
-    </div>
-    <div class="warn-box">
-      <div class="warn-box-title">Tailwind v3 vs v4 note</div>
-      <div class="warn-box-body">VendHub uses Tailwind v3.4. In v4 (CSS-first config), the pattern moves to <code>@theme</code> blocks. The font-size values are identical — only the config format changes. Keep this file updated when upgrading.</div>
-    </div>
-  </div>
-
-  <div class="g2" style="margin-top:16px">
-    <div class="info-box">
-      <div class="info-box-title">Why rem instead of px?</div>
-      <div class="info-box-body">All values use <code>rem</code> (relative to root font size) instead of <code>px</code>. When a user sets a custom base font size in their browser for accessibility, <code>rem</code> values scale proportionally while <code>px</code> values stay fixed. At default settings (16px root), <code>1rem = 16px</code> — visually identical. Figma specs remain in <code>px</code> since Figma has no rem support. The conversion: <code>px ÷ 16 = rem</code>.</div>
-    </div>
-    <div class="info-box">
-      <div class="info-box-title">Why letterSpacing on Display/Heading only?</div>
-      <div class="info-box-body">Negative letter-spacing (tracking) improves readability at large sizes by tightening the natural spacing of the typeface. At body sizes (14–16px) the default tracking is already optimal. The Figma text styles specify <code>-1.5%</code> to <code>-0.2%</code> for Display and Heading — these are now embedded in the config so developers get the same tracking as the Figma design without adding extra classes.</div>
-    </div>
-  </div>
-
-  <!-- ── P0: FONT WEIGHT LOADING BUG ── -->
-  <div style="margin-top:24px;background:#FEF2F2;border:1px solid #FECACA;border-radius:10px;padding:20px 24px;">
-    <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
-      <span class="badge bg-red" style="font-size:11px;">P0 · Font Loading Bug</span>
-      <span style="font-size:13px;font-weight:700;color:#991B1B;">26 usages of unloaded font weights in production</span>
-    </div>
-    <p style="font-size:13px;color:#7F1D1D;line-height:1.7;margin-bottom:16px;">
-      Plus Jakarta Sans currently loads only weights <strong>400, 500, 600, 700</strong>. The production codebase uses <code>font-light</code> (weight 300) in 24 places and <code>font-extralight</code> (weight 200) in 2 places. Browsers synthesise missing weights — the result is blurry, inconsistent text that differs per browser and breaks on PDF export.
-    </p>
-    <div class="g2" style="gap:16px;margin-bottom:16px;">
-      <div>
-        <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#DC2626;margin-bottom:8px;">Current — broken (app/layout.tsx)</div>
-        <div class="code-block" style="font-size:11px;">
-<span class="cm">// Only 4 weights loaded — 300 &amp; 200 are NOT here</span>
-<span class="str">family=Plus+Jakarta+Sans:ital,wght@</span>
-<span class="mig-old">0,400;0,500;0,600;0,700;1,400</span>
-        </div>
-      </div>
-      <div>
-        <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#15803D;margin-bottom:8px;">Fixed — two options (choose one)</div>
-        <div class="code-block" style="font-size:11px;">
-<span class="cm">// Option A: Add missing weights to the import</span>
-<span class="str">family=Plus+Jakarta+Sans:ital,wght@</span>
-<span class="mig-new">0,300;0,400;0,500;0,600;0,700;1,400</span>
-
-<span class="cm">// Option B (recommended): Remove all font-light/extralight</span>
-<span class="cm">// and replace with font-normal. Keeps bundle smaller.</span>
-<span class="cm">// grep -r "font-light\|font-extralight" --include="*.tsx"</span>
-        </div>
-      </div>
-    </div>
-    <div style="background:#fff;border:1px solid #FECACA;border-radius:6px;padding:12px 16px;font-size:12px;color:#7F1D1D;line-height:1.6;">
-      <strong>Recommended approach (Option B):</strong> Replace all 26 usages with <code style="background:#FEE2E2;color:#991B1B;border-color:#FECACA;">font-normal</code>. The affected text is helper text, metadata, and captions — weights below 400 are rarely meaningful at small sizes. This avoids adding a network round-trip for 300/200 weights. Run: <code style="background:#FEE2E2;color:#991B1B;border-color:#FECACA;">grep -rn "font-light\|font-extralight" app/ components/ --include="*.tsx"</code> to find all 26 locations.
-    </div>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════
-     02 FIGMA TEXT STYLES
-══════════════════════════════════════════ -->
-<div class="section" id="figma">
-  <div class="section-header">
-    <div class="section-tag">11</div>
-    <h2 class="section-title">Figma Text Styles</h2>
-    <p class="section-sub">Create these as named Text Styles in the VendHub Design System Figma file. The naming mirrors the Tailwind tokens exactly so there's zero translation friction between design and code.</p>
-  </div>
-
-  <div class="card" style="padding:0;overflow:hidden;margin-bottom:24px">
-    <table class="tbl">
-      <thead>
-        <tr>
-          <th>Figma Style Name</th>
-          <th>Tailwind Token</th>
-          <th>Font Size</th>
-          <th>Line Height</th>
-          <th>Weight</th>
-          <th>Letter Spacing</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr style="background:#faf5ff">
-          <td><strong>Display / XL</strong></td>
-          <td><code style="background:#ede9fe;color:#5b21b6;border-color:#c4b5fd">text-displayXL</code></td>
-          <td>72</td>
-          <td>86 (120%)</td>
-          <td>Bold 700</td>
-          <td>-1.5%</td>
-        </tr>
-        <tr style="background:#faf5ff">
-          <td><strong>Display / LG</strong></td>
-          <td><code style="background:#ede9fe;color:#5b21b6;border-color:#c4b5fd">text-displayLG</code></td>
-          <td>48</td>
-          <td>58 (121%)</td>
-          <td>Bold 700</td>
-          <td>-1.2%</td>
-        </tr>
-        <tr style="background:#eff6ff">
-          <td><strong>Heading / Page</strong></td>
-          <td><code style="background:var(--info-50);color:var(--info-700);border-color:var(--info-200)">text-pageTitle</code></td>
-          <td>32</td>
-          <td>40 (125%)</td>
-          <td>Bold 700</td>
-          <td>-0.5%</td>
-        </tr>
-        <tr style="background:#eff6ff">
-          <td><strong>Heading / Section</strong></td>
-          <td><code style="background:var(--info-50);color:var(--info-700);border-color:var(--info-200)">text-sectionTitle</code></td>
-          <td>24</td>
-          <td>32 (133%)</td>
-          <td>SemiBold 600</td>
-          <td>-0.3%</td>
-        </tr>
-        <tr style="background:#eff6ff">
-          <td><strong>Heading / Sub</strong></td>
-          <td><code style="background:var(--info-50);color:var(--info-700);border-color:var(--info-200)">text-subheading</code></td>
-          <td>20</td>
-          <td>28 (140%)</td>
-          <td>SemiBold 600</td>
-          <td>-0.2%</td>
-        </tr>
-        <tr>
-          <td><strong>Body / Default</strong></td>
-          <td><code style="background:var(--primary-100);color:var(--primary-700);border-color:var(--primary-200)">text-body + font-normal</code></td>
-          <td>16</td>
-          <td>24 (150%)</td>
-          <td>Regular 400</td>
-          <td>0%</td>
-        </tr>
-        <tr>
-          <td><strong>Body / Default Medium</strong></td>
-          <td><code style="background:var(--primary-100);color:var(--primary-700);border-color:var(--primary-200)">text-body + font-medium</code></td>
-          <td>16</td>
-          <td>24 (150%)</td>
-          <td>Medium 500</td>
-          <td>0%</td>
-        </tr>
-        <tr>
-          <td><strong>Body / Default Strong</strong></td>
-          <td><code style="background:var(--primary-100);color:var(--primary-700);border-color:var(--primary-200)">text-body + font-semibold</code></td>
-          <td>16</td>
-          <td>24 (150%)</td>
-          <td>SemiBold 600</td>
-          <td>0%</td>
-        </tr>
-        <tr>
-          <td><strong>Body / Small</strong></td>
-          <td><code style="background:var(--primary-100);color:var(--primary-700);border-color:var(--primary-200)">text-bodySm + font-normal</code></td>
-          <td>14</td>
-          <td>20 (143%)</td>
-          <td>Regular 400</td>
-          <td>0%</td>
-        </tr>
-        <tr>
-          <td><strong>Body / Small Medium</strong></td>
-          <td><code style="background:var(--primary-100);color:var(--primary-700);border-color:var(--primary-200)">text-bodySm + font-medium</code></td>
-          <td>14</td>
-          <td>20 (143%)</td>
-          <td>Medium 500</td>
-          <td>0%</td>
-        </tr>
-        <tr>
-          <td><strong>Body / Small Strong</strong></td>
-          <td><code style="background:var(--primary-100);color:var(--primary-700);border-color:var(--primary-200)">text-bodySm + font-semibold</code></td>
-          <td>14</td>
-          <td>20 (143%)</td>
-          <td>SemiBold 600</td>
-          <td>0%</td>
-        </tr>
-        <tr style="background:#fffbeb">
-          <td><strong>Label / Default</strong></td>
-          <td><code style="background:var(--warning-50);color:var(--warning-700);border-color:var(--warning-200)">text-label</code></td>
-          <td>14</td>
-          <td>20 (143%)</td>
-          <td>Medium 500</td>
-          <td>0%</td>
-        </tr>
-        <tr style="background:#fffbeb">
-          <td><strong>Label / Small</strong></td>
-          <td><code style="background:var(--warning-50);color:var(--warning-700);border-color:var(--warning-200)">text-labelSm</code></td>
-          <td>12</td>
-          <td>16 (133%)</td>
-          <td>Medium 500</td>
-          <td>0%</td>
-        </tr>
-        <tr>
-          <td><strong>Caption / Default</strong></td>
-          <td><code>text-caption + font-normal</code></td>
-          <td>12</td>
-          <td>16 (133%)</td>
-          <td>Regular 400</td>
-          <td>0%</td>
-        </tr>
-        <tr>
-          <td><strong>Caption / Medium</strong></td>
-          <td><code>text-caption + font-medium</code></td>
-          <td>12</td>
-          <td>16 (133%)</td>
-          <td>Medium 500</td>
-          <td>0%</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="info-box">
-    <div class="info-box-title">Figma hierarchy tip</div>
-    <div class="info-box-body">In the Figma Styles panel, use <code>/</code> as a separator to auto-group: <strong>Display / XL</strong>, <strong>Body / Small Medium</strong>, etc. This creates nested folders matching the 3-layer architecture. Group order: Display → Heading → Body → Label → Caption.</div>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════
-     03 DEVELOPER USAGE GUIDE
-══════════════════════════════════════════ -->
-<div class="section" id="usage">
-  <div class="section-header">
-    <div class="section-tag">12</div>
-    <h2 class="section-title">Developer Usage Guide</h2>
-    <p class="section-sub">The complete contract for using typography tokens in code. Every scenario covered.</p>
-  </div>
-
-  <div class="g2" style="margin-bottom:20px">
-    <div>
-      <div style="font-size:12px;font-weight:700;color:var(--neutral-700);margin-bottom:10px;text-transform:uppercase;letter-spacing:.06em">Page structure &amp; headings</div>
-      <div class="code-block" style="font-size:11px">
-<span class="cm">// Page header (H1) — always pageTitle</span>
-<span class="kw">&lt;h1</span> <span class="at">class</span>=<span class="str">"text-pageTitle text-neutral-900"</span><span class="kw">&gt;</span>
-  Route Dashboard
-<span class="kw">&lt;/h1&gt;</span>
-
-<span class="cm">// Card / section title (H2)</span>
-<span class="kw">&lt;h2</span> <span class="at">class</span>=<span class="str">"text-sectionTitle text-neutral-900"</span><span class="kw">&gt;</span>
-  Order Summary
-<span class="kw">&lt;/h2&gt;</span>
-
-<span class="cm">// Sub-section (H3)</span>
-<span class="kw">&lt;h3</span> <span class="at">class</span>=<span class="str">"text-subheading text-neutral-900"</span><span class="kw">&gt;</span>
-  Delivery Options
-<span class="kw">&lt;/h3&gt;</span>
-      </div>
-    </div>
-    <div>
-      <div style="font-size:12px;font-weight:700;color:var(--neutral-700);margin-bottom:10px;text-transform:uppercase;letter-spacing:.06em">Form labels &amp; table headers</div>
-      <div class="code-block" style="font-size:11px">
-<span class="cm">// Form label — use text-label (always Medium)</span>
-<span class="kw">&lt;label</span> <span class="at">class</span>=<span class="str">"text-label text-neutral-800"</span><span class="kw">&gt;</span>
-  Email Address
-<span class="kw">&lt;/label&gt;</span>
-
-<span class="cm">// Table column header</span>
-<span class="kw">&lt;th</span> <span class="at">class</span>=<span class="str">"text-label text-neutral-700"</span><span class="kw">&gt;</span>
-  Route Name
-<span class="kw">&lt;/th&gt;</span>
-
-<span class="cm">// Navigation item</span>
-<span class="kw">&lt;span</span> <span class="at">class</span>=<span class="str">"text-label text-neutral-700"</span><span class="kw">&gt;</span>
-  Dashboard
-<span class="kw">&lt;/span&gt;</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="g2" style="margin-bottom:20px">
-    <div>
-      <div style="font-size:12px;font-weight:700;color:var(--neutral-700);margin-bottom:10px;text-transform:uppercase;letter-spacing:.06em">Body content — composable weights</div>
-      <div class="code-block" style="font-size:11px">
-<span class="cm">// Main content — Regular</span>
-<span class="kw">&lt;p</span> <span class="at">class</span>=<span class="str">"text-body font-normal text-neutral-700"</span><span class="kw">&gt;</span>
-  Pick up at OpCo Distribution Center...
-<span class="kw">&lt;/p&gt;</span>
-
-<span class="cm">// Emphasized body — Medium</span>
-<span class="kw">&lt;p</span> <span class="at">class</span>=<span class="str">"text-body font-medium text-neutral-800"</span><span class="kw">&gt;</span>
-  Important delivery note
-<span class="kw">&lt;/p&gt;</span>
-
-<span class="cm">// Secondary text — Small Regular</span>
-<span class="kw">&lt;span</span> <span class="at">class</span>=<span class="str">"text-bodySm font-normal text-neutral-500"</span><span class="kw">&gt;</span>
-  12ct · $1.11 ea · CS
-<span class="kw">&lt;/span&gt;</span>
-
-<span class="cm">// Small emphasized — replaces text-sm font-medium</span>
-<span class="kw">&lt;span</span> <span class="at">class</span>=<span class="str">"text-bodySm font-medium text-neutral-700"</span><span class="kw">&gt;</span>
-  Status: Pending review
-<span class="kw">&lt;/span&gt;</span>
-      </div>
-    </div>
-    <div>
-      <div style="font-size:12px;font-weight:700;color:var(--neutral-700);margin-bottom:10px;text-transform:uppercase;letter-spacing:.06em">Badges, chips &amp; captions</div>
-      <div class="code-block" style="font-size:11px">
-<span class="cm">// Status badge — labelSm (always Medium)</span>
-<span class="kw">&lt;span</span> <span class="at">class</span>=<span class="str">"text-labelSm bg-primary-100</span>
-<span class="str">  text-primary-700 rounded-pill px-2 py-0.5"</span><span class="kw">&gt;</span>
-  Active
-<span class="kw">&lt;/span&gt;</span>
-
-<span class="cm">// Category chip</span>
-<span class="kw">&lt;span</span> <span class="at">class</span>=<span class="str">"text-labelSm bg-neutral-100</span>
-<span class="str">  text-neutral-700 rounded-control px-2 py-1"</span><span class="kw">&gt;</span>
-  Refrigerated
-<span class="kw">&lt;/span&gt;</span>
-
-<span class="cm">// Timestamp / metadata</span>
-<span class="kw">&lt;span</span> <span class="at">class</span>=<span class="str">"text-caption font-normal text-neutral-500"</span><span class="kw">&gt;</span>
-  Posted Jan 8, 2025
-<span class="kw">&lt;/span&gt;</span>
-
-<span class="cm">// Minor emphasized caption</span>
-<span class="kw">&lt;span</span> <span class="at">class</span>=<span class="str">"text-caption font-medium text-neutral-600"</span><span class="kw">&gt;</span>
-  3 items selected
-<span class="kw">&lt;/span&gt;</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="code-block">
-<span class="cm">// Marketing / hero — displayXL, displayLG only</span>
-<span class="kw">&lt;section</span> <span class="at">class</span>=<span class="str">"bg-neutral-900 py-24"</span><span class="kw">&gt;</span>
-  <span class="kw">&lt;h1</span> <span class="at">class</span>=<span class="str">"text-displayXL text-white"</span><span class="kw">&gt;</span>VendHub<span class="kw">&lt;/h1&gt;</span>
-  <span class="kw">&lt;p</span>  <span class="at">class</span>=<span class="str">"text-displayLG text-neutral-300"</span><span class="kw">&gt;</span>Buy &amp; sell vending routes<span class="kw">&lt;/p&gt;</span>
-  <span class="kw">&lt;p</span>  <span class="at">class</span>=<span class="str">"text-body font-normal text-neutral-400 mt-6 max-w-2xl"</span><span class="kw">&gt;</span>
-    The marketplace for vending operators...
-  <span class="kw">&lt;/p&gt;</span>
-<span class="kw">&lt;/section&gt;</span>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════
-     04 DECISION TREE
-══════════════════════════════════════════ -->
-<div class="section" id="decision">
-  <div class="section-header">
-    <div class="section-tag">13</div>
-    <h2 class="section-title">Decision Tree</h2>
-    <p class="section-sub">One question, one answer. If you're unsure which token to reach for, start here. Every scenario has exactly one correct token.</p>
-  </div>
-
-  <div class="card" style="padding:0;overflow:hidden">
-    <div style="padding:14px 20px;background:var(--neutral-50);border-bottom:1px solid var(--neutral-200);font-size:12px;font-weight:600;color:var(--neutral-600)">Ask yourself: "What am I styling?"</div>
-    <div style="padding:8px 0 0">
-      <div class="tree-node" style="padding:14px 20px">
-        <div class="tree-q">A hero heading on a marketing/landing page?</div>
-        <div class="tree-a">
-          <div class="tree-arrow">→</div>
-          <code style="background:#ede9fe;color:#5b21b6;border-color:#c4b5fd">text-displayXL</code>
-          <span style="font-size:11px;color:var(--neutral-400)">or</span>
-          <code style="background:#ede9fe;color:#5b21b6;border-color:#c4b5fd">text-displayLG</code>
-          <span style="font-size:11px;color:var(--neutral-400);margin-left:4px">72px / 48px, Bold</span>
-        </div>
-      </div>
-      <div class="tree-node" style="padding:14px 20px;background:var(--neutral-50)">
-        <div class="tree-q">The main H1 page header?</div>
-        <div class="tree-a">
-          <div class="tree-arrow">→</div>
-          <code style="background:var(--info-50);color:var(--info-700);border-color:var(--info-200)">text-pageTitle</code>
-          <span style="font-size:11px;color:var(--neutral-400);margin-left:8px">32px, Bold</span>
-        </div>
-      </div>
-      <div class="tree-node" style="padding:14px 20px">
-        <div class="tree-q">A card title or H2 section header?</div>
-        <div class="tree-a">
-          <div class="tree-arrow">→</div>
-          <code style="background:var(--info-50);color:var(--info-700);border-color:var(--info-200)">text-sectionTitle</code>
-          <span style="font-size:11px;color:var(--neutral-400);margin-left:8px">24px, SemiBold</span>
-        </div>
-      </div>
-      <div class="tree-node" style="padding:14px 20px;background:var(--neutral-50)">
-        <div class="tree-q">A sub-section or H3?</div>
-        <div class="tree-a">
-          <div class="tree-arrow">→</div>
-          <code style="background:var(--info-50);color:var(--info-700);border-color:var(--info-200)">text-subheading</code>
-          <span style="font-size:11px;color:var(--neutral-400);margin-left:8px">20px, SemiBold</span>
-        </div>
-      </div>
-      <div class="tree-node" style="padding:14px 20px">
-        <div class="tree-q">A form label, table column header, or nav item?</div>
-        <div class="tree-a">
-          <div class="tree-arrow">→</div>
-          <code style="background:var(--warning-50);color:var(--warning-700);border-color:var(--warning-200)">text-label</code>
-          <span style="font-size:11px;color:var(--neutral-400);margin-left:8px">14px, always Medium — no font-* class needed</span>
-        </div>
-      </div>
-      <div class="tree-node" style="padding:14px 20px;background:var(--neutral-50)">
-        <div class="tree-q">A status badge, chip, category tag, or small UI label?</div>
-        <div class="tree-a">
-          <div class="tree-arrow">→</div>
-          <code style="background:var(--warning-50);color:var(--warning-700);border-color:var(--warning-200)">text-labelSm</code>
-          <span style="font-size:11px;color:var(--neutral-400);margin-left:8px">12px, always Medium — no font-* class needed</span>
-        </div>
-      </div>
-      <div class="tree-node" style="padding:14px 20px">
-        <div class="tree-q">Main reading content — paragraph, description?</div>
-        <div class="tree-a">
-          <div class="tree-arrow">→</div>
-          <code style="background:var(--primary-100);color:var(--primary-700);border-color:var(--primary-200)">text-body</code>
-          <span style="font-size:11px;color:var(--neutral-400);margin-left:8px">16px + <strong>font-normal</strong> / font-medium / font-semibold</span>
-        </div>
-      </div>
-      <div class="tree-node" style="padding:14px 20px;background:var(--neutral-50)">
-        <div class="tree-q">Secondary content, product info, table cell content?</div>
-        <div class="tree-a">
-          <div class="tree-arrow">→</div>
-          <code style="background:var(--primary-100);color:var(--primary-700);border-color:var(--primary-200)">text-bodySm</code>
-          <span style="font-size:11px;color:var(--neutral-400);margin-left:8px">14px + <strong>font-normal</strong> / font-medium / font-semibold</span>
-        </div>
-      </div>
-      <div class="tree-node" style="padding:14px 20px">
-        <div class="tree-q">Timestamp, metadata, helper text, or footnote?</div>
-        <div class="tree-a">
-          <div class="tree-arrow">→</div>
-          <code>text-caption</code>
-          <span style="font-size:11px;color:var(--neutral-400);margin-left:8px">12px + font-normal (usual) or font-medium (minor emphasis)</span>
-        </div>
-      </div>
-      <div class="tree-node" style="padding:14px 20px;background:var(--error-50)">
-        <div class="tree-q" style="color:var(--error-700)">An arbitrary size like text-[10px] or text-[11px]?</div>
-        <div class="tree-a">
-          <div class="tree-arrow" style="color:var(--error-500)">✗</div>
-          <span style="font-size:12px;color:var(--error-700);font-weight:600">Stop. Use <code style="background:var(--error-50);color:var(--error-700);border-color:var(--error-200)">text-labelSm</code> or <code style="background:var(--error-50);color:var(--error-700);border-color:var(--error-200)">text-caption</code> instead. Minimum size is 12px.</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════
-     05 MIGRATION MAP
-══════════════════════════════════════════ -->
-<div class="section" id="migration">
-  <div class="section-header">
-    <div class="section-tag">14</div>
-    <h2 class="section-title">Migration Map</h2>
-    <p class="section-sub">Replace every old pattern with the new token. Sorted by frequency — tackle highest-count rows first for maximum impact.</p>
-  </div>
-
-  <!-- Dual text color system callout -->
-  <div style="background:#FFFBEB;border:1px solid #FCD34D;border-radius:10px;padding:18px 22px;margin-bottom:24px;">
-    <div style="display:flex;align-items:flex-start;gap:12px;">
-      <div style="font-size:20px;line-height:1;flex-shrink:0;">⚠️</div>
-      <div>
-        <div style="font-size:13px;font-weight:700;color:#92400E;margin-bottom:6px;">Dual Text Color System — Audit Finding (79% bypass rate)</div>
-        <p style="font-size:13px;color:#78350F;line-height:1.7;margin-bottom:8px;">
-          Production currently has <strong>two parallel text color systems</strong> in use simultaneously: <code style="background:#FEF3C7;color:#92400E;border-color:#FCD34D;">text-gray-*</code> (Tailwind default, <strong>2,193 occurrences</strong>) and <code style="background:#FEF3C7;color:#92400E;border-color:#FCD34D;">text-typography-*</code> (design system tokens, 384 occurrences). This means 85% of text colors bypass the token system — a brand color change would require touching hundreds of files.
-        </p>
-        <p style="font-size:13px;color:#78350F;line-height:1.7;margin-bottom:8px;">
-          <strong>The migration target is <code style="background:#FEF3C7;color:#92400E;border-color:#FCD34D;">text-neutral-*</code>, not <code style="background:#FEF3C7;color:#92400E;border-color:#FCD34D;">text-typography-*</code>.</strong> The new Semantic color layer uses <code>neutral-*</code> naming (aligned with Tailwind) rather than the old <code>typography-*</code> custom scale. Both resolve to the same hex values. The migration table below maps the most common <code>text-gray-*</code> classes to their <code>text-neutral-*</code> equivalents — the values are identical, only the class name changes.
-        </p>
-        <div style="display:flex;gap:24px;flex-wrap:wrap;font-size:12px;color:#92400E;">
-          <span>Find all: <code style="background:#FEF3C7;color:#92400E;border-color:#FCD34D;">grep -rn "text-gray-" app/ components/ --include="*.tsx" | wc -l</code></span>
-          <span>Expected result: <strong>~2,193</strong></span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="card" style="padding:0;overflow:hidden">
-    <table class="tbl">
-      <thead>
-        <tr>
-          <th style="width:200px">Replace (old)</th>
-          <th style="width:30px"></th>
-          <th style="width:250px">With (new)</th>
-          <th>Note</th>
-          <th style="width:90px">Count</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr style="background:#fff7ed">
-          <td><code>text-sm font-medium</code></td>
-          <td style="color:var(--primary-500);font-size:16px;font-weight:700">→</td>
-          <td><code style="background:var(--warning-50);color:var(--warning-700);border-color:var(--warning-200)">text-label</code> <span style="font-size:11px;color:var(--neutral-400)">or</span> <code style="background:var(--primary-100);color:var(--primary-700);border-color:var(--primary-200)">text-bodySm font-medium</code></td>
-          <td style="font-size:11px;color:var(--neutral-500)">Use text-label for UI chrome (form labels, nav). Use text-bodySm font-medium for content emphasis.</td>
-          <td><span class="badge bg-red">424</span></td>
-        </tr>
-        <tr>
-          <td><code>text-xs font-medium</code></td>
-          <td style="color:var(--primary-500);font-size:16px;font-weight:700">→</td>
-          <td><code style="background:var(--warning-50);color:var(--warning-700);border-color:var(--warning-200)">text-labelSm</code></td>
-          <td style="font-size:11px;color:var(--neutral-500)">Badges, chips, tags — always Medium at 12px.</td>
-          <td><span class="badge bg-yellow">~55</span></td>
-        </tr>
-        <tr>
-          <td><code>text-sm font-medium text-gray-700</code></td>
-          <td style="color:var(--primary-500);font-size:16px;font-weight:700">→</td>
-          <td><code>text-bodySm font-medium text-neutral-700</code></td>
-          <td style="font-size:11px;color:var(--neutral-500)">Content text with emphasis. Replace gray with neutral.</td>
-          <td><span class="badge bg-yellow">54</span></td>
-        </tr>
-        <tr>
-          <td><code>text-sm font-medium text-gray-900</code></td>
-          <td style="color:var(--primary-500);font-size:16px;font-weight:700">→</td>
-          <td><code>text-label text-neutral-900</code></td>
-          <td style="font-size:11px;color:var(--neutral-500)">Strong UI label.</td>
-          <td><span class="badge bg-yellow">42</span></td>
-        </tr>
-        <tr>
-          <td><code>text-2xl font-bold text-gray-900</code></td>
-          <td style="color:var(--primary-500);font-size:16px;font-weight:700">→</td>
-          <td><code>text-sectionTitle text-neutral-900</code></td>
-          <td style="font-size:11px;color:var(--neutral-500)">Section/card titles. Bold embedded in token.</td>
-          <td><span class="badge bg-yellow">35</span></td>
-        </tr>
-        <tr>
-          <td><code>text-lg font-semibold text-gray-900</code></td>
-          <td style="color:var(--primary-500);font-size:16px;font-weight:700">→</td>
-          <td><code>text-subheading text-neutral-900</code></td>
-          <td style="font-size:11px;color:var(--neutral-500)">Sub-section headers. SemiBold embedded.</td>
-          <td><span class="badge bg-yellow">28</span></td>
-        </tr>
-        <tr>
-          <td><code>text-[10px]</code> <code>text-[11px]</code></td>
-          <td style="color:var(--primary-500);font-size:16px;font-weight:700">→</td>
-          <td><code>text-labelSm</code> <span style="font-size:11px;color:var(--neutral-400)">or</span> <code>text-caption</code></td>
-          <td style="font-size:11px;color:var(--neutral-500)">Step up to 12px minimum. If text can't fit, the component needs redesign.</td>
-          <td><span class="badge bg-red">33</span></td>
-        </tr>
-        <tr>
-          <td><code>text-[7px]</code> <code>text-[8px]</code> <code>text-[9px]</code></td>
-          <td style="color:var(--primary-500);font-size:16px;font-weight:700">→</td>
-          <td><code>text-labelSm</code></td>
-          <td style="font-size:11px;color:var(--neutral-500)">All sub-10px text. WCAG violation. Redesign the component, don't just bump to 12px blindly.</td>
-          <td><span class="badge bg-red">9</span></td>
-        </tr>
-        <tr>
-          <td><code>text-base font-*</code></td>
-          <td style="color:var(--primary-500);font-size:16px;font-weight:700">→</td>
-          <td><code>text-body font-*</code></td>
-          <td style="font-size:11px;color:var(--neutral-500)">Direct rename. Same size (16px), same line-height behavior.</td>
-          <td><span class="badge bg-yellow">340</span></td>
-        </tr>
-        <tr>
-          <td><code>text-sm font-normal</code></td>
-          <td style="color:var(--primary-500);font-size:16px;font-weight:700">→</td>
-          <td><code>text-bodySm font-normal</code></td>
-          <td style="font-size:11px;color:var(--neutral-500)">Secondary content, regular weight. Explicit font-normal is now required.</td>
-          <td><span class="badge bg-gray">varies</span></td>
-        </tr>
-        <tr>
-          <td><code>text-xs font-normal</code></td>
-          <td style="color:var(--primary-500);font-size:16px;font-weight:700">→</td>
-          <td><code>text-caption font-normal</code></td>
-          <td style="font-size:11px;color:var(--neutral-500)">Metadata, timestamps, helper text.</td>
-          <td><span class="badge bg-gray">varies</span></td>
-        </tr>
-        <tr>
-          <td><code>font-light</code> <code>font-extralight</code></td>
-          <td style="color:var(--error-500);font-size:16px;font-weight:700">✗</td>
-          <td><code>font-normal</code></td>
-          <td style="font-size:11px;color:var(--neutral-500)">Remove entirely. These weights are not loaded. Replace with Regular (400).</td>
-          <td><span class="badge bg-red">26</span></td>
-        </tr>
-        <tr>
-          <td><code>text-gray-900</code></td>
-          <td style="color:var(--primary-500);font-size:16px;font-weight:700">→</td>
-          <td><code>text-neutral-900</code></td>
-          <td style="font-size:11px;color:var(--neutral-500)">Swap color system. Same value (#111827), semantic name.</td>
-          <td><span class="badge bg-red">556</span></td>
-        </tr>
-        <tr>
-          <td><code>text-gray-600</code></td>
-          <td style="color:var(--primary-500);font-size:16px;font-weight:700">→</td>
-          <td><code>text-neutral-600</code></td>
-          <td style="font-size:11px;color:var(--neutral-500)">Body text color.</td>
-          <td><span class="badge bg-red">492</span></td>
-        </tr>
-        <tr>
-          <td><code>text-gray-500</code></td>
-          <td style="color:var(--primary-500);font-size:16px;font-weight:700">→</td>
-          <td><code>text-neutral-500</code></td>
-          <td style="font-size:11px;color:var(--neutral-500)">Muted / caption text. Most common gray class.</td>
-          <td><span class="badge bg-red">644</span></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════
-     06 COMPONENT PATTERNS
-══════════════════════════════════════════ -->
-<div class="section" id="patterns">
-  <div class="section-header">
-    <div class="section-tag">15</div>
-    <h2 class="section-title">Component Patterns</h2>
-    <p class="section-sub">Real VendHub UI components with correct token usage annotated. Copy these patterns directly.</p>
-  </div>
-
-  <!-- Route Card -->
-  <div style="margin-bottom:24px">
-    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--neutral-500);margin-bottom:12px">Route listing card</div>
-    <div class="g2">
-      <div class="comp-demo">
-        <div class="comp-label">Live preview</div>
-        <div style="background:#fff;border:1px solid var(--neutral-200);border-radius:12px;padding:20px">
-          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
-            <div style="font-size:20px;font-weight:600;color:var(--neutral-900);line-height:1.3">Chicago Metro Route</div>
-            <span style="font-size:12px;font-weight:500;background:#eff6ff;color:#1d4ed8;padding:3px 10px;border-radius:9999px">In Progress</span>
-          </div>
-          <div style="font-size:14px;font-weight:400;color:var(--neutral-600);margin-bottom:12px;line-height:1.5">47 Locations &amp; 168 Machines</div>
-          <div style="display:flex;gap:16px">
-            <div><div style="font-size:12px;font-weight:500;color:var(--neutral-500)">Location</div><div style="font-size:14px;font-weight:400;color:var(--neutral-700);margin-top:2px">Frankfort, IL</div></div>
-            <div><div style="font-size:12px;font-weight:500;color:var(--neutral-500)">Price</div><div style="font-size:14px;font-weight:400;color:var(--neutral-700);margin-top:2px">$1,500,000</div></div>
-            <div><div style="font-size:12px;font-weight:500;color:var(--neutral-500)">Posted</div><div style="font-size:14px;font-weight:400;color:var(--neutral-500);margin-top:2px">Jan 8, 2025</div></div>
-          </div>
-        </div>
-      </div>
-      <div>
-        <div class="code-block" style="font-size:10.5px">
-<span class="cm">// Route Card Typography</span>
-
-<span class="cm">// Title (H2 context)</span>
-<span class="at">text-subheading text-neutral-900</span>
-
-<span class="cm">// Status badge</span>
-<span class="at">text-labelSm bg-info-50 text-info-700</span>
-
-<span class="cm">// Subtitle / description</span>
-<span class="at">text-bodySm font-normal text-neutral-600</span>
-
-<span class="cm">// Stat label (Location / Price / Posted)</span>
-<span class="at">text-caption font-medium text-neutral-500</span>
-
-<span class="cm">// Stat value</span>
-<span class="at">text-bodySm font-normal text-neutral-700</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Order Summary -->
-  <div style="margin-bottom:24px">
-    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--neutral-500);margin-bottom:12px">Order summary card</div>
-    <div class="g2">
-      <div class="comp-demo">
-        <div class="comp-label">Live preview</div>
-        <div style="background:#fff;border:1px solid var(--neutral-200);border-radius:12px;padding:20px">
-          <div style="font-size:24px;font-weight:600;color:var(--neutral-900);margin-bottom:16px">Order Summary</div>
-          <div style="display:flex;flex-direction:column;gap:8px">
-            <div style="display:flex;justify-content:space-between">
-              <span style="font-size:14px;font-weight:500;color:var(--neutral-600)">Subtotal</span>
-              <span style="font-size:14px;font-weight:400;color:var(--neutral-800)">$381.80</span>
-            </div>
-            <div style="display:flex;justify-content:space-between">
-              <span style="font-size:14px;font-weight:500;color:var(--neutral-600)">Shipping &amp; Fees</span>
-              <span style="font-size:14px;font-weight:400;color:var(--neutral-800)">$156.39</span>
-            </div>
-            <div style="border-top:1px solid var(--neutral-100);padding-top:8px;margin-top:4px;display:flex;justify-content:space-between">
-              <span style="font-size:16px;font-weight:600;color:var(--neutral-900)">Estimated Total</span>
-              <span style="font-size:16px;font-weight:700;color:var(--neutral-900)">$59.18</span>
-            </div>
-          </div>
-          <div style="font-size:12px;font-weight:400;color:var(--neutral-400);margin-top:12px">You won't be charged until your order ships</div>
-        </div>
-      </div>
-      <div>
-        <div class="code-block" style="font-size:10.5px">
-<span class="cm">// Order Summary Typography</span>
-
-<span class="cm">// Card title</span>
-<span class="at">text-sectionTitle text-neutral-900</span>
-
-<span class="cm">// Line item label</span>
-<span class="at">text-label text-neutral-600</span>
-
-<span class="cm">// Line item value</span>
-<span class="at">text-bodySm font-normal text-neutral-800</span>
-
-<span class="cm">// Total label (elevated importance)</span>
-<span class="at">text-body font-semibold text-neutral-900</span>
-
-<span class="cm">// Total value</span>
-<span class="at">text-body font-bold text-neutral-900</span>
-
-<span class="cm">// Footnote disclaimer</span>
-<span class="at">text-caption font-normal text-neutral-400</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Form -->
-  <div>
-    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--neutral-500);margin-bottom:12px">Form field</div>
-    <div class="g2">
-      <div class="comp-demo">
-        <div class="comp-label">Live preview</div>
-        <div style="display:flex;flex-direction:column;gap:16px">
-          <div>
-            <div style="font-size:14px;font-weight:500;color:var(--neutral-800);margin-bottom:4px">Selling Price</div>
-            <div style="height:40px;border:1px solid var(--neutral-300);border-radius:6px;background:#fff;padding:0 14px;display:flex;align-items:center;font-size:14px;color:var(--neutral-700)">$100,000</div>
-            <div style="font-size:12px;font-weight:400;color:var(--neutral-400);margin-top:4px">Enter the total asking price for your route</div>
-          </div>
-          <div>
-            <div style="font-size:14px;font-weight:500;color:var(--neutral-800);margin-bottom:4px">Email Address</div>
-            <div style="height:40px;border:1px solid var(--error-500);border-radius:6px;background:var(--error-50);padding:0 14px;display:flex;align-items:center;font-size:14px;color:var(--neutral-700)">invalid-email</div>
-            <div style="font-size:12px;font-weight:400;color:var(--error-600);margin-top:4px">Please enter a valid email address</div>
-          </div>
-        </div>
-      </div>
-      <div>
-        <div class="code-block" style="font-size:10.5px">
-<span class="cm">// Form Field Typography</span>
-
-<span class="cm">// Field label</span>
-<span class="at">text-label text-neutral-800</span>
-
-<span class="cm">// Input value (user-typed)</span>
-<span class="at">text-bodySm font-normal text-neutral-700</span>
-
-<span class="cm">// Helper text (below field)</span>
-<span class="at">text-caption font-normal text-neutral-400</span>
-
-<span class="cm">// Error message</span>
-<span class="at">text-caption font-normal text-error-600</span>
-
-<span class="cm">// Placeholder text</span>
-<span class="at">text-bodySm font-normal text-neutral-400</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════
-     07 DO'S & DON'TS
-══════════════════════════════════════════ -->
-<div class="section" id="dodont">
-  <div class="section-header">
-    <div class="section-tag">16</div>
-    <h2 class="section-title">Do's &amp; Don'ts</h2>
-    <p class="section-sub">The 10 rules that prevent the most common mistakes.</p>
-  </div>
-
-  <div class="g2" style="gap:20px">
-    <div>
-      <div class="do-card">
-        <div class="do-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> DO</div>
-        <div style="display:flex;flex-direction:column;gap:12px">
-          <div style="font-size:13px;color:#166534;line-height:1.6;padding-bottom:12px;border-bottom:1px solid #bbf7d0"><strong>Always be explicit about weight on body/caption tokens.</strong> Write <code style="background:#dcfce7;color:#166534;border-color:#86efac">font-normal</code> even when it's the default. Makes intent clear to every developer reading the code.</div>
-          <div style="font-size:13px;color:#166534;line-height:1.6;padding-bottom:12px;border-bottom:1px solid #bbf7d0"><strong>Use <code style="background:#dcfce7;color:#166534;border-color:#86efac">text-label</code> for all form labels, table headers, nav items.</strong> It's always 14px Medium. You never need to think about weight.</div>
-          <div style="font-size:13px;color:#166534;line-height:1.6;padding-bottom:12px;border-bottom:1px solid #bbf7d0"><strong>Use semantic color tokens with typography.</strong> <code style="background:#dcfce7;color:#166534;border-color:#86efac">text-neutral-500</code> not <code style="background:#dcfce7;color:#166534;border-color:#86efac">text-gray-500</code>.</div>
-          <div style="font-size:13px;color:#166534;line-height:1.6;padding-bottom:12px;border-bottom:1px solid #bbf7d0"><strong>Use <code style="background:#dcfce7;color:#166534;border-color:#86efac">text-labelSm</code> for all status badges, chips, and tags.</strong> Single rule covers every status indicator in the app.</div>
-          <div style="font-size:13px;color:#166534;line-height:1.6"><strong>Apply heading tokens only to semantic heading elements.</strong> <code style="background:#dcfce7;color:#166534;border-color:#86efac">text-pageTitle</code> goes on <code>&lt;h1&gt;</code>, not <code>&lt;div&gt;</code>.</div>
-        </div>
-      </div>
-    </div>
-    <div>
-      <div class="dont-card">
-        <div class="dont-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> DON'T</div>
-        <div style="display:flex;flex-direction:column;gap:12px">
-          <div style="font-size:13px;color:var(--error-700);line-height:1.6;padding-bottom:12px;border-bottom:1px solid var(--error-200)"><strong>Don't manually assemble size + weight + color.</strong> Never write <code style="background:var(--error-50);color:var(--error-700);border-color:var(--error-200)">text-sm font-medium text-gray-500</code>. That's exactly what the token system eliminates.</div>
-          <div style="font-size:13px;color:var(--error-700);line-height:1.6;padding-bottom:12px;border-bottom:1px solid var(--error-200)"><strong>Don't add <code style="background:var(--error-50);color:var(--error-700);border-color:var(--error-200)">font-*</code> to Display or Heading tokens.</strong> <code>text-pageTitle font-bold</code> is redundant — Bold is already embedded.</div>
-          <div style="font-size:13px;color:var(--error-700);line-height:1.6;padding-bottom:12px;border-bottom:1px solid var(--error-200)"><strong>Don't use arbitrary pixel sizes.</strong> No <code style="background:var(--error-50);color:var(--error-700);border-color:var(--error-200)">text-[10px]</code>, <code>text-[11px]</code>, <code>text-[7px]</code>. If it doesn't fit in 12px, redesign the component.</div>
-          <div style="font-size:13px;color:var(--error-700);line-height:1.6;padding-bottom:12px;border-bottom:1px solid var(--error-200)"><strong>Don't use <code style="background:var(--error-50);color:var(--error-700);border-color:var(--error-200)">font-light</code> or <code>font-extralight</code>.</strong> Those weights aren't loaded. Browsers synthesize them — blurry on screen, broken in PDF export.</div>
-          <div style="font-size:13px;color:var(--error-700);line-height:1.6"><strong>Don't skip the explicit font-weight on body/caption tokens.</strong> Inherited weight from a parent component is unpredictable. Always be explicit.</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════
-     08 BEFORE vs AFTER
-══════════════════════════════════════════ -->
-<div class="section" id="before">
-  <div class="section-header">
-    <div class="section-tag">17</div>
-    <h2 class="section-title">Before vs After</h2>
-    <p class="section-sub">Side-by-side comparisons showing how the same UI looks before (ad-hoc utility classes) and after (semantic tokens).</p>
-  </div>
-
-  <!-- Code comparison -->
-  <div style="margin-bottom:24px">
-    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--neutral-500);margin-bottom:12px">Code — Checkout page typography</div>
-    <div class="g2">
-      <div>
-        <div style="font-size:11px;font-weight:600;color:var(--error-600);background:var(--error-50);border:1px solid var(--error-200);padding:8px 14px;border-radius:8px 8px 0 0">BEFORE — v1 ad-hoc classes</div>
-        <div class="code-block" style="border-radius:0 0 8px 8px;font-size:10.5px">
-<span class="kw">&lt;h1</span> <span class="at">class</span>=<span class="str">"text-2xl font-bold text-gray-900"</span><span class="kw">&gt;</span>
-  Review Order
-<span class="kw">&lt;/h1&gt;</span>
-<span class="kw">&lt;p</span> <span class="at">class</span>=<span class="str">"text-sm font-normal text-gray-500"</span><span class="kw">&gt;</span>
-  Review your order before payment
-<span class="kw">&lt;/p&gt;</span>
-<span class="kw">&lt;label</span> <span class="at">class</span>=<span class="str">"text-sm font-medium text-gray-700"</span><span class="kw">&gt;</span>
-  Delivery Method
-<span class="kw">&lt;/label&gt;</span>
-<span class="kw">&lt;span</span> <span class="at">class</span>=<span class="str">"text-xs font-medium bg-blue-50</span>
-<span class="str">  text-blue-700 rounded-full px-2 py-0.5"</span><span class="kw">&gt;</span>
-  In Progress
-<span class="kw">&lt;/span&gt;</span>
-<span class="kw">&lt;p</span> <span class="at">class</span>=<span class="str">"text-[10px] text-gray-400"</span><span class="kw">&gt;</span>
-  You won't be charged until ships
-<span class="kw">&lt;/p&gt;</span>
-        </div>
-      </div>
-      <div>
-        <div style="font-size:11px;font-weight:600;color:var(--primary-700);background:var(--primary-50);border:1px solid var(--primary-200);padding:8px 14px;border-radius:8px 8px 0 0">AFTER — v2 semantic tokens</div>
-        <div class="code-block" style="border-radius:0 0 8px 8px;font-size:10.5px">
-<span class="kw">&lt;h1</span> <span class="at">class</span>=<span class="str">"text-pageTitle text-neutral-900"</span><span class="kw">&gt;</span>
-  Review Order
-<span class="kw">&lt;/h1&gt;</span>
-<span class="kw">&lt;p</span> <span class="at">class</span>=<span class="str">"text-bodySm font-normal text-neutral-500"</span><span class="kw">&gt;</span>
-  Review your order before payment
-<span class="kw">&lt;/p&gt;</span>
-<span class="kw">&lt;label</span> <span class="at">class</span>=<span class="str">"text-label text-neutral-700"</span><span class="kw">&gt;</span>
-  Delivery Method
-<span class="kw">&lt;/label&gt;</span>
-<span class="kw">&lt;span</span> <span class="at">class</span>=<span class="str">"text-labelSm bg-info-50</span>
-<span class="str">  text-info-700 rounded-pill px-2 py-0.5"</span><span class="kw">&gt;</span>
-  In Progress
-<span class="kw">&lt;/span&gt;</span>
-<span class="kw">&lt;p</span> <span class="at">class</span>=<span class="str">"text-caption font-normal text-neutral-400"</span><span class="kw">&gt;</span>
-  You won't be charged until ships
-<span class="kw">&lt;/p&gt;</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Visual comparison -->
-  <div>
-    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--neutral-500);margin-bottom:12px">Visual — Dashboard module</div>
-    <div class="g2">
-      <div>
-        <div style="font-size:11px;font-weight:600;color:var(--error-600);background:var(--error-50);border:1px solid var(--error-200);padding:8px 14px;border-radius:8px 8px 0 0">BEFORE — inconsistent hierarchy</div>
-        <div style="background:#fff;border:1px solid var(--neutral-200);border-radius:0 0 12px 12px;padding:20px">
-          <div style="font-size:18px;font-weight:700;color:#111827;margin-bottom:4px">Route Dashboard</div>
-          <div style="font-size:12px;font-weight:400;color:#6b7280;margin-bottom:16px">Chicago Metro · Frankfort</div>
-          <div style="font-size:14px;font-weight:500;color:#374151;margin-bottom:8px">Delivery Method</div>
-          <div style="font-size:13px;font-weight:400;color:#4b5563;margin-bottom:12px">Will-Call Pickup — pick up at OpCo</div>
-          <div style="display:flex;gap:8px">
-            <span style="font-size:11px;font-weight:500;background:#eff6ff;color:#1d4ed8;padding:2px 8px;border-radius:9999px">In Progress</span>
-            <span style="font-size:11px;font-weight:500;background:#ecfdf5;color:#065f46;padding:2px 8px;border-radius:9999px">Active</span>
-          </div>
-          <div style="font-size:10px;color:#9ca3af;margin-top:12px">Posted Jan 8, 2025 · 47 locations</div>
-        </div>
-      </div>
-      <div>
-        <div style="font-size:11px;font-weight:600;color:var(--primary-700);background:var(--primary-50);border:1px solid var(--primary-200);padding:8px 14px;border-radius:8px 8px 0 0">AFTER — clean semantic hierarchy</div>
-        <div style="background:#fff;border:1px solid var(--neutral-200);border-radius:0 0 12px 12px;padding:20px">
-          <div style="font-size:24px;font-weight:600;color:#111827;margin-bottom:4px">Route Dashboard</div>
-          <div style="font-size:12px;font-weight:400;color:#6b7280;margin-bottom:16px">Chicago Metro · Frankfort</div>
-          <div style="font-size:14px;font-weight:500;color:#374151;margin-bottom:8px">Delivery Method</div>
-          <div style="font-size:14px;font-weight:400;color:#4b5563;margin-bottom:12px">Will-Call Pickup — pick up at OpCo</div>
-          <div style="display:flex;gap:8px">
-            <span style="font-size:12px;font-weight:500;background:#eff6ff;color:#1d4ed8;padding:3px 10px;border-radius:9999px">In Progress</span>
-            <span style="font-size:12px;font-weight:500;background:#ecfdf5;color:#065f46;padding:3px 10px;border-radius:9999px">Active</span>
-          </div>
-          <div style="font-size:12px;font-weight:400;color:#9ca3af;margin-top:12px">Posted Jan 8, 2025 · 47 locations</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════
-     09 GOVERNANCE
-══════════════════════════════════════════ -->
-<div class="section" id="governance">
-  <div class="section-header">
-    <div class="section-tag">18</div>
-    <h2 class="section-title">Governance</h2>
-    <p class="section-sub">Rules that prevent the system from degrading. The primary cause of the current mess is no review gate — any developer could add any text class anywhere. These rules fix that.</p>
-  </div>
-
-  <div class="g2" style="margin-bottom:24px">
-    <div class="card" style="padding:0;overflow:hidden">
-      <div style="padding:14px 20px;background:var(--primary-50);border-bottom:1px solid var(--primary-100);font-size:12px;font-weight:700;color:var(--primary-700)">✓ Approved — always OK to use</div>
-      <div style="padding:8px 0">
-        <div class="gov-row" style="padding:10px 20px">
-          <div class="gov-check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--primary-600)" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
-          <div>Any of the 13 typography tokens from this system</div>
-        </div>
-        <div class="gov-row" style="padding:10px 20px">
-          <div class="gov-check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--primary-600)" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
-          <div><code>font-normal</code> <code>font-medium</code> <code>font-semibold</code> <code>font-bold</code> on composable tokens</div>
-        </div>
-        <div class="gov-row" style="padding:10px 20px">
-          <div class="gov-check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--primary-600)" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
-          <div>Semantic color tokens: <code>text-neutral-*</code> <code>text-primary-*</code> <code>text-error-*</code> etc.</div>
-        </div>
-        <div class="gov-row" style="padding:10px 20px">
-          <div class="gov-check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--primary-600)" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
-          <div><code>italic</code> modifier on body/caption only (never on headings)</div>
-        </div>
-        <div class="gov-row" style="padding:10px 20px">
-          <div class="gov-check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--primary-600)" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
-          <div><code>uppercase</code> + <code>tracking-wide</code> on <code>text-labelSm</code> for all-caps labels</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="card" style="padding:0;overflow:hidden">
-      <div style="padding:14px 20px;background:var(--error-50);border-bottom:1px solid var(--error-200);font-size:12px;font-weight:700;color:var(--error-700)">✗ Banned — never use</div>
-      <div style="padding:8px 0">
-        <div class="gov-row" style="padding:10px 20px">
-          <div class="gov-x"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--error-500)" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
-          <div>Raw Tailwind text sizes: <code>text-xs</code> <code>text-sm</code> <code>text-base</code> <code>text-lg</code> <code>text-xl</code> <code>text-2xl</code> etc.</div>
-        </div>
-        <div class="gov-row" style="padding:10px 20px">
-          <div class="gov-x"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--error-500)" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
-          <div>Arbitrary sizes: <code>text-[7px]</code> <code>text-[10px]</code> <code>text-[41px]</code> etc.</div>
-        </div>
-        <div class="gov-row" style="padding:10px 20px">
-          <div class="gov-x"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--error-500)" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
-          <div>Unloaded weights: <code>font-light</code> <code>font-extralight</code> <code>font-thin</code></div>
-        </div>
-        <div class="gov-row" style="padding:10px 20px">
-          <div class="gov-x"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--error-500)" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
-          <div>Raw Tailwind colors: <code>text-gray-*</code> <code>text-green-*</code> <code>text-red-*</code> etc.</div>
-        </div>
-        <div class="gov-row" style="padding:10px 20px">
-          <div class="gov-x"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--error-500)" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
-          <div>Hardcoded hex in JSX: <code>style={{ color: '#374151' }}</code></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="g2">
-    <div class="card">
-      <div class="card-title" style="margin-bottom:16px">PR review checklist</div>
-      <div style="display:flex;flex-direction:column;gap:4px">
-        <div class="step-row" style="padding:10px 0">
-          <div class="step-num" style="width:20px;height:20px;font-size:10px">1</div>
-          <div class="step-body">Grep for <code>text-sm</code> <code>text-xs</code> <code>text-base</code> <code>text-lg</code> etc. — should be zero new instances.</div>
-        </div>
-        <div class="step-row" style="padding:10px 0">
-          <div class="step-num" style="width:20px;height:20px;font-size:10px">2</div>
-          <div class="step-body">Grep for <code>text-gray-</code> <code>text-green-</code> <code>text-red-</code> — should be zero new instances.</div>
-        </div>
-        <div class="step-row" style="padding:10px 0">
-          <div class="step-num" style="width:20px;height:20px;font-size:10px">3</div>
-          <div class="step-body">Every <code>text-body</code> / <code>text-bodySm</code> / <code>text-caption</code> must have an explicit <code>font-*</code> alongside it.</div>
-        </div>
-        <div class="step-row" style="padding:10px 0">
-          <div class="step-num" style="width:20px;height:20px;font-size:10px">4</div>
-          <div class="step-body">No <code>font-light</code> or <code>font-extralight</code> in any new file.</div>
-        </div>
-        <div class="step-row" style="padding:10px 0">
-          <div class="step-num" style="width:20px;height:20px;font-size:10px">5</div>
-          <div class="step-body">No arbitrary sizes. If a new size is genuinely needed, open a design token PR first.</div>
-        </div>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-title" style="margin-bottom:16px">When to add a new token</div>
-      <div style="font-size:13px;color:var(--neutral-600);line-height:1.7;margin-bottom:16px">The 13-token system covers every VendHub pattern. A new token is justified only if:</div>
-      <div style="display:flex;flex-direction:column;gap:8px">
-        <div style="display:flex;gap:10px;font-size:13px;color:var(--neutral-700)">
-          <span style="color:var(--primary-600);font-weight:700;flex-shrink:0">①</span>
-          <span>A genuine new UI pattern exists that none of the 13 tokens address (not just a different weight at an existing size).</span>
-        </div>
-        <div style="display:flex;gap:10px;font-size:13px;color:var(--neutral-700)">
-          <span style="color:var(--primary-600);font-weight:700;flex-shrink:0">②</span>
-          <span>The pattern appears in at least 5 different places in the codebase — not a one-off special case.</span>
-        </div>
-        <div style="display:flex;gap:10px;font-size:13px;color:var(--neutral-700)">
-          <span style="color:var(--primary-600);font-weight:700;flex-shrink:0">③</span>
-          <span>A Figma text style for it has been created and reviewed in the design file first.</span>
-        </div>
-        <div style="display:flex;gap:10px;font-size:13px;color:var(--neutral-700)">
-          <span style="color:var(--primary-600);font-weight:700;flex-shrink:0">④</span>
-          <span>Both this document and the Figma file are updated in the same PR.</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════
-     10 RESPONSIVE TYPOGRAPHY
-══════════════════════════════════════════ -->
-<div class="section" id="responsive">
-  <div class="section-header">
-    <div class="section-tag">19</div>
-    <h2 class="section-title">Responsive Typography</h2>
-    <p class="section-sub">Display and Heading tokens scale down on smaller viewports. Body, Label, and Caption stay the same size across all breakpoints — they're already optimized for small screens.</p>
-  </div>
-
-  <div class="info-box" style="margin-bottom:24px">
-    <div class="info-box-title">Industry standard — every major system does this</div>
-    <div class="info-box-body">Material Design 3 defines compact/medium/expanded size classes. Shopify Polaris scales tokens per breakpoint. GitHub Primer uses <code>rem</code> with responsive overrides. A 72px hero title on a 390px screen is unreadable without responsive scaling.</div>
-  </div>
-
-  <div class="card" style="padding:0;overflow:hidden;margin-bottom:24px">
-    <table class="tbl">
-      <thead>
-        <tr>
-          <th>Token</th>
-          <th>Desktop (lg+)</th>
-          <th>Tablet (md)</th>
-          <th>Mobile (default)</th>
-          <th>Strategy</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr style="background:#faf5ff">
-          <td><code style="background:#ede9fe;color:#5b21b6;border-color:#c4b5fd">displayXL</code></td>
-          <td>72px / 86px</td>
-          <td>56px / 64px</td>
-          <td>40px / 48px</td>
-          <td style="font-size:11px;color:var(--neutral-500)">Scales aggressively — hero text must fit mobile</td>
-        </tr>
-        <tr style="background:#faf5ff">
-          <td><code style="background:#ede9fe;color:#5b21b6;border-color:#c4b5fd">displayLG</code></td>
-          <td>48px / 58px</td>
-          <td>40px / 48px</td>
-          <td>32px / 40px</td>
-          <td style="font-size:11px;color:var(--neutral-500)">Landing sections scale to pageTitle size on mobile</td>
-        </tr>
-        <tr style="background:#eff6ff">
-          <td><code style="background:var(--info-50);color:var(--info-700);border-color:var(--info-200)">pageTitle</code></td>
-          <td>32px / 40px</td>
-          <td>28px / 36px</td>
-          <td>24px / 32px</td>
-          <td style="font-size:11px;color:var(--neutral-500)">Moderate scale — page titles must stay prominent</td>
-        </tr>
-        <tr style="background:#eff6ff">
-          <td><code style="background:var(--info-50);color:var(--info-700);border-color:var(--info-200)">sectionTitle</code></td>
-          <td>24px / 32px</td>
-          <td>24px / 32px</td>
-          <td>20px / 28px</td>
-          <td style="font-size:11px;color:var(--neutral-500)">Only scales at mobile — stable at tablet+</td>
-        </tr>
-        <tr style="background:#eff6ff">
-          <td><code style="background:var(--info-50);color:var(--info-700);border-color:var(--info-200)">subheading</code></td>
-          <td colspan="3" style="text-align:center;color:var(--neutral-400)">20px / 28px — no scaling</td>
-          <td style="font-size:11px;color:var(--neutral-500)">Already small enough for mobile</td>
-        </tr>
-        <tr>
-          <td style="color:var(--neutral-400)">body · bodySm · label · labelSm · caption</td>
-          <td colspan="3" style="text-align:center;color:var(--neutral-400)">No scaling — fixed across all breakpoints</td>
-          <td style="font-size:11px;color:var(--neutral-500)">Body text ≤ 16px is readable at all sizes</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--neutral-500);margin-bottom:12px">Implementation — CSS custom properties approach</div>
-  <div class="code-block" style="margin-bottom:24px">
-<span class="cm">/* globals.css — responsive typography overrides */</span>
-<span class="cm">/* Base = mobile-first (smallest sizes) */</span>
-
-<span class="kw">:root</span> {
-  <span class="at">--font-display-xl</span>:    <span class="str">2.5rem</span>;   <span class="cm">/* 40px */</span>
-  <span class="at">--lh-display-xl</span>:      <span class="str">3rem</span>;     <span class="cm">/* 48px */</span>
-  <span class="at">--font-display-lg</span>:    <span class="str">2rem</span>;     <span class="cm">/* 32px */</span>
-  <span class="at">--lh-display-lg</span>:      <span class="str">2.5rem</span>;   <span class="cm">/* 40px */</span>
-  <span class="at">--font-page-title</span>:    <span class="str">1.5rem</span>;   <span class="cm">/* 24px */</span>
-  <span class="at">--lh-page-title</span>:      <span class="str">2rem</span>;     <span class="cm">/* 32px */</span>
-  <span class="at">--font-section-title</span>: <span class="str">1.25rem</span>;  <span class="cm">/* 20px */</span>
-  <span class="at">--lh-section-title</span>:   <span class="str">1.75rem</span>;  <span class="cm">/* 28px */</span>
+  `).join('');
 }
+testerInput.addEventListener('input', renderTester);
+renderTester();
 
-<span class="kw">@media</span> (<span class="at">min-width</span>: <span class="str">768px</span>) {
-  <span class="kw">:root</span> {
-    <span class="at">--font-display-xl</span>:    <span class="str">3.5rem</span>;   <span class="cm">/* 56px */</span>
-    <span class="at">--lh-display-xl</span>:      <span class="str">4rem</span>;     <span class="cm">/* 64px */</span>
-    <span class="at">--font-display-lg</span>:    <span class="str">2.5rem</span>;   <span class="cm">/* 40px */</span>
-    <span class="at">--lh-display-lg</span>:      <span class="str">3rem</span>;     <span class="cm">/* 48px */</span>
-    <span class="at">--font-page-title</span>:    <span class="str">1.75rem</span>;  <span class="cm">/* 28px */</span>
-    <span class="at">--lh-page-title</span>:      <span class="str">2.25rem</span>;  <span class="cm">/* 36px */</span>
-    <span class="at">--font-section-title</span>: <span class="str">1.5rem</span>;   <span class="cm">/* 24px */</span>
-    <span class="at">--lh-section-title</span>:   <span class="str">2rem</span>;     <span class="cm">/* 32px */</span>
-  }
-}
+// ═══ SCROLL REVEAL ═══
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); obs.unobserve(e.target); }});
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
-<span class="kw">@media</span> (<span class="at">min-width</span>: <span class="str">1024px</span>) {
-  <span class="kw">:root</span> {
-    <span class="at">--font-display-xl</span>:    <span class="str">4.5rem</span>;   <span class="cm">/* 72px */</span>
-    <span class="at">--lh-display-xl</span>:      <span class="str">5.375rem</span>; <span class="cm">/* 86px */</span>
-    <span class="at">--font-display-lg</span>:    <span class="str">3rem</span>;     <span class="cm">/* 48px */</span>
-    <span class="at">--lh-display-lg</span>:      <span class="str">3.625rem</span>; <span class="cm">/* 58px */</span>
-    <span class="at">--font-page-title</span>:    <span class="str">2rem</span>;     <span class="cm">/* 32px */</span>
-    <span class="at">--lh-page-title</span>:      <span class="str">2.5rem</span>;   <span class="cm">/* 40px */</span>
-    <span class="at">--font-section-title</span>: <span class="str">1.5rem</span>;   <span class="cm">/* 24px — same as tablet */</span>
-    <span class="at">--lh-section-title</span>:   <span class="str">2rem</span>;     <span class="cm">/* 32px */</span>
-  }
-}
-  </div>
-
-  <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--neutral-500);margin-bottom:12px">Updated Tailwind config — using CSS variables</div>
-  <div class="code-block">
-<span class="cm">// tailwind.config.ts — responsive display/heading tokens</span>
-<span class="cm">// These reference CSS custom properties set in globals.css</span>
-
-<span class="fn">displayXL</span>:    [<span class="str">"var(--font-display-xl)"</span>,    { <span class="at">lineHeight</span>: <span class="str">"var(--lh-display-xl)"</span>,    <span class="at">fontWeight</span>: <span class="str">"700"</span>, <span class="at">letterSpacing</span>: <span class="str">"-0.02em"</span> }],
-<span class="fn">displayLG</span>:    [<span class="str">"var(--font-display-lg)"</span>,    { <span class="at">lineHeight</span>: <span class="str">"var(--lh-display-lg)"</span>,    <span class="at">fontWeight</span>: <span class="str">"700"</span>, <span class="at">letterSpacing</span>: <span class="str">"-0.015em"</span> }],
-<span class="fn">pageTitle</span>:    [<span class="str">"var(--font-page-title)"</span>,    { <span class="at">lineHeight</span>: <span class="str">"var(--lh-page-title)"</span>,    <span class="at">fontWeight</span>: <span class="str">"700"</span>, <span class="at">letterSpacing</span>: <span class="str">"-0.01em"</span> }],
-<span class="fn">sectionTitle</span>: [<span class="str">"var(--font-section-title)"</span>, { <span class="at">lineHeight</span>: <span class="str">"var(--lh-section-title)"</span>, <span class="at">fontWeight</span>: <span class="str">"600"</span>, <span class="at">letterSpacing</span>: <span class="str">"-0.005em"</span> }],
-
-<span class="cm">// subheading, body, bodySm, label, labelSm, caption — keep static rem values</span>
-  </div>
-
-  <div class="g2" style="margin-top:16px">
-    <div class="do-card">
-      <div class="do-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> DO</div>
-      <div style="font-size:13px;color:#166534;line-height:1.7">Use <code style="background:#dcfce7;color:#166534;border-color:#86efac">text-displayXL</code> and let the CSS variables handle scaling. You write one class — it responds to three breakpoints automatically.</div>
-    </div>
-    <div class="dont-card">
-      <div class="dont-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> DON'T</div>
-      <div style="font-size:13px;color:var(--error-700);line-height:1.7">Don't manually override with <code style="background:var(--error-50);color:var(--error-700);border-color:var(--error-200)">text-displayXL md:text-displayLG lg:text-displayXL</code>. The responsive scaling is built into the token itself via CSS variables.</div>
-    </div>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════
-     11 TYPOGRAPHY COMPONENTS
-══════════════════════════════════════════ -->
-<div class="section" id="components">
-  <div class="section-header">
-    <div class="section-tag">20</div>
-    <h2 class="section-title">Typography Components</h2>
-    <p class="section-sub">Copy-paste TSX components that enforce the type system. These prevent drift by making it impossible to pick the wrong token — the component does it for you. Based on the same pattern used by Shopify Polaris (<code>&lt;Text variant="..."&gt;</code>) and GitHub Primer (<code>&lt;Heading&gt;</code>).</p>
-  </div>
-
-  <div class="info-box" style="margin-bottom:24px">
-    <div class="info-box-title">Audit finding P6 — "No typography components"</div>
-    <div class="info-box-body">The audit flagged zero shared <code>&lt;Heading&gt;</code> or <code>&lt;Text&gt;</code> components. Every file manually assembles utility class combos — 424 instances of <code>text-sm font-medium</code> alone. These components are the enforcement mechanism that turns governance rules from "please follow" to "can't violate."</div>
-  </div>
-
-  <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--neutral-500);margin-bottom:12px">Heading component — components/ui/heading.tsx</div>
-  <div class="code-block" style="margin-bottom:24px;font-size:10.5px">
-<span class="kw">import</span> { <span class="fn">cva</span>, <span class="kw">type</span> <span class="type">VariantProps</span> } <span class="kw">from</span> <span class="str">"class-variance-authority"</span>
-<span class="kw">import</span> { <span class="fn">cn</span> } <span class="kw">from</span> <span class="str">"@/lib/utils"</span>
-
-<span class="kw">const</span> <span class="fn">headingVariants</span> = <span class="fn">cva</span>(<span class="str">"text-neutral-900"</span>, {
-  <span class="at">variants</span>: {
-    <span class="at">level</span>: {
-      <span class="num">1</span>: <span class="str">"text-pageTitle"</span>,
-      <span class="num">2</span>: <span class="str">"text-sectionTitle"</span>,
-      <span class="num">3</span>: <span class="str">"text-subheading"</span>,
-    },
-  },
-  <span class="at">defaultVariants</span>: { <span class="at">level</span>: <span class="num">2</span> },
-})
-
-<span class="kw">type</span> <span class="type">HeadingLevel</span> = <span class="num">1</span> | <span class="num">2</span> | <span class="num">3</span>
-
-<span class="kw">interface</span> <span class="type">HeadingProps</span>
-  <span class="kw">extends</span> <span class="type">React.HTMLAttributes</span>&lt;<span class="type">HTMLHeadingElement</span>&gt;,
-    <span class="type">VariantProps</span>&lt;<span class="kw">typeof</span> headingVariants&gt; {
-  <span class="at">as</span>?: <span class="str">`h${HeadingLevel}`</span>
-}
-
-<span class="kw">export function</span> <span class="fn">Heading</span>({
-  <span class="at">level</span> = <span class="num">2</span>,
-  <span class="at">as</span>,
-  <span class="at">className</span>,
-  <span class="at">children</span>,
-  ...<span class="at">props</span>
-}: <span class="type">HeadingProps</span>) {
-  <span class="kw">const</span> <span class="fn">Tag</span> = as ?? (<span class="str">`h${level}`</span> <span class="kw">as</span> <span class="kw">const</span>)
-  <span class="kw">return</span> &lt;<span class="fn">Tag</span> <span class="at">className</span>={<span class="fn">cn</span>(<span class="fn">headingVariants</span>({ <span class="at">level</span> }), className)} {...props}&gt;
-    {children}
-  &lt;/<span class="fn">Tag</span>&gt;
-}
-  </div>
-
-  <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--neutral-500);margin-bottom:12px">Text component — components/ui/text.tsx</div>
-  <div class="code-block" style="margin-bottom:24px;font-size:10.5px">
-<span class="kw">import</span> { <span class="fn">cva</span>, <span class="kw">type</span> <span class="type">VariantProps</span> } <span class="kw">from</span> <span class="str">"class-variance-authority"</span>
-<span class="kw">import</span> { <span class="fn">cn</span> } <span class="kw">from</span> <span class="str">"@/lib/utils"</span>
-
-<span class="kw">const</span> <span class="fn">textVariants</span> = <span class="fn">cva</span>(<span class="str">""</span>, {
-  <span class="at">variants</span>: {
-    <span class="at">variant</span>: {
-      <span class="str">"body"</span>:    <span class="str">"text-body text-neutral-700"</span>,
-      <span class="str">"bodySm"</span>:  <span class="str">"text-bodySm text-neutral-600"</span>,
-      <span class="str">"label"</span>:   <span class="str">"text-label text-neutral-800"</span>,
-      <span class="str">"labelSm"</span>: <span class="str">"text-labelSm"</span>,
-      <span class="str">"caption"</span>: <span class="str">"text-caption text-neutral-500"</span>,
-    },
-    <span class="at">weight</span>: {
-      <span class="str">"normal"</span>:   <span class="str">"font-normal"</span>,
-      <span class="str">"medium"</span>:   <span class="str">"font-medium"</span>,
-      <span class="str">"semibold"</span>: <span class="str">"font-semibold"</span>,
-    },
-  },
-  <span class="at">defaultVariants</span>: {
-    <span class="at">variant</span>: <span class="str">"bodySm"</span>,
-    <span class="at">weight</span>:  <span class="str">"normal"</span>,
-  },
-})
-
-<span class="kw">interface</span> <span class="type">TextProps</span>
-  <span class="kw">extends</span> <span class="type">React.HTMLAttributes</span>&lt;<span class="type">HTMLElement</span>&gt;,
-    <span class="type">VariantProps</span>&lt;<span class="kw">typeof</span> textVariants&gt; {
-  <span class="at">as</span>?: <span class="str">"p"</span> | <span class="str">"span"</span> | <span class="str">"div"</span> | <span class="str">"label"</span> | <span class="str">"th"</span>
-}
-
-<span class="kw">export function</span> <span class="fn">Text</span>({
-  <span class="at">variant</span> = <span class="str">"bodySm"</span>,
-  <span class="at">weight</span> = <span class="str">"normal"</span>,
-  <span class="at">as</span>: Tag = <span class="str">"span"</span>,
-  <span class="at">className</span>,
-  <span class="at">children</span>,
-  ...<span class="at">props</span>
-}: <span class="type">TextProps</span>) {
-  <span class="cm">// Label/labelSm already embed Medium — skip weight prop</span>
-  <span class="kw">const</span> <span class="fn">effectiveWeight</span> = (variant === <span class="str">"label"</span> || variant === <span class="str">"labelSm"</span>)
-    ? <span class="kw">undefined</span> : weight
-
-  <span class="kw">return</span> &lt;<span class="fn">Tag</span>
-    <span class="at">className</span>={<span class="fn">cn</span>(<span class="fn">textVariants</span>({ variant, <span class="at">weight</span>: effectiveWeight }), className)}
-    {...props}
-  &gt;
-    {children}
-  &lt;/<span class="fn">Tag</span>&gt;
-}
-  </div>
-
-  <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--neutral-500);margin-bottom:12px">Usage examples</div>
-  <div class="g2" style="margin-bottom:24px">
-    <div class="code-block" style="font-size:10.5px">
-<span class="cm">// Before — ad-hoc utility classes</span>
-<span class="kw">&lt;h1</span> <span class="at">class</span>=<span class="str">"text-2xl font-bold text-gray-900"</span><span class="kw">&gt;</span>
-  Review Order
-<span class="kw">&lt;/h1&gt;</span>
-<span class="kw">&lt;label</span> <span class="at">class</span>=<span class="str">"text-sm font-medium text-gray-700"</span><span class="kw">&gt;</span>
-  Delivery Method
-<span class="kw">&lt;/label&gt;</span>
-<span class="kw">&lt;span</span> <span class="at">class</span>=<span class="str">"text-xs font-medium"</span><span class="kw">&gt;</span>Active<span class="kw">&lt;/span&gt;</span>
-<span class="kw">&lt;p</span> <span class="at">class</span>=<span class="str">"text-[10px] text-gray-400"</span><span class="kw">&gt;</span>
-  Updated 2h ago
-<span class="kw">&lt;/p&gt;</span>
-    </div>
-    <div class="code-block" style="font-size:10.5px">
-<span class="cm">// After — enforced by components</span>
-<span class="kw">&lt;</span><span class="fn">Heading</span> <span class="at">level</span>={<span class="num">1</span>}<span class="kw">&gt;</span>
-  Review Order
-<span class="kw">&lt;/</span><span class="fn">Heading</span><span class="kw">&gt;</span>
-<span class="kw">&lt;</span><span class="fn">Text</span> <span class="at">variant</span>=<span class="str">"label"</span> <span class="at">as</span>=<span class="str">"label"</span><span class="kw">&gt;</span>
-  Delivery Method
-<span class="kw">&lt;/</span><span class="fn">Text</span><span class="kw">&gt;</span>
-<span class="kw">&lt;</span><span class="fn">Text</span> <span class="at">variant</span>=<span class="str">"labelSm"</span><span class="kw">&gt;</span>Active<span class="kw">&lt;/</span><span class="fn">Text</span><span class="kw">&gt;</span>
-<span class="kw">&lt;</span><span class="fn">Text</span> <span class="at">variant</span>=<span class="str">"caption"</span> <span class="at">as</span>=<span class="str">"p"</span><span class="kw">&gt;</span>
-  Updated 2h ago
-<span class="kw">&lt;/</span><span class="fn">Text</span><span class="kw">&gt;</span>
-    </div>
-  </div>
-
-  <div class="g2">
-    <div class="info-box">
-      <div class="info-box-title">Gradual adoption — not a big-bang rewrite</div>
-      <div class="info-box-body">Use these components in all <strong>new code</strong>. For existing files, migrate page-by-page during the token migration (Step 17 in the Audit Action Plan). The utility class approach from the other sections still works — these components are an ergonomic layer on top, not a replacement for knowing the tokens.</div>
-    </div>
-    <div class="info-box">
-      <div class="info-box-title">Why CVA (class-variance-authority)?</div>
-      <div class="info-box-body">CVA is already in VendHub's dependency tree via shadcn/ui. It provides type-safe variant props, auto-complete in VS Code, and composes cleanly with <code>cn()</code>. No new dependencies needed.</div>
-    </div>
-  </div>
-</div>
-</div>
+// ═══ NAV ACTIVE STATE ═══
+const navLinks = document.querySelectorAll('.nav-pill');
+const sections = document.querySelectorAll('.section');
+const navObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting){
+      navLinks.forEach(l => l.classList.remove('active'));
+      const active = document.querySelector(`.nav-pill[href="#${e.target.id}"]`);
+      if(active) active.classList.add('active');
+    }
+  });
+}, { threshold: 0.2, rootMargin: '-80px 0px -60% 0px' });
+sections.forEach(s => navObs.observe(s));
+</script>
 </body>
 </html>

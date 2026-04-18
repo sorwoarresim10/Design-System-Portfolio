@@ -4,1767 +4,461 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>VendHub — Spacing System</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:#050A06;color:#E5E7EB;line-height:1.5;-webkit-font-smoothing:antialiased}
+html{scroll-behavior:smooth}
 
-  :root {
-    --primary-50:  #F0FDF4; --primary-100: #DCFCE7; --primary-200: #BBF7D0;
-    --primary-300: #86EFAC; --primary-500: #22C55E;
-    --primary-600: #16A34A; --primary-700: #15803D; --primary-800: #166534;
-    --neutral-50:  #F9FAFB; --neutral-100: #F3F4F6; --neutral-200: #E5E7EB;
-    --neutral-300: #D1D5DB; --neutral-400: #9CA3AF; --neutral-500: #6B7280;
-    --neutral-600: #4B5563; --neutral-700: #374151; --neutral-800: #1F2937; --neutral-900: #111827;
-    --error-50: #FEF2F2; --error-200: #FECACA; --error-500: #EF4444; --error-700: #B91C1C;
-    --warning-50: #FFFBEB; --warning-200: #FDE68A; --warning-500: #F59E0B; --warning-700: #B45309;
-    --info-50: #EFF6FF; --info-200: #BFDBFE; --info-500: #3B82F6; --info-700: #1D4ED8;
-    --success-50: #ECFDF5; --success-200: #A7F3D0; --success-700: #047857;
-    --radius-sm: 4px; --radius-md: 8px; --radius-lg: 12px;
-    /* spacing token colors */
-    --micro-color: #8B5CF6;    /* violet */
-    --comp-color:  #16A34A;    /* brand green */
-    --layout-color: #2563EB;   /* blue */
-  }
+/* ═══ HERO ═══ */
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:60px 24px}
+.hero::before{content:'';position:absolute;width:900px;height:900px;top:-250px;left:50%;transform:translateX(-50%);background:radial-gradient(circle,rgba(22,163,74,.1) 0%,transparent 60%);pointer-events:none}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(34,197,94,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(34,197,94,.03) 1px,transparent 1px);background-size:48px 48px;mask-image:radial-gradient(ellipse 60% 50% at 50% 40%,black,transparent 80%);-webkit-mask-image:radial-gradient(ellipse 60% 50% at 50% 40%,black,transparent 80%)}
+.hero-content{position:relative;text-align:center;max-width:800px}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(22,163,74,.1);border:1px solid rgba(22,163,74,.25);border-radius:100px;padding:6px 16px;font-size:12px;font-weight:600;color:#4ADE80;margin-bottom:28px;animation:fadeIn .6s both}
+.hero-badge-dot{width:7px;height:7px;border-radius:50%;background:#22C55E;box-shadow:0 0 10px rgba(34,197,94,.6)}
+.hero-title{font-size:clamp(40px,7vw,80px);font-weight:800;color:#fff;line-height:1;letter-spacing:-.04em;margin-bottom:20px;animation:fadeIn .6s .1s both}
+.hero-title span{background:linear-gradient(135deg,#4ADE80,#22C55E);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:clamp(15px,2vw,18px);color:#9CA3AF;line-height:1.7;max-width:520px;margin:0 auto 48px;animation:fadeIn .6s .2s both}
 
-  html { font-size: 14px; }
-  body { font-family: 'Plus Jakarta Sans', sans-serif; background: #FAFAFA; color: var(--neutral-800); line-height: 1.5; }
+/* Hero bar chart */
+.hero-bars{display:flex;align-items:flex-end;justify-content:center;gap:6px;height:140px;animation:fadeIn .8s .4s both}
+.hero-bar{border-radius:4px 4px 0 0;width:clamp(16px,3vw,28px);transition:height .6s cubic-bezier(.34,1.56,.64,1),opacity .3s;cursor:pointer;position:relative}
+.hero-bar:hover{opacity:.8 !important}
+.hero-bar-label{position:absolute;bottom:-20px;left:50%;transform:translateX(-50%);font-size:9px;font-weight:600;color:#4B5563;white-space:nowrap;font-family:'SF Mono','Fira Code',monospace}
 
-  /* ── LAYOUT ──────────────────────────────────── */
-  .page { max-width: 1120px; margin: 0 auto; padding: 0 48px 80px; }
+@keyframes fadeIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 
-  /* ── COVER ───────────────────────────────────── */
-  .cover { background: var(--neutral-900); padding: 64px 48px 56px; margin-bottom: 64px; position: relative; overflow: hidden; }
-  .cover::before {
-    content: ''; position: absolute; inset: 0;
-    background: repeating-linear-gradient(45deg, transparent, transparent 40px, rgba(255,255,255,.015) 40px, rgba(255,255,255,.015) 41px);
-  }
-  .cover-inner { position: relative; z-index: 1; max-width: 1120px; margin: 0 auto; }
-  .cover-eyebrow {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: rgba(22,163,74,.15); border: 1px solid rgba(22,163,74,.3);
-    border-radius: 20px; padding: 4px 14px;
-    font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
-    color: var(--primary-500); margin-bottom: 24px;
-  }
-  .cover-eyebrow-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--primary-500); }
-  .cover-title { font-size: 52px; font-weight: 700; color: #fff; line-height: 1.1; margin-bottom: 16px; letter-spacing: -.02em; }
-  .cover-title span { color: var(--primary-500); }
-  .cover-sub { font-size: 16px; color: var(--neutral-400); max-width: 560px; line-height: 1.7; margin-bottom: 40px; }
-  .cover-meta { display: flex; gap: 32px; flex-wrap: wrap; }
-  .cover-meta-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--neutral-600); margin-bottom: 4px; }
-  .cover-meta-value { font-size: 13px; color: var(--neutral-300); font-weight: 500; }
-  .cover-libs { display: flex; gap: 10px; margin-top: 32px; flex-wrap: wrap; }
-  .lib-tag { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; }
-  .lib-violet   { background: rgba(139,92,246,.15); color: #a78bfa; border: 1px solid rgba(139,92,246,.25); }
-  .lib-green    { background: rgba(22,163,74,.15);  color: var(--primary-500); border: 1px solid rgba(22,163,74,.25); }
-  .lib-blue     { background: rgba(37,99,235,.15);  color: #60a5fa; border: 1px solid rgba(37,99,235,.25); }
-  .lib-gray     { background: rgba(107,114,128,.1); color: var(--neutral-400); border: 1px solid rgba(107,114,128,.2); }
+/* ═══ NAV ═══ */
+.nav-pills{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;position:sticky;top:0;z-index:50;background:rgba(5,10,6,.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);padding:16px 0}
+.nav-pill{padding:7px 16px;border-radius:100px;font-size:12px;font-weight:600;color:#9CA3AF;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);text-decoration:none;transition:all .2s}
+.nav-pill:hover,.nav-pill.active{background:rgba(22,163,74,.12);border-color:rgba(22,163,74,.3);color:#4ADE80}
 
-  /* ── TOC ─────────────────────────────────────── */
-  .toc { background: #fff; border: 1px solid var(--neutral-200); border-radius: var(--radius-lg); padding: 28px 32px; margin-bottom: 56px; }
-  .toc-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--neutral-500); margin-bottom: 20px; }
-  .toc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-  .toc-item {
-    display: flex; align-items: center; gap: 8px; padding: 10px 14px;
-    border-radius: var(--radius-md); background: var(--neutral-50); border: 1px solid var(--neutral-100);
-    font-size: 12px; font-weight: 600; color: var(--neutral-600); text-decoration: none; transition: all .15s;
-  }
-  .toc-item:hover { background: var(--primary-50); border-color: var(--primary-200); color: var(--primary-700); }
-  .toc-num { font-size: 10px; font-weight: 700; color: var(--neutral-400); }
-  .toc-file-label {
-    font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em;
-    color: var(--neutral-500); margin-bottom: 10px; margin-top: 20px;
-    padding-bottom: 6px; border-bottom: 1px solid var(--neutral-100);
-  }
+/* ═══ LAYOUT ═══ */
+.page{max-width:1120px;margin:0 auto;padding:0 32px 80px}
+.section{margin-bottom:80px}
+.section-header{margin-bottom:32px}
+.section-tag{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#22C55E;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.section-tag::after{content:'';flex:1;height:1px;background:rgba(22,163,74,.2)}
+.section-title{font-size:28px;font-weight:700;color:#fff;margin-bottom:8px;letter-spacing:-.01em}
+.section-sub{font-size:14px;color:#9CA3AF;line-height:1.7;max-width:640px}
 
-  /* ── SECTION ─────────────────────────────────── */
-  .section { margin-bottom: 80px; }
-  .section-header { margin-bottom: 32px; }
-  .section-tag { font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--primary-600); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
-  .section-tag::after { content: ''; flex: 1; height: 1px; background: var(--primary-100); }
-  .section-title { font-size: 26px; font-weight: 700; color: var(--neutral-900); margin-bottom: 8px; letter-spacing: -.01em; }
-  .section-sub { font-size: 14px; color: var(--neutral-500); line-height: 1.7; max-width: 680px; }
+/* ═══ BASE UNIT ═══ */
+.base-demo{display:flex;align-items:center;justify-content:center;gap:32px;padding:40px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);border-radius:16px;margin-bottom:24px;flex-wrap:wrap}
+.base-block{display:flex;flex-direction:column;align-items:center;gap:12px}
+.base-square{border:2px dashed rgba(34,197,94,.4);display:flex;align-items:center;justify-content:center;transition:all .3s}
+.base-square:hover{border-color:#22C55E;background:rgba(34,197,94,.06)}
+.base-square-inner{background:#22C55E;border-radius:2px}
+.base-label{font-size:12px;font-weight:600;color:#9CA3AF}
+.base-value{font-family:'SF Mono','Fira Code',monospace;font-size:18px;font-weight:700;color:#fff}
+.base-caption{font-size:11px;color:#6B7280;text-align:center;max-width:100px}
+.base-equation{display:flex;align-items:center;gap:12px;justify-content:center;padding:16px;background:rgba(0,0,0,.2);border-radius:10px;margin-bottom:0}
+.base-eq-item{font-family:'SF Mono','Fira Code',monospace;font-size:14px;font-weight:600;color:#fff}
+.base-eq-op{font-size:16px;color:#4ADE80}
 
-  /* ── CARD ────────────────────────────────────── */
-  .card { background: #fff; border: 1px solid var(--neutral-200); border-radius: var(--radius-lg); padding: 24px; }
-  .card-sm { padding: 16px 20px; }
-  .card-title { font-size: 13px; font-weight: 600; color: var(--neutral-800); margin-bottom: 6px; }
-  .card-body { font-size: 13px; color: var(--neutral-500); line-height: 1.7; }
+/* ═══ INTERACTIVE SCALE ═══ */
+.scale-filters{display:flex;gap:6px;margin-bottom:20px;flex-wrap:wrap}
+.scale-filter{padding:6px 14px;border-radius:100px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid;transition:all .2s}
+.scale-filter[data-group="all"]{color:#fff;border-color:rgba(255,255,255,.15);background:rgba(255,255,255,.06)}
+.scale-filter[data-group="micro"]{color:#C4B5FD;border-color:rgba(139,92,246,.25);background:rgba(139,92,246,.06)}
+.scale-filter[data-group="component"]{color:#86EFAC;border-color:rgba(34,197,94,.25);background:rgba(34,197,94,.06)}
+.scale-filter[data-group="layout"]{color:#93C5FD;border-color:rgba(59,130,246,.25);background:rgba(59,130,246,.06)}
+.scale-filter.active{color:#fff !important}
+.scale-filter.active[data-group="all"]{background:rgba(255,255,255,.15)}
+.scale-filter.active[data-group="micro"]{background:#8B5CF6;border-color:#8B5CF6}
+.scale-filter.active[data-group="component"]{background:#16A34A;border-color:#16A34A}
+.scale-filter.active[data-group="layout"]{background:#2563EB;border-color:#2563EB}
 
-  /* ── GRID ────────────────────────────────────── */
-  .g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  .g3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+.scale-row{display:flex;align-items:center;gap:12px;padding:14px 16px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04);border-radius:10px;margin-bottom:6px;transition:all .3s;cursor:pointer}
+.scale-row:hover{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.08);transform:translateX(4px)}
+.scale-row.hidden{display:none}
+.scale-token{font-family:'SF Mono','Fira Code',monospace;font-size:12px;font-weight:600;min-width:70px}
+.scale-px{font-family:'SF Mono','Fira Code',monospace;font-size:12px;color:#6B7280;min-width:40px}
+.scale-bar-wrap{flex:1;height:20px;display:flex;align-items:center}
+.scale-bar{height:100%;border-radius:4px;transition:width .5s cubic-bezier(.34,1.56,.64,1)}
+.scale-group-badge{font-size:9px;font-weight:700;padding:2px 8px;border-radius:100px;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap}
+.scale-usage{font-size:11px;color:#6B7280;max-width:200px;text-align:right;display:none}
+.scale-row:hover .scale-usage{display:block}
 
-  /* ── BADGE ───────────────────────────────────── */
-  .badge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; }
-  .bg-green  { background: var(--primary-100); color: var(--primary-700); }
-  .bg-blue   { background: var(--info-50);      color: var(--info-700); }
-  .bg-violet { background: #f5f3ff;             color: #6d28d9; }
-  .bg-red    { background: var(--error-50);     color: var(--error-700); }
-  .bg-gray   { background: var(--neutral-100);  color: var(--neutral-600); }
-  .bg-orange { background: #fff7ed;             color: #c2410c; }
+.t-micro{color:#C4B5FD}.t-comp{color:#86EFAC}.t-layout{color:#93C5FD}
+.bar-micro{background:linear-gradient(90deg,#8B5CF6,#A78BFA)}
+.bar-comp{background:linear-gradient(90deg,#16A34A,#22C55E)}
+.bar-layout{background:linear-gradient(90deg,#2563EB,#3B82F6)}
+.bg-micro{background:rgba(139,92,246,.12);color:#C4B5FD;border:1px solid rgba(139,92,246,.2)}
+.bg-comp{background:rgba(34,197,94,.1);color:#86EFAC;border:1px solid rgba(34,197,94,.2)}
+.bg-layout{background:rgba(59,130,246,.1);color:#93C5FD;border:1px solid rgba(59,130,246,.2)}
 
-  /* ── CODE ────────────────────────────────────── */
-  code { font-family: 'SF Mono','Fira Code','Consolas',monospace; font-size: 11px; background: var(--neutral-100); color: var(--neutral-700); padding: 1px 6px; border-radius: 4px; border: 1px solid var(--neutral-200); }
-  .code-block { background: var(--neutral-900); border-radius: var(--radius-md); padding: 20px 24px; font-family: 'SF Mono','Fira Code','Consolas',monospace; font-size: 12px; line-height: 1.9; color: #e2e8f0; overflow-x: auto; }
-  .code-block .kw  { color: #c084fc; }
-  .code-block .fn  { color: #67e8f9; }
-  .code-block .str { color: #86efac; }
-  .code-block .cm  { color: #64748b; }
-  .code-block .at  { color: #fbbf24; }
-  .code-block .num { color: #fb923c; }
+/* ═══ PLAYGROUND ═══ */
+.playground{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:28px;overflow:hidden}
+.playground-controls{display:flex;gap:16px;margin-bottom:24px;flex-wrap:wrap;align-items:flex-end}
+.playground-control{flex:1;min-width:140px}
+.playground-control label{display:block;font-size:11px;font-weight:600;color:#9CA3AF;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.playground-control select{width:100%;padding:8px 12px;border-radius:8px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:#fff;font-family:inherit;font-size:13px;outline:none;cursor:pointer;appearance:none;-webkit-appearance:none}
+.playground-scene{background:#fff;border-radius:12px;padding:0;overflow:hidden}
+.pg-card{transition:all .4s cubic-bezier(.4,0,.2,1)}
+.pg-card-header{display:flex;align-items:center;justify-content:space-between}
+.pg-card-title{font-weight:700;color:#111827}
+.pg-card-badge{font-size:11px;font-weight:600;background:#DCFCE7;color:#15803D;padding:2px 10px;border-radius:100px}
+.pg-card-desc{font-size:13px;color:#6B7280;line-height:1.6}
+.pg-card-footer{display:flex;gap:8px}
+.pg-card-btn{padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;border:none;font-family:inherit;cursor:pointer}
+.pg-card-btn-primary{background:#16A34A;color:#fff}
+.pg-card-btn-outline{background:transparent;color:#374151;border:1px solid #E5E7EB}
+.playground-readout{margin-top:16px;display:flex;gap:12px;flex-wrap:wrap}
+.readout-item{background:rgba(0,0,0,.2);border-radius:8px;padding:8px 14px;font-family:'SF Mono','Fira Code',monospace;font-size:12px;color:#9CA3AF}
+.readout-item strong{color:#fff}
 
-  /* ── TABLE ───────────────────────────────────── */
-  .tbl { width: 100%; border-collapse: collapse; font-size: 13px; }
-  .tbl thead tr { background: var(--neutral-50); border-bottom: 1px solid var(--neutral-200); }
-  .tbl th { padding: 10px 14px; text-align: left; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--neutral-500); }
-  .tbl td { padding: 12px 14px; border-bottom: 1px solid var(--neutral-100); color: var(--neutral-700); vertical-align: middle; }
-  .tbl tr:last-child td { border-bottom: none; }
-  .tbl tr:hover td { background: var(--neutral-50); }
+/* ═══ HIERARCHY DEMO ═══ */
+.hierarchy-row{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px}
+.hierarchy-card{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:24px;transition:all .3s}
+.hierarchy-card:hover{border-color:rgba(255,255,255,.1)}
+.hierarchy-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:16px;display:flex;align-items:center;gap:6px}
+.hierarchy-label-good{color:#4ADE80}
+.hierarchy-label-bad{color:#F87171}
+.hier-block{background:#fff;border-radius:8px;padding:16px;color:#111827}
+.hier-title{font-size:15px;font-weight:700;color:#111827}
+.hier-text{font-size:13px;color:#6B7280;line-height:1.5}
+.hier-meta{font-size:11px;color:#9CA3AF}
+.hier-divider{height:1px;background:#E5E7EB}
 
-  /* ── PROBLEM BOX ─────────────────────────────── */
-  .prob { border-left: 3px solid; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 12px 16px; margin-bottom: 10px; }
-  .prob-red    { border-color: var(--error-500);   background: var(--error-50); }
-  .prob-orange { border-color: #fb923c;             background: #fff7ed; }
-  .prob-yellow { border-color: var(--warning-500); background: var(--warning-50); }
-  .prob-gray   { border-color: var(--neutral-300); background: var(--neutral-50); }
-  .prob-title  { font-size: 12px; font-weight: 600; margin-bottom: 4px; }
-  .prob-red    .prob-title { color: var(--error-700); }
-  .prob-orange .prob-title { color: #c2410c; }
-  .prob-yellow .prob-title { color: var(--warning-700); }
-  .prob-gray   .prob-title { color: var(--neutral-700); }
-  .prob-desc   { font-size: 12px; line-height: 1.6; }
-  .prob-red    .prob-desc  { color: var(--error-700); }
-  .prob-orange .prob-desc  { color: #9a3412; }
-  .prob-yellow .prob-desc  { color: var(--warning-700); }
-  .prob-gray   .prob-desc  { color: var(--neutral-500); }
+/* ═══ MISC ═══ */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .6s,transform .6s}.reveal.visible{opacity:1;transform:translateY(0)}
+.footer{text-align:center;padding:48px 24px;border-top:1px solid rgba(255,255,255,.05);font-size:12px;color:#4B5563}
+.footer a{color:#6B7280;text-decoration:none}.footer a:hover{color:#4ADE80}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:#9CA3AF;text-decoration:none;margin-bottom:12px;transition:color .2s}.back-link:hover{color:#4ADE80}
 
-  /* ── DO/DON'T ────────────────────────────────── */
-  .do-card   { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: var(--radius-lg); padding: 20px; }
-  .dont-card { background: #fff5f5; border: 1px solid var(--error-200); border-radius: var(--radius-lg); padding: 20px; }
-  .do-label   { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--primary-700); margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
-  .dont-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--error-700); margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
-  .do-card .card-body { color: #166534; }
-  .dont-card .card-body { color: var(--error-700); }
-
-  /* ── CALLOUTS ────────────────────────────────── */
-  .info-callout { background: var(--info-50); border: 1px solid var(--info-200); border-radius: 8px; padding: 14px 18px; font-size: 13px; color: var(--info-700); line-height: 1.6; }
-  .warn-callout { background: var(--warning-50); border: 1px solid var(--warning-200); border-radius: 8px; padding: 14px 18px; font-size: 13px; color: var(--warning-700); line-height: 1.6; }
-  .err-callout  { background: var(--error-50); border: 1px solid var(--error-200); border-radius: 8px; padding: 14px 18px; font-size: 13px; color: var(--error-700); line-height: 1.6; }
-
-  /* ── SPACING SCALE VISUAL ────────────────────── */
-  .scale-row { display: flex; align-items: center; gap: 16px; padding: 10px 0; border-bottom: 1px solid var(--neutral-100); }
-  .scale-row:last-child { border-bottom: none; }
-  .scale-token { font-family: 'SF Mono','Fira Code',monospace; font-size: 12px; font-weight: 600; color: var(--neutral-800); min-width: 60px; }
-  .scale-px    { font-family: 'SF Mono','Fira Code',monospace; font-size: 12px; color: var(--neutral-500); min-width: 40px; }
-  .scale-rem   { font-family: 'SF Mono','Fira Code',monospace; font-size: 11px; color: var(--neutral-400); min-width: 50px; }
-  .scale-bar-wrap { flex: 1; display: flex; align-items: center; }
-  .scale-bar { height: 18px; border-radius: 3px; min-width: 3px; transition: width .2s; }
-  .bar-micro  { background: linear-gradient(90deg, #7c3aed, #8b5cf6); }
-  .bar-comp   { background: linear-gradient(90deg, #15803d, #16a34a); }
-  .bar-layout { background: linear-gradient(90deg, #1d4ed8, #2563eb); }
-  .scale-tw   { font-family: 'SF Mono','Fira Code',monospace; font-size: 11px; color: var(--neutral-500); min-width: 50px; }
-  .scale-usage { font-size: 12px; color: var(--neutral-500); max-width: 260px; }
-
-  /* ── SPACING DEMO BLOCKS ─────────────────────── */
-  .spacing-demo { display: flex; align-items: center; gap: 12px; padding: 16px; background: var(--neutral-50); border: 1px solid var(--neutral-200); border-radius: var(--radius-md); }
-  .spacing-block { background: var(--primary-600); border-radius: 4px; flex-shrink: 0; }
-  .spacing-label { font-size: 11px; font-weight: 600; color: var(--neutral-700); }
-  .spacing-val   { font-size: 11px; color: var(--neutral-400); font-family: 'SF Mono','Fira Code',monospace; }
-
-  /* ── ANNOTATION DEMO ─────────────────────────── */
-  .anno-wrap { position: relative; display: inline-block; }
-  .anno-gap { background: rgba(22,163,74,.12); border: 1px dashed var(--primary-400); display: flex; align-items: center; justify-content: center; border-radius: 2px; }
-  .anno-label { position: absolute; top: 50%; transform: translateY(-50%); right: calc(100% + 8px); font-size: 10px; font-weight: 700; color: var(--primary-700); background: var(--primary-50); border: 1px solid var(--primary-200); padding: 2px 7px; border-radius: 4px; white-space: nowrap; }
-
-  /* ── MISC ────────────────────────────────────── */
-  .mt8  { margin-top: 8px; }  .mt12 { margin-top: 12px; }
-  .mt16 { margin-top: 16px; } .mt24 { margin-top: 24px; }
-  .mb8  { margin-bottom: 8px; } .mb16 { margin-bottom: 16px; }
-  .mb24 { margin-bottom: 24px; } .mb32 { margin-bottom: 32px; }
-  .footer-nav { display: flex; justify-content: flex-end; margin-top: 80px; padding-top: 32px; border-top: 1px solid var(--neutral-200); }
-  .footer-nav-link { display: inline-flex; align-items: center; gap: 10px; background: var(--primary-600); color: #fff; text-decoration: none; padding: 12px 24px; border-radius: 8px; font-size: 14px; font-weight: 600; }
-  .footer-nav-link:hover { background: var(--primary-700); }
-
-  /* ═══════════════════════════════════════════
-     RESPONSIVE — MOBILE
-     ═══════════════════════════════════════════ */
-  @media (max-width: 768px) {
-    .page { padding: 0 16px 48px; }
-    .cover { padding: 40px 20px 36px; margin-bottom: 40px; }
-    .cover-title { font-size: 32px; }
-    .cover-sub { font-size: 14px; margin-bottom: 24px; }
-    .cover-meta { gap: 16px; }
-    .cover-meta-label { font-size: 9px; }
-    .cover-meta-value { font-size: 12px; }
-    .cover-libs { gap: 6px; margin-top: 20px; }
-    .lib-tag { font-size: 11px; padding: 4px 10px; }
-
-    .toc { padding: 20px; margin-bottom: 36px; }
-    .toc-grid { grid-template-columns: 1fr; }
-    .toc-file-label { margin-top: 14px; }
-
-    .section { margin-bottom: 48px; }
-    .section-title { font-size: 20px; }
-    .section-sub { font-size: 13px; }
-
-    .g2, .g3 { grid-template-columns: 1fr; }
-    .card { padding: 16px; }
-
-    /* Scale rows — wrap token/px/rem/bar on mobile */
-    .scale-row { flex-wrap: wrap; gap: 8px; }
-    .scale-token { min-width: auto; }
-    .scale-px { min-width: auto; }
-    .scale-rem { min-width: auto; display: none; }
-    .scale-tw { min-width: auto; display: none; }
-    .scale-bar-wrap { width: 100%; order: 10; }
-    .scale-usage { max-width: 100%; }
-
-    /* Spacing demos */
-    .spacing-demo { flex-wrap: wrap; gap: 8px; }
-
-    /* Inline grids — collapse */
-    .resp-grid-3 { grid-template-columns: 1fr !important; }
-
-    /* Tables — horizontal scroll */
-    .ds-table-wrap, table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-    .tbl { min-width: 600px; }
-
-    /* Code blocks */
-    .code-block { padding: 14px 16px; font-size: 11px; }
-
-    /* Do/Don't cards */
-    .do-card, .dont-card { padding: 16px; }
-
-    /* Footer nav */
-    .footer-nav { flex-direction: column; gap: 12px; }
-  }
-
-  @media (max-width: 480px) {
-    .cover-title { font-size: 26px; }
-    .cover-meta { flex-direction: column; gap: 12px; }
-    .scale-usage { display: none; }
-  }
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:768px){
+  .page{padding:0 16px 48px}
+  .hero{padding:40px 20px;min-height:auto}
+  .hero-bars{height:100px;gap:4px}
+  .hero-bar{width:14px !important}
+  .hero-bar-label{font-size:7px}
+  .nav-pills{gap:4px;padding:12px 16px}
+  .nav-pill{font-size:11px;padding:5px 12px}
+  .section{margin-bottom:48px}
+  .section-title{font-size:22px}
+  .base-demo{padding:24px 16px;gap:20px}
+  .base-equation{flex-wrap:wrap;gap:8px}
+  .scale-row{flex-wrap:wrap;gap:6px;padding:10px 12px}
+  .scale-token{min-width:auto}
+  .scale-bar-wrap{width:100%;order:10}
+  .scale-usage{display:none !important}
+  .playground-controls{flex-direction:column}
+  .hierarchy-row{grid-template-columns:1fr}
+}
+@media(max-width:480px){
+  .hero-title{font-size:36px}
+  .base-demo{flex-direction:column}
+}
 </style>
 </head>
 <body>
-<div class="cover">
-  <div class="cover-inner">
-    <div class="cover-eyebrow"><span class="cover-eyebrow-dot"></span>VendHub Design System</div>
-    <h1 class="cover-title">Spacing System<br><span>Part 1 — Foundation</span></h1>
-    <p class="cover-sub">A 4px-base scale giving every gap, padding, and margin in VendHub a consistent, intentional name. Built for designers and developers to share one language.</p>
-    <div class="cover-meta">
-      <div><div class="cover-meta-label">Document</div><div class="cover-meta-value">Spacing </div></div>
-      <div><div class="cover-meta-label">Base Unit</div><div class="cover-meta-value">4px (0.25rem)</div></div>
-      <div><div class="cover-meta-label">Scale</div><div class="cover-meta-value">12 tokens · 0px → 80px</div></div>
-      <div><div class="cover-meta-label">Updated</div><div class="cover-meta-value">April 2026</div></div>
-    </div>
-    <div class="cover-libs">
-      <span class="lib-tag lib-violet">● Micro 0–12px</span>
-      <span class="lib-tag lib-green">● Component 16–24px</span>
-      <span class="lib-tag lib-blue">● Layout 32–80px</span>
-      <span class="lib-tag lib-gray">● 12 Problems Fixed</span>
-    </div>
-    <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:8px 16px;margin-top:28px;font-size:12px;color:var(--neutral-400);font-weight:500;">
-      <strong style="color:#fff;"></strong>
-      <span style="color:var(--neutral-600);">·</span>
-      </div>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-badge"><span class="hero-badge-dot"></span>VendHub Design System</div>
+    <h1 class="hero-title">Spacing <span>System</span></h1>
+    <p class="hero-sub">12 tokens built on a 4px base unit — organized into Micro, Component, and Layout groups. Every pixel is intentional.</p>
+    <div class="hero-bars" id="hero-bars"></div>
   </div>
-</div>
+</section>
+
+<!-- ═══ NAV ═══ -->
+<nav class="nav-pills">
+  <a class="nav-pill active" href="#base">Base Unit</a>
+  <a class="nav-pill" href="#scale">Token Scale</a>
+  <a class="nav-pill" href="#playground">Playground</a>
+  <a class="nav-pill" href="#hierarchy">Hierarchy</a>
+</nav>
+
 <div class="page">
-<div class="toc">
-  <div class="toc-title">On this page</div>
-  <div class="toc-file-label" style="margin-top:0">Foundation</div>
-  <div class="toc-grid">
-    <a href="#s1" class="toc-item"><span class="toc-num">01</span> Problems Identified</a>    <a href="#s2" class="toc-item"><span class="toc-num">02</span> Philosophy &amp; Scale Design</a>    <a href="#s3" class="toc-item"><span class="toc-num">03</span> Complete Token Scale</a>    <a href="#s4" class="toc-item"><span class="toc-num">04</span> Micro Spacing (0–12px)</a>    <a href="#s5" class="toc-item"><span class="toc-num">05</span> Component Spacing (16–24px)</a>    <a href="#s6" class="toc-item"><span class="toc-num">06</span> Layout Spacing (32–80px)</a>    <a href="#s7" class="toc-item"><span class="toc-num">07</span> Page Layout Spacing</a>    <a href="#s8" class="toc-item"><span class="toc-num">08</span> Component Spacing Standards</a>    <a href="#s9" class="toc-item"><span class="toc-num">09</span> Spacing &amp; Visual Hierarchy</a>
-  </div>
-  <div class="toc-file-label">Implementation</div>
-  <div class="toc-grid">
-    <a href="#s1" class="toc-item"><span class="toc-num">10</span> Tailwind Config</a>    <a href="#s2" class="toc-item"><span class="toc-num">11</span> Figma Variable Names</a>    <a href="#s3" class="toc-item"><span class="toc-num">12</span> Responsive Spacing</a>    <a href="#s4" class="toc-item"><span class="toc-num">13</span> Page Layout Pattern</a>    <a href="#s5" class="toc-item"><span class="toc-num">14</span> Component Patterns Code</a>    <a href="#s6" class="toc-item"><span class="toc-num">15</span> Do's &amp; Don'ts</a>    <a href="#s7" class="toc-item"><span class="toc-num">16</span> Before vs After</a>    <a href="#s8" class="toc-item"><span class="toc-num">17</span> Magic Number Migration</a>    <a href="#s9" class="toc-item"><span class="toc-num">18</span> Governance</a>
-  </div>
-</div>
 
-<div class="section" id="s1">
+<!-- ═══ 01 BASE UNIT ═══ -->
+<div class="section reveal" id="base">
   <div class="section-header">
-    <div class="section-tag">01 · Problems</div>
-    <h2 class="section-title">12 Spacing Issues Found in the Codebase</h2>
-    <p class="section-sub">Audit of ~8,000 spacing-related utility uses across the app revealed systemic inconsistency. Zero shared patterns between features built at different times.</p>
-  </div>
-
-  <div class="g2 mb16">
-    <div>
-      <div class="prob prob-red">
-        <div class="prob-title">🔴 P0 — max-w-8xl is a no-op</div>
-        <div class="prob-desc"><code>md:max-w-8xl</code> appears in 3 critical page layouts (Dashboard, Routes, Leads) but is <strong>never defined</strong> in tailwind.config.ts. It silently produces no CSS. Pages appear full-width with only <code>mx-20</code> constraining them.</div>
-      </div>
-      <div class="prob prob-orange">
-        <div class="prob-title">🟠 P1 — 6 Different Page Padding Patterns</div>
-        <div class="prob-desc">
-          Every feature uses a different horizontal padding strategy:<br>
-          <code>px-8</code> · <code>px-4 sm:px-6 lg:px-8</code> · <code>px-4 sm:px-6 lg:px-10</code> · <code>px-4 md:px-8 lg:px-12</code> · <code>px-4 sm:px-6</code> (missing lg) · no padding at all (Dashboard, Leads, Partners).
-        </div>
-      </div>
-      <div class="prob prob-orange">
-        <div class="prob-title">🟠 P1 — Sibling Pages With Different Top Padding</div>
-        <div class="prob-desc">Within the same insights section (same layout wrapper): <code>pt-20</code>, <code>pt-16</code>, <code>pt-28</code>. Three sibling pages, three different values, no documented reason.</div>
-      </div>
-      <div class="prob prob-orange">
-        <div class="prob-title">🟠 P1 — 6+ Card Padding Patterns</div>
-        <div class="prob-desc"><code>p-4</code> · <code>p-4 md:p-6</code> · <code>p-5</code> · <code>p-6</code> · <code>p-6 md:p-10</code> · <code>p-10</code> · <code>p-4 sm:p-6 md:p-8</code>. No single source of truth for what a card should feel like.</div>
-      </div>
-      <div class="prob prob-orange">
-        <div class="prob-title">🟠 P1 — No Consistent Max-Width Strategy</div>
-        <div class="prob-desc">9 different max-width approaches across features: <code>container max-w-7xl</code>, <code>max-w-[93rem]</code>, <code>max-w-none</code>, <code>max-w-4xl</code>, no max-width at all, and the broken <code>max-w-8xl</code>.</div>
-      </div>
-    </div>
-    <div>
-      <div class="prob prob-orange">
-        <div class="prob-title">🟠 P1 — Admin Pages With Only 8px Padding</div>
-        <div class="prob-desc">Admin content areas use only <code>p-2</code> (8px) total padding — content is nearly flush with the viewport edge. No responsive expansion.</div>
-      </div>
-      <div class="prob prob-yellow">
-        <div class="prob-title">🟡 P2 — Magic Number: pt-[62px]</div>
-        <div class="prob-desc">USG layout uses <code>pt-[62px]</code> as a header offset. The header is actually 64px (space.16). This 2px discrepancy is silent and visually creates a gap. Should be <code>pt-16</code> (64px).</div>
-      </div>
-      <div class="prob prob-yellow">
-        <div class="prob-title">🟡 P2 — Hardcoded calc() Heights</div>
-        <div class="prob-desc"><code>max-h-[calc(100vh-50px)]</code>, <code>h-[calc(100vh-200px)]</code> — arbitrary subtracted values. These break when the header size changes. Should use CSS variable <code>var(--header-h)</code>.</div>
-      </div>
-      <div class="prob prob-yellow">
-        <div class="prob-title">🟡 P2 — Arbitrary Fixed Footer Offsets</div>
-        <div class="prob-desc"><code>pb-24</code> (Routes Explore) and <code>pb-20</code> (Financing) are magic-number bottom paddings accounting for a fixed footer bar. These values aren't shared or documented.</div>
-      </div>
-      <div class="prob prob-yellow">
-        <div class="prob-title">🟡 P2 — Arbitrary Card Width</div>
-        <div class="prob-desc">Onboarding uses <code>md:w-[553px]</code> — a completely arbitrary card width with no semantic meaning. Should map to a standard container token (<code>max-w-md</code> = 448px or <code>max-w-lg</code> = 512px).</div>
-      </div>
-      <div class="prob prob-yellow">
-        <div class="prob-title">🟡 P2 — Route Detail Uses 1488px Container</div>
-        <div class="prob-desc"><code>max-w-[93rem]</code> (1488px) is used in Route Detail as a one-off. No other page uses this. Exceeds the standard page max-width with no documented rationale.</div>
-      </div>
-      <div class="prob prob-gray">
-        <div class="prob-title">⚪ P2 — No Spacing Components / Utilities</div>
-        <div class="prob-desc">No shared <code>&lt;Stack&gt;</code>, <code>&lt;Inline&gt;</code>, or <code>&lt;PageWrapper&gt;</code> components. Every file assembles its own spacing from scratch, leading to all of the above.</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="err-callout" style="background:var(--error-50);border:1px solid var(--error-200);border-radius:8px;padding:14px 18px;font-size:13px;color:var(--error-700);line-height:1.6;">
-    <strong>Root cause:</strong> No spacing token system existed. Every developer chose their own values. The fix requires (1) defining canonical tokens, (2) a page layout wrapper component, and (3) a card padding standard — addressing ~80% of all inconsistencies.
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════════
-     SECTION 2 — PHILOSOPHY
-═══════════════════════════════════════════════ -->
-<div class="section" id="s2">
-  <div class="section-header">
-    <div class="section-tag">02 · Philosophy</div>
+    <div class="section-tag">01 · Foundation</div>
     <h2 class="section-title">The 4px Base Unit</h2>
-    <p class="section-sub">All spacing in VendHub is a multiple of 4px. This single constraint produces visual harmony across the entire interface — every gap, padding, and margin aligns to an invisible 4px grid.</p>
+    <p class="section-sub">Every spacing value in VendHub is a multiple of 4px. This creates a consistent rhythm across all components and layouts — nothing is arbitrary.</p>
   </div>
 
-  <div class="g2 mb24">
-    <div class="card">
-      <div class="card-title">Why 4px?</div>
-      <div class="card-body mt8">
-        4px (0.25rem) is the most widely adopted base unit in design systems. It's small enough to provide fine control at the micro level (icons, text gaps) while scaling naturally to layout sizes (64px = 16 steps).<br><br>
-        At standard display density, 4px is visually indistinguishable from 3px or 5px — making it a practical minimum. Below 4px, use border widths or line-heights instead.
+  <div class="base-demo">
+    <div class="base-block">
+      <div class="base-square" style="width:40px;height:40px;border-radius:6px">
+        <div class="base-square-inner" style="width:4px;height:4px"></div>
       </div>
+      <div class="base-value">4px</div>
+      <div class="base-caption">Base unit</div>
     </div>
-    <div class="card">
-      <div class="card-title">The Three Groups Rule</div>
-      <div class="card-body mt8">
-        Every spacing token belongs to one of three groups based on what it spaces:<br><br>
-        <strong style="color:#7c3aed;">Micro (0–12px)</strong> — spacing within UI elements (icon-to-text, label-to-input)<br>
-        <strong style="color:#15803d;">Component (16–24px)</strong> — spacing inside components (padding, gaps between fields)<br>
-        <strong style="color:#1d4ed8;">Layout (32–80px)</strong> — spacing between components and page sections<br><br>
-        If your spacing crosses a group boundary, something is likely wrong.
+    <div class="base-block">
+      <div class="base-square" style="width:56px;height:56px;border-radius:6px">
+        <div class="base-square-inner" style="width:16px;height:16px;border-radius:2px"></div>
       </div>
+      <div class="base-value">16px</div>
+      <div class="base-caption">4 × base = space.4</div>
+    </div>
+    <div class="base-block">
+      <div class="base-square" style="width:72px;height:72px;border-radius:6px">
+        <div class="base-square-inner" style="width:24px;height:24px;border-radius:3px"></div>
+      </div>
+      <div class="base-value">24px</div>
+      <div class="base-caption">6 × base = space.6</div>
+    </div>
+    <div class="base-block">
+      <div class="base-square" style="width:96px;height:96px;border-radius:6px">
+        <div class="base-square-inner" style="width:48px;height:48px;border-radius:4px"></div>
+      </div>
+      <div class="base-value">48px</div>
+      <div class="base-caption">12 × base = space.12</div>
     </div>
   </div>
 
-  <!-- World-class comparison -->
-  <div class="card mb16">
-    <div class="card-title" style="margin-bottom:16px;">Cross-Reference — World-Class Design Systems</div>
-    <table class="tbl">
-      <thead><tr><th>System</th><th>Base Unit</th><th>Scale Range</th><th>Token Count</th><th>Key Insight Applied to VendHub</th></tr></thead>
-      <tbody>
-        <tr>
-          <td><strong>Material Design 3</strong></td>
-          <td>4dp</td>
-          <td>4–64dp</td>
-          <td>~12 tokens</td>
-          <td>Spacing assigned by role, not by eye. Component padding ≠ layout gap.</td>
-        </tr>
-        <tr>
-          <td><strong>GitHub Primer</strong></td>
-          <td>4px</td>
-          <td>0–128px</td>
-          <td>16 tokens</td>
-          <td>Named tokens map 1:1 to Tailwind's built-in scale (spacer-4 = p-4)</td>
-        </tr>
-        <tr>
-          <td><strong>Shopify Polaris v11</strong></td>
-          <td>4px</td>
-          <td>4–64px</td>
-          <td>14 tokens</td>
-          <td>4-slot component anatomy: padding, gap, margin, inset</td>
-        </tr>
-        <tr>
-          <td><strong>IBM Carbon</strong></td>
-          <td>8px</td>
-          <td>2–160px</td>
-          <td>13 tokens</td>
-          <td>Density variants (condensed, default, spacious) use same tokens, different defaults</td>
-        </tr>
-        <tr>
-          <td><strong>Tailwind Default</strong></td>
-          <td>4px</td>
-          <td>0–96px</td>
-          <td>25 steps</td>
-          <td>VendHub's scale IS Tailwind's default — no custom config needed for core tokens</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="info-callout">
-    <strong>Key insight:</strong> VendHub's 12-token spacing scale (<code>space.0</code> through <code>space.20</code>) maps perfectly to Tailwind's built-in spacing scale (<code>p-0</code> through <code>p-20</code>). No custom Tailwind config is needed for the core scale. Only semantic aliases (like <code>--header-h: 64px</code>) need to be added.
+  <div class="base-equation">
+    <span class="base-eq-item">Token</span>
+    <span class="base-eq-op">=</span>
+    <span class="base-eq-item">N</span>
+    <span class="base-eq-op">×</span>
+    <span class="base-eq-item" style="color:#4ADE80">4px</span>
+    <span class="base-eq-op">→</span>
+    <span class="base-eq-item">space.6 = 6 × 4 = 24px</span>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════
-     SECTION 3 — COMPLETE TOKEN SCALE
-═══════════════════════════════════════════════ -->
-<div class="section" id="s3">
+<!-- ═══ 02 TOKEN SCALE ═══ -->
+<div class="section reveal" id="scale">
   <div class="section-header">
-    <div class="section-tag">03 · Token Scale</div>
-    <h2 class="section-title">Complete Spacing Scale — 12 Tokens</h2>
-    <p class="section-sub">All spacing tokens in VendHub. Bar width is proportional to the actual pixel value. Token number equals the Tailwind spacing unit (space.4 = p-4 = 16px).</p>
+    <div class="section-tag">02 · Scale</div>
+    <h2 class="section-title">12 Spacing Tokens</h2>
+    <p class="section-sub">Filter by group, hover for usage details. Bar width is proportional to the actual pixel value.</p>
   </div>
 
-  <div class="card" style="padding: 28px 32px;">
-    <!-- Header -->
-    <div style="display:flex;align-items:center;gap:16px;padding-bottom:10px;border-bottom:1px solid var(--neutral-200);margin-bottom:4px;">
-      <span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--neutral-500);min-width:60px;">Token</span>
-      <span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--neutral-500);min-width:40px;">px</span>
-      <span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--neutral-500);min-width:50px;">rem</span>
-      <span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--neutral-500);flex:1;">Visual Scale</span>
-      <span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--neutral-500);min-width:50px;">Tailwind</span>
-      <span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--neutral-500);min-width:80px;">Group</span>
-      <span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--neutral-500);max-width:260px;">Primary Usage</span>
+  <div class="scale-filters" id="scale-filters">
+    <div class="scale-filter active" data-group="all">All 12</div>
+    <div class="scale-filter" data-group="micro">Micro (4–12px)</div>
+    <div class="scale-filter" data-group="component">Component (16–24px)</div>
+    <div class="scale-filter" data-group="layout">Layout (32–80px)</div>
+  </div>
+
+  <div id="scale-list"></div>
+</div>
+
+<!-- ═══ 03 PLAYGROUND ═══ -->
+<div class="section reveal" id="playground">
+  <div class="section-header">
+    <div class="section-tag">03 · Playground</div>
+    <h2 class="section-title">Live Spacing Playground</h2>
+    <p class="section-sub">Adjust the spacing token and watch a real card component update in real time.</p>
+  </div>
+
+  <div class="playground">
+    <div class="playground-controls">
+      <div class="playground-control">
+        <label>Card Padding</label>
+        <select id="pg-padding">
+          <option value="8">space.2 — 8px</option>
+          <option value="12">space.3 — 12px</option>
+          <option value="16">space.4 — 16px</option>
+          <option value="20">space.5 — 20px</option>
+          <option value="24" selected>space.6 — 24px (default)</option>
+          <option value="32">space.8 — 32px</option>
+          <option value="48">space.12 — 48px</option>
+        </select>
+      </div>
+      <div class="playground-control">
+        <label>Inner Gap</label>
+        <select id="pg-gap">
+          <option value="4">space.1 — 4px</option>
+          <option value="8">space.2 — 8px</option>
+          <option value="12" selected>space.3 — 12px</option>
+          <option value="16">space.4 — 16px</option>
+          <option value="24">space.6 — 24px</option>
+        </select>
+      </div>
     </div>
 
-    <div class="scale-row">
-      <span class="scale-token">space.0</span><span class="scale-px">0px</span><span class="scale-rem">0rem</span>
-      <div class="scale-bar-wrap"><div class="scale-bar bar-micro" style="width:2px;opacity:.3;"></div></div>
-      <span class="scale-tw">p-0</span>
-      <span><span class="badge bg-gray" style="font-size:10px;">None</span></span>
-      <span class="scale-usage">Reset, flush elements, collapse gaps</span>
+    <div class="playground-scene">
+      <div class="pg-card" id="pg-card" style="padding:24px">
+        <div class="pg-card-header" style="margin-bottom:12px">
+          <div class="pg-card-title">Route Dashboard</div>
+          <div class="pg-card-badge">Active</div>
+        </div>
+        <div class="pg-card-desc" id="pg-desc" style="margin-bottom:12px">24 active routes across 312 stops. Revenue up 15% this week with 7 pending orders awaiting review.</div>
+        <div style="height:1px;background:#E5E7EB" id="pg-divider" style="margin-bottom:12px"></div>
+        <div class="pg-card-footer" id="pg-footer" style="margin-top:12px">
+          <div class="pg-card-btn pg-card-btn-primary">View Routes</div>
+          <div class="pg-card-btn pg-card-btn-outline">Export</div>
+        </div>
+      </div>
     </div>
-    <div class="scale-row">
-      <span class="scale-token">space.1</span><span class="scale-px">4px</span><span class="scale-rem">0.25rem</span>
-      <div class="scale-bar-wrap"><div class="scale-bar bar-micro" style="width:8px;"></div></div>
-      <span class="scale-tw">p-1</span>
-      <span><span class="badge bg-violet" style="font-size:10px;">Micro</span></span>
-      <span class="scale-usage">Icon ↔ text gap in buttons and labels</span>
+
+    <div class="playground-readout" id="pg-readout"></div>
+  </div>
+</div>
+
+<!-- ═══ 04 HIERARCHY ═══ -->
+<div class="section reveal" id="hierarchy">
+  <div class="section-header">
+    <div class="section-tag">04 · Hierarchy</div>
+    <h2 class="section-title">Spacing Creates Hierarchy</h2>
+    <p class="section-sub">More space between elements = weaker relationship. Less space = stronger grouping. Side-by-side comparison.</p>
+  </div>
+
+  <div class="hierarchy-row">
+    <div class="hierarchy-card">
+      <div class="hierarchy-label hierarchy-label-good">✓ Correct spacing</div>
+      <div class="hier-block">
+        <div class="hier-title" style="margin-bottom:4px">Route Dashboard</div>
+        <div class="hier-text" style="margin-bottom:16px">24 active routes across 312 stops</div>
+        <div class="hier-divider" style="margin-bottom:16px"></div>
+        <div class="hier-meta" style="margin-bottom:4px">Last updated: 2 min ago</div>
+        <div class="hier-meta">Revenue: $48.2K ↑ 15%</div>
+      </div>
     </div>
-    <div class="scale-row">
-      <span class="scale-token">space.2</span><span class="scale-px">8px</span><span class="scale-rem">0.5rem</span>
-      <div class="scale-bar-wrap"><div class="scale-bar bar-micro" style="width:16px;"></div></div>
-      <span class="scale-tw">p-2</span>
-      <span><span class="badge bg-violet" style="font-size:10px;">Micro</span></span>
-      <span class="scale-usage">Label → input gap, stacked list items</span>
-    </div>
-    <div class="scale-row">
-      <span class="scale-token">space.3</span><span class="scale-px">12px</span><span class="scale-rem">0.75rem</span>
-      <div class="scale-bar-wrap"><div class="scale-bar bar-micro" style="width:24px;"></div></div>
-      <span class="scale-tw">p-3</span>
-      <span><span class="badge bg-violet" style="font-size:10px;">Micro</span></span>
-      <span class="scale-usage">Title → description gap, inline padding</span>
-    </div>
-    <div class="scale-row">
-      <span class="scale-token">space.4</span><span class="scale-px">16px</span><span class="scale-rem">1rem</span>
-      <div class="scale-bar-wrap"><div class="scale-bar bar-comp" style="width:32px;"></div></div>
-      <span class="scale-tw">p-4</span>
-      <span><span class="badge bg-green" style="font-size:10px;">Component</span></span>
-      <span class="scale-usage">Button padding, input padding, table cell</span>
-    </div>
-    <div class="scale-row">
-      <span class="scale-token">space.5</span><span class="scale-px">20px</span><span class="scale-rem">1.25rem</span>
-      <div class="scale-bar-wrap"><div class="scale-bar bar-comp" style="width:40px;"></div></div>
-      <span class="scale-tw">p-5</span>
-      <span><span class="badge bg-green" style="font-size:10px;">Component</span></span>
-      <span class="scale-usage">Tablet gutter, form field gap</span>
-    </div>
-    <div class="scale-row">
-      <span class="scale-token">space.6</span><span class="scale-px">24px</span><span class="scale-rem">1.5rem</span>
-      <div class="scale-bar-wrap"><div class="scale-bar bar-comp" style="width:48px;"></div></div>
-      <span class="scale-tw">p-6</span>
-      <span><span class="badge bg-green" style="font-size:10px;">Component</span></span>
-      <span class="scale-usage"><strong>Card padding (default)</strong>, modal padding, desktop gutter</span>
-    </div>
-    <div class="scale-row">
-      <span class="scale-token">space.8</span><span class="scale-px">32px</span><span class="scale-rem">2rem</span>
-      <div class="scale-bar-wrap"><div class="scale-bar bar-layout" style="width:64px;"></div></div>
-      <span class="scale-tw">p-8</span>
-      <span><span class="badge bg-blue" style="font-size:10px;">Layout</span></span>
-      <span class="scale-usage">Between cards/panels within a page section</span>
-    </div>
-    <div class="scale-row">
-      <span class="scale-token">space.10</span><span class="scale-px">40px</span><span class="scale-rem">2.5rem</span>
-      <div class="scale-bar-wrap"><div class="scale-bar bar-layout" style="width:80px;"></div></div>
-      <span class="scale-tw">p-10</span>
-      <span><span class="badge bg-blue" style="font-size:10px;">Layout</span></span>
-      <span class="scale-usage">Major section separation, sidebar padding</span>
-    </div>
-    <div class="scale-row">
-      <span class="scale-token">space.12</span><span class="scale-px">48px</span><span class="scale-rem">3rem</span>
-      <div class="scale-bar-wrap"><div class="scale-bar bar-layout" style="width:96px;"></div></div>
-      <span class="scale-tw">p-12</span>
-      <span><span class="badge bg-blue" style="font-size:10px;">Layout</span></span>
-      <span class="scale-usage">Between major content groups, section headers</span>
-    </div>
-    <div class="scale-row">
-      <span class="scale-token">space.16</span><span class="scale-px">64px</span><span class="scale-rem">4rem</span>
-      <div class="scale-bar-wrap"><div class="scale-bar bar-layout" style="width:128px;"></div></div>
-      <span class="scale-tw">p-16</span>
-      <span><span class="badge bg-blue" style="font-size:10px;">Layout</span></span>
-      <span class="scale-usage"><strong>Header height</strong> · Large page section gaps</span>
-    </div>
-    <div class="scale-row">
-      <span class="scale-token">space.20</span><span class="scale-px">80px</span><span class="scale-rem">5rem</span>
-      <div class="scale-bar-wrap"><div class="scale-bar bar-layout" style="width:160px;"></div></div>
-      <span class="scale-tw">p-20</span>
-      <span><span class="badge bg-blue" style="font-size:10px;">Layout</span></span>
-      <span class="scale-usage">Hero sections, page bottom padding</span>
+    <div class="hierarchy-card">
+      <div class="hierarchy-label hierarchy-label-bad">✗ Equal spacing</div>
+      <div class="hier-block">
+        <div class="hier-title" style="margin-bottom:12px">Route Dashboard</div>
+        <div class="hier-text" style="margin-bottom:12px">24 active routes across 312 stops</div>
+        <div class="hier-divider" style="margin-bottom:12px"></div>
+        <div class="hier-meta" style="margin-bottom:12px">Last updated: 2 min ago</div>
+        <div class="hier-meta">Revenue: $48.2K ↑ 15%</div>
+      </div>
     </div>
   </div>
 
-  <!-- Visual summary strip -->
-  <div style="margin-top:20px;display:flex;align-items:flex-end;gap:4px;padding:20px 24px;background:var(--neutral-900);border-radius:var(--radius-lg);">
-    <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
-      <div style="width:8px;background:#8b5cf6;border-radius:2px 2px 0 0;" title="4px"></div>
-      <span style="font-size:9px;color:var(--neutral-500);font-family:monospace;">4</span>
-    </div>
-    <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
-      <div style="width:8px;height:16px;background:#8b5cf6;border-radius:2px 2px 0 0;"></div>
-      <span style="font-size:9px;color:var(--neutral-500);font-family:monospace;">8</span>
-    </div>
-    <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
-      <div style="width:8px;height:24px;background:#8b5cf6;border-radius:2px 2px 0 0;"></div>
-      <span style="font-size:9px;color:var(--neutral-500);font-family:monospace;">12</span>
-    </div>
-    <div style="width:16px;"></div>
-    <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
-      <div style="width:8px;height:32px;background:#16a34a;border-radius:2px 2px 0 0;"></div>
-      <span style="font-size:9px;color:var(--neutral-500);font-family:monospace;">16</span>
-    </div>
-    <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
-      <div style="width:8px;height:40px;background:#16a34a;border-radius:2px 2px 0 0;"></div>
-      <span style="font-size:9px;color:var(--neutral-500);font-family:monospace;">20</span>
-    </div>
-    <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
-      <div style="width:8px;height:48px;background:#16a34a;border-radius:2px 2px 0 0;"></div>
-      <span style="font-size:9px;color:var(--neutral-500);font-family:monospace;">24</span>
-    </div>
-    <div style="width:16px;"></div>
-    <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
-      <div style="width:8px;height:64px;background:#2563eb;border-radius:2px 2px 0 0;"></div>
-      <span style="font-size:9px;color:var(--neutral-500);font-family:monospace;">32</span>
-    </div>
-    <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
-      <div style="width:8px;height:80px;background:#2563eb;border-radius:2px 2px 0 0;"></div>
-      <span style="font-size:9px;color:var(--neutral-500);font-family:monospace;">40</span>
-    </div>
-    <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
-      <div style="width:8px;height:96px;background:#2563eb;border-radius:2px 2px 0 0;"></div>
-      <span style="font-size:9px;color:var(--neutral-500);font-family:monospace;">48</span>
-    </div>
-    <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
-      <div style="width:8px;height:128px;background:#1d4ed8;border-radius:2px 2px 0 0;"></div>
-      <span style="font-size:9px;color:var(--neutral-500);font-family:monospace;">64</span>
-    </div>
-    <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
-      <div style="width:8px;height:160px;background:#1e40af;border-radius:2px 2px 0 0;"></div>
-      <span style="font-size:9px;color:var(--neutral-500);font-family:monospace;">80</span>
-    </div>
-    <div style="flex:1;display:flex;flex-direction:column;gap:8px;padding-left:24px;padding-bottom:8px;">
-      <div style="display:flex;align-items:center;gap:8px;font-size:11px;color:var(--neutral-400);">
-        <div style="width:10px;height:10px;background:#8b5cf6;border-radius:2px;"></div> Micro (4–12px)
+  <div class="hierarchy-row">
+    <div class="hierarchy-card">
+      <div class="hierarchy-label hierarchy-label-good">✓ Grouped by meaning</div>
+      <div class="hier-block">
+        <div style="display:flex;flex-direction:column;gap:4px;margin-bottom:20px">
+          <div class="hier-title">Order #1284</div>
+          <div class="hier-meta">Placed Jan 8, 2025</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:4px;margin-bottom:20px">
+          <div style="font-size:13px;font-weight:600;color:#111827">Delivery Address</div>
+          <div class="hier-text">123 Main St, Suite 400</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <div style="font-size:13px;font-weight:600;color:#111827">Total</div>
+          <div class="hier-text">$2,481.00 — 47 items</div>
+        </div>
       </div>
-      <div style="display:flex;align-items:center;gap:8px;font-size:11px;color:var(--neutral-400);">
-        <div style="width:10px;height:10px;background:#16a34a;border-radius:2px;"></div> Component (16–24px)
-      </div>
-      <div style="display:flex;align-items:center;gap:8px;font-size:11px;color:var(--neutral-400);">
-        <div style="width:10px;height:10px;background:#2563eb;border-radius:2px;"></div> Layout (32–80px)
+    </div>
+    <div class="hierarchy-card">
+      <div class="hierarchy-label hierarchy-label-bad">✗ Flat, no grouping</div>
+      <div class="hier-block">
+        <div class="hier-title" style="margin-bottom:10px">Order #1284</div>
+        <div class="hier-meta" style="margin-bottom:10px">Placed Jan 8, 2025</div>
+        <div style="font-size:13px;font-weight:600;color:#111827;margin-bottom:10px">Delivery Address</div>
+        <div class="hier-text" style="margin-bottom:10px">123 Main St, Suite 400</div>
+        <div style="font-size:13px;font-weight:600;color:#111827;margin-bottom:10px">Total</div>
+        <div class="hier-text">$2,481.00 — 47 items</div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════
-     SECTION 4 — MICRO SPACING
-═══════════════════════════════════════════════ -->
-<div class="section" id="s4">
-  <div class="section-header">
-    <div class="section-tag">04 · Micro Group</div>
-    <h2 class="section-title">Micro Spacing — 0 to 12px</h2>
-    <p class="section-sub">Used <em>within</em> UI elements. These are the tightest values — the spaces between an icon and its label, between a form label and its input, between two lines of related text.</p>
-  </div>
+</div><!-- /page -->
 
-  <div class="resp-grid-3" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:24px;">
-    <div class="card" style="border-top:3px solid #8b5cf6;">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
-        <div style="width:4px;height:32px;background:#8b5cf6;border-radius:2px;"></div>
-        <div>
-          <div style="font-size:18px;font-weight:700;color:var(--neutral-900);">4px</div>
-          <div style="font-size:11px;font-family:monospace;color:#8b5cf6;">space.1 · p-1</div>
-        </div>
-      </div>
-      <div class="card-body">Icon ↔ label gap in buttons, checkboxes, and inline elements. The smallest intentional gap.</div>
-      <!-- Example -->
-      <div style="margin-top:12px;padding:10px 12px;background:var(--neutral-50);border-radius:6px;border:1px solid var(--neutral-200);">
-        <div style="display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:600;color:var(--neutral-700);">
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#6B7280" stroke-width="1.5"/><path d="M5 7.5L6.5 9L9 5.5" stroke="#6B7280" stroke-width="1.5" stroke-linecap="round"/></svg>
-          <span>Saved</span>
-        </div>
-        <div style="font-size:10px;color:var(--neutral-400);margin-top:6px;">gap-1 between icon and text</div>
-      </div>
-    </div>
-    <div class="card" style="border-top:3px solid #7c3aed;">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
-        <div style="width:8px;height:32px;background:#7c3aed;border-radius:2px;"></div>
-        <div>
-          <div style="font-size:18px;font-weight:700;color:var(--neutral-900);">8px</div>
-          <div style="font-size:11px;font-family:monospace;color:#7c3aed;">space.2 · p-2</div>
-        </div>
-      </div>
-      <div class="card-body">Gap between a label and its input. Space between a row's cells in a compact list. Small badge padding.</div>
-      <div style="margin-top:12px;padding:10px 12px;background:var(--neutral-50);border-radius:6px;border:1px solid var(--neutral-200);">
-        <div style="font-size:11px;color:var(--neutral-500);margin-bottom:8px;">Route Name</div>
-        <div style="font-size:12px;font-weight:600;color:var(--neutral-800);">Chicago Loop East</div>
-        <div style="font-size:10px;color:var(--neutral-400);margin-top:6px;">mb-2 between label and value</div>
-      </div>
-    </div>
-    <div class="card" style="border-top:3px solid #6d28d9;">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
-        <div style="width:12px;height:32px;background:#6d28d9;border-radius:2px;"></div>
-        <div>
-          <div style="font-size:18px;font-weight:700;color:var(--neutral-900);">12px</div>
-          <div style="font-size:11px;font-family:monospace;color:#6d28d9;">space.3 · p-3</div>
-        </div>
-      </div>
-      <div class="card-body">Gap between a title and its supporting description. Padding inside chips, badges, and small tags.</div>
-      <div style="margin-top:12px;padding:10px 12px;background:var(--neutral-50);border-radius:6px;border:1px solid var(--neutral-200);">
-        <div style="font-size:13px;font-weight:600;color:var(--neutral-900);">Pending Approval</div>
-        <div style="font-size:12px;color:var(--neutral-500);margin-top:12px;">3 routes awaiting review</div>
-        <div style="font-size:10px;color:var(--neutral-400);margin-top:6px;">mt-3 between title and description</div>
-      </div>
-    </div>
-  </div>
+<footer class="footer">
+  <a href="index.html" class="back-link">← Back to Design System</a><br>
+  VendHub Design System · Designed & documented by <a href="https://sorwoar.framer.website/" target="_blank">Sorwoar Resim</a>
+</footer>
 
-  <div class="info-callout">
-    <strong>Rule:</strong> If you're spacing two things that belong to the same element (an icon and its label, a field label and its input), use micro tokens. If you're spacing two separate elements from each other, you're in the Component group (space.4+).
-  </div>
-</div>
+<script>
+// ═══ DATA ═══
+const tokens = [
+  {name:'space.0',  px:0,  group:'none',      color:'#6B7280', bar:'bar-micro',  badge:'bg-micro',  cls:'t-micro', usage:'Reset, collapse gaps'},
+  {name:'space.1',  px:4,  group:'micro',     color:'#8B5CF6', bar:'bar-micro',  badge:'bg-micro',  cls:'t-micro', usage:'Icon ↔ text gap'},
+  {name:'space.2',  px:8,  group:'micro',     color:'#8B5CF6', bar:'bar-micro',  badge:'bg-micro',  cls:'t-micro', usage:'Label → input gap'},
+  {name:'space.3',  px:12, group:'micro',     color:'#8B5CF6', bar:'bar-micro',  badge:'bg-micro',  cls:'t-micro', usage:'Title → description'},
+  {name:'space.4',  px:16, group:'component', color:'#16A34A', bar:'bar-comp',   badge:'bg-comp',   cls:'t-comp',  usage:'Button & input padding'},
+  {name:'space.5',  px:20, group:'component', color:'#16A34A', bar:'bar-comp',   badge:'bg-comp',   cls:'t-comp',  usage:'Tablet gutter, form gap'},
+  {name:'space.6',  px:24, group:'component', color:'#16A34A', bar:'bar-comp',   badge:'bg-comp',   cls:'t-comp',  usage:'Card padding (default)'},
+  {name:'space.8',  px:32, group:'layout',    color:'#2563EB', bar:'bar-layout', badge:'bg-layout', cls:'t-layout',usage:'Between cards/panels'},
+  {name:'space.10', px:40, group:'layout',    color:'#2563EB', bar:'bar-layout', badge:'bg-layout', cls:'t-layout',usage:'Major section gap'},
+  {name:'space.12', px:48, group:'layout',    color:'#2563EB', bar:'bar-layout', badge:'bg-layout', cls:'t-layout',usage:'Between content groups'},
+  {name:'space.16', px:64, group:'layout',    color:'#1D4ED8', bar:'bar-layout', badge:'bg-layout', cls:'t-layout',usage:'Header height, page gaps'},
+  {name:'space.20', px:80, group:'layout',    color:'#1E40AF', bar:'bar-layout', badge:'bg-layout', cls:'t-layout',usage:'Hero sections, bottom pad'},
+];
 
-<!-- ══════════════════════════════════════════════
-     SECTION 5 — COMPONENT SPACING
-═══════════════════════════════════════════════ -->
-<div class="section" id="s5">
-  <div class="section-header">
-    <div class="section-tag">05 · Component Group</div>
-    <h2 class="section-title">Component Spacing — 16 to 24px</h2>
-    <p class="section-sub">Used <em>inside</em> components. These values define how much breathing room the contents of a button, card, or form field have. The most-used range in the entire app.</p>
-  </div>
+const groupLabels = {none:'None',micro:'Micro',component:'Component',layout:'Layout'};
 
-  <div class="resp-grid-3" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:24px;">
-    <div class="card" style="border-top:3px solid #15803d;">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
-        <div style="width:16px;height:32px;background:#15803d;border-radius:2px;"></div>
-        <div>
-          <div style="font-size:18px;font-weight:700;color:var(--neutral-900);">16px</div>
-          <div style="font-size:11px;font-family:monospace;color:#15803d;">space.4 · p-4</div>
-        </div>
-      </div>
-      <div class="card-body"><strong>Compact card padding.</strong> Also standard padding for inputs, buttons, alerts, table rows. Use for cards in dense grids, data tables, and list items.</div>
-      <div style="margin-top:12px;background:var(--neutral-50);border:1px solid var(--neutral-200);border-radius:6px;padding:16px;">
-        <div style="font-size:12px;font-weight:600;color:var(--neutral-800);margin-bottom:6px;">Route Details</div>
-        <div style="font-size:11px;color:var(--neutral-500);">Chicago Loop · 14 stops</div>
-        <div style="font-size:10px;color:var(--neutral-400);margin-top:8px;">p-4 compact card (this box)</div>
-      </div>
-    </div>
-    <div class="card" style="border-top:3px solid #16a34a;">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
-        <div style="width:20px;height:32px;background:#16a34a;border-radius:2px;"></div>
-        <div>
-          <div style="font-size:18px;font-weight:700;color:var(--neutral-900);">20px</div>
-          <div style="font-size:11px;font-family:monospace;color:#16a34a;">space.5 · p-5</div>
-        </div>
-      </div>
-      <div class="card-body">Tablet gutter width (<code>gap-5</code>). Form field vertical gap. Use for spacing between fields in a form, not as card padding.</div>
-      <div style="margin-top:12px;">
-        <div style="background:#fff;border:1px solid var(--neutral-200);border-radius:6px;padding:8px 16px;font-size:12px;color:var(--neutral-700);margin-bottom:20px;">Email address</div>
-        <div style="background:#fff;border:1px solid var(--neutral-200);border-radius:6px;padding:8px 16px;font-size:12px;color:var(--neutral-700);">Password</div>
-        <div style="font-size:10px;color:var(--neutral-400);margin-top:8px;">gap-5 between form fields</div>
-      </div>
-    </div>
-    <div class="card" style="border-top:3px solid #22c55e;">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
-        <div style="width:24px;height:32px;background:#22c55e;border-radius:2px;"></div>
-        <div>
-          <div style="font-size:18px;font-weight:700;color:var(--neutral-900);">24px</div>
-          <div style="font-size:11px;font-family:monospace;color:#15803d;">space.6 · p-6</div>
-        </div>
-      </div>
-      <div class="card-body"><strong>Default card padding.</strong> Standard for all cards, modals, panels. Matches the desktop grid gutter (<code>gap-6</code>) for visual harmony.</div>
-      <div style="margin-top:12px;background:var(--neutral-50);border:1px solid var(--neutral-200);border-radius:6px;padding:24px;">
-        <div style="font-size:13px;font-weight:700;color:var(--neutral-900);margin-bottom:4px;">Order Summary</div>
-        <div style="font-size:11px;color:var(--neutral-500);">2 items · $4,200 total</div>
-        <div style="font-size:10px;color:var(--neutral-400);margin-top:8px;">p-6 default card padding (this box)</div>
-      </div>
-    </div>
-  </div>
+// ═══ HERO BARS ═══
+const heroBars = document.getElementById('hero-bars');
+tokens.forEach((t, i) => {
+  if (t.px === 0) return;
+  const bar = document.createElement('div');
+  bar.className = 'hero-bar';
+  bar.style.background = t.color;
+  bar.style.height = '0px';
+  bar.style.opacity = '0.7';
+  bar.innerHTML = `<span class="hero-bar-label">${t.px}</span>`;
+  heroBars.appendChild(bar);
+  setTimeout(() => { bar.style.height = Math.min(t.px * 1.6, 140) + 'px'; }, 600 + i * 80);
+});
 
-  <div class="info-callout" style="background:var(--primary-50);border:1px solid var(--primary-200);color:var(--primary-700);">
-    <strong>Card padding rule (two tiers):</strong> Default card → <code>p-6</code> (24px). Compact/data-dense card → <code>p-4</code> (16px). Responsive pattern: <code>p-4 md:p-6</code>. Never use <code>p-5</code> for card padding — it doesn't align with the desktop grid gutter. Never mix padding tiers within the same card group on a page.
-  </div>
-</div>
+// ═══ SCALE LIST ═══
+const scaleList = document.getElementById('scale-list');
+const maxPx = 80;
+tokens.forEach(t => {
+  const row = document.createElement('div');
+  row.className = 'scale-row';
+  row.dataset.group = t.group;
+  row.innerHTML = `
+    <div class="scale-token ${t.cls}">${t.name}</div>
+    <div class="scale-px">${t.px}px</div>
+    <div class="scale-bar-wrap"><div class="scale-bar ${t.bar}" style="width:${Math.max((t.px/maxPx)*100, 1)}%"></div></div>
+    <span class="scale-group-badge ${t.badge}">${groupLabels[t.group]}</span>
+    <div class="scale-usage">${t.usage}</div>
+  `;
+  scaleList.appendChild(row);
+});
 
-<!-- ══════════════════════════════════════════════
-     SECTION 6 — LAYOUT SPACING
-═══════════════════════════════════════════════ -->
-<div class="section" id="s6">
-  <div class="section-header">
-    <div class="section-tag">06 · Layout Group</div>
-    <h2 class="section-title">Layout Spacing — 32 to 80px</h2>
-    <p class="section-sub">Used <em>between</em> components and sections. These values create breathing room at the page level — between cards, between page sections, and for the page's overall horizontal margin.</p>
-  </div>
+// Filters
+document.querySelectorAll('.scale-filter').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.scale-filter').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const group = btn.dataset.group;
+    document.querySelectorAll('.scale-row').forEach(row => {
+      row.classList.toggle('hidden', group !== 'all' && row.dataset.group !== group);
+    });
+  });
+});
 
-  <table class="tbl mb24">
-    <thead><tr><th>Token</th><th>Value</th><th>Visual</th><th>Tailwind</th><th>Primary Role</th><th>Example Usage</th></tr></thead>
-    <tbody>
-      <tr>
-        <td><code>space.8</code></td>
-        <td><strong>32px</strong></td>
-        <td><div style="width:32px;height:12px;background:#2563eb;border-radius:2px;"></div></td>
-        <td><code>gap-8 / p-8</code></td>
-        <td>Between sibling cards or panels</td>
-        <td>Card grid gap, sidebar section gap</td>
-      </tr>
-      <tr>
-        <td><code>space.10</code></td>
-        <td><strong>40px</strong></td>
-        <td><div style="width:40px;height:12px;background:#2563eb;border-radius:2px;"></div></td>
-        <td><code>gap-10 / p-10</code></td>
-        <td>Major section separation</td>
-        <td>Gap between a section header and its content grid</td>
-      </tr>
-      <tr>
-        <td><code>space.12</code></td>
-        <td><strong>48px</strong></td>
-        <td><div style="width:48px;height:12px;background:#1d4ed8;border-radius:2px;"></div></td>
-        <td><code>gap-12 / p-12</code></td>
-        <td>Between major content groups</td>
-        <td>Between the page header and first content section</td>
-      </tr>
-      <tr>
-        <td><code>space.16</code></td>
-        <td><strong>64px</strong></td>
-        <td><div style="width:64px;height:12px;background:#1d4ed8;border-radius:2px;"></div></td>
-        <td><code>pt-16 / h-16</code></td>
-        <td><strong>Header height</strong> + large gaps</td>
-        <td><code>pt-16</code> page top offset from fixed header</td>
-      </tr>
-      <tr>
-        <td><code>space.20</code></td>
-        <td><strong>80px</strong></td>
-        <td><div style="width:80px;height:12px;background:#1e40af;border-radius:2px;"></div></td>
-        <td><code>py-20 / pb-20</code></td>
-        <td>Page bottom padding</td>
-        <td>Bottom of page content above footer</td>
-      </tr>
-    </tbody>
-  </table>
+// ═══ PLAYGROUND ═══
+const pgCard = document.getElementById('pg-card');
+const pgDesc = document.getElementById('pg-desc');
+const pgFooter = document.getElementById('pg-footer');
+const pgReadout = document.getElementById('pg-readout');
 
-  <!-- Example annotation (Figma-style) -->
-  <div style="margin-top:8px;">
-    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--neutral-400);margin-bottom:12px;">Example — layout spacing in a dashboard page</div>
-    <div style="background:#fff;border:1px solid var(--neutral-200);border-radius:10px;overflow:hidden;">
-      <!-- simulated header -->
-      <div style="height:64px;background:var(--neutral-900);display:flex;align-items:center;padding:0 32px;gap:8px;">
-        <div style="width:20px;height:20px;background:var(--primary-600);border-radius:4px;"></div>
-        <span style="font-size:13px;font-weight:700;color:#fff;">VendHub</span>
-        <div style="flex:1;"></div>
-        <div style="width:32px;height:32px;border-radius:50%;background:#374151;"></div>
-        <div style="font-size:10px;color:var(--neutral-500);margin-left:8px;">Header = 64px = space.16</div>
-      </div>
-      <!-- page content -->
-      <div style="padding:32px;">
-        <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:32px;">
-          <div>
-            <div style="font-size:16px;font-weight:700;color:var(--neutral-900);">Route Dashboard</div>
-            <div style="font-size:12px;color:var(--neutral-500);margin-top:4px;">Overview of all active routes</div>
-          </div>
-          <div style="font-size:10px;color:var(--neutral-400);">Page padding = 32px = space.8</div>
-        </div>
-        <div class="resp-grid-3" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;">
-          <div style="background:var(--neutral-50);border:1px solid var(--neutral-200);border-radius:8px;padding:20px;">
-            <div style="font-size:11px;color:var(--neutral-500);">Active Routes</div>
-            <div style="font-size:22px;font-weight:700;color:var(--neutral-900);margin-top:4px;">24</div>
-          </div>
-          <div style="background:var(--neutral-50);border:1px solid var(--neutral-200);border-radius:8px;padding:20px;">
-            <div style="font-size:11px;color:var(--neutral-500);">Total Stops</div>
-            <div style="font-size:22px;font-weight:700;color:var(--neutral-900);margin-top:4px;">312</div>
-          </div>
-          <div style="background:var(--neutral-50);border:1px solid var(--neutral-200);border-radius:8px;padding:20px;">
-            <div style="font-size:11px;color:var(--neutral-500);">Pending</div>
-            <div style="font-size:22px;font-weight:700;color:var(--neutral-900);margin-top:4px;">7</div>
-          </div>
-        </div>
-        <div style="margin-top:4px;text-align:center;font-size:10px;color:var(--neutral-400);">Card gap = 24px = space.6 — Cards padding = 20px = space.5</div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════════
-     SECTION 7 — PAGE LAYOUT SPACING
-═══════════════════════════════════════════════ -->
-<div class="section" id="s7">
-  <div class="section-header">
-    <div class="section-tag">07 · Page Layout</div>
-    <h2 class="section-title">Page Layout Spacing Standards</h2>
-    <p class="section-sub">The canonical spacing pattern for every page in VendHub. Replaces 6 different ad-hoc padding approaches with one consistent system.</p>
-  </div>
-
-  <div class="card mb24">
-    <div class="card-title" style="margin-bottom:16px;">Standard Page Wrapper</div>
-    <div class="code-block">
-<span class="cm">// Standard page layout — use this in EVERY page component</span>
-&lt;<span class="fn">main</span> <span class="at">className</span>=<span class="str">"pt-16 min-h-[calc(100vh-var(--header-h))]"</span>&gt;
-  &lt;<span class="fn">div</span> <span class="at">className</span>=<span class="str">"max-w-page mx-auto px-8 py-10"</span>&gt;
-    <span class="cm">/* px-8  = 32px horizontal page padding (space.8)  */</span>
-    <span class="cm">/* py-10 = 40px vertical page padding (space.10)   */</span>
-    <span class="cm">/* pt-16 = 64px top offset for fixed header         */</span>
-    {children}
-  &lt;/<span class="fn">div</span>&gt;
-&lt;/<span class="fn">main</span>&gt;
-
-<span class="cm">// Responsive: tighter on mobile</span>
-&lt;<span class="fn">div</span> <span class="at">className</span>=<span class="str">"px-4 sm:px-6 lg:px-8 py-6 lg:py-10 max-w-page mx-auto"</span>&gt;
-    </div>
-  </div>
-
-  <table class="tbl mb16">
-    <thead><tr><th>Layout Role</th><th>Token</th><th>Value</th><th>Tailwind</th><th>Applies to</th></tr></thead>
-    <tbody>
-      <tr>
-        <td>Header height</td>
-        <td><code>space.16</code></td>
-        <td>64px</td>
-        <td><code>h-16</code></td>
-        <td>Fixed header bar. Also drives <code>pt-16</code> page offset.</td>
-      </tr>
-      <tr>
-        <td>Page horizontal padding</td>
-        <td><code>space.8</code></td>
-        <td>32px</td>
-        <td><code>px-8</code></td>
-        <td>Desktop page container. Responsive: <code>px-4 sm:px-6 lg:px-8</code></td>
-      </tr>
-      <tr>
-        <td>Page vertical padding</td>
-        <td><code>space.10</code></td>
-        <td>40px</td>
-        <td><code>py-10</code></td>
-        <td>Top/bottom breathing room in the page content area.</td>
-      </tr>
-      <tr>
-        <td>Section gap</td>
-        <td><code>space.12</code></td>
-        <td>48px</td>
-        <td><code>mb-12</code></td>
-        <td>Between major page sections (e.g. stats row → table → charts)</td>
-      </tr>
-      <tr>
-        <td>Card grid gap</td>
-        <td><code>space.6</code></td>
-        <td>24px</td>
-        <td><code>gap-6</code></td>
-        <td>Gap between cards in a grid. Sidebar section gap.</td>
-      </tr>
-      <tr>
-        <td>Page max-width</td>
-        <td><code>max-w-page</code></td>
-        <td>1280px</td>
-        <td><code>max-w-page</code></td>
-        <td>Add to tailwind.config: <code>maxWidth: { page: "1280px" }</code></td>
-      </tr>
-    </tbody>
-  </table>
-
-  <div class="info-callout">
-    <strong>Fix for max-w-8xl:</strong> Remove all <code>max-w-8xl</code> usages (they're no-ops). Replace with <code>max-w-page</code> (1280px). Add <code>max-w-page: "1280px"</code> to tailwind.config.ts.
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════════
-     SECTION 8 — COMPONENT SPACING STANDARDS
-═══════════════════════════════════════════════ -->
-<div class="section" id="s8">
-  <div class="section-header">
-    <div class="section-tag">08 · Component Standards</div>
-    <h2 class="section-title">Component Spacing Standards</h2>
-    <p class="section-sub">Canonical spacing for the most common VendHub components. These are the definitive values — use them without deviation to achieve a consistent feel across the app.</p>
-  </div>
-
-  <!-- Component demos with labels -->
-  <div style="display:flex;flex-direction:column;gap:24px;">
-
-    <!-- Button -->
-    <div class="card">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
-        <div class="card-title">Button</div>
-        <span class="badge bg-green">py-2 px-4</span>
-      </div>
-      <div style="display:flex;align-items:center;gap:24px;">
-        <div style="flex:1;">
-          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;">
-            <button style="padding:8px 16px;background:#16A34A;color:#fff;border:none;border-radius:6px;font-size:13px;font-weight:600;font-family:inherit;">Primary Button</button>
-            <button style="padding:8px 16px;background:#fff;color:#374151;border:1px solid #E5E7EB;border-radius:6px;font-size:13px;font-weight:600;font-family:inherit;">Secondary</button>
-            <button style="padding:6px 12px;background:#16A34A;color:#fff;border:none;border-radius:6px;font-size:12px;font-weight:600;font-family:inherit;">Small</button>
-          </div>
-        </div>
-        <table class="tbl" style="max-width:480px;">
-          <thead><tr><th>Property</th><th>Token</th><th>Value</th><th>Class</th></tr></thead>
-          <tbody>
-            <tr><td>Vertical padding</td><td><code>space.2</code></td><td>8px</td><td><code>py-2</code></td></tr>
-            <tr><td>Horizontal padding</td><td><code>space.4</code></td><td>16px</td><td><code>px-4</code></td></tr>
-            <tr><td>Icon ↔ label gap</td><td><code>space.1</code></td><td>4px</td><td><code>gap-1</code></td></tr>
-            <tr><td>Small: vert padding</td><td><code>space.1</code></td><td>4px</td><td><code>py-1</code></td></tr>
-            <tr><td>Small: horiz padding</td><td><code>space.3</code></td><td>12px</td><td><code>px-3</code></td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- Form Fields -->
-    <div class="card">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
-        <div class="card-title">Form Fields</div>
-        <span class="badge bg-violet">3-stop pattern</span>
-      </div>
-      <div style="display:flex;align-items:flex-start;gap:24px;">
-        <div style="flex:1;max-width:320px;">
-          <div style="margin-bottom:16px;">
-            <div style="font-size:12px;font-weight:600;color:var(--neutral-700);margin-bottom:8px;">Route Name</div>
-            <input style="width:100%;padding:8px 12px;border:1px solid var(--neutral-200);border-radius:6px;font-size:13px;font-family:inherit;color:var(--neutral-800);outline:none;" placeholder="e.g. Chicago Loop East" />
-          </div>
-          <div>
-            <div style="font-size:12px;font-weight:600;color:var(--neutral-700);margin-bottom:8px;">Description</div>
-            <textarea style="width:100%;padding:8px 12px;border:1px solid var(--neutral-200);border-radius:6px;font-size:13px;font-family:inherit;color:var(--neutral-800);outline:none;resize:none;height:60px;" placeholder="Optional notes..."></textarea>
-          </div>
-        </div>
-        <table class="tbl" style="max-width:480px;">
-          <thead><tr><th>Property</th><th>Token</th><th>Value</th><th>Class</th></tr></thead>
-          <tbody>
-            <tr><td>Label → input gap</td><td><code>space.2</code></td><td>8px</td><td><code>mb-2</code></td></tr>
-            <tr><td>Input inner padding</td><td><code>space.3 / space.4</code></td><td>12px / 16px</td><td><code>py-2 px-3</code></td></tr>
-            <tr><td>Between fields</td><td><code>space.4</code></td><td>16px</td><td><code>gap-4</code></td></tr>
-            <tr><td>Section gap</td><td><code>space.6</code></td><td>24px</td><td><code>mb-6</code></td></tr>
-            <tr><td>Helper text gap</td><td><code>space.1</code></td><td>4px</td><td><code>mt-1</code></td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- Table -->
-    <div class="card">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
-        <div class="card-title">Table / Data Rows</div>
-        <span class="badge bg-blue">py-3 px-4</span>
-      </div>
-      <table style="width:100%;border-collapse:collapse;font-size:13px;">
-        <thead>
-          <tr style="background:var(--neutral-50);border-bottom:1px solid var(--neutral-200);">
-            <th style="padding:10px 16px;text-align:left;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--neutral-500);">Route</th>
-            <th style="padding:10px 16px;text-align:left;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--neutral-500);">Stops</th>
-            <th style="padding:10px 16px;text-align:left;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--neutral-500);">Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr style="border-bottom:1px solid var(--neutral-100);">
-            <td style="padding:12px 16px;color:var(--neutral-800);font-weight:500;">Chicago Loop East</td>
-            <td style="padding:12px 16px;color:var(--neutral-500);">14</td>
-            <td style="padding:12px 16px;"><span style="background:#DCFCE7;color:#15803D;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600;">Active</span></td>
-          </tr>
-          <tr style="border-bottom:1px solid var(--neutral-100);">
-            <td style="padding:12px 16px;color:var(--neutral-800);font-weight:500;">Milwaukee North</td>
-            <td style="padding:12px 16px;color:var(--neutral-500);">8</td>
-            <td style="padding:12px 16px;"><span style="background:#FFFBEB;color:#B45309;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600;">Pending</span></td>
-          </tr>
-        </tbody>
-      </table>
-      <div style="font-size:11px;color:var(--neutral-400);margin-top:10px;">Header: <code>py-[10px] px-4</code> · Row cells: <code>py-3 px-4</code></div>
-    </div>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════════
-     SECTION 9 — VISUAL HIERARCHY
-═══════════════════════════════════════════════ -->
-<div class="section" id="s9">
-  <div class="section-header">
-    <div class="section-tag">09 · Visual Hierarchy</div>
-    <h2 class="section-title">How Spacing Creates Visual Hierarchy</h2>
-    <p class="section-sub">Spacing does as much work as typography in communicating structure. The rule: <strong>elements that belong together have less space between them</strong>. Elements that are separate have more.</p>
-  </div>
-
-  <div class="g2 mb24">
-    <div>
-      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--primary-600);margin-bottom:12px;">✓ Correct — space communicates grouping</div>
-      <div style="background:#fff;border:1px solid var(--neutral-200);border-radius:10px;padding:24px;">
-        <!-- Section 1 -->
-        <div style="margin-bottom:32px;">
-          <div style="font-size:14px;font-weight:700;color:var(--neutral-900);margin-bottom:4px;">Active Routes</div>
-          <div style="font-size:12px;color:var(--neutral-500);margin-bottom:12px;">12 routes currently running</div>
-          <div style="display:flex;flex-direction:column;gap:8px;">
-            <div style="background:var(--neutral-50);border:1px solid var(--neutral-200);border-radius:6px;padding:10px 14px;font-size:12px;color:var(--neutral-700);">Chicago Loop East</div>
-            <div style="background:var(--neutral-50);border:1px solid var(--neutral-200);border-radius:6px;padding:10px 14px;font-size:12px;color:var(--neutral-700);">Milwaukee North</div>
-          </div>
-        </div>
-        <!-- Section 2 -->
-        <div>
-          <div style="font-size:14px;font-weight:700;color:var(--neutral-900);margin-bottom:4px;">Pending Approval</div>
-          <div style="font-size:12px;color:var(--neutral-500);margin-bottom:12px;">3 routes awaiting review</div>
-          <div style="display:flex;flex-direction:column;gap:8px;">
-            <div style="background:var(--neutral-50);border:1px solid var(--neutral-200);border-radius:6px;padding:10px 14px;font-size:12px;color:var(--neutral-700);">Indianapolis South</div>
-          </div>
-        </div>
-      </div>
-      <div style="font-size:11px;color:var(--neutral-400);margin-top:8px;">32px between sections (space.8) · 8px between list items (space.2) · 4px title→subtitle (space.1)</div>
-    </div>
-    <div>
-      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--error-600);margin-bottom:12px;">✗ Wrong — uniform spacing loses hierarchy</div>
-      <div style="background:#fff;border:1px solid var(--error-200);border-radius:10px;padding:24px;">
-        <div style="margin-bottom:16px;">
-          <div style="font-size:14px;font-weight:700;color:var(--neutral-900);margin-bottom:16px;">Active Routes</div>
-          <div style="font-size:12px;color:var(--neutral-500);margin-bottom:16px;">12 routes currently running</div>
-          <div style="background:var(--neutral-50);border:1px solid var(--neutral-200);border-radius:6px;padding:10px 14px;font-size:12px;color:var(--neutral-700);margin-bottom:16px;">Chicago Loop East</div>
-          <div style="background:var(--neutral-50);border:1px solid var(--neutral-200);border-radius:6px;padding:10px 14px;font-size:12px;color:var(--neutral-700);margin-bottom:16px;">Milwaukee North</div>
-          <div style="font-size:14px;font-weight:700;color:var(--neutral-900);margin-bottom:16px;">Pending Approval</div>
-          <div style="font-size:12px;color:var(--neutral-500);margin-bottom:16px;">3 routes awaiting review</div>
-          <div style="background:var(--neutral-50);border:1px solid var(--neutral-200);border-radius:6px;padding:10px 14px;font-size:12px;color:var(--neutral-700);">Indianapolis South</div>
-        </div>
-      </div>
-      <div style="font-size:11px;color:var(--neutral-400);margin-top:8px;">All gaps are 16px — impossible to tell what groups with what</div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-title" style="margin-bottom:16px;">The Proximity Hierarchy Rule</div>
-    <table class="tbl">
-      <thead><tr><th>Relationship</th><th>Space Amount</th><th>Token</th><th>Rationale</th></tr></thead>
-      <tbody>
-        <tr><td>Same element (icon + label)</td><td>4px</td><td><code>space.1</code></td><td>Inseparable — treated as one unit</td></tr>
-        <tr><td>Parent → child (label → input)</td><td>8px</td><td><code>space.2</code></td><td>Strongly related — almost same unit</td></tr>
-        <tr><td>Sibling items in a list/form</td><td>12–16px</td><td><code>space.3–4</code></td><td>Same group, clearly separate items</td></tr>
-        <tr><td>Card sections (divider above)</td><td>20–24px</td><td><code>space.5–6</code></td><td>Related sections within a container</td></tr>
-        <tr><td>Separate content groups</td><td>32–48px</td><td><code>space.8–12</code></td><td>Distinct sections, same page</td></tr>
-        <tr><td>Major page sections</td><td>64–80px</td><td><code>space.16–20</code></td><td>Completely separate conceptual areas</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-<div class="section" id="s10">
-  <div class="section-header">
-    <div class="section-tag">10 · Tailwind Config</div>
-    <h2 class="section-title">tailwind.config.ts — Spacing Setup</h2>
-    <p class="section-sub">VendHub's spacing scale maps exactly to Tailwind's built-in scale — no custom values needed for core tokens. Only semantic aliases require additions.</p>
-  </div>
-
-  <div class="info-callout mb16">
-    <strong>Important:</strong> Because <code>space.1 = p-1 = 4px</code>, <code>space.2 = p-2 = 8px</code>, etc., the core scale is already available in Tailwind with zero config. The additions below add semantic aliases (<code>--header-h</code>, <code>max-w-page</code>) and fix the broken <code>max-w-8xl</code> no-op.
-  </div>
-
-  <div class="code-block mb16">
-<span class="cm">// tailwind.config.ts — theme.extend additions for spacing</span>
-<span class="kw">extend</span>: {
-  <span class="cm">// ── SEMANTIC SPACING ALIASES ─────────────────────────────</span>
-  <span class="cm">// These add intent-named classes on top of the default scale</span>
-  <span class="kw">spacing</span>: {
-    <span class="str">"header-h"</span>:      <span class="val">"64px"</span>,   <span class="cm">/* h-header-h, pt-header-h, mt-header-h   */</span>
-    <span class="str">"page-pad"</span>:      <span class="val">"32px"</span>,   <span class="cm">/* px-page-pad — standard page H-padding  */</span>
-    <span class="str">"page-pad-sm"</span>:   <span class="val">"16px"</span>,   <span class="cm">/* mobile page padding                    */</span>
-    <span class="str">"card-pad"</span>:      <span class="val">"24px"</span>,   <span class="cm">/* p-card-pad — default card padding      */</span>
-    <span class="str">"card-pad-sm"</span>:   <span class="val">"16px"</span>,   <span class="cm">/* p-card-pad-sm — compact card padding   */</span>
-    <span class="str">"section-gap"</span>:   <span class="val">"48px"</span>,   <span class="cm">/* mb-section-gap — between page sections */</span>
-    <span class="str">"card-gap"</span>:      <span class="val">"24px"</span>,   <span class="cm">/* gap-card-gap — gap between cards       */</span>
-    <span class="str">"footer-bar"</span>:    <span class="val">"64px"</span>,   <span class="cm">/* pb-footer-bar — fixed bottom bar offset */</span>
-  },
-
-  <span class="cm">// ── MAX-WIDTH ADDITIONS ───────────────────────────────────</span>
-  <span class="kw">maxWidth</span>: {
-    <span class="str">"page"</span>:    <span class="val">"1280px"</span>, <span class="cm">/* max-w-page — standard page container   */</span>
-    <span class="str">"content"</span>: <span class="val">"768px"</span>,  <span class="cm">/* max-w-content — text/article column   */</span>
-    <span class="str">"form"</span>:    <span class="val">"512px"</span>,  <span class="cm">/* max-w-form — standard form width      */</span>
-    <span class="str">"card"</span>:    <span class="val">"384px"</span>,  <span class="cm">/* max-w-card — single column card width */</span>
-  },
-
-  <span class="cm">// ── CSS VARIABLES (for calc() and JS access) ─────────────</span>
-  <span class="cm">// Add to globals.css :root block:</span>
-  <span class="cm">// --header-h: 64px;   → use in calc(100vh - var(--header-h))</span>
-  <span class="cm">// --card-pad: 24px;   → use in CSS-in-JS if needed</span>
-},
-
-<span class="cm">// ── REMOVE — these were broken no-ops ────────────────────</span>
-<span class="cm">// max-w-8xl was never defined. Delete all usages:</span>
-<span class="cm">// grep -r "max-w-8xl" --include="*.tsx" → replace with max-w-page</span>
-  </div>
-
-  <div class="g2">
-    <div class="card">
-      <div class="card-title">Why semantic aliases?</div>
-      <div class="card-body mt8">
-        <code>pt-header-h</code> communicates intent — "this is the header offset" — while <code>pt-16</code> is ambiguous (is it a coincidence it's 64px, or intentional?). When the header height changes from 64px to 56px, you update one variable, not grep for every <code>pt-16</code>.
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-title">CSS variable for calc() patterns</div>
-      <div class="card-body mt8">
-        Add to <code>globals.css :root</code>:
-        <div class="code-block mt8" style="font-size:11px;">
-<span class="prop">--header-h</span>: <span class="val">64px</span>;
-<span class="prop">--footer-bar-h</span>: <span class="val">64px</span>;
-        </div>
-        Then use: <code>min-h-[calc(100vh-var(--header-h))]</code> instead of the current hardcoded <code>calc(100vh-64px)</code>.
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════════
-     SECTION 2 — FIGMA VARIABLE NAMES
-═══════════════════════════════════════════════ -->
-<div class="section" id="s11">
-  <div class="section-header">
-    <div class="section-tag">11 · Figma Variables</div>
-    <h2 class="section-title">Figma Spacing Variable Names</h2>
-    <p class="section-sub">The canonical variable names for the Figma design system. Designers use these exact names — they map 1:1 to the Tailwind aliases and CSS variables.</p>
-  </div>
-
-  <table class="tbl mb16">
-    <thead><tr><th>Figma Variable</th><th>CSS Token</th><th>Tailwind Class</th><th>Value</th><th>Group</th></tr></thead>
-    <tbody>
-      <tr><td colspan="5" style="background:var(--neutral-50);font-size:11px;font-weight:700;color:var(--neutral-500);text-transform:uppercase;letter-spacing:.06em;">Core Scale</td></tr>
-      <tr><td>Spacing/0</td><td><code>--space-0</code></td><td><code>p-0 / gap-0 / m-0</code></td><td>0px</td><td><span class="badge bg-gray" style="font-size:10px;">None</span></td></tr>
-      <tr><td>Spacing/1</td><td><code>--space-1</code></td><td><code>p-1 / gap-1 / m-1</code></td><td>4px</td><td><span class="badge bg-violet" style="font-size:10px;">Micro</span></td></tr>
-      <tr><td>Spacing/2</td><td><code>--space-2</code></td><td><code>p-2 / gap-2 / m-2</code></td><td>8px</td><td><span class="badge bg-violet" style="font-size:10px;">Micro</span></td></tr>
-      <tr><td>Spacing/3</td><td><code>--space-3</code></td><td><code>p-3 / gap-3 / m-3</code></td><td>12px</td><td><span class="badge bg-violet" style="font-size:10px;">Micro</span></td></tr>
-      <tr><td>Spacing/4</td><td><code>--space-4</code></td><td><code>p-4 / gap-4 / m-4</code></td><td>16px</td><td><span class="badge bg-green" style="font-size:10px;">Component</span></td></tr>
-      <tr><td>Spacing/5</td><td><code>--space-5</code></td><td><code>p-5 / gap-5 / m-5</code></td><td>20px</td><td><span class="badge bg-green" style="font-size:10px;">Component</span></td></tr>
-      <tr><td>Spacing/6</td><td><code>--space-6</code></td><td><code>p-6 / gap-6 / m-6</code></td><td>24px</td><td><span class="badge bg-green" style="font-size:10px;">Component</span></td></tr>
-      <tr><td>Spacing/8</td><td><code>--space-8</code></td><td><code>p-8 / gap-8 / m-8</code></td><td>32px</td><td><span class="badge bg-blue" style="font-size:10px;">Layout</span></td></tr>
-      <tr><td>Spacing/10</td><td><code>--space-10</code></td><td><code>p-10 / gap-10 / m-10</code></td><td>40px</td><td><span class="badge bg-blue" style="font-size:10px;">Layout</span></td></tr>
-      <tr><td>Spacing/12</td><td><code>--space-12</code></td><td><code>p-12 / gap-12 / m-12</code></td><td>48px</td><td><span class="badge bg-blue" style="font-size:10px;">Layout</span></td></tr>
-      <tr><td>Spacing/16</td><td><code>--space-16</code></td><td><code>p-16 / h-16 / pt-16</code></td><td>64px</td><td><span class="badge bg-blue" style="font-size:10px;">Layout</span></td></tr>
-      <tr><td>Spacing/20</td><td><code>--space-20</code></td><td><code>p-20 / pb-20</code></td><td>80px</td><td><span class="badge bg-blue" style="font-size:10px;">Layout</span></td></tr>
-      <tr><td colspan="5" style="background:var(--neutral-50);font-size:11px;font-weight:700;color:var(--neutral-500);text-transform:uppercase;letter-spacing:.06em;">Semantic Aliases</td></tr>
-      <tr><td>Spacing/HeaderHeight</td><td><code>--header-h</code></td><td><code>h-header-h / pt-header-h</code></td><td>64px</td><td><span class="badge bg-green" style="font-size:10px;">Alias</span></td></tr>
-      <tr><td>Spacing/PagePadding</td><td><code>--page-pad</code></td><td><code>px-page-pad</code></td><td>32px</td><td><span class="badge bg-green" style="font-size:10px;">Alias</span></td></tr>
-      <tr><td>Spacing/CardPadding</td><td><code>--card-pad</code></td><td><code>p-card-pad</code></td><td>24px</td><td><span class="badge bg-green" style="font-size:10px;">Alias</span></td></tr>
-      <tr><td>Spacing/SectionGap</td><td><code>--section-gap</code></td><td><code>mb-section-gap</code></td><td>48px</td><td><span class="badge bg-green" style="font-size:10px;">Alias</span></td></tr>
-    </tbody>
-  </table>
-
-  <div class="info-callout">
-    <strong>Designer rule:</strong> In Figma, use the core scale names (<code>Spacing/4</code>, <code>Spacing/6</code>) for all spacing. Use semantic aliases (<code>Spacing/CardPadding</code>) only when the semantic meaning is critical to document for the developer handoff.
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════════
-     SECTION 3 — RESPONSIVE SPACING
-═══════════════════════════════════════════════ -->
-<div class="section" id="s12">
-  <div class="section-header">
-    <div class="section-tag">12 · Responsive</div>
-    <h2 class="section-title">Responsive Spacing Patterns</h2>
-    <p class="section-sub">Spacing should tighten on smaller viewports. Use these canonical responsive patterns — don't invent new breakpoint combinations.</p>
-  </div>
-
-  <div class="card mb16">
-    <div class="card-title" style="margin-bottom:16px;">Responsive Scale-Down Rules</div>
-    <table class="tbl">
-      <thead><tr><th>Element</th><th>Mobile (default)</th><th>Tablet (sm:)</th><th>Desktop (lg:)</th><th>Pattern</th></tr></thead>
-      <tbody>
-        <tr>
-          <td>Page H-padding</td>
-          <td><code>px-4</code> (16px)</td>
-          <td><code>sm:px-6</code> (24px)</td>
-          <td><code>lg:px-8</code> (32px)</td>
-          <td><code>px-4 sm:px-6 lg:px-8</code></td>
-        </tr>
-        <tr>
-          <td>Page V-padding</td>
-          <td><code>py-6</code> (24px)</td>
-          <td><code>sm:py-8</code> (32px)</td>
-          <td><code>lg:py-10</code> (40px)</td>
-          <td><code>py-6 lg:py-10</code></td>
-        </tr>
-        <tr>
-          <td>Card padding</td>
-          <td><code>p-4</code> (16px)</td>
-          <td><code>md:p-6</code> (24px)</td>
-          <td>—</td>
-          <td><code>p-4 md:p-6</code></td>
-        </tr>
-        <tr>
-          <td>Card grid gap</td>
-          <td><code>gap-4</code> (16px)</td>
-          <td><code>sm:gap-5</code> (20px)</td>
-          <td><code>lg:gap-6</code> (24px)</td>
-          <td><code>gap-4 lg:gap-6</code></td>
-        </tr>
-        <tr>
-          <td>Section gap</td>
-          <td><code>mb-8</code> (32px)</td>
-          <td>—</td>
-          <td><code>lg:mb-12</code> (48px)</td>
-          <td><code>mb-8 lg:mb-12</code></td>
-        </tr>
-        <tr>
-          <td>Stack gap (forms)</td>
-          <td><code>gap-4</code> (16px)</td>
-          <td>—</td>
-          <td>unchanged</td>
-          <td><code>gap-4</code></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="warn-callout">
-    <strong>The one-step rule:</strong> Between any two breakpoints, spacing should jump by at most one step in the scale. <code>px-4 lg:px-8</code> is fine (skips sm, 2 steps). <code>px-2 lg:px-12</code> is too aggressive — 5 steps feels jarring on a narrow window.
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════════
-     SECTION 4 — PAGE LAYOUT PATTERN
-═══════════════════════════════════════════════ -->
-<div class="section" id="s13">
-  <div class="section-header">
-    <div class="section-tag">13 · Page Layout</div>
-    <h2 class="section-title">Canonical Page Layout Pattern</h2>
-    <p class="section-sub">The definitive page wrapper. Replaces all 6 current approaches. Use this in every page component — copy-paste exactly.</p>
-  </div>
-
-  <div class="code-block mb16">
-<span class="cm">// components/layouts/PageWrapper.tsx</span>
-<span class="kw">interface</span> <span class="fn">PageWrapperProps</span> {
-  children: React.ReactNode
-  maxWidth?: <span class="str">"page"</span> | <span class="str">"content"</span> | <span class="str">"form"</span> | <span class="str">"full"</span>
+function updatePlayground() {
+  const pad = document.getElementById('pg-padding').value;
+  const gap = document.getElementById('pg-gap').value;
+  pgCard.style.padding = pad + 'px';
+  pgCard.querySelectorAll('[style*="margin-bottom"]').forEach(el => {
+    el.style.marginBottom = gap + 'px';
+  });
+  pgFooter.style.marginTop = gap + 'px';
+  pgReadout.innerHTML = `
+    <div class="readout-item">padding: <strong>${pad}px</strong></div>
+    <div class="readout-item">gap: <strong>${gap}px</strong></div>
+    <div class="readout-item">token: <strong>space.${pad/4}</strong></div>
+  `;
 }
+document.getElementById('pg-padding').addEventListener('change', updatePlayground);
+document.getElementById('pg-gap').addEventListener('change', updatePlayground);
+updatePlayground();
 
-<span class="kw">export function</span> <span class="fn">PageWrapper</span>({ children, maxWidth = <span class="str">"page"</span> }: PageWrapperProps) {
-  <span class="kw">const</span> maxW = {
-    page:    <span class="str">"max-w-page"</span>,     <span class="cm">/* 1280px — standard dashboard/routes/leads */</span>
-    content: <span class="str">"max-w-content"</span>,  <span class="cm">/* 768px  — text-heavy pages               */</span>
-    form:    <span class="str">"max-w-form"</span>,     <span class="cm">/* 512px  — standalone forms, settings     */</span>
-    full:    <span class="str">"max-w-none"</span>,     <span class="cm">/* full width — market/analytics            */</span>
-  }[maxWidth]
-
-  <span class="kw">return</span> (
-    &lt;<span class="fn">div</span> <span class="at">className</span>=<span class="str">{`${maxW} mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-10`}</span>&gt;
-      {children}
-    &lt;/<span class="fn">div</span>&gt;
-  )
-}
-
-<span class="cm">// Usage in page.tsx:</span>
-<span class="kw">export default function</span> <span class="fn">RoutesPage</span>() {
-  <span class="kw">return</span> (
-    &lt;<span class="fn">main</span> <span class="at">className</span>=<span class="str">"pt-header-h min-h-[calc(100vh-var(--header-h))]"</span>&gt;
-      &lt;<span class="fn">PageWrapper</span>&gt;
-        &lt;<span class="fn">PageHeader</span> title=<span class="str">"Routes"</span> /&gt;
-        &lt;<span class="fn">RouteGrid</span> /&gt;
-      &lt;/<span class="fn">PageWrapper</span>&gt;
-    &lt;/<span class="fn">main</span>&gt;
-  )
-}
-  </div>
-
-  <div class="g2">
-    <div class="card">
-      <div class="card-title">Standard page sections layout</div>
-      <div class="card-body mt8" style="font-size:12px;line-height:1.8;">
-        <code style="display:block;margin-bottom:6px;">&lt;PageHeader /&gt;   — mb-8 (32px)</code>
-        <code style="display:block;margin-bottom:6px;">&lt;StatsRow /&gt;     — mb-12 (48px)</code>
-        <code style="display:block;margin-bottom:6px;">&lt;FilterBar /&gt;   — mb-6 (24px)</code>
-        <code style="display:block;margin-bottom:6px;">&lt;DataTable /&gt;    — mb-12 (48px)</code>
-        <code style="display:block;">&lt;Pagination /&gt;  — mt-6 (24px)</code>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-title">Admin pages fix</div>
-      <div class="card-body mt8">
-        Admin content areas currently use only <code>p-2</code> (8px). Fix:
-        <div class="code-block mt8" style="font-size:11px;">
-<span class="cm">/* Before */</span>
-<span class="at">className</span>=<span class="str">"p-2"</span>
-
-<span class="cm">/* After */</span>
-<span class="at">className</span>=<span class="str">"px-4 sm:px-6 py-4 sm:py-6"</span>
-        </div>
-        Adds responsive padding that grows from 16px on mobile to 24px on desktop.
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════════
-     SECTION 5 — COMPONENT PATTERNS CODE
-═══════════════════════════════════════════════ -->
-<div class="section" id="s14">
-  <div class="section-header">
-    <div class="section-tag">14 · Component Code</div>
-    <h2 class="section-title">Component Spacing Patterns — Code Reference</h2>
-    <p class="section-sub">Copy-paste spacing patterns for the most common VendHub components. These encode all the decisions from Part 1 Sections 7 and 8.</p>
-  </div>
-
-  <div style="display:flex;flex-direction:column;gap:16px;">
-    <div class="card">
-      <div class="card-title" style="margin-bottom:12px;">Card Component</div>
-      <div class="code-block">
-<span class="cm">// Standard card — p-6 (24px) — matches desktop grid gutter</span>
-&lt;<span class="fn">div</span> <span class="at">className</span>=<span class="str">"p-6 bg-white border border-neutral-200 rounded-container"</span>&gt;
-  &lt;<span class="fn">h3</span> <span class="at">className</span>=<span class="str">"text-sectionTitle mb-1"</span>&gt;{title}&lt;/<span class="fn">h3</span>&gt;
-  &lt;<span class="fn">p</span>  <span class="at">className</span>=<span class="str">"text-bodySm text-muted mb-4"</span>&gt;{description}&lt;/<span class="fn">p</span>&gt;
-  &lt;<span class="fn">div</span> <span class="at">className</span>=<span class="str">"pt-4 border-t border-neutral-100 flex justify-between items-center"</span>&gt;
-    {footer}
-  &lt;/<span class="fn">div</span>&gt;
-&lt;/<span class="fn">div</span>&gt;
-
-<span class="cm">// Responsive card — p-4 on mobile, p-6 on tablet+</span>
-&lt;<span class="fn">div</span> <span class="at">className</span>=<span class="str">"p-4 md:p-6 bg-white border border-neutral-200 rounded-container"</span>&gt;
-
-<span class="cm">// Compact/data card — p-4 (16px) — grids, lists, dense layouts</span>
-&lt;<span class="fn">div</span> <span class="at">className</span>=<span class="str">"p-4 bg-white border border-neutral-200 rounded-container"</span>&gt;
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-title" style="margin-bottom:12px;">Form Layout</div>
-      <div class="code-block">
-<span class="cm">// Standard form field stack</span>
-&lt;<span class="fn">form</span> <span class="at">className</span>=<span class="str">"flex flex-col gap-4"</span>&gt;          <span class="cm">// gap-4 (16px) between fields</span>
-
-  &lt;<span class="fn">div</span> <span class="at">className</span>=<span class="str">"flex flex-col gap-2"</span>&gt;        <span class="cm">// gap-2 (8px) label→input</span>
-    &lt;<span class="fn">label</span> <span class="at">className</span>=<span class="str">"text-label text-secondary"</span>&gt;Route Name&lt;/<span class="fn">label</span>&gt;
-    &lt;<span class="fn">input</span> <span class="at">className</span>=<span class="str">"px-3 py-2 rounded-control border border-neutral-200"</span> /&gt;
-    &lt;<span class="fn">p</span>    <span class="at">className</span>=<span class="str">"text-caption text-muted mt-1"</span>&gt;Helper text&lt;/<span class="fn">p</span>&gt;
-  &lt;/<span class="fn">div</span>&gt;
-
-  &lt;<span class="fn">div</span> <span class="at">className</span>=<span class="str">"flex flex-col gap-2"</span>&gt;
-    &lt;<span class="fn">label</span> <span class="at">className</span>=<span class="str">"text-label text-secondary"</span>&gt;Description&lt;/<span class="fn">label</span>&gt;
-    &lt;<span class="fn">textarea</span> <span class="at">className</span>=<span class="str">"px-3 py-2 rounded-control border border-neutral-200"</span> /&gt;
-  &lt;/<span class="fn">div</span>&gt;
-
-  &lt;<span class="fn">div</span> <span class="at">className</span>=<span class="str">"flex justify-end gap-3 pt-4 border-t border-neutral-100"</span>&gt;  <span class="cm">// gap-3, pt-4 button row</span>
-    &lt;<span class="fn">Button</span> variant=<span class="str">"secondary"</span>&gt;Cancel&lt;/<span class="fn">Button</span>&gt;
-    &lt;<span class="fn">Button</span> variant=<span class="str">"primary"</span>&gt;Save Route&lt;/<span class="fn">Button</span>&gt;
-  &lt;/<span class="fn">div</span>&gt;
-
-&lt;/<span class="fn">form</span>&gt;
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-title" style="margin-bottom:12px;">Card Grid &amp; Stack</div>
-      <div class="code-block">
-<span class="cm">// Card grid — gap-6 (24px) between cards</span>
-&lt;<span class="fn">div</span> <span class="at">className</span>=<span class="str">"grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6"</span>&gt;
-  {cards.map(card =&gt; &lt;<span class="fn">RouteCard</span> key={card.id} {...card} /&gt;)}
-&lt;/<span class="fn">div</span>&gt;
-
-<span class="cm">// Vertical stack of sections — mb-12 (48px) between sections</span>
-&lt;<span class="fn">div</span> <span class="at">className</span>=<span class="str">"flex flex-col gap-12"</span>&gt;
-  &lt;<span class="fn">section</span>&gt;&lt;<span class="fn">StatsRow</span> /&gt;&lt;/<span class="fn">section</span>&gt;
-  &lt;<span class="fn">section</span>&gt;&lt;<span class="fn">RouteGrid</span> /&gt;&lt;/<span class="fn">section</span>&gt;
-  &lt;<span class="fn">section</span>&gt;&lt;<span class="fn">RecentActivity</span> /&gt;&lt;/<span class="fn">section</span>&gt;
-&lt;/<span class="fn">div</span>&gt;
-
-<span class="cm">// List with dividers — py-3 px-4 per row</span>
-&lt;<span class="fn">ul</span> <span class="at">className</span>=<span class="str">"divide-y divide-neutral-100"</span>&gt;
-  &lt;<span class="fn">li</span> <span class="at">className</span>=<span class="str">"py-3 px-4 flex items-center gap-3"</span>&gt;...&lt;/<span class="fn">li</span>&gt;
-&lt;/<span class="fn">ul</span>&gt;
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════════
-     SECTION 6 — DO'S & DON'TS
-═══════════════════════════════════════════════ -->
-<div class="section" id="s15">
-  <div class="section-header">
-    <div class="section-tag">15 · Do's &amp; Don'ts</div>
-    <h2 class="section-title">Spacing Rules</h2>
-    <p class="section-sub">The most common spacing mistakes in the VendHub codebase, and how to fix them going forward.</p>
-  </div>
-
-  <div class="g2 mb16">
-    <div class="do-card">
-      <div class="do-label">✓ Do</div>
-      <div class="card-body">Use scale tokens for all spacing. <code>gap-4</code>, <code>p-6</code>, <code>mb-12</code>. Every value should be a multiple of 4px from the defined scale.</div>
-    </div>
-    <div class="dont-card">
-      <div class="dont-label">✗ Don't</div>
-      <div class="card-body">Don't use arbitrary pixel values: <code>p-[18px]</code>, <code>mt-[13px]</code>, <code>gap-[7px]</code>. If 16px isn't enough, use 20px — not 18px.</div>
-    </div>
-  </div>
-  <div class="g2 mb16">
-    <div class="do-card">
-      <div class="do-label">✓ Do</div>
-      <div class="card-body">Use <code>pt-header-h</code> (or <code>pt-16</code>) for the fixed header offset. This makes it searchable and meaningful — not a magic number.</div>
-    </div>
-    <div class="dont-card">
-      <div class="dont-label">✗ Don't</div>
-      <div class="card-body">Don't use <code>pt-[62px]</code> as a header offset. The header is 64px. 62px is wrong and the brackets make it invisible to systematic refactors.</div>
-    </div>
-  </div>
-  <div class="g2 mb16">
-    <div class="do-card">
-      <div class="do-label">✓ Do</div>
-      <div class="card-body">Use <code>min-h-[calc(100vh-var(--header-h))]</code> for full-height content areas. The CSS variable makes the dependency explicit and updatable.</div>
-    </div>
-    <div class="dont-card">
-      <div class="dont-label">✗ Don't</div>
-      <div class="card-body">Don't write <code>min-h-[calc(100vh-64px)]</code> or <code>h-[calc(100vh-200px)]</code>. Hardcoded subtracted values create silent coupling to layout decisions.</div>
-    </div>
-  </div>
-  <div class="g2 mb16">
-    <div class="do-card">
-      <div class="do-label">✓ Do</div>
-      <div class="card-body">Use <code>max-w-page mx-auto</code> for the standard page container. All pages should have the same container width unless there's a documented reason.</div>
-    </div>
-    <div class="dont-card">
-      <div class="dont-label">✗ Don't</div>
-      <div class="card-body">Don't use <code>max-w-8xl</code> — it's undefined and produces no CSS. Don't use <code>max-w-[93rem]</code> as a one-off. Standardize on <code>max-w-page</code> (1280px).</div>
-    </div>
-  </div>
-  <div class="g2">
-    <div class="do-card">
-      <div class="do-label">✓ Do</div>
-      <div class="card-body">Vary spacing systematically across a page: cards use the same padding, sections use the same gap. Consistency within a level of the hierarchy.</div>
-    </div>
-    <div class="dont-card">
-      <div class="dont-label">✗ Don't</div>
-      <div class="card-body">Don't mix card padding tiers on the same page. Cards in the same group should all use <code>p-6</code> (default) or all use <code>p-4</code> (compact) — never a mix of different values.</div>
-    </div>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════════
-     SECTION 7 — BEFORE VS AFTER
-═══════════════════════════════════════════════ -->
-<div class="section" id="s16">
-  <div class="section-header">
-    <div class="section-tag">16 · Before vs After</div>
-    <h2 class="section-title">Before vs After — Real Code Examples</h2>
-    <p class="section-sub">Direct comparisons of problematic existing patterns and their correct replacements.</p>
-  </div>
-
-  <div style="display:flex;flex-direction:column;gap:20px;">
-    <!-- Example 1 -->
-    <div class="card">
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
-        <span class="badge bg-red">P0 Fix</span>
-        <div class="card-title" style="margin-bottom:0;">Dashboard / Routes / Leads page layout — <code style="font-size:11px;">max-w-8xl</code> is undefined (no-op)</div>
-      </div>
-      <div class="g2">
-        <div>
-          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--error-600);margin-bottom:8px;">Before — broken (3 files)</div>
-          <div class="code-block" style="font-size:11px;">
-<span class="cm">// max-w-8xl was NEVER defined in tailwind.config.ts</span>
-<span class="cm">// It generates zero CSS — content has no max-width on</span>
-<span class="cm">// wide monitors. Only md:mx-20 constrains it.</span>
-<span class="at">className</span>=<span class="mig-old">"md:max-w-8xl md:mx-20 p-4"</span>
-          </div>
-        </div>
-        <div>
-          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--success-700);margin-bottom:8px;">After — correct</div>
-          <div class="code-block" style="font-size:11px;">
-<span class="cm">// max-w-page = 1280px defined in tailwind.config.ts</span>
-<span class="cm">// Responsive horizontal padding included</span>
-<span class="at">className</span>=<span class="mig-new">"max-w-page mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-10"</span>
-          </div>
-        </div>
-      </div>
-      <!-- File paths -->
-      <div style="margin-top:16px;background:var(--neutral-50);border:1px solid var(--neutral-200);border-radius:6px;padding:12px 16px;">
-        <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--neutral-500);margin-bottom:10px;">Files to update — search &amp; replace in each</div>
-        <div style="display:flex;flex-direction:column;gap:6px;font-size:12px;">
-          <div style="display:flex;align-items:center;gap:8px;">
-            <span style="background:var(--error-100);color:var(--error-700);font-size:10px;font-weight:700;padding:1px 6px;border-radius:3px;flex-shrink:0;">FILE 1</span>
-            <code>app/dashboard/page.tsx</code>
-            <span style="color:var(--neutral-400);font-size:11px;">— look for <code>md:max-w-8xl</code> on the outer wrapper div</span>
-          </div>
-          <div style="display:flex;align-items:center;gap:8px;">
-            <span style="background:var(--error-100);color:var(--error-700);font-size:10px;font-weight:700;padding:1px 6px;border-radius:3px;flex-shrink:0;">FILE 2</span>
-            <code>app/routes/layout.tsx</code>
-            <span style="color:var(--neutral-400);font-size:11px;">— same broken class on the layout container</span>
-          </div>
-          <div style="display:flex;align-items:center;gap:8px;">
-            <span style="background:var(--error-100);color:var(--error-700);font-size:10px;font-weight:700;padding:1px 6px;border-radius:3px;flex-shrink:0;">FILE 3</span>
-            <code>app/leads/layout.tsx</code>
-            <span style="color:var(--neutral-400);font-size:11px;">— same broken class on the layout container</span>
-          </div>
-        </div>
-        <div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--neutral-200);font-size:11px;color:var(--neutral-500);">
-          Verify with: <code>grep -rn "max-w-8xl" app/ components/ --include="*.tsx"</code> — should return exactly 3 results after tailwind.config.ts is updated.
-        </div>
-      </div>
-    </div>
-
-    <!-- Example 2 -->
-    <div class="card">
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
-        <span class="badge bg-red">P1 Fix</span>
-        <div class="card-title" style="margin-bottom:0;">Header offset magic number</div>
-      </div>
-      <div class="g2">
-        <div>
-          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--error-600);margin-bottom:8px;">Before — wrong value</div>
-          <div class="code-block" style="font-size:11px;">
-<span class="cm">// USG layout — 62px ≠ 64px header</span>
-&lt;<span class="fn">div</span> <span class="at">className</span>=<span class="mig-old">"pt-[62px]"</span>&gt;
-&lt;<span class="fn">div</span> <span class="at">className</span>=<span class="mig-old">"min-h-[calc(100vh-64px)]"</span>&gt;
-          </div>
-        </div>
-        <div>
-          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--success-700);margin-bottom:8px;">After — semantic</div>
-          <div class="code-block" style="font-size:11px;">
-<span class="cm">// Uses CSS variable — one place to update</span>
-&lt;<span class="fn">div</span> <span class="at">className</span>=<span class="mig-new">"pt-header-h"</span>&gt;
-&lt;<span class="fn">div</span> <span class="at">className</span>=<span class="mig-new">"min-h-[calc(100vh-var(--header-h))]"</span>&gt;
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Example 3 -->
-    <div class="card">
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
-        <span class="badge bg-gray">P1 Fix</span>
-        <div class="card-title" style="margin-bottom:0;">Inconsistent card padding</div>
-      </div>
-      <div class="g2">
-        <div>
-          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--error-600);margin-bottom:8px;">Before — 6 different values</div>
-          <div class="code-block" style="font-size:11px;">
-<span class="cm">// Route cards: different padding everywhere</span>
-<span class="at">className</span>=<span class="mig-old">"p-4 md:p-6"</span>
-<span class="at">className</span>=<span class="mig-old">"p-5"</span>
-<span class="at">className</span>=<span class="mig-old">"p-6 md:p-10"</span>
-<span class="at">className</span>=<span class="mig-old">"p-4 sm:p-6 md:p-8"</span>
-          </div>
-        </div>
-        <div>
-          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--success-700);margin-bottom:8px;">After — two tiers</div>
-          <div class="code-block" style="font-size:11px;">
-<span class="cm">// Default card: p-6 (24px). Compact: p-4 (16px).</span>
-<span class="at">className</span>=<span class="mig-new">"p-6"</span>      <span class="cm">// standard card</span>
-<span class="at">className</span>=<span class="mig-new">"p-4 md:p-6"</span> <span class="cm">// responsive card</span>
-<span class="at">className</span>=<span class="mig-new">"p-4"</span>      <span class="cm">// compact/dense card</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Example 4 -->
-    <div class="card">
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
-        <span class="badge bg-gray">P1 Fix</span>
-        <div class="card-title" style="margin-bottom:0;">Admin pages flush layout</div>
-      </div>
-      <div class="g2">
-        <div>
-          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--error-600);margin-bottom:8px;">Before — 8px only</div>
-          <div class="code-block" style="font-size:11px;">
-<span class="at">className</span>=<span class="mig-old">"p-2"</span>   <span class="cm">// 8px — too tight</span>
-          </div>
-        </div>
-        <div>
-          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--success-700);margin-bottom:8px;">After — proper responsive padding</div>
-          <div class="code-block" style="font-size:11px;">
-<span class="at">className</span>=<span class="mig-new">"px-4 sm:px-6 py-4 sm:py-6"</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════════
-     SECTION 8 — MAGIC NUMBER MIGRATION
-═══════════════════════════════════════════════ -->
-<div class="section" id="s17">
-  <div class="section-header">
-    <div class="section-tag">17 · Migration Map</div>
-    <h2 class="section-title">Magic Number Migration Map</h2>
-    <p class="section-sub">Every hardcoded spacing value found in the codebase and its canonical token replacement. Run grep to find all instances, then replace systematically.</p>
-  </div>
-
-  <table class="tbl mb16">
-    <thead><tr>
-      <th>Old Pattern (magic number)</th><th>Replacement</th><th>Token</th><th>Notes</th>
-    </tr></thead>
-    <tbody>
-      <tr><td colspan="4" style="background:var(--neutral-50);font-size:11px;font-weight:700;color:var(--neutral-500);text-transform:uppercase;letter-spacing:.06em;">Header &amp; Layout</td></tr>
-      <tr>
-        <td><span class="mig-old">pt-[62px]</span></td>
-        <td><span class="mig-new">pt-header-h</span> or <span class="mig-new">pt-16</span></td>
-        <td><code>space.16</code></td>
-        <td>Header is 64px, not 62px — this also fixes the 2px gap</td>
-      </tr>
-      <tr>
-        <td><span class="mig-old">min-h-[calc(100vh-64px)]</span></td>
-        <td><span class="mig-new">min-h-[calc(100vh-var(--header-h))]</span></td>
-        <td>CSS var</td>
-        <td>Use CSS variable so header height changes propagate automatically</td>
-      </tr>
-      <tr>
-        <td><span class="mig-old">max-h-[calc(100vh-50px)]</span></td>
-        <td><span class="mig-new">max-h-[calc(100vh-var(--header-h))]</span></td>
-        <td>CSS var</td>
-        <td>50px was arbitrary — use the real header height</td>
-      </tr>
-      <tr>
-        <td><span class="mig-old">h-[calc(100vh-200px)]</span></td>
-        <td><span class="mig-new">h-[calc(100vh-var(--header-h)-var(--footer-bar-h))]</span></td>
-        <td>CSS vars</td>
-        <td>200px was header + some extra — be explicit about what's being subtracted</td>
-      </tr>
-      <tr>
-        <td><span class="mig-old">md:max-w-8xl</span></td>
-        <td><span class="mig-new">max-w-page</span></td>
-        <td><code>max-w-page</code></td>
-        <td>Was a no-op. max-w-page = 1280px, add to tailwind.config</td>
-      </tr>
-      <tr>
-        <td><span class="mig-old">max-w-[93rem]</span></td>
-        <td><span class="mig-new">max-w-page</span> or <span class="mig-new">max-w-7xl</span></td>
-        <td><code>max-w-page</code></td>
-        <td>1488px has no justification. Use the standard 1280px unless documented reason</td>
-      </tr>
-      <tr><td colspan="4" style="background:var(--neutral-50);font-size:11px;font-weight:700;color:var(--neutral-500);text-transform:uppercase;letter-spacing:.06em;">Bottom Padding (Fixed Footer)</td></tr>
-      <tr>
-        <td><span class="mig-old">pb-24</span></td>
-        <td><span class="mig-new">pb-footer-bar</span></td>
-        <td>CSS alias</td>
-        <td>Routes Explore — fixed bottom bar offset. Add <code>footer-bar: "64px"</code> to spacing config</td>
-      </tr>
-      <tr>
-        <td><span class="mig-old">pb-20</span></td>
-        <td><span class="mig-new">pb-footer-bar</span></td>
-        <td>CSS alias</td>
-        <td>Financing — same fixed footer. Standardize to same token as above</td>
-      </tr>
-      <tr><td colspan="4" style="background:var(--neutral-50);font-size:11px;font-weight:700;color:var(--neutral-500);text-transform:uppercase;letter-spacing:.06em;">Page Padding</td></tr>
-      <tr>
-        <td><span class="mig-old">px-8</span> (no responsive)</td>
-        <td><span class="mig-new">px-4 sm:px-6 lg:px-8</span></td>
-        <td><code>space.4–8</code></td>
-        <td>Insights pages — add responsive breakpoints</td>
-      </tr>
-      <tr>
-        <td><span class="mig-old">px-4 sm:px-6 lg:px-10</span></td>
-        <td><span class="mig-new">px-4 sm:px-6 lg:px-8</span></td>
-        <td><code>space.8</code></td>
-        <td>Settings — standardize lg: to 32px, not 40px</td>
-      </tr>
-      <tr>
-        <td><span class="mig-old">px-4 md:px-8 lg:px-12</span></td>
-        <td><span class="mig-new">px-4 sm:px-6 lg:px-8</span></td>
-        <td><code>space.8</code></td>
-        <td>Checkout — normalize to standard pattern</td>
-      </tr>
-      <tr>
-        <td><span class="mig-old">no padding (Dashboard, Leads)</span></td>
-        <td><span class="mig-new">px-4 sm:px-6 lg:px-8</span> via PageWrapper</td>
-        <td><code>space.8</code></td>
-        <td>Wrap in PageWrapper component — adds standard padding automatically</td>
-      </tr>
-      <tr><td colspan="4" style="background:var(--neutral-50);font-size:11px;font-weight:700;color:var(--neutral-500);text-transform:uppercase;letter-spacing:.06em;">Arbitrary Widths</td></tr>
-      <tr>
-        <td><span class="mig-old">md:w-[553px]</span></td>
-        <td><span class="mig-new">max-w-lg</span> (512px) or <span class="mig-new">max-w-form</span></td>
-        <td><code>max-w-form</code></td>
-        <td>Onboarding card — 553px rounds to 512px standard form width</td>
-      </tr>
-    </tbody>
-  </table>
-
-  <div class="success-callout">
-    <strong>Grep commands to find all instances:</strong><br>
-    <code style="display:block;margin-top:6px;background:var(--success-50);padding:6px 10px;border-radius:4px;">grep -r "max-w-8xl\|pt-\[62px\]\|pb-24\|p-2\b" --include="*.tsx" .</code>
-    Run this in the project root to see all files needing updates. Target files with the most occurrences first (Dashboard, Routes, Leads layouts).
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════════
-     SECTION 9 — GOVERNANCE
-═══════════════════════════════════════════════ -->
-<div class="section" id="s18">
-  <div class="section-header">
-    <div class="section-tag">18 · Governance</div>
-    <h2 class="section-title">Spacing System Governance</h2>
-    <p class="section-sub">Rules for maintaining the spacing system as the app evolves. Prevents re-accumulating the 12 inconsistencies found in the audit.</p>
-  </div>
-
-  <div class="g2 mb24">
-    <div class="card">
-      <div class="card-title" style="margin-bottom:12px;">✅ Approved Practices</div>
-      <div class="gov-row"><div class="gov-check">✓</div><div>Use only tokens from the 12-token scale for all spacing (p-0 through p-20 in multiples). Any value not in the scale needs explicit approval.</div></div>
-      <div class="gov-row"><div class="gov-check">✓</div><div>Wrap every new page in <code>&lt;PageWrapper&gt;</code> — this guarantees correct horizontal padding, max-width, and vertical padding automatically.</div></div>
-      <div class="gov-row"><div class="gov-check">✓</div><div>Use <code>pt-header-h</code> for the fixed header offset, <code>pb-footer-bar</code> for any fixed bottom bar offset. Never hardcode the px value.</div></div>
-      <div class="gov-row"><div class="gov-check">✓</div><div>All cards within the same visual group must use the same padding token. Card padding variation is allowed between groups (compact vs featured), not within.</div></div>
-      <div class="gov-row"><div class="gov-check">✓</div><div>Use <code>gap-*</code> (flexbox/grid gap) rather than <code>mb-*</code> on children where possible. Gap is more maintainable and doesn't require clearing on the last child.</div></div>
-    </div>
-    <div class="card">
-      <div class="card-title" style="margin-bottom:12px;">🚫 Banned Practices</div>
-      <div class="gov-row"><div class="gov-x">✗</div><div>No arbitrary pixel values in brackets: <code>p-[18px]</code>, <code>mt-[7px]</code>, <code>gap-[13px]</code>. If a value is needed, round to the nearest scale step.</div></div>
-      <div class="gov-row"><div class="gov-x">✗</div><div>No <code>max-w-8xl</code> — it's undefined. No <code>max-w-[Xrem]</code> unless documented in this system with a named token.</div></div>
-      <div class="gov-row"><div class="gov-x">✗</div><div>No <code>calc(100vh - {hardcoded}px)</code>. Use <code>calc(100vh - var(--header-h))</code> instead.</div></div>
-      <div class="gov-row"><div class="gov-x">✗</div><div>No spacing inconsistency between sibling pages. If <code>/insights/dashboard</code> uses <code>pt-20</code>, then <code>/insights/providers</code> must too — or both should change to the standard.</div></div>
-      <div class="gov-row"><div class="gov-x">✗</div><div>No new page-level spacing without using <code>PageWrapper</code> or explicitly documenting why a custom wrapper is needed.</div></div>
-    </div>
-  </div>
-
-  <div class="card mb16">
-    <div class="card-title" style="margin-bottom:16px;">PR Checklist — Spacing Changes</div>
-    <div class="gov-row"><div class="gov-check">✓</div><div><strong>No arbitrary values:</strong> Run <code>grep -r "\[.*px\]" --include="*.tsx"</code>. Any new bracket-px should be justified in the PR description.</div></div>
-    <div class="gov-row"><div class="gov-check">✓</div><div><strong>New pages use PageWrapper:</strong> Every new page component wraps its content in <code>&lt;PageWrapper&gt;</code>.</div></div>
-    <div class="gov-row"><div class="gov-check">✓</div><div><strong>Card padding consistent:</strong> All cards on the same page use the same padding token.</div></div>
-    <div class="gov-row"><div class="gov-check">✓</div><div><strong>Sibling pages match:</strong> If you update spacing on one page, check its sibling pages in the same section and align them.</div></div>
-    <div class="gov-row"><div class="gov-check">✓</div><div><strong>No new max-w-8xl:</strong> Check that the undefined <code>max-w-8xl</code> class wasn't reintroduced. Use <code>max-w-page</code> instead.</div></div>
-  </div>
-
-  <div class="card">
-    <div class="card-title" style="margin-bottom:16px;">When to Add a New Token</div>
-    <table class="tbl">
-      <thead><tr><th>Scenario</th><th>Decision</th></tr></thead>
-      <tbody>
-        <tr><td>Need a spacing value not in the scale (e.g. 28px)</td><td>Round to nearest step (24px or 32px). If genuinely needed, add space.7 = 28px with a documented use case + minimum 5 usages.</td></tr>
-        <tr><td>Need a fixed-height component token (e.g. sidebar width)</td><td>Add as a CSS variable + spacing alias, not as a raw px value. Document in this file.</td></tr>
-        <tr><td>Need a different page max-width</td><td>Check if <code>max-w-page</code>, <code>max-w-content</code>, or <code>max-w-form</code> covers it. New max-widths require design review and a named token.</td></tr>
-        <tr><td>Need responsive spacing not covered by the patterns</td><td>Document the pattern as a new canonical pattern here before implementing. Don't one-off it.</td></tr>
-      </tbody>
-    </table>
-  </div>
-</div>
+// ═══ SCROLL REVEAL + NAV ═══
+const obs = new IntersectionObserver(e => { e.forEach(x => { if(x.isIntersecting){x.target.classList.add('visible');obs.unobserve(x.target)} }) }, {threshold:.1,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+const navLinks = document.querySelectorAll('.nav-pill');
+const navObs = new IntersectionObserver(e => { e.forEach(x => { if(x.isIntersecting){navLinks.forEach(l=>l.classList.remove('active'));const a=document.querySelector(`.nav-pill[href="#${x.target.id}"]`);if(a)a.classList.add('active')} }) }, {threshold:.2,rootMargin:'-80px 0px -60% 0px'});
+document.querySelectorAll('.section').forEach(s => navObs.observe(s));
+</script>
 </body>
 </html>

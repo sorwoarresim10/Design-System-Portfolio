@@ -4,942 +4,188 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>VendHub — Opacity System</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-  :root{--primary-50:#F0FDF4;--primary-100:#DCFCE7;--primary-200:#BBF7D0;--primary-300:#86EFAC;--primary-500:#22C55E;--primary-600:#16A34A;--primary-700:#15803D;--neutral-50:#F9FAFB;--neutral-100:#F3F4F6;--neutral-200:#E5E7EB;--neutral-300:#D1D5DB;--neutral-400:#9CA3AF;--neutral-500:#6B7280;--neutral-600:#4B5563;--neutral-700:#374151;--neutral-800:#1F2937;--neutral-900:#111827;--error-50:#FEF2F2;--error-200:#FECACA;--error-500:#EF4444;--error-700:#B91C1C;--warning-50:#FFFBEB;--warning-200:#FDE68A;--warning-500:#F59E0B;--warning-700:#B45309;--info-50:#EFF6FF;--info-200:#BFDBFE;--info-500:#3B82F6;--info-700:#1D4ED8;--success-50:#ECFDF5;--success-700:#047857;--radius-sm:4px;--radius-md:8px;--radius-lg:12px}
-  body{font-family:'Plus Jakarta Sans',sans-serif;background:#FAFAFA;color:var(--neutral-800);line-height:1.5;font-size:14px}
-  .page{max-width:1120px;margin:0 auto;padding:0 48px 80px}
-  .cover{background:var(--neutral-900);padding:64px 48px 56px;margin-bottom:64px;position:relative;overflow:hidden}
-  .cover::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent,transparent 40px,rgba(255,255,255,.015) 40px,rgba(255,255,255,.015) 41px)}
-  .cover-inner{position:relative;z-index:1;max-width:1120px;margin:0 auto}
-  .cover-eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(22,163,74,.15);border:1px solid rgba(22,163,74,.3);border-radius:20px;padding:4px 14px;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--primary-500);margin-bottom:24px}
-  .cover-eyebrow-dot{width:6px;height:6px;border-radius:50%;background:var(--primary-500)}
-  .cover-title{font-size:52px;font-weight:700;color:#fff;line-height:1.1;margin-bottom:16px;letter-spacing:-.02em}
-  .cover-title span{color:var(--primary-500)}
-  .cover-sub{font-size:16px;color:var(--neutral-400);max-width:620px;line-height:1.7;margin-bottom:40px}
-  .cover-meta{display:flex;gap:32px;flex-wrap:wrap}
-  .cover-meta-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--neutral-600);margin-bottom:4px}
-  .cover-meta-value{font-size:13px;color:var(--neutral-300);font-weight:500}
-  .cover-libs{display:flex;gap:10px;margin-top:32px;flex-wrap:wrap}
-  .lib-tag{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600}
-  .lib-primary{background:rgba(22,163,74,.15);color:var(--primary-500);border:1px solid rgba(22,163,74,.25)}
-  .lib-secondary{background:rgba(59,130,246,.1);color:#60a5fa;border:1px solid rgba(59,130,246,.2)}
-  .lib-gray{background:rgba(107,114,128,.1);color:var(--neutral-400);border:1px solid rgba(107,114,128,.2)}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:#050A06;color:#E5E7EB;line-height:1.5;-webkit-font-smoothing:antialiased}
+html{scroll-behavior:smooth}
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:60px 24px}
+.hero::before{content:'';position:absolute;width:900px;height:900px;top:-250px;left:50%;transform:translateX(-50%);background:radial-gradient(circle,rgba(22,163,74,.1) 0%,transparent 60%);pointer-events:none}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(34,197,94,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(34,197,94,.03) 1px,transparent 1px);background-size:48px 48px;mask-image:radial-gradient(ellipse 60% 50% at 50% 40%,black,transparent 80%);-webkit-mask-image:radial-gradient(ellipse 60% 50% at 50% 40%,black,transparent 80%)}
+.hero-content{position:relative;text-align:center;max-width:800px}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(22,163,74,.1);border:1px solid rgba(22,163,74,.25);border-radius:100px;padding:6px 16px;font-size:12px;font-weight:600;color:#4ADE80;margin-bottom:28px;animation:fadeIn .6s both}
+.hero-badge-dot{width:7px;height:7px;border-radius:50%;background:#22C55E;box-shadow:0 0 10px rgba(34,197,94,.6)}
+.hero-title{font-size:clamp(40px,7vw,80px);font-weight:800;color:#fff;line-height:1;letter-spacing:-.04em;margin-bottom:20px;animation:fadeIn .6s .1s both}
+.hero-title span{background:linear-gradient(135deg,#4ADE80,#22C55E);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:clamp(15px,2vw,18px);color:#9CA3AF;line-height:1.7;max-width:520px;margin:0 auto 48px;animation:fadeIn .6s .2s both}
 
-  .toc{background:#fff;border:1px solid var(--neutral-200);border-radius:var(--radius-lg);padding:28px 32px;margin-bottom:64px}
-  .toc-title{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--neutral-500);margin-bottom:16px}
-  .toc-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:16px}
-  .toc-item{display:flex;align-items:center;gap:8px;padding:8px 14px;border-radius:6px;font-size:13px;color:var(--neutral-700);text-decoration:none;border:1px solid var(--neutral-100);font-weight:500;transition:border-color .15s,background .15s}
-  .toc-item:hover{border-color:var(--primary-200);background:var(--primary-50)}
-  .toc-num{font-size:10px;font-weight:700;color:var(--primary-500)}
+/* Hero pulse wave */
+.hero-wave{display:flex;align-items:flex-end;justify-content:center;gap:8px;height:100px;animation:fadeIn .8s .4s both}
+.hero-bar{width:clamp(20px,4vw,32px);background:#22C55E;border-radius:6px 6px 4px 4px;position:relative;animation:pulse 2s ease-in-out infinite;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:8px}
+.hero-bar-pct{font-size:9px;font-weight:800;color:#050A06;opacity:0;transition:opacity .2s}
+.hero-bar:hover .hero-bar-pct{opacity:1}
+.hero-bar:hover{animation-play-state:paused;filter:brightness(1.2)}
+@keyframes pulse{0%,100%{height:20px}50%{height:var(--h)}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.nav-pills{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;position:sticky;top:0;z-index:50;background:rgba(5,10,6,.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);padding:16px 0}
+.nav-pill{padding:7px 16px;border-radius:100px;font-size:12px;font-weight:600;color:#9CA3AF;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);text-decoration:none;transition:all .2s}
+.nav-pill:hover,.nav-pill.active{background:rgba(22,163,74,.12);border-color:rgba(22,163,74,.3);color:#4ADE80}
+.page{max-width:1120px;margin:0 auto;padding:0 32px 80px}
+.section{margin-bottom:80px}.section-header{margin-bottom:32px}
+.section-tag{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#22C55E;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.section-tag::after{content:'';flex:1;height:1px;background:rgba(22,163,74,.2)}
+.section-title{font-size:28px;font-weight:700;color:#fff;margin-bottom:8px;letter-spacing:-.01em}
+.section-sub{font-size:14px;color:#9CA3AF;line-height:1.7;max-width:640px}
 
-  .section{margin-bottom:80px}
-  .section-header{margin-bottom:32px}
-  .section-tag{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--primary-600);margin-bottom:8px;display:flex;align-items:center;gap:8px}
-  .section-tag::after{content:'';flex:1;height:1px;background:var(--primary-100)}
-  .section-title{font-size:26px;font-weight:700;color:var(--neutral-900);margin-bottom:8px;letter-spacing:-.01em}
-  .section-sub{font-size:14px;color:var(--neutral-500);line-height:1.7;max-width:680px}
-  .card{background:#fff;border:1px solid var(--neutral-200);border-radius:var(--radius-lg);padding:24px}
-  .card-title{font-size:13px;font-weight:600;color:var(--neutral-800);margin-bottom:6px}
-  .card-body{font-size:13px;color:var(--neutral-500);line-height:1.7}
-  .g2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-  .g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
-  code{font-family:'SF Mono','Fira Code','Consolas',monospace;font-size:11px;background:var(--neutral-100);color:var(--neutral-700);padding:1px 6px;border-radius:4px;border:1px solid var(--neutral-200)}
-  .code-block{background:var(--neutral-900);border-radius:var(--radius-md);padding:20px 24px;font-family:'SF Mono','Fira Code','Consolas',monospace;font-size:12px;line-height:1.9;color:#e2e8f0;overflow-x:auto;white-space:pre}
-  .code-block .kw{color:#c084fc}.code-block .fn{color:#67e8f9}.code-block .str{color:#86efac}.code-block .cm{color:#64748b}.code-block .at{color:#fbbf24}.code-block .num{color:#fb923c}.code-block .prop{color:#f9a8d4}.code-block .val{color:#fef08a}
-  .tbl{width:100%;border-collapse:collapse;font-size:13px}
-  .tbl thead tr{background:var(--neutral-50);border-bottom:1px solid var(--neutral-200)}
-  .tbl th{text-align:left;padding:10px 14px;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--neutral-500);white-space:nowrap}
-  .tbl td{padding:10px 14px;border-bottom:1px solid var(--neutral-100);vertical-align:top}
-  .tbl tbody tr:last-child td{border-bottom:none}
-  .info-callout{background:var(--info-50);border:1px solid var(--info-200);border-radius:var(--radius-md);padding:14px 18px;font-size:13px;color:var(--info-700);line-height:1.7}
-  .warn-callout{background:var(--warning-50);border:1px solid var(--warning-200);border-radius:var(--radius-md);padding:14px 18px;font-size:13px;color:var(--warning-700);line-height:1.7}
-  .success-callout{background:var(--success-50);border:1px solid rgba(16,185,129,.2);border-radius:var(--radius-md);padding:14px 18px;font-size:13px;color:var(--success-700);line-height:1.7}
-  .do-card{background:#fff;border:1px solid var(--primary-200);border-radius:var(--radius-md);padding:20px;border-left:3px solid var(--primary-500)}
-  .do-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--primary-700);margin-bottom:10px}
-  .dont-card{background:#fff;border:1px solid var(--error-200);border-radius:var(--radius-md);padding:20px;border-left:3px solid var(--error-500)}
-  .dont-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--error-700);margin-bottom:10px}
-  .mb16{margin-bottom:16px}
-  .mb24{margin-bottom:24px}
+/* Scale */
+.opacity-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.opacity-card{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:20px;cursor:pointer;transition:all .3s;text-align:center}
+.opacity-card:hover{border-color:rgba(255,255,255,.12)}
+.opacity-card.active{border-color:rgba(22,163,74,.4);background:rgba(22,163,74,.04)}
+.opacity-swatch{width:64px;height:64px;background:#22C55E;border-radius:10px;margin:0 auto 12px;transition:transform .3s}
+.opacity-card:hover .opacity-swatch{transform:scale(1.08)}
+.opacity-val{font-size:22px;font-weight:800;color:#fff;margin-bottom:2px}
+.opacity-token{font-family:'SF Mono','Fira Code',monospace;font-size:11px;color:#6B7280;margin-bottom:4px}
+.opacity-role{font-size:11px;color:#4B5563}
 
-  /* Opacity swatch grid */
-  .swatch-grid{display:grid;grid-template-columns:repeat(auto-fill, minmax(140px, 1fr));gap:12px;margin-bottom:32px}
-  .swatch{border:1px solid var(--neutral-200);border-radius:var(--radius-md);overflow:hidden;background:#fff}
-  .swatch-preview{height:52px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;position:relative}
-  .swatch-preview-bg{position:absolute;inset:0;background:repeating-conic-gradient(var(--neutral-200) 0% 25%, #fff 0% 50%) 50% / 12px 12px}
-  .swatch-preview-fill{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
-  .swatch-preview span{position:relative;z-index:1;color:var(--neutral-800)}
-  .swatch-info{padding:10px 12px;border-top:1px solid var(--neutral-100)}
-  .swatch-token{font-family:'SF Mono','Fira Code','Consolas',monospace;font-size:11px;color:var(--neutral-700);margin-bottom:2px}
-  .swatch-use{font-size:11px;color:var(--neutral-500);line-height:1.4}
+/* Detail */
+.opacity-detail{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:24px;margin-bottom:24px;display:none;animation:fadeIn .3s both}
+.opacity-detail.show{display:flex;gap:24px;align-items:center}
+.opacity-detail-swatch{width:80px;height:80px;background:#22C55E;border-radius:12px;flex-shrink:0}
+.opacity-detail-info{flex:1}
+.opacity-detail-name{font-size:18px;font-weight:700;color:#fff;margin-bottom:4px}
+.opacity-detail-desc{font-size:13px;color:#9CA3AF;line-height:1.6}
 
-  /* ── INTERACTIVE DEMO ─────────────────────────────────── */
+/* Component demos */
+.comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.comp-card{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:20px}
+.comp-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#9CA3AF;margin-bottom:12px}
+.comp-demo{background:#fff;border-radius:10px;padding:16px;display:flex;align-items:center;gap:12px}
+.comp-btn{padding:8px 20px;border-radius:8px;font-size:13px;font-weight:600;border:none;font-family:inherit;cursor:pointer;background:#16A34A;color:#fff}
+.comp-input{flex:1;padding:8px 12px;border:1px solid #E5E7EB;border-radius:6px;font-family:inherit;font-size:13px;color:#111;outline:none}
+.comp-overlay{position:relative;border-radius:10px;overflow:hidden;height:80px;display:flex;align-items:center;justify-content:center}
+.comp-overlay-bg{position:absolute;inset:0;background:#000}
+.comp-overlay-text{position:relative;color:#fff;font-size:13px;font-weight:600}
 
-  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:'Plus Jakarta Sans',sans-serif;background:#F9FAFB;color:#1F2937;line-height:1.5}
-  .page{max-width:960px;margin:0 auto;padding:40px 32px 80px}
-
-  .demo-header{text-align:center;margin-bottom:48px}
-  .demo-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(22,163,74,.1);border:1px solid rgba(22,163,74,.25);border-radius:20px;padding:4px 14px;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#16A34A;margin-bottom:16px}
-  .demo-badge-dot{width:6px;height:6px;border-radius:50%;background:#22C55E}
-  .demo-title{font-size:36px;font-weight:700;color:#111827;letter-spacing:-.02em;margin-bottom:12px}
-  .demo-title span{color:#22C55E}
-  .demo-sub{font-size:16px;color:#6B7280;max-width:580px;margin:0 auto;line-height:1.7}
-
-  /* Scale strip */
-  .scale-section{margin-bottom:48px}
-  .scale-label{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#22C55E;margin-bottom:16px}
-  .scale-strip{display:grid;grid-template-columns:repeat(9,1fr);gap:8px;margin-bottom:12px}
-  .scale-swatch{border-radius:10px;overflow:hidden;border:1px solid #E5E7EB;background:#fff;cursor:pointer;transition:transform .15s,box-shadow .15s}
-  .scale-swatch:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,0.08)}
-  .scale-swatch.active{border-color:#22C55E;box-shadow:0 0 0 2px rgba(34,197,94,0.25)}
-  .swatch-preview{height:44px;position:relative}
-  .swatch-checker{position:absolute;inset:0;background:repeating-conic-gradient(#E5E7EB 0% 25%,#fff 0% 50%) 50%/10px 10px}
-  .swatch-fill{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
-  .swatch-pct{font-size:13px;font-weight:700;position:relative;z-index:1}
-  .swatch-info{padding:8px 10px;border-top:1px solid #F3F4F6}
-  .swatch-token{font-family:'SF Mono','Fira Code',monospace;font-size:10px;color:#6B7280}
-  .swatch-use{font-size:10px;color:#9CA3AF;margin-top:2px;line-height:1.3}
-
-  /* Detail panel */
-  .detail-panel{background:#fff;border:1px solid #E5E7EB;border-radius:14px;padding:24px 28px;margin-bottom:48px;min-height:80px;transition:all .2s}
-  .detail-label{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#9CA3AF;margin-bottom:8px}
-  .detail-text{font-size:14px;color:#374151;line-height:1.7}
-  .detail-text strong{color:#111827}
-  .detail-code{display:inline;font-family:'SF Mono','Fira Code',monospace;font-size:11px;background:#F3F4F6;padding:2px 6px;border-radius:4px;color:#374151}
-
-  /* Live component demos */
-  .demos-title{font-size:22px;font-weight:700;color:#111827;margin-bottom:6px}
-  .demos-sub{font-size:14px;color:#6B7280;margin-bottom:24px;line-height:1.7}
-  .demo-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:48px}
-  .demo-card{background:#fff;border:1px solid #E5E7EB;border-radius:14px;padding:24px;position:relative}
-  .demo-card-label{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px}
-  .demo-card-title{font-size:15px;font-weight:700;color:#111827;margin-bottom:6px}
-  .demo-card-desc{font-size:12px;color:#6B7280;line-height:1.5;margin-bottom:16px}
-  .demo-card-token{position:absolute;top:14px;right:14px;font-family:'SF Mono','Fira Code',monospace;font-size:10px;font-weight:600;padding:2px 8px;border-radius:4px}
-
-  /* Button demo */
-  .btn-row{display:flex;gap:10px;align-items:center}
-  .v-btn{padding:8px 20px;border-radius:8px;font-size:13px;font-weight:600;border:none;cursor:pointer;font-family:inherit;transition:all .15s}
-  .v-btn-primary{background:#22C55E;color:#fff}
-  .v-btn-primary:hover{background:#16A34A}
-  .v-btn-primary:active{opacity:0.9;transform:scale(0.98)}
-  .v-btn-disabled{background:#22C55E;color:#fff;opacity:0.38;cursor:not-allowed}
-  .v-btn-ghost{background:transparent;color:#374151;border:1px solid #E5E7EB}
-  .v-btn-ghost:hover{background:rgba(34,197,94,0.16)}
-  .btn-label{font-size:11px;color:#9CA3AF}
-
-  /* Input demo */
-  .v-input-wrap{margin-bottom:8px}
-  .v-input-label{font-size:12px;font-weight:600;color:#374151;margin-bottom:4px}
-  .v-input{width:100%;padding:8px 12px;border:1px solid #E5E7EB;border-radius:8px;font-size:13px;font-family:inherit;color:#111827;outline:none;transition:all .15s}
-  .v-input:focus{border-color:#22C55E;box-shadow:0 0 0 3px rgba(34,197,94,0.08)}
-  .v-input::placeholder{color:#111827;opacity:0.75}
-  .v-input-disabled{background:#F9FAFB;opacity:0.38;cursor:not-allowed}
-
-  /* Overlay demo */
-  .overlay-scene{position:relative;height:160px;border-radius:10px;overflow:hidden;background:#fff;border:1px solid #F3F4F6}
-  .overlay-content{padding:16px;position:relative;z-index:0}
-  .overlay-content p{font-size:12px;color:#374151;margin-bottom:4px}
-  .overlay-scrim{position:absolute;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:1;backdrop-filter:blur(2px)}
-  .overlay-modal{background:#fff;border-radius:10px;padding:16px 20px;width:200px;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,0.15)}
-  .overlay-modal-title{font-size:13px;font-weight:700;color:#111827;margin-bottom:4px}
-  .overlay-modal-desc{font-size:11px;color:#6B7280;margin-bottom:10px}
-  .overlay-modal-btn{padding:6px 14px;border-radius:6px;font-size:12px;font-weight:600;background:#22C55E;color:#fff;border:none;font-family:inherit}
-
-  /* Banner demo */
-  .banner{display:flex;align-items:center;gap:10px;padding:12px 16px;border-radius:8px;font-size:13px;margin-bottom:8px}
-  .banner-success{background:rgba(34,197,94,0.04);border:1px solid #DCFCE7;color:#15803D}
-  .banner-error{background:rgba(239,68,68,0.04);border:1px solid #FECACA;color:#B91C1C}
-  .banner-warning{background:rgba(245,158,11,0.04);border:1px solid #FDE68A;color:#B45309}
-  .banner-icon{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0}
-  .banner-icon-success{background:#DCFCE7;color:#15803D}
-  .banner-icon-error{background:#FEE2E2;color:#B91C1C}
-  .banner-icon-warning{background:#FEF3C7;color:#B45309}
-
-  /* Hover demo */
-  .hover-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
-  .hover-item{padding:10px 12px;border-radius:8px;font-size:12px;font-weight:500;color:#374151;cursor:default;transition:background .15s;display:flex;align-items:center;gap:8px}
-  .hover-item:hover{background:rgba(34,197,94,0.16)}
-  .hover-item.active-item{background:rgba(34,197,94,0.16);color:#15803D;font-weight:600}
-  .hover-dot{width:8px;height:8px;border-radius:50%;background:#D1D5DB}
-  .hover-item.active-item .hover-dot{background:#22C55E}
-
-  /* Active press demo */
-  .press-btn{padding:10px 24px;border-radius:10px;font-size:14px;font-weight:600;background:#22C55E;color:#fff;border:none;cursor:pointer;font-family:inherit;transition:all .1s;display:block;width:100%;text-align:center}
-  .press-btn:active{opacity:0.9;transform:scale(0.98)}
-  .press-hint{font-size:11px;color:#9CA3AF;text-align:center;margin-top:8px}
-
-  /* Comparison section */
-  .compare-section{margin-bottom:48px}
-  .compare-title{font-size:22px;font-weight:700;color:#111827;margin-bottom:6px}
-  .compare-sub{font-size:14px;color:#6B7280;margin-bottom:24px;line-height:1.7}
-  .compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-  .compare-card{border-radius:14px;padding:24px;border:2px solid}
-  .compare-bad{background:#FEF2F2;border-color:#FECACA}
-  .compare-good{background:#F0FDF4;border-color:#BBF7D0}
-  .compare-card-label{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:12px}
-  .compare-bad .compare-card-label{color:#B91C1C}
-  .compare-good .compare-card-label{color:#15803D}
-  .compare-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;font-size:13px;border-bottom:1px solid rgba(0,0,0,0.06)}
-  .compare-row:last-child{border-bottom:none}
-  .compare-el{color:#374151;font-weight:500}
-  .compare-val{font-family:'SF Mono','Fira Code',monospace;font-size:11px;padding:2px 6px;border-radius:3px}
-  .compare-bad .compare-val{background:#FEE2E2;color:#991B1B}
-  .compare-good .compare-val{background:#DCFCE7;color:#166534}
-
-  .footer{text-align:center;margin-top:48px;padding-top:24px;border-top:1px solid #F3F4F6;font-size:12px;color:#9CA3AF}
-
-
-  .toc-file-label {
-    font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em;
-    color: var(--neutral-500); margin: 20px 0 10px; padding-bottom: 6px;
-    border-bottom: 1px solid var(--neutral-100);
-  }
-
-  /* ═══════════════════════════════════════════
-     RESPONSIVE — MOBILE
-     ═══════════════════════════════════════════ */
-  @media (max-width: 768px) {
-    .page { padding: 0 16px 48px; }
-    .cover { padding: 40px 20px 36px; margin-bottom: 40px; }
-    .cover-title { font-size: 32px; }
-    .cover-sub { font-size: 14px; margin-bottom: 24px; }
-    .cover-meta { gap: 16px; }
-    .cover-meta-label { font-size: 9px; }
-    .cover-meta-value { font-size: 12px; }
-    .cover-libs { gap: 6px; margin-top: 20px; }
-    .lib-tag { font-size: 11px; padding: 4px 10px; }
-
-    .toc { padding: 20px; margin-bottom: 36px; }
-    .toc-grid { grid-template-columns: 1fr; }
-    .toc-file-label { margin-top: 14px; }
-
-    .section { margin-bottom: 48px; }
-    .section-title { font-size: 20px; }
-    .section-sub { font-size: 13px; }
-
-    .g2, .g3, .g4 { grid-template-columns: 1fr; }
-    .card { padding: 16px; }
-
-    /* Tables — horizontal scroll */
-    table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-    .ds-table-wrap, .tbl-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-
-    /* Code blocks */
-    .code-block { padding: 14px 16px; font-size: 11px; }
-
-    /* Do/Don't cards */
-    .do-card, .dont-card { padding: 16px; }
-
-    /* Demo header */
-    .demo-header { padding: 40px 20px 32px; }
-    .demo-title { font-size: 32px; }
-    .demo-sub { font-size: 13px; }
-
-    /* Scale strip */
-    .scale-strip { flex-wrap: wrap; gap: 4px; }
-    .scale-section { padding: 0 16px; }
-
-    /* Detail panel */
-    .detail-panel { margin: 0 16px 24px; padding: 20px; }
-
-    /* Component demos */
-    .comp-grid { grid-template-columns: 1fr !important; }
-
-    /* Footer */
-    .footer { font-size: 11px; padding: 24px 16px; }
-  }
-
-  @media (max-width: 480px) {
-    .cover-title { font-size: 26px; }
-    .cover-meta { flex-direction: column; gap: 12px; }
-  }
-    .demo-title { font-size: 26px; }
-  }
-
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .6s,transform .6s}.reveal.visible{opacity:1;transform:translateY(0)}
+.footer{text-align:center;padding:48px 24px;border-top:1px solid rgba(255,255,255,.05);font-size:12px;color:#4B5563}
+.footer a{color:#6B7280;text-decoration:none}.footer a:hover{color:#4ADE80}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:#9CA3AF;text-decoration:none;margin-bottom:12px;transition:color .2s}.back-link:hover{color:#4ADE80}
+@media(max-width:768px){.page{padding:0 16px 48px}.hero{padding:40px 20px;min-height:auto}.section{margin-bottom:48px}.section-title{font-size:22px}.opacity-grid{grid-template-columns:1fr 1fr}.opacity-detail{flex-direction:column;gap:16px}.comp-grid{grid-template-columns:1fr}.hero-wave{gap:5px;height:80px}.hero-bar{width:20px}}
+@media(max-width:480px){.hero-title{font-size:36px}.opacity-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-<div class="cover">
-  <div class="cover-inner">
-    <div class="cover-eyebrow"><span class="cover-eyebrow-dot"></span>VendHub Design System</div>
-    <h1 class="cover-title">Opacity <span>Scale</span></h1>
-    <p class="cover-sub">A semantic opacity scale mapped to specific interaction and layout states. Rather than picking arbitrary values, developers reference named tokens that carry intent.</p>
-    <div class="cover-meta">
-      <div><div class="cover-meta-label">Document</div><div class="cover-meta-value">Opacity · 1 of 1</div></div>
-      <div><div class="cover-meta-label">Tokens</div><div class="cover-meta-value">9 named stops</div></div>
-      <div><div class="cover-meta-label">Range</div><div class="cover-meta-value">4% → 100%</div></div>
-      <div><div class="cover-meta-label">Key Value</div><div class="cover-meta-value">38% = disabled</div></div>
-      <div><div class="cover-meta-label">Updated</div><div class="cover-meta-value">April 2026</div></div>
-    </div>
-    <div class="cover-libs">
-      <span class="lib-tag lib-primary">● 9 Tokens</span>
-      <span class="lib-tag lib-secondary">● CSS Variables</span>
-      <span class="lib-tag lib-gray">● Tailwind Color Modifier Syntax</span>
-    </div>
-  </div>
-</div>
+<section class="hero"><div class="hero-grid"></div><div class="hero-content">
+  <div class="hero-badge"><span class="hero-badge-dot"></span>VendHub Design System</div>
+  <h1 class="hero-title">Opacity <span>Scale</span></h1>
+  <p class="hero-sub">9 semantic opacity tokens for disabled states, hover overlays, press feedback, and background scrims.</p>
+  <div class="hero-wave" id="hero-wave"></div>
+</div></section>
+
+<nav class="nav-pills">
+  <a class="nav-pill active" href="#scale">Opacity Scale</a>
+  <a class="nav-pill" href="#usage">Usage Patterns</a>
+</nav>
+
 <div class="page">
-<div class="toc">
-  <div class="toc-title">On this page</div>
-  <div class="toc-file-label" style="margin-top:0">Reference</div>
-  <div class="toc-grid">
-    <a class="toc-item" href="#s1"><span class="toc-num">01</span>Philosophy</a>    <a class="toc-item" href="#s2"><span class="toc-num">02</span>Visual Scale</a>    <a class="toc-item" href="#s3"><span class="toc-num">03</span>Token Reference</a>    <a class="toc-item" href="#s4"><span class="toc-num">04</span>State-Specific Usage</a>    <a class="toc-item" href="#s5"><span class="toc-num">05</span>Tailwind Patterns</a>    <a class="toc-item" href="#s6"><span class="toc-num">06</span>Do's &amp; Don'ts</a>    <a class="toc-item" href="#s7"><span class="toc-num">07</span>Tailwind Config</a>
-  </div>
-  <div class="toc-file-label">Interactive</div>
-  <div class="toc-grid">
-    <a href="#interactive-demo" class="toc-item"><span class="toc-num">08</span> Interactive Opacity Demo</a>
-  </div>
-</div>
-
-<div class="section" id="s1">
+<div class="section reveal" id="scale">
   <div class="section-header">
-    <div class="section-tag">01 · Philosophy</div>
-    <h2 class="section-title">Why Semantic Opacity Tokens</h2>
-    <p class="section-sub">Without a system, developers write <code>opacity-50</code> in one file, <code>opacity-40</code> in another, and <code>bg-black/60</code> in a third — all meaning "disabled." Named tokens eliminate this drift.</p>
+    <div class="section-tag">01 · Scale</div>
+    <h2 class="section-title">9 Tokens — Click to Inspect</h2>
+    <p class="section-sub">Each token maps to a specific UI state. Click any swatch to see its role and usage context.</p>
   </div>
-
-  <div class="g3 mb24">
-    <div class="card">
-      <div class="card-title">Intent, Not Numbers</div>
-      <div class="card-body"><code>opacity-38</code> means "disabled" across the entire app. The number 38 comes from Material Design 3's disabled standard (0.38). Every developer uses the same value without guessing.</div>
-    </div>
-    <div class="card">
-      <div class="card-title">Two Application Methods</div>
-      <div class="card-body"><strong>Element opacity:</strong> <code>disabled:opacity-38</code> — dims the entire element. <strong>Color modifier:</strong> <code>bg-primary/16</code> — applies opacity to a single color channel. Choose based on context.</div>
-    </div>
-    <div class="card">
-      <div class="card-title">Contrast-Safe</div>
-      <div class="card-body">Every opacity stop has been tested against VendHub's color palette for contrast compliance. Low opacity values (4%, 8%, 16%) are only for backgrounds, never for text.</div>
-    </div>
-  </div>
+  <div class="opacity-detail" id="opacity-detail"></div>
+  <div class="opacity-grid" id="opacity-grid"></div>
 </div>
 
-
-<!-- ══════════════════════════════════════════════
-     SECTION 2 — VISUAL SCALE
-     ══════════════════════════════════════════════ -->
-<div class="section" id="s2">
+<div class="section reveal" id="usage">
   <div class="section-header">
-    <div class="section-tag">02 · Visual Scale</div>
-    <h2 class="section-title">Opacity Scale — 9 Stops</h2>
-    <p class="section-sub">Each stop has a specific semantic purpose. The checkerboard behind each swatch shows the true transparency level.</p>
+    <div class="section-tag">02 · Usage</div>
+    <h2 class="section-title">State Patterns</h2>
+    <p class="section-sub">How opacity tokens apply to real UI components — disabled buttons, overlays, placeholders, and pressed states.</p>
   </div>
-
-  <div class="swatch-grid">
-    <div class="swatch">
-      <div class="swatch-preview">
-        <div class="swatch-preview-bg"></div>
-        <div class="swatch-preview-fill" style="background:rgba(17,24,39,1)"><span style="color:#fff">100%</span></div>
+  <div class="comp-grid">
+    <div class="comp-card">
+      <div class="comp-label">Disabled state · opacity-38</div>
+      <div class="comp-demo">
+        <button class="comp-btn">Active</button>
+        <button class="comp-btn" style="opacity:.38;cursor:not-allowed">Disabled</button>
       </div>
-      <div class="swatch-info"><div class="swatch-token">--opacity-100</div><div class="swatch-use">Default, fully visible</div></div>
     </div>
-    <div class="swatch">
-      <div class="swatch-preview">
-        <div class="swatch-preview-bg"></div>
-        <div class="swatch-preview-fill" style="background:rgba(17,24,39,0.9)"><span style="color:#fff">90%</span></div>
+    <div class="comp-card">
+      <div class="comp-label">Pressed state · opacity-90</div>
+      <div class="comp-demo">
+        <button class="comp-btn">Default</button>
+        <button class="comp-btn" style="opacity:.9;transform:scale(.975)">Pressed</button>
       </div>
-      <div class="swatch-info"><div class="swatch-token">--opacity-90</div><div class="swatch-use">Active / pressed state</div></div>
     </div>
-    <div class="swatch">
-      <div class="swatch-preview">
-        <div class="swatch-preview-bg"></div>
-        <div class="swatch-preview-fill" style="background:rgba(17,24,39,0.75)"><span style="color:#fff">75%</span></div>
+    <div class="comp-card">
+      <div class="comp-label">Placeholder · opacity-75</div>
+      <div class="comp-demo" style="flex-direction:column;gap:8px">
+        <input class="comp-input" value="john@example.com">
+        <input class="comp-input" placeholder="Enter email..." style="color:rgba(17,24,39,.75)">
       </div>
-      <div class="swatch-info"><div class="swatch-token">--opacity-75</div><div class="swatch-use">Placeholder text</div></div>
     </div>
-    <div class="swatch">
-      <div class="swatch-preview">
-        <div class="swatch-preview-bg"></div>
-        <div class="swatch-preview-fill" style="background:rgba(17,24,39,0.6)"><span style="color:#fff">60%</span></div>
+    <div class="comp-card">
+      <div class="comp-label">Modal overlay · opacity-50</div>
+      <div class="comp-overlay">
+        <div class="comp-overlay-bg" style="opacity:.5"></div>
+        <div class="comp-overlay-text">Modal backdrop at 50%</div>
       </div>
-      <div class="swatch-info"><div class="swatch-token">--opacity-60</div><div class="swatch-use">Subtle / secondary label</div></div>
-    </div>
-    <div class="swatch">
-      <div class="swatch-preview">
-        <div class="swatch-preview-bg"></div>
-        <div class="swatch-preview-fill" style="background:rgba(17,24,39,0.5)"><span style="color:#fff">50%</span></div>
-      </div>
-      <div class="swatch-info"><div class="swatch-token">--opacity-50</div><div class="swatch-use">Scrim / overlay base</div></div>
-    </div>
-    <div class="swatch">
-      <div class="swatch-preview">
-        <div class="swatch-preview-bg"></div>
-        <div class="swatch-preview-fill" style="background:rgba(17,24,39,0.38)"><span style="color:#fff">38%</span></div>
-      </div>
-      <div class="swatch-info"><div class="swatch-token">--opacity-38</div><div class="swatch-use">Disabled interactive elements</div></div>
-    </div>
-    <div class="swatch">
-      <div class="swatch-preview">
-        <div class="swatch-preview-bg"></div>
-        <div class="swatch-preview-fill" style="background:rgba(17,24,39,0.16)"></div>
-        <span>16%</span>
-      </div>
-      <div class="swatch-info"><div class="swatch-token">--opacity-16</div><div class="swatch-use">Hover state backgrounds</div></div>
-    </div>
-    <div class="swatch">
-      <div class="swatch-preview">
-        <div class="swatch-preview-bg"></div>
-        <div class="swatch-preview-fill" style="background:rgba(17,24,39,0.08)"></div>
-        <span>8%</span>
-      </div>
-      <div class="swatch-info"><div class="swatch-token">--opacity-8</div><div class="swatch-use">Focus ring backgrounds</div></div>
-    </div>
-    <div class="swatch">
-      <div class="swatch-preview">
-        <div class="swatch-preview-bg"></div>
-        <div class="swatch-preview-fill" style="background:rgba(17,24,39,0.04)"></div>
-        <span>4%</span>
-      </div>
-      <div class="swatch-info"><div class="swatch-token">--opacity-4</div><div class="swatch-use">Tinted surface backgrounds</div></div>
     </div>
   </div>
 </div>
-
-
-<!-- ══════════════════════════════════════════════
-     SECTION 3 — TOKEN REFERENCE
-     ══════════════════════════════════════════════ -->
-<div class="section" id="s3">
-  <div class="section-header">
-    <div class="section-tag">03 · Token Reference</div>
-    <h2 class="section-title">Complete Token Table — 9 Stops</h2>
-    <p class="section-sub">Every opacity value in VendHub maps to a named token with a defined purpose.</p>
-  </div>
-
-  <table class="tbl" style="margin-bottom:24px">
-    <thead><tr><th>Token</th><th>Value</th><th>CSS Value</th><th>Purpose</th><th>Usage Context</th></tr></thead>
-    <tbody>
-      <tr><td><code>--opacity-100</code></td><td><strong>100%</strong></td><td>1</td><td>Default, fully visible</td><td>Normal state of all elements</td></tr>
-      <tr><td><code>--opacity-90</code></td><td><strong>90%</strong></td><td>0.9</td><td>Active / pressed state</td><td>Button press, link active — subtle dim feedback</td></tr>
-      <tr><td><code>--opacity-75</code></td><td><strong>75%</strong></td><td>0.75</td><td>Placeholder text</td><td>Input placeholders, ghost text</td></tr>
-      <tr><td><code>--opacity-60</code></td><td><strong>60%</strong></td><td>0.6</td><td>Subtle / secondary label</td><td>De-emphasized secondary information</td></tr>
-      <tr><td><code>--opacity-50</code></td><td><strong>50%</strong></td><td>0.5</td><td>Scrim / overlay base</td><td>Modal backdrop, dialog overlay, image overlay</td></tr>
-      <tr><td><code>--opacity-38</code></td><td><strong>38%</strong></td><td>0.38</td><td>Disabled interactive elements</td><td>Disabled buttons, inputs, checkboxes, selects</td></tr>
-      <tr><td><code>--opacity-16</code></td><td><strong>16%</strong></td><td>0.16</td><td>Hover state backgrounds</td><td>Tinted hover fill on buttons, rows, nav items</td></tr>
-      <tr><td><code>--opacity-8</code></td><td><strong>8%</strong></td><td>0.08</td><td>Focus ring backgrounds</td><td>Optional tinted halo behind focus rings</td></tr>
-      <tr><td><code>--opacity-4</code></td><td><strong>4%</strong></td><td>0.04</td><td>Tinted surface backgrounds</td><td>Success/error/info banner backgrounds, subtle tints</td></tr>
-    </tbody>
-  </table>
-
-  <div class="info-callout">
-    <strong>Why 38% for disabled?</strong> Material Design 3 uses 0.38 opacity for disabled content. At this level, the element is clearly non-interactive while still being readable enough that users can identify what the disabled control represents. VendHub adopts this standard for cross-platform consistency.
-  </div>
 </div>
 
-
-<!-- ══════════════════════════════════════════════
-     SECTION 4 — STATE-SPECIFIC USAGE
-     ══════════════════════════════════════════════ -->
-<div class="section" id="s4">
-  <div class="section-header">
-    <div class="section-tag">04 · State Usage</div>
-    <h2 class="section-title">State-Specific Usage Map</h2>
-    <p class="section-sub">How each opacity token maps to specific component states. This is the definitive reference for which token to use when.</p>
-  </div>
-
-  <table class="tbl" style="margin-bottom:24px">
-    <thead><tr><th>State</th><th>Token</th><th>How to Apply</th><th>Tailwind Example</th></tr></thead>
-    <tbody>
-      <tr>
-        <td><strong>Disabled</strong></td>
-        <td><code>--opacity-38</code></td>
-        <td>Apply to the entire interactive element</td>
-        <td><code>disabled:opacity-38 disabled:cursor-not-allowed</code></td>
-      </tr>
-      <tr>
-        <td><strong>Hover background</strong></td>
-        <td><code>--opacity-16</code></td>
-        <td>Apply to a color as background modifier</td>
-        <td><code>hover:bg-primary/16</code> or <code>hover:bg-neutral-900/16</code></td>
-      </tr>
-      <tr>
-        <td><strong>Focus ring bg</strong></td>
-        <td><code>--opacity-8</code></td>
-        <td>Optional tinted focus halo behind the ring</td>
-        <td><code>focus-visible:bg-primary/8</code></td>
-      </tr>
-      <tr>
-        <td><strong>Modal overlay</strong></td>
-        <td><code>--opacity-50</code></td>
-        <td>Black overlay behind modals</td>
-        <td><code>bg-black/50 backdrop-blur-sm</code></td>
-      </tr>
-      <tr>
-        <td><strong>AlertDialog overlay</strong></td>
-        <td><code>--opacity-50</code></td>
-        <td>Match Dialog exactly</td>
-        <td><code>bg-black/50 backdrop-blur-sm</code></td>
-      </tr>
-      <tr>
-        <td><strong>Placeholder text</strong></td>
-        <td><code>--opacity-75</code></td>
-        <td>Input placeholder color modifier</td>
-        <td><code>placeholder:opacity-75</code></td>
-      </tr>
-      <tr>
-        <td><strong>Active / pressed</strong></td>
-        <td><code>--opacity-90</code></td>
-        <td>Slightly dimmed on press (with scale)</td>
-        <td><code>active:opacity-90 active:scale-[0.98]</code></td>
-      </tr>
-      <tr>
-        <td><strong>Tinted surface</strong></td>
-        <td><code>--opacity-4</code></td>
-        <td>Subtle tinted backgrounds (banners)</td>
-        <td><code>bg-primary/4</code> or <code>bg-error/4</code></td>
-      </tr>
-    </tbody>
-  </table>
-
-  <div class="warn-callout">
-    <strong>Disabled state rule:</strong> Always apply <code>opacity-38</code> to the element itself, never to a parent container that holds focusable children. If a parent is dimmed, screen readers may still focus children inside it, creating a confusing experience.
-  </div>
-</div>
-
-
-<!-- ══════════════════════════════════════════════
-     SECTION 5 — TAILWIND PATTERNS
-     ══════════════════════════════════════════════ -->
-<div class="section" id="s5">
-  <div class="section-header">
-    <div class="section-tag">05 · Tailwind Patterns</div>
-    <h2 class="section-title">Copy-Paste Component Patterns</h2>
-    <p class="section-sub">The most common opacity patterns in VendHub components. Use these exactly.</p>
-  </div>
-
-  <div class="g2 mb24">
-    <div class="card">
-      <div class="card-title">Disabled Button</div>
-      <div class="card-body" style="margin-bottom:12px">A disabled button dims the entire element — background, text, and icon all at 38% opacity. The cursor changes to not-allowed.</div>
-      <div class="code-block" style="font-size:11px;padding:14px 16px;line-height:1.7"><span class="cm">/* Disabled button */</span>
-<span class="at">className</span>=<span class="str">"bg-primary-500 text-white
-  disabled:opacity-38
-  disabled:cursor-not-allowed"</span></div>
-    </div>
-    <div class="card">
-      <div class="card-title">Hover Background Tint</div>
-      <div class="card-body" style="margin-bottom:12px">Instead of a separate hover color, use the base color with 16% opacity. This works with any color — primary, neutral, error — without defining new color stops.</div>
-      <div class="code-block" style="font-size:11px;padding:14px 16px;line-height:1.7"><span class="cm">/* Ghost button hover */</span>
-<span class="at">className</span>=<span class="str">"hover:bg-primary/16
-  transition-colors duration-150"</span>
-
-<span class="cm">/* Table row hover */</span>
-<span class="at">className</span>=<span class="str">"hover:bg-neutral-900/8"</span>
-
-<span class="cm">/* Nav item hover */</span>
-<span class="at">className</span>=<span class="str">"hover:bg-neutral-500/16"</span></div>
-    </div>
-    <div class="card">
-      <div class="card-title">Modal Overlay</div>
-      <div class="card-body" style="margin-bottom:12px">All modal backdrops use the same opacity + blur combination. This ensures consistent dimming across Dialog, AlertDialog, and Sheet.</div>
-      <div class="code-block" style="font-size:11px;padding:14px 16px;line-height:1.7"><span class="cm">/* Dialog overlay */</span>
-<span class="at">className</span>=<span class="str">"fixed inset-0
-  bg-black/50 backdrop-blur-sm
-  z-overlay"</span></div>
-    </div>
-    <div class="card">
-      <div class="card-title">Status Banner Background</div>
-      <div class="card-body" style="margin-bottom:12px">Success, error, warning, and info banners use 4% opacity of their semantic color on a white surface. Subtle enough to not overwhelm, strong enough to signal state.</div>
-      <div class="code-block" style="font-size:11px;padding:14px 16px;line-height:1.7"><span class="cm">/* Success banner */</span>
-<span class="at">className</span>=<span class="str">"bg-success-500/4
-  border border-success-200"</span>
-
-<span class="cm">/* Error banner */</span>
-<span class="at">className</span>=<span class="str">"bg-error-500/4
-  border border-error-200"</span></div>
-    </div>
-  </div>
-
-  <div class="card mb24">
-    <div class="card-title">Active / Pressed State — Full Pattern</div>
-    <div class="card-body" style="margin-bottom:12px">The press state combines opacity-90 with a subtle scale-down. This gives tactile feedback without jarring visual changes. Used on all buttons and clickable cards.</div>
-    <div class="code-block" style="font-size:11px;padding:14px 16px;line-height:1.7"><span class="cm">/* Button with full interaction states */</span>
-<span class="at">className</span>=<span class="str">"bg-primary-500 text-white
-  hover:bg-primary-600
-  active:opacity-90 active:scale-[0.98]
-  focus-visible:ring-1 focus-visible:ring-primary-500
-  focus-visible:bg-primary/8
-  disabled:opacity-38 disabled:cursor-not-allowed
-  transition-colors duration-150"</span></div>
-  </div>
-</div>
-
-
-<!-- ══════════════════════════════════════════════
-     SECTION 6 — DO'S & DON'TS
-     ══════════════════════════════════════════════ -->
-<div class="section" id="s6">
-  <div class="section-header">
-    <div class="section-tag">06 · Rules</div>
-    <h2 class="section-title">Do's &amp; Don'ts</h2>
-  </div>
-
-  <div class="g2 mb16">
-    <div class="do-card">
-      <div class="do-label">✓ Do</div>
-      <div class="card-body">Use <code>opacity-38</code> consistently for all disabled controls — buttons, inputs, selects, checkboxes, radio buttons. One value across the entire app.</div>
-    </div>
-    <div class="dont-card">
-      <div class="dont-label">✗ Don't</div>
-      <div class="card-body">Don't use <code>opacity-50</code> on text — it makes it harder to read. For de-emphasized text, use a lighter color token (<code>text-neutral-500</code>) instead of reducing opacity.</div>
-    </div>
-  </div>
-  <div class="g2 mb16">
-    <div class="do-card">
-      <div class="do-label">✓ Do</div>
-      <div class="card-body">Use Tailwind's color modifier syntax <code>bg-primary/16</code> for hover states. No separate class needed — the <code>/16</code> applies 16% opacity to that specific color.</div>
-    </div>
-    <div class="dont-card">
-      <div class="dont-label">✗ Don't</div>
-      <div class="card-body">Don't use arbitrary opacity values like <code>opacity-[0.23]</code> or <code>bg-black/[0.35]</code>. If a value isn't in the 9-token scale, round to the nearest stop.</div>
-    </div>
-  </div>
-  <div class="g2 mb16">
-    <div class="do-card">
-      <div class="do-label">✓ Do</div>
-      <div class="card-body">Use <code>opacity-50</code> for all modal backdrops system-wide. Dialog, AlertDialog, Sheet, and any future overlay must use the same scrim value.</div>
-    </div>
-    <div class="dont-card">
-      <div class="dont-label">✗ Don't</div>
-      <div class="card-body">Don't apply <code>opacity-38</code> to a parent that contains focusable children. Apply it to the element itself. A dimmed parent can still receive focus on its children, confusing screen reader users.</div>
-    </div>
-  </div>
-  <div class="g2 mb16">
-    <div class="do-card">
-      <div class="do-label">✓ Do</div>
-      <div class="card-body">Prefer opacity modifiers over hardcoded semi-transparent hex values. <code>bg-primary/16</code> is readable and maintainable; <code>bg-[rgba(34,197,94,0.16)]</code> is not.</div>
-    </div>
-    <div class="dont-card">
-      <div class="dont-label">✗ Don't</div>
-      <div class="card-body">Don't use opacity on brand colors for overlays — use <code>bg-black/50</code> for scrims, not <code>bg-primary/50</code>. Green-tinted overlays look wrong and reduce content readability.</div>
-    </div>
-  </div>
-</div>
-
-
-<!-- ══════════════════════════════════════════════
-     SECTION 7 — TAILWIND CONFIG
-     ══════════════════════════════════════════════ -->
-<div class="section" id="s7">
-  <div class="section-header">
-    <div class="section-tag">07 · Config</div>
-    <h2 class="section-title">Complete Tailwind Configuration</h2>
-    <p class="section-sub">Copy-paste into globals.css and tailwind.config.ts.</p>
-  </div>
-
-  <div class="code-block" style="margin-bottom:24px"><span class="cm">/* ── globals.css — Add to :root ─────────────────────────── */</span>
-<span class="kw">:root</span> {
-  <span class="at">--opacity-100</span>: <span class="num">1</span>;
-  <span class="at">--opacity-90</span>:  <span class="num">0.9</span>;
-  <span class="at">--opacity-75</span>:  <span class="num">0.75</span>;
-  <span class="at">--opacity-60</span>:  <span class="num">0.6</span>;
-  <span class="at">--opacity-50</span>:  <span class="num">0.5</span>;
-  <span class="at">--opacity-38</span>:  <span class="num">0.38</span>;
-  <span class="at">--opacity-16</span>:  <span class="num">0.16</span>;
-  <span class="at">--opacity-8</span>:   <span class="num">0.08</span>;
-  <span class="at">--opacity-4</span>:   <span class="num">0.04</span>;
-}</div>
-
-  <div class="code-block" style="margin-bottom:24px"><span class="cm">/* ── tailwind.config.ts — theme.extend.opacity ─────────── */</span>
-<span class="at">opacity</span>: {
-  <span class="str">'0'</span>:   <span class="str">'0'</span>,
-  <span class="str">'4'</span>:   <span class="str">'var(--opacity-4)'</span>,
-  <span class="str">'8'</span>:   <span class="str">'var(--opacity-8)'</span>,
-  <span class="str">'16'</span>:  <span class="str">'var(--opacity-16)'</span>,
-  <span class="str">'38'</span>:  <span class="str">'var(--opacity-38)'</span>,
-  <span class="str">'50'</span>:  <span class="str">'var(--opacity-50)'</span>,
-  <span class="str">'60'</span>:  <span class="str">'var(--opacity-60)'</span>,
-  <span class="str">'75'</span>:  <span class="str">'var(--opacity-75)'</span>,
-  <span class="str">'90'</span>:  <span class="str">'var(--opacity-90)'</span>,
-  <span class="str">'100'</span>: <span class="str">'1'</span>,
-}</div>
-
-  <div class="code-block"><span class="cm">/* ── Usage cheat sheet ──────────────────────────────────── */</span>
-
-<span class="cm">/* Element opacity — dims everything */</span>
-<span class="at">className</span>=<span class="str">"disabled:opacity-38"</span>         <span class="cm">/* disabled */</span>
-<span class="at">className</span>=<span class="str">"active:opacity-90"</span>           <span class="cm">/* pressed */</span>
-<span class="at">className</span>=<span class="str">"placeholder:opacity-75"</span>      <span class="cm">/* placeholder */</span>
-
-<span class="cm">/* Color modifier — opacity on a single color */</span>
-<span class="at">className</span>=<span class="str">"bg-black/50"</span>                <span class="cm">/* overlay scrim */</span>
-<span class="at">className</span>=<span class="str">"hover:bg-primary/16"</span>         <span class="cm">/* hover tint */</span>
-<span class="at">className</span>=<span class="str">"focus-visible:bg-primary/8"</span>  <span class="cm">/* focus halo */</span>
-<span class="at">className</span>=<span class="str">"bg-success-500/4"</span>            <span class="cm">/* success banner */</span>
-<span class="at">className</span>=<span class="str">"bg-error-500/4"</span>              <span class="cm">/* error banner */</span></div>
-
-  <div class="success-callout" style="margin-top:24px">
-    <strong>Cross-reference:</strong> This opacity system works with the <strong>Z-Index</strong> system — modal overlays use <code>bg-black/50</code> at <code>z-overlay</code> (30). It also works with the <strong>Motion</strong> system — disabled elements transition to <code>opacity-38</code> using <code>transition-opacity duration-150</code>. And with the <strong>Color</strong> system — all color modifier values (<code>/4</code>, <code>/8</code>, <code>/16</code>) use the semantic color tokens.
-  </div>
-</div>
-
-
-</div><!-- end .page -->
-
-
-<div class="section" id="interactive-demo" style="margin-top:64px; padding-top:48px; border-top:2px solid var(--neutral-200);">
-  <div class="page">
-  <!-- Header -->
-  <div class="demo-header">
-    <div class="demo-badge"><span class="demo-badge-dot"></span>Interactive Demo</div>
-    <h1 class="demo-title">Opacity <span>Scale</span></h1>
-    <p class="demo-sub">9 semantic opacity tokens that ensure every state — disabled, hover, pressed, overlay — looks identical across every component in VendHub. Click any swatch below to see its purpose.</p>
-  </div>
-
-  <!-- Scale strip -->
-  <div class="scale-section">
-    <div class="scale-label">The 9 opacity tokens — click to explore</div>
-    <div class="scale-strip" id="strip"></div>
-  </div>
-
-  <!-- Detail panel -->
-  <div class="detail-panel" id="detail">
-    <div class="detail-label">Selected token</div>
-    <div class="detail-text" id="detail-text">Click any swatch above to see how it's used in VendHub components.</div>
-  </div>
-
-  <!-- Live component demos -->
-  <h2 class="demos-title">Live component examples</h2>
-  <p class="demos-sub">Real VendHub components using opacity tokens. Hover, press, and observe — every state uses a defined token, never an arbitrary value.</p>
-
-  <div class="demo-grid">
-    <!-- Disabled state -->
-    <div class="demo-card">
-      <div class="demo-card-label" style="color:#EF4444">Disabled state</div>
-      <div class="demo-card-title">opacity-38 — Disabled controls</div>
-      <div class="demo-card-desc">All disabled elements use exactly 38% opacity (Material Design 3 standard). The element is clearly non-interactive but still identifiable.</div>
-      <div class="demo-card-token" style="background:#FEE2E2;color:#991B1B">opacity-38</div>
-      <div class="btn-row" style="margin-bottom:12px">
-        <div>
-          <div class="btn-label">Enabled</div>
-          <button class="v-btn v-btn-primary">Place order</button>
-        </div>
-        <div style="font-size:20px;color:#D1D5DB">→</div>
-        <div>
-          <div class="btn-label">Disabled (38%)</div>
-          <button class="v-btn v-btn-disabled" disabled>Place order</button>
-        </div>
-      </div>
-      <div class="v-input-wrap">
-        <div class="v-input-label">Disabled input (38%)</div>
-        <input class="v-input v-input-disabled" value="Chicago Loop East" disabled>
-      </div>
-    </div>
-
-    <!-- Hover tint -->
-    <div class="demo-card">
-      <div class="demo-card-label" style="color:#3B82F6">Hover state</div>
-      <div class="demo-card-title">opacity-16 — Hover backgrounds</div>
-      <div class="demo-card-desc">Hover over the nav items below. The background tint uses the base color at 16% opacity — no separate color token needed.</div>
-      <div class="demo-card-token" style="background:#DBEAFE;color:#1E40AF">bg-primary/16</div>
-      <div class="hover-grid">
-        <div class="hover-item active-item"><span class="hover-dot"></span>Dashboard</div>
-        <div class="hover-item"><span class="hover-dot"></span>Routes</div>
-        <div class="hover-item"><span class="hover-dot"></span>Orders</div>
-        <div class="hover-item"><span class="hover-dot"></span>Leads</div>
-        <div class="hover-item"><span class="hover-dot"></span>Equipment</div>
-        <div class="hover-item"><span class="hover-dot"></span>Settings</div>
-      </div>
-    </div>
-
-    <!-- Modal overlay -->
-    <div class="demo-card">
-      <div class="demo-card-label" style="color:#6B7280">Overlay</div>
-      <div class="demo-card-title">opacity-50 — Modal backdrop</div>
-      <div class="demo-card-desc">All modal, dialog, and sheet backdrops use black at 50% opacity with a subtle blur. Consistent across every overlay in VendHub.</div>
-      <div class="demo-card-token" style="background:#F3F4F6;color:#374151">bg-black/50</div>
-      <div class="overlay-scene">
-        <div class="overlay-content">
-          <p><strong>Route dashboard</strong></p>
-          <p>Chicago Loop East · 14 stops</p>
-          <p>Milwaukee North · 8 stops</p>
-          <p>Indianapolis South · 11 stops</p>
-        </div>
-        <div class="overlay-scrim">
-          <div class="overlay-modal">
-            <div class="overlay-modal-title">Confirm order</div>
-            <div class="overlay-modal-desc">6 items · $1,284.50</div>
-            <button class="overlay-modal-btn">Confirm</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Status banners -->
-    <div class="demo-card">
-      <div class="demo-card-label" style="color:#22C55E">Tinted surfaces</div>
-      <div class="demo-card-title">opacity-4 — Status banners</div>
-      <div class="demo-card-desc">Success, error, and warning banners use their semantic color at 4% opacity. Subtle enough to read, clear enough to signal state.</div>
-      <div class="demo-card-token" style="background:#DCFCE7;color:#166534">bg-color/4</div>
-      <div class="banner banner-success">
-        <div class="banner-icon banner-icon-success">✓</div>
-        Order #4820 has been confirmed and scheduled for delivery.
-      </div>
-      <div class="banner banner-error">
-        <div class="banner-icon banner-icon-error">✕</div>
-        Payment failed. Please update your billing information.
-      </div>
-      <div class="banner banner-warning">
-        <div class="banner-icon banner-icon-warning">!</div>
-        Route Detroit Metro is running 45 minutes behind schedule.
-      </div>
-    </div>
-
-    <!-- Active/pressed -->
-    <div class="demo-card">
-      <div class="demo-card-label" style="color:#F59E0B">Active / pressed</div>
-      <div class="demo-card-title">opacity-90 — Press feedback</div>
-      <div class="demo-card-desc">Click the button below. On press, it dims to 90% and scales down slightly. This gives tactile feedback that the action registered.</div>
-      <div class="demo-card-token" style="background:#FEF3C7;color:#92400E">active:opacity-90</div>
-      <button class="press-btn">Add to cart — $24.99</button>
-      <div class="press-hint">Click and hold to see the press state</div>
-    </div>
-
-    <!-- Placeholder + focus -->
-    <div class="demo-card">
-      <div class="demo-card-label" style="color:#6366F1">Placeholder &amp; focus</div>
-      <div class="demo-card-title">opacity-75 + opacity-8</div>
-      <div class="demo-card-desc">Placeholder text at 75% opacity. Focus ring background uses the brand color at 8% opacity — a subtle halo behind the ring.</div>
-      <div class="demo-card-token" style="background:#E0E7FF;color:#3730A3">75% + 8%</div>
-      <div class="v-input-wrap">
-        <div class="v-input-label">Search routes</div>
-        <input class="v-input" placeholder="Type a route name or city...">
-      </div>
-      <div class="v-input-wrap" style="margin-top:8px">
-        <div class="v-input-label">Driver name</div>
-        <input class="v-input" placeholder="e.g. Mike Thompson">
-      </div>
-    </div>
-  </div>
-
-  <!-- Without vs With comparison -->
-  <div class="compare-section">
-    <h2 class="compare-title">Without system vs. with system</h2>
-    <p class="compare-sub">Without opacity tokens, every developer picks their own values. The same "disabled" state looks different across 4 components. With tokens, it's always 38%.</p>
-
-    <div class="compare-grid">
-      <div class="compare-card compare-bad">
-        <div class="compare-card-label">✕ Without opacity tokens</div>
-        <div class="compare-row"><span class="compare-el">Disabled button</span><span class="compare-val">opacity: 0.5</span></div>
-        <div class="compare-row"><span class="compare-el">Disabled input</span><span class="compare-val">opacity: 0.4</span></div>
-        <div class="compare-row"><span class="compare-el">Disabled checkbox</span><span class="compare-val">opacity: 0.6</span></div>
-        <div class="compare-row"><span class="compare-el">Disabled select</span><span class="compare-val">opacity: 0.45</span></div>
-        <div class="compare-row"><span class="compare-el">Modal overlay</span><span class="compare-val">bg-black/60</span></div>
-        <div class="compare-row"><span class="compare-el">Alert overlay</span><span class="compare-val">bg-black/40</span></div>
-        <div class="compare-row"><span class="compare-el">Hover button A</span><span class="compare-val">bg-green/20</span></div>
-        <div class="compare-row"><span class="compare-el">Hover button B</span><span class="compare-val">bg-green/10</span></div>
-      </div>
-      <div class="compare-card compare-good">
-        <div class="compare-card-label">✓ With VendHub opacity tokens</div>
-        <div class="compare-row"><span class="compare-el">Disabled button</span><span class="compare-val">opacity-38</span></div>
-        <div class="compare-row"><span class="compare-el">Disabled input</span><span class="compare-val">opacity-38</span></div>
-        <div class="compare-row"><span class="compare-el">Disabled checkbox</span><span class="compare-val">opacity-38</span></div>
-        <div class="compare-row"><span class="compare-el">Disabled select</span><span class="compare-val">opacity-38</span></div>
-        <div class="compare-row"><span class="compare-el">Modal overlay</span><span class="compare-val">bg-black/50</span></div>
-        <div class="compare-row"><span class="compare-el">Alert overlay</span><span class="compare-val">bg-black/50</span></div>
-        <div class="compare-row"><span class="compare-el">Hover button A</span><span class="compare-val">bg-primary/16</span></div>
-        <div class="compare-row"><span class="compare-el">Hover button B</span><span class="compare-val">bg-primary/16</span></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="footer">VendHub Design System · Opacity Scale · 9 Semantic Tokens · April 2026</div>
-</div>
+<footer class="footer"><a href="index.html" class="back-link">← Back to Design System</a><br>VendHub Design System · Designed & documented by <a href="https://sorwoar.framer.website/" target="_blank">Sorwoar Resim</a></footer>
 
 <script>
-const tokens = [
-  {pct:'100%',val:1,   token:'--opacity-100',tw:'opacity-100',     use:'Default, fully visible',detail:'The default state — every element starts at 100%. This token exists as a baseline reference. You rarely write it explicitly.'},
-  {pct:'90%', val:0.9, token:'--opacity-90', tw:'active:opacity-90',use:'Active / pressed',      detail:'<strong>Press feedback.</strong> When a user clicks a button or tappable card, it dims to 90% combined with <span class="detail-code">scale(0.98)</span>. This gives immediate tactile feedback that the action registered. Tailwind: <span class="detail-code">active:opacity-90 active:scale-[0.98]</span>'},
-  {pct:'75%', val:0.75,token:'--opacity-75', tw:'placeholder:opacity-75',use:'Placeholder text',detail:'<strong>Input placeholders.</strong> Ghost text inside inputs uses 75% opacity — visible enough to read, dim enough to not compete with real input values. Tailwind: <span class="detail-code">placeholder:opacity-75</span>'},
-  {pct:'60%', val:0.6, token:'--opacity-60', tw:'opacity-60',      use:'Secondary labels',      detail:'<strong>De-emphasized text.</strong> For secondary information that should be readable but not prominent — timestamps, metadata, helper text. In most cases, use a lighter color token (<span class="detail-code">text-neutral-500</span>) instead. Reserve opacity-60 for cases where you need to dim an entire element, not just text.'},
-  {pct:'50%', val:0.5, token:'--opacity-50', tw:'bg-black/50',     use:'Scrim / overlay',       detail:'<strong>Modal backdrop.</strong> All Dialog, AlertDialog, and Sheet overlays use <span class="detail-code">bg-black/50 backdrop-blur-sm</span>. This value is standardized across the entire app — every modal looks identical. Never use <span class="detail-code">bg-primary/50</span> for scrims (green tint looks wrong).'},
-  {pct:'38%', val:0.38,token:'--opacity-38', tw:'disabled:opacity-38',use:'Disabled elements',  detail:'<strong>Disabled state — the most important token.</strong> Every disabled button, input, checkbox, radio, select, and toggle uses exactly 38% opacity. This comes from Material Design 3 and ensures disabled controls look equally "off" everywhere. Tailwind: <span class="detail-code">disabled:opacity-38 disabled:cursor-not-allowed</span>'},
-  {pct:'16%', val:0.16,token:'--opacity-16', tw:'hover:bg-primary/16',use:'Hover backgrounds', detail:'<strong>Hover tint.</strong> Instead of defining a separate hover color, apply the base color at 16% opacity. Works with any color — <span class="detail-code">hover:bg-primary/16</span>, <span class="detail-code">hover:bg-neutral-900/16</span>. This is how ghost buttons, nav items, and table rows get their hover state.'},
-  {pct:'8%',  val:0.08,token:'--opacity-8',  tw:'focus-visible:bg-primary/8',use:'Focus ring bg',detail:'<strong>Focus halo.</strong> An optional tinted background behind focus rings — <span class="detail-code">focus-visible:bg-primary/8</span>. Adds a subtle glow that makes the focus state more visible without being distracting. Used on buttons and interactive cards.'},
-  {pct:'4%',  val:0.04,token:'--opacity-4',  tw:'bg-success-500/4',use:'Tinted surfaces',       detail:'<strong>Status banners.</strong> Success, error, warning, and info banners use their semantic color at 4% opacity — <span class="detail-code">bg-success-500/4</span>, <span class="detail-code">bg-error-500/4</span>. Subtle enough to not overwhelm the content, strong enough to signal the state. Also used for tinted card backgrounds.'}
+const tokens=[
+  {val:100,css:'1',token:'opacity-100',role:'Default',desc:'Fully visible — the normal state of all elements'},
+  {val:90,css:'0.9',token:'opacity-90',role:'Active / pressed',desc:'Subtle dim on button press or link active state'},
+  {val:75,css:'0.75',token:'opacity-75',role:'Placeholder text',desc:'Input placeholders and ghost text'},
+  {val:60,css:'0.6',token:'opacity-60',role:'Secondary label',desc:'De-emphasized information, secondary metadata'},
+  {val:50,css:'0.5',token:'opacity-50',role:'Overlay / scrim',desc:'Modal backdrop, dialog overlay, image scrim'},
+  {val:38,css:'0.38',token:'opacity-38',role:'Disabled',desc:'Disabled buttons, inputs, checkboxes — the universal disabled token'},
+  {val:16,css:'0.16',token:'opacity-16',role:'Hover background',desc:'Subtle hover fill for transparent buttons and list items'},
+  {val:8,css:'0.08',token:'opacity-8',role:'Border / divider',desc:'Light separators, subtle borders'},
+  {val:4,css:'0.04',token:'opacity-4',role:'Surface tint',desc:'Barely visible background tint for alternating rows'},
 ];
 
-const strip = document.getElementById('strip');
-const detailText = document.getElementById('detail-text');
-let activeIdx = null;
-
-tokens.forEach((t,i) => {
-  const div = document.createElement('div');
-  div.className = 'scale-swatch';
-  div.dataset.idx = i;
-  const textColor = t.val > 0.5 ? '#fff' : '#111827';
-  div.innerHTML = `
-    <div class="swatch-preview">
-      <div class="swatch-checker"></div>
-      <div class="swatch-fill" style="background:rgba(17,24,39,${t.val})"></div>
-      <span class="swatch-pct" style="color:${textColor}">${t.pct}</span>
-    </div>
-    <div class="swatch-info">
-      <div class="swatch-token">${t.token}</div>
-      <div class="swatch-use">${t.use}</div>
-    </div>
-  `;
-  div.onclick = () => {
-    document.querySelectorAll('.scale-swatch').forEach(s=>s.classList.remove('active'));
-    div.classList.add('active');
-    activeIdx = i;
-    detailText.innerHTML = t.detail + '<br><br><strong>Tailwind:</strong> <span class="detail-code">' + t.tw + '</span> &nbsp;|&nbsp; <strong>CSS:</strong> <span class="detail-code">' + t.token + ': ' + t.val + '</span>';
-  };
-  strip.appendChild(div);
+// Hero wave
+const wave=document.getElementById('hero-wave');
+tokens.forEach((t,i)=>{
+  const bar=document.createElement('div');
+  bar.className='hero-bar';
+  bar.style.opacity=t.css;
+  bar.style.setProperty('--h', (16 + t.val * .84) + 'px');
+  bar.style.animationDelay=(i * .15) + 's';
+  bar.innerHTML=`<span class="hero-bar-pct">${t.val}%</span>`;
+  wave.appendChild(bar);
 });
 
-// Auto-select opacity-38 (the most important one)
-document.querySelector('[data-idx="5"]').click();
-</script>
-</div>
-<script>
-const tokens = [
-  {pct:'100%',val:1,   token:'--opacity-100',tw:'opacity-100',     use:'Default, fully visible',detail:'The default state — every element starts at 100%. This token exists as a baseline reference. You rarely write it explicitly.'},
-  {pct:'90%', val:0.9, token:'--opacity-90', tw:'active:opacity-90',use:'Active / pressed',      detail:'<strong>Press feedback.</strong> When a user clicks a button or tappable card, it dims to 90% combined with <span class="detail-code">scale(0.98)</span>. This gives immediate tactile feedback that the action registered. Tailwind: <span class="detail-code">active:opacity-90 active:scale-[0.98]</span>'},
-  {pct:'75%', val:0.75,token:'--opacity-75', tw:'placeholder:opacity-75',use:'Placeholder text',detail:'<strong>Input placeholders.</strong> Ghost text inside inputs uses 75% opacity — visible enough to read, dim enough to not compete with real input values. Tailwind: <span class="detail-code">placeholder:opacity-75</span>'},
-  {pct:'60%', val:0.6, token:'--opacity-60', tw:'opacity-60',      use:'Secondary labels',      detail:'<strong>De-emphasized text.</strong> For secondary information that should be readable but not prominent — timestamps, metadata, helper text. In most cases, use a lighter color token (<span class="detail-code">text-neutral-500</span>) instead. Reserve opacity-60 for cases where you need to dim an entire element, not just text.'},
-  {pct:'50%', val:0.5, token:'--opacity-50', tw:'bg-black/50',     use:'Scrim / overlay',       detail:'<strong>Modal backdrop.</strong> All Dialog, AlertDialog, and Sheet overlays use <span class="detail-code">bg-black/50 backdrop-blur-sm</span>. This value is standardized across the entire app — every modal looks identical. Never use <span class="detail-code">bg-primary/50</span> for scrims (green tint looks wrong).'},
-  {pct:'38%', val:0.38,token:'--opacity-38', tw:'disabled:opacity-38',use:'Disabled elements',  detail:'<strong>Disabled state — the most important token.</strong> Every disabled button, input, checkbox, radio, select, and toggle uses exactly 38% opacity. This comes from Material Design 3 and ensures disabled controls look equally "off" everywhere. Tailwind: <span class="detail-code">disabled:opacity-38 disabled:cursor-not-allowed</span>'},
-  {pct:'16%', val:0.16,token:'--opacity-16', tw:'hover:bg-primary/16',use:'Hover backgrounds', detail:'<strong>Hover tint.</strong> Instead of defining a separate hover color, apply the base color at 16% opacity. Works with any color — <span class="detail-code">hover:bg-primary/16</span>, <span class="detail-code">hover:bg-neutral-900/16</span>. This is how ghost buttons, nav items, and table rows get their hover state.'},
-  {pct:'8%',  val:0.08,token:'--opacity-8',  tw:'focus-visible:bg-primary/8',use:'Focus ring bg',detail:'<strong>Focus halo.</strong> An optional tinted background behind focus rings — <span class="detail-code">focus-visible:bg-primary/8</span>. Adds a subtle glow that makes the focus state more visible without being distracting. Used on buttons and interactive cards.'},
-  {pct:'4%',  val:0.04,token:'--opacity-4',  tw:'bg-success-500/4',use:'Tinted surfaces',       detail:'<strong>Status banners.</strong> Success, error, warning, and info banners use their semantic color at 4% opacity — <span class="detail-code">bg-success-500/4</span>, <span class="detail-code">bg-error-500/4</span>. Subtle enough to not overwhelm the content, strong enough to signal the state. Also used for tinted card backgrounds.'}
-];
+// Grid
+const grid=document.getElementById('opacity-grid');
+const detail=document.getElementById('opacity-detail');
+let activeIdx=null;
 
-const strip = document.getElementById('strip');
-const detailText = document.getElementById('detail-text');
-let activeIdx = null;
-
-tokens.forEach((t,i) => {
-  const div = document.createElement('div');
-  div.className = 'scale-swatch';
-  div.dataset.idx = i;
-  const textColor = t.val > 0.5 ? '#fff' : '#111827';
-  div.innerHTML = `
-    <div class="swatch-preview">
-      <div class="swatch-checker"></div>
-      <div class="swatch-fill" style="background:rgba(17,24,39,${t.val})"></div>
-      <span class="swatch-pct" style="color:${textColor}">${t.pct}</span>
-    </div>
-    <div class="swatch-info">
-      <div class="swatch-token">${t.token}</div>
-      <div class="swatch-use">${t.use}</div>
-    </div>
-  `;
-  div.onclick = () => {
-    document.querySelectorAll('.scale-swatch').forEach(s=>s.classList.remove('active'));
-    div.classList.add('active');
-    activeIdx = i;
-    detailText.innerHTML = t.detail + '<br><br><strong>Tailwind:</strong> <span class="detail-code">' + t.tw + '</span> &nbsp;|&nbsp; <strong>CSS:</strong> <span class="detail-code">' + t.token + ': ' + t.val + '</span>';
+tokens.forEach((t,i)=>{
+  const card=document.createElement('div');card.className='opacity-card';
+  card.innerHTML=`<div class="opacity-swatch" style="opacity:${t.css}"></div><div class="opacity-val">${t.val}%</div><div class="opacity-token">${t.token}</div><div class="opacity-role">${t.role}</div>`;
+  card.onclick=()=>{
+    activeIdx=i;
+    document.querySelectorAll('.opacity-card').forEach((c,j)=>c.classList.toggle('active',j===i));
+    detail.className='opacity-detail show';
+    detail.innerHTML=`<div class="opacity-detail-swatch" style="opacity:${t.css}"></div><div class="opacity-detail-info"><div class="opacity-detail-name">${t.token} — ${t.val}%</div><div class="opacity-detail-desc"><strong>${t.role}:</strong> ${t.desc}</div></div>`;
   };
-  strip.appendChild(div);
+  grid.appendChild(card);
 });
 
-// Auto-select opacity-38 (the most important one)
-document.querySelector('[data-idx="5"]').click();
+const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('visible');obs.unobserve(x.target)}})},{threshold:.1,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+const navLinks=document.querySelectorAll('.nav-pill');const navObs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){navLinks.forEach(l=>l.classList.remove('active'));const a=document.querySelector(`.nav-pill[href="#${x.target.id}"]`);if(a)a.classList.add('active')}})},{threshold:.2,rootMargin:'-80px 0px -60% 0px'});
+document.querySelectorAll('.section').forEach(s=>navObs.observe(s));
 </script>
-</div>
 </body>
 </html>

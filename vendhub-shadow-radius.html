@@ -3,930 +3,376 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VendHub — Shadows &amp; Border Radius</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>VendHub — Shadows & Border Radius</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-  :root{--primary-50:#F0FDF4;--primary-100:#DCFCE7;--primary-200:#BBF7D0;--primary-300:#86EFAC;--primary-500:#22C55E;--primary-600:#16A34A;--primary-700:#15803D;--neutral-50:#F9FAFB;--neutral-100:#F3F4F6;--neutral-200:#E5E7EB;--neutral-300:#D1D5DB;--neutral-400:#9CA3AF;--neutral-500:#6B7280;--neutral-600:#4B5563;--neutral-700:#374151;--neutral-800:#1F2937;--neutral-900:#111827;--error-50:#FEF2F2;--error-200:#FECACA;--error-500:#EF4444;--error-700:#B91C1C;--warning-50:#FFFBEB;--warning-200:#FDE68A;--warning-500:#F59E0B;--warning-700:#B45309;--info-50:#EFF6FF;--info-200:#BFDBFE;--info-500:#3B82F6;--info-700:#1D4ED8;--success-50:#ECFDF5;--success-700:#047857;--radius-sm:4px;--radius-md:8px;--radius-lg:12px}
-  body{font-family:'Plus Jakarta Sans',sans-serif;background:#FAFAFA;color:var(--neutral-800);line-height:1.5;font-size:14px}
-  .page{max-width:1120px;margin:0 auto;padding:0 48px 80px}
-  .cover{background:var(--neutral-900);padding:64px 48px 56px;margin-bottom:64px;position:relative;overflow:hidden}
-  .cover::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent,transparent 40px,rgba(255,255,255,.015) 40px,rgba(255,255,255,.015) 41px)}
-  .cover-inner{position:relative;z-index:1;max-width:1120px;margin:0 auto}
-  .cover-eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(22,163,74,.15);border:1px solid rgba(22,163,74,.3);border-radius:20px;padding:4px 14px;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--primary-500);margin-bottom:24px}
-  .cover-eyebrow-dot{width:6px;height:6px;border-radius:50%;background:var(--primary-500)}
-  .cover-title{font-size:52px;font-weight:700;color:#fff;line-height:1.1;margin-bottom:16px;letter-spacing:-.02em}
-  .cover-title span{color:var(--primary-500)}
-  .cover-sub{font-size:16px;color:var(--neutral-400);max-width:620px;line-height:1.7;margin-bottom:40px}
-  .cover-meta{display:flex;gap:32px;flex-wrap:wrap}
-  .cover-meta-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--neutral-600);margin-bottom:4px}
-  .cover-meta-value{font-size:13px;color:var(--neutral-300);font-weight:500}
-  .cover-libs{display:flex;gap:10px;margin-top:32px;flex-wrap:wrap}
-  .lib-tag{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600}
-  .lib-primary{background:rgba(22,163,74,.15);color:var(--primary-500);border:1px solid rgba(22,163,74,.25)}
-  .lib-secondary{background:rgba(59,130,246,.1);color:#60a5fa;border:1px solid rgba(59,130,246,.2)}
-  .lib-amber{background:rgba(245,158,11,.1);color:#fbbf24;border:1px solid rgba(245,158,11,.2)}
-  .lib-gray{background:rgba(107,114,128,.1);color:var(--neutral-400);border:1px solid rgba(107,114,128,.2)}
-  .section{margin-bottom:80px}
-  .section-header{margin-bottom:32px}
-  .section-tag{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--primary-600);margin-bottom:8px;display:flex;align-items:center;gap:8px}
-  .section-tag::after{content:'';flex:1;height:1px;background:var(--primary-100)}
-  .section-title{font-size:26px;font-weight:700;color:var(--neutral-900);margin-bottom:8px;letter-spacing:-.01em}
-  .section-sub{font-size:14px;color:var(--neutral-500);line-height:1.7;max-width:680px}
-  .card{background:#fff;border:1px solid var(--neutral-200);border-radius:var(--radius-lg);padding:24px}
-  .card-title{font-size:13px;font-weight:600;color:var(--neutral-800);margin-bottom:6px}
-  .card-body{font-size:13px;color:var(--neutral-500);line-height:1.7}
-  .g2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-  .g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
-  .badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600}
-  .bg-green{background:var(--primary-100);color:var(--primary-700)}
-  .bg-blue{background:var(--info-50);color:var(--info-700)}
-  .bg-yellow{background:var(--warning-50);color:var(--warning-700)}
-  .bg-red{background:var(--error-50);color:var(--error-700)}
-  .bg-gray{background:var(--neutral-100);color:var(--neutral-600)}
-  code{font-family:'SF Mono','Fira Code','Consolas',monospace;font-size:11px;background:var(--neutral-100);color:var(--neutral-700);padding:1px 6px;border-radius:4px;border:1px solid var(--neutral-200)}
-  .code-block{background:var(--neutral-900);border-radius:var(--radius-md);padding:20px 24px;font-family:'SF Mono','Fira Code','Consolas',monospace;font-size:12px;line-height:1.9;color:#e2e8f0;overflow-x:auto}
-  .code-block .kw{color:#c084fc}.code-block .fn{color:#67e8f9}.code-block .str{color:#86efac}.code-block .cm{color:#64748b}.code-block .at{color:#fbbf24}.code-block .num{color:#fb923c}.code-block .prop{color:#f9a8d4}.code-block .val{color:#fef08a}
-  .tbl{width:100%;border-collapse:collapse;font-size:13px}
-  .tbl thead tr{background:var(--neutral-50);border-bottom:1px solid var(--neutral-200)}
-  .tbl th{padding:10px 14px;text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--neutral-500)}
-  .tbl td{padding:12px 14px;border-bottom:1px solid var(--neutral-100);color:var(--neutral-700);vertical-align:middle}
-  .tbl tr:last-child td{border-bottom:none}
-  .tbl tr:hover td{background:var(--neutral-50)}
-  .do-card{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:var(--radius-lg);padding:20px}
-  .dont-card{background:#fff5f5;border:1px solid var(--error-200);border-radius:var(--radius-lg);padding:20px}
-  .do-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--primary-700);margin-bottom:10px;display:flex;align-items:center;gap:6px}
-  .dont-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--error-700);margin-bottom:10px;display:flex;align-items:center;gap:6px}
-  .info-callout{background:var(--info-50);border:1px solid var(--info-200);border-radius:8px;padding:14px 18px;font-size:13px;color:var(--info-700);line-height:1.6}
-  .warn-callout{background:var(--warning-50);border:1px solid var(--warning-200);border-radius:8px;padding:14px 18px;font-size:13px;color:var(--warning-700);line-height:1.6}
-  .toc{background:#fff;border:1px solid var(--neutral-200);border-radius:var(--radius-lg);padding:28px 32px;margin-bottom:56px}
-  .toc-title{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--neutral-500);margin-bottom:20px}
-  .toc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-  .toc-item{display:flex;align-items:center;gap:8px;padding:10px 14px;border-radius:var(--radius-md);background:var(--neutral-50);border:1px solid var(--neutral-100);font-size:12px;font-weight:600;color:var(--neutral-600);text-decoration:none;transition:all .15s}
-  .toc-item:hover{background:var(--primary-50);border-color:var(--primary-200);color:var(--primary-700)}
-  .toc-num{font-size:10px;font-weight:700;color:var(--neutral-400)}
-  .shadow-demo{background:#fff;border:1px solid var(--neutral-200);border-radius:8px;padding:20px;text-align:center;transition:all .2s}
-  .shadow-label{font-size:12px;font-weight:600;color:var(--neutral-800);margin-top:8px}
-  .shadow-meta{font-size:10px;color:var(--neutral-400);font-family:monospace}
-  .level-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700;font-family:monospace}
-  .part-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:8px 16px;margin-top:28px;font-size:12px;color:var(--neutral-400);font-weight:500}
-  .part-badge strong{color:#fff}
-  .part-badge a{color:var(--primary-500);text-decoration:none;font-weight:600}
-  .footer-nav{display:flex;justify-content:space-between;align-items:center;margin-top:80px;padding-top:32px;border-top:1px solid var(--neutral-200)}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:#050A06;color:#E5E7EB;line-height:1.5;-webkit-font-smoothing:antialiased}
+html{scroll-behavior:smooth}
 
-  .toc-file-label {
-    font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em;
-    color: var(--neutral-500); margin: 20px 0 10px; padding-bottom: 6px;
-    border-bottom: 1px solid var(--neutral-100);
-  }
+/* ═══ HERO ═══ */
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:60px 24px}
+.hero::before{content:'';position:absolute;width:900px;height:900px;top:-250px;left:50%;transform:translateX(-50%);background:radial-gradient(circle,rgba(22,163,74,.1) 0%,transparent 60%);pointer-events:none}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(34,197,94,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(34,197,94,.03) 1px,transparent 1px);background-size:48px 48px;mask-image:radial-gradient(ellipse 60% 50% at 50% 40%,black,transparent 80%);-webkit-mask-image:radial-gradient(ellipse 60% 50% at 50% 40%,black,transparent 80%)}
+.hero-content{position:relative;text-align:center;max-width:800px}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(22,163,74,.1);border:1px solid rgba(22,163,74,.25);border-radius:100px;padding:6px 16px;font-size:12px;font-weight:600;color:#4ADE80;margin-bottom:28px;animation:fadeIn .6s both}
+.hero-badge-dot{width:7px;height:7px;border-radius:50%;background:#22C55E;box-shadow:0 0 10px rgba(34,197,94,.6)}
+.hero-title{font-size:clamp(40px,7vw,80px);font-weight:800;color:#fff;line-height:1;letter-spacing:-.04em;margin-bottom:20px;animation:fadeIn .6s .1s both}
+.hero-title span{background:linear-gradient(135deg,#4ADE80,#22C55E);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:clamp(15px,2vw,18px);color:#9CA3AF;line-height:1.7;max-width:540px;margin:0 auto 48px;animation:fadeIn .6s .2s both}
 
-  /* ═══════════════════════════════════════════
-     RESPONSIVE — MOBILE
-     ═══════════════════════════════════════════ */
-  @media (max-width: 768px) {
-    .page { padding: 0 16px 48px; }
-    .cover { padding: 40px 20px 36px; margin-bottom: 40px; }
-    .cover-title { font-size: 32px; }
-    .cover-sub { font-size: 14px; margin-bottom: 24px; }
-    .cover-meta { gap: 16px; }
-    .cover-meta-label { font-size: 9px; }
-    .cover-meta-value { font-size: 12px; }
-    .cover-libs { gap: 6px; margin-top: 20px; }
-    .lib-tag { font-size: 11px; padding: 4px 10px; }
+/* Hero floating cards */
+.hero-cards{display:flex;justify-content:center;gap:16px;animation:fadeIn .8s .4s both;flex-wrap:wrap}
+.hero-card{width:80px;height:80px;background:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#374151;transition:all .5s cubic-bezier(.4,0,.2,1)}
+.hero-card:nth-child(1){border-radius:4px;box-shadow:none}
+.hero-card:nth-child(2){border-radius:6px;box-shadow:0 1px 3px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.04)}
+.hero-card:nth-child(3){border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.06),0 2px 4px rgba(0,0,0,.04)}
+.hero-card:nth-child(4){border-radius:12px;box-shadow:0 8px 16px rgba(0,0,0,.10),0 2px 6px rgba(0,0,0,.04)}
+.hero-card:nth-child(5){border-radius:9999px;box-shadow:0 20px 40px rgba(0,0,0,.12),0 8px 16px rgba(0,0,0,.06)}
+.hero-card:hover{transform:translateY(-8px) scale(1.05)}
 
-    .toc { padding: 20px; margin-bottom: 36px; }
-    .toc-grid { grid-template-columns: 1fr; }
-    .toc-file-label { margin-top: 14px; }
+@keyframes fadeIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 
-    .section { margin-bottom: 48px; }
-    .section-title { font-size: 20px; }
-    .section-sub { font-size: 13px; }
+/* ═══ NAV ═══ */
+.nav-pills{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;position:sticky;top:0;z-index:50;background:rgba(5,10,6,.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);padding:16px 0}
+.nav-pill{padding:7px 16px;border-radius:100px;font-size:12px;font-weight:600;color:#9CA3AF;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);text-decoration:none;transition:all .2s}
+.nav-pill:hover,.nav-pill.active{background:rgba(22,163,74,.12);border-color:rgba(22,163,74,.3);color:#4ADE80}
 
-    .g2, .g3, .g4 { grid-template-columns: 1fr; }
-    .card { padding: 16px; }
+/* ═══ LAYOUT ═══ */
+.page{max-width:1120px;margin:0 auto;padding:0 32px 80px}
+.section{margin-bottom:80px}
+.section-header{margin-bottom:32px}
+.section-tag{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#22C55E;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.section-tag::after{content:'';flex:1;height:1px;background:rgba(22,163,74,.2)}
+.section-title{font-size:28px;font-weight:700;color:#fff;margin-bottom:8px;letter-spacing:-.01em}
+.section-sub{font-size:14px;color:#9CA3AF;line-height:1.7;max-width:640px}
 
-    /* Tables — horizontal scroll */
-    table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-    .ds-table-wrap, .tbl-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+/* ═══ SHADOW LEVELS ═══ */
+.shadow-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px}
+.shadow-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:24px;cursor:pointer;transition:all .3s;text-align:center}
+.shadow-card:hover{border-color:rgba(255,255,255,.12)}
+.shadow-card.active{border-color:rgba(22,163,74,.4);background:rgba(22,163,74,.04)}
+.shadow-preview{width:100%;height:72px;background:#fff;border-radius:10px;margin-bottom:16px;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;color:#374151;transition:all .4s cubic-bezier(.4,0,.2,1)}
+.shadow-card:hover .shadow-preview{transform:translateY(-2px)}
+.shadow-name{font-size:14px;font-weight:700;color:#fff;margin-bottom:2px}
+.shadow-token{font-family:'SF Mono','Fira Code',monospace;font-size:11px;color:#6B7280;margin-bottom:6px}
+.shadow-components{font-size:11px;color:#4B5563;line-height:1.5}
 
-    /* Code blocks */
-    .code-block { padding: 14px 16px; font-size: 11px; }
+/* Selected shadow detail */
+.shadow-detail{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:24px;display:flex;gap:24px;align-items:center;margin-bottom:16px;transition:all .3s}
+.shadow-detail-preview{width:120px;height:80px;background:#fff;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-weight:700;color:#374151;transition:all .5s}
+.shadow-detail-info{flex:1}
+.shadow-detail-name{font-size:18px;font-weight:700;color:#fff;margin-bottom:4px}
+.shadow-detail-css{font-family:'SF Mono','Fira Code',monospace;font-size:12px;color:#9CA3AF;line-height:1.8;background:rgba(0,0,0,.3);padding:12px 16px;border-radius:8px;margin-top:12px;word-break:break-all}
 
-    /* Do/Don't cards */
-    .do-card, .dont-card { padding: 16px; }
+/* ═══ RADIUS TOKENS ═══ */
+.radius-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:32px}
+.radius-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:20px;text-align:center;cursor:pointer;transition:all .3s}
+.radius-card:hover{border-color:rgba(255,255,255,.12)}
+.radius-card.active{border-color:rgba(22,163,74,.4);background:rgba(22,163,74,.04)}
+.radius-shape{width:64px;height:64px;background:rgba(22,163,74,.15);border:2px solid rgba(22,163,74,.4);margin:0 auto 12px;transition:all .4s cubic-bezier(.4,0,.2,1)}
+.radius-card:hover .radius-shape{border-color:#22C55E;background:rgba(22,163,74,.25);transform:scale(1.08)}
+.radius-name{font-size:13px;font-weight:700;color:#fff;margin-bottom:2px}
+.radius-value{font-family:'SF Mono','Fira Code',monospace;font-size:11px;color:#6B7280;margin-bottom:4px}
+.radius-role{font-size:10px;color:#4B5563}
 
-    /* Shadow demo cards */
-    .shadow-demo { flex-wrap: wrap; }
+/* ═══ COMBINED PLAYGROUND ═══ */
+.playground{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:28px;overflow:hidden}
+.playground-controls{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px}
+.playground-control label{display:block;font-size:11px;font-weight:600;color:#9CA3AF;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.playground-control select{width:100%;padding:8px 12px;border-radius:8px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:#fff;font-family:inherit;font-size:13px;outline:none;cursor:pointer;appearance:none;-webkit-appearance:none}
+.playground-scene{background:#F3F4F6;border-radius:12px;padding:40px;display:flex;align-items:center;justify-content:center;min-height:200px}
+.playground-card{background:#fff;width:100%;max-width:360px;transition:all .5s cubic-bezier(.4,0,.2,1)}
+.pg-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.pg-title{font-size:15px;font-weight:700;color:#111827}
+.pg-badge{font-size:11px;font-weight:600;background:#DCFCE7;color:#15803D;padding:3px 10px;border-radius:100px}
+.pg-text{font-size:13px;color:#6B7280;line-height:1.5;margin-bottom:16px}
+.pg-footer{display:flex;gap:8px}
+.pg-btn{padding:8px 16px;border-radius:6px;font-size:12px;font-weight:600;border:none;font-family:inherit;cursor:pointer}
+.pg-btn-primary{background:#16A34A;color:#fff}
+.pg-btn-outline{background:transparent;color:#374151;border:1px solid #E5E7EB}
+.playground-readout{margin-top:16px;display:flex;gap:12px;flex-wrap:wrap}
+.readout-chip{background:rgba(0,0,0,.2);border-radius:8px;padding:8px 14px;font-family:'SF Mono','Fira Code',monospace;font-size:12px;color:#9CA3AF}
+.readout-chip strong{color:#fff}
 
-    /* Inline grids — handled via universal rule */
-    [style*="grid-template-columns: repeat(4"] { grid-template-columns: repeat(2, 1fr) !important; }
+/* ═══ COMPONENT MAP ═══ */
+.map-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.map-card{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:16px 20px;display:flex;align-items:center;gap:16px;transition:all .25s}
+.map-card:hover{border-color:rgba(255,255,255,.1);background:rgba(255,255,255,.04)}
+.map-level{font-family:'SF Mono','Fira Code',monospace;font-size:14px;font-weight:800;width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.map-info{flex:1}
+.map-name{font-size:13px;font-weight:600;color:#fff;margin-bottom:2px}
+.map-components{font-size:11px;color:#6B7280}
 
-    /* Footer nav */
-    .footer-nav { flex-direction: column; gap: 12px; }
-  }
+/* ═══ MISC ═══ */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .6s,transform .6s}.reveal.visible{opacity:1;transform:translateY(0)}
+.footer{text-align:center;padding:48px 24px;border-top:1px solid rgba(255,255,255,.05);font-size:12px;color:#4B5563}
+.footer a{color:#6B7280;text-decoration:none}.footer a:hover{color:#4ADE80}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:#9CA3AF;text-decoration:none;margin-bottom:12px;transition:color .2s}.back-link:hover{color:#4ADE80}
 
-  @media (max-width: 480px) {
-    .cover-title { font-size: 26px; }
-    .cover-meta { flex-direction: column; gap: 12px; }
-  }
-    [style*="grid-template-columns: repeat(4"] { grid-template-columns: 1fr !important; }
-  }
-
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:768px){
+  .page{padding:0 16px 48px}
+  .hero{padding:40px 20px;min-height:auto}
+  .hero-cards{gap:10px}
+  .hero-card{width:56px;height:56px;font-size:11px}
+  .nav-pills{gap:4px;padding:12px 16px}
+  .nav-pill{font-size:11px;padding:5px 12px}
+  .section{margin-bottom:48px}
+  .section-title{font-size:22px}
+  .shadow-grid{grid-template-columns:1fr 1fr}
+  .shadow-detail{flex-direction:column;gap:16px}
+  .shadow-detail-preview{width:100%;height:64px}
+  .radius-grid{grid-template-columns:repeat(3,1fr)}
+  .radius-shape{width:48px;height:48px}
+  .playground-controls{grid-template-columns:1fr}
+  .playground-scene{padding:24px}
+  .map-grid{grid-template-columns:1fr}
+}
+@media(max-width:480px){
+  .hero-title{font-size:36px}
+  .shadow-grid{grid-template-columns:1fr}
+  .radius-grid{grid-template-columns:repeat(2,1fr)}
+}
 </style>
 </head>
 <body>
-<div class="cover">
-  <div class="cover-inner">
-    <div class="cover-eyebrow"><span class="cover-eyebrow-dot"></span>VendHub Design System</div>
-    <h1 class="cover-title">Shadow &amp; <span>Elevation</span></h1>
-    <p class="cover-sub">6 semantic shadow levels (0–5) forming a clear depth hierarchy. Inspired by Linear, Vercel, and Stripe — ultra-soft dual-layer shadows. Replaces all Tailwind default shadows.</p>
-    <div class="cover-meta">
-      <div><div class="cover-meta-label">Document</div><div class="cover-meta-value">Shadow / Elevation</div></div>
-      <div><div class="cover-meta-label">Version</div><div class="cover-meta-value">v2.0 — L2.5 renamed to L3</div></div>
-      <div><div class="cover-meta-label">Stack</div><div class="cover-meta-value">Next.js + Tailwind v3.4 + shadcn/ui</div></div>
-      <div><div class="cover-meta-label">Updated</div><div class="cover-meta-value">April 2026</div></div>
-    </div>
-    <div class="cover-libs">
-      <span class="lib-tag lib-primary">◈ 6 Shadow Levels (0–5)</span>
-      <span class="lib-tag lib-secondary">Semantic Names</span>
-      <span class="lib-tag lib-amber">L3 raised — was L2.5</span>
-      <span class="lib-tag lib-gray">No Tailwind Defaults</span>
-    </div>
-    <div class="part-badge">
-      <strong>Shadow / Elevation System</strong> &nbsp;·&nbsp; Sections 01–08 &nbsp;·&nbsp;
-      See also: <a href="vendhub-border-radius.html">← Border Radius System</a>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-badge"><span class="hero-badge-dot"></span>VendHub Design System</div>
+    <h1 class="hero-title">Shadows &<br><span>Border Radius</span></h1>
+    <p class="hero-sub">6 elevation levels and 5 semantic radius tokens — together they define every surface in VendHub.</p>
+    <div class="hero-cards">
+      <div class="hero-card">L0</div>
+      <div class="hero-card">L2</div>
+      <div class="hero-card">L3</div>
+      <div class="hero-card">L4</div>
+      <div class="hero-card">L5</div>
     </div>
   </div>
-</div>
+</section>
+
+<!-- ═══ NAV ═══ -->
+<nav class="nav-pills">
+  <a class="nav-pill active" href="#shadows">Shadow Levels</a>
+  <a class="nav-pill" href="#radius">Border Radius</a>
+  <a class="nav-pill" href="#playground">Playground</a>
+  <a class="nav-pill" href="#mapping">Component Map</a>
+</nav>
+
 <div class="page">
-<div class="toc">
-  <div class="toc-title">On this page</div>
-  <div class="toc-file-label" style="margin-top:0">Shadow Elevation</div>
-  <div class="toc-grid">
-    <a href="#philosophy" class="toc-item"><span class="toc-num">01</span> Philosophy</a>    <a href="#levels"     class="toc-item"><span class="toc-num">02</span> All Six Levels</a>    <a href="#config"     class="toc-item"><span class="toc-num">03</span> Tailwind Config</a>    <a href="#raised"     class="toc-item"><span class="toc-num">04</span> L3 Raised (was L2.5)</a>    <a href="#mapping"    class="toc-item"><span class="toc-num">05</span> Component Mapping</a>    <a href="#patterns"   class="toc-item"><span class="toc-num">06</span> Copy-Paste Patterns</a>    <a href="#industry"   class="toc-item"><span class="toc-num">07</span> Industry Reference</a>    <a href="#migration"  class="toc-item"><span class="toc-num">08</span> Migration Map</a>
+
+<!-- ═══ 01 SHADOW LEVELS ═══ -->
+<div class="section reveal" id="shadows">
+  <div class="section-header">
+    <div class="section-tag">01 · Elevation</div>
+    <h2 class="section-title">6 Shadow Levels — Click to Inspect</h2>
+    <p class="section-sub">From flat (L0) to modal (L5). Each level serves a specific UI role. Click any card to see the CSS values.</p>
   </div>
-  <div class="toc-file-label">Border Radius</div>
-  <div class="toc-grid">
-    <a href="#philosophy" class="toc-item"><span class="toc-num">09</span> Philosophy</a>    <a href="#tokens"     class="toc-item"><span class="toc-num">10</span> Token Definitions</a>    <a href="#visual"     class="toc-item"><span class="toc-num">11</span> Visual Scale</a>    <a href="#mapping"    class="toc-item"><span class="toc-num">12</span> Component Mapping</a>    <a href="#dodont"     class="toc-item"><span class="toc-num">13</span> Do's &amp; Don'ts</a>    <a href="#migration"  class="toc-item"><span class="toc-num">14</span> Migration Map</a>
-  </div>
+
+  <div class="shadow-detail" id="shadow-detail"></div>
+  <div class="shadow-grid" id="shadow-grid"></div>
 </div>
 
-<div class="section" id="philosophy">
+<!-- ═══ 02 BORDER RADIUS ═══ -->
+<div class="section reveal" id="radius">
   <div class="section-header">
-    <div class="section-tag">01 · Philosophy</div>
-    <h2 class="section-title">Elevation-Based, Semantic, Perceptually Soft</h2>
-    <p class="section-sub">Every shadow token represents a fixed position in the UI elevation hierarchy. Tailwind's default shadows (<code>shadow-sm</code>, <code>shadow-lg</code>) are designed for documentation, not production UIs.</p>
+    <div class="section-tag">02 · Curvature</div>
+    <h2 class="section-title">5 Radius Tokens</h2>
+    <p class="section-sub">Semantic names replace arbitrary values. Every component maps to exactly one token — inline, control, container, surface, or pill.</p>
   </div>
 
-  <div class="g3" style="margin-bottom:24px">
-    <div class="card">
-      <div class="card-title">No Tailwind defaults</div>
-      <div class="card-body">Tailwind's built-in shadow scale (<code>shadow</code>, <code>shadow-md</code>, <code>shadow-xl</code>) has no semantic meaning — developers guess which to reach for. These tokens replace them entirely with names that describe <em>what the shadow is for</em>.</div>
-    </div>
-    <div class="card">
-      <div class="card-title">Dual-layer construction</div>
-      <div class="card-body">Higher levels use two shadow layers: a diffuse ambient layer (large radius, low opacity) plus a sharp key layer (tight radius, slightly higher opacity). This mirrors real-world light, making elevation feel physically grounded.</div>
-    </div>
-    <div class="card">
-      <div class="card-title">Always transition on hover</div>
-      <div class="card-body">Any component that changes shadow on interaction must include <code>transition-shadow duration-200</code>. Without it, the shadow snaps instantly and feels broken. This is a hard rule, not a suggestion.</div>
-    </div>
-  </div>
-
-  <div class="info-callout">
-    <strong>Alignment with spacing system:</strong> The shadow hierarchy mirrors the spacing system's tier structure. Components at the same density tier share the same shadow level — flat sections use none, page cards use card, floating panels use raised or dropdown, and elevated overlays use modal.
-  </div>
+  <div class="radius-grid" id="radius-grid"></div>
 </div>
 
-
-<!-- 02 ALL SIX LEVELS -->
-<div class="section" id="levels">
+<!-- ═══ 03 PLAYGROUND ═══ -->
+<div class="section reveal" id="playground">
   <div class="section-header">
-    <div class="section-tag">02 · Shadow Levels</div>
-    <h2 class="section-title">All Six Levels (0–5)</h2>
-    <p class="section-sub">Clean integer numbering. The old "L2.5" is now <strong>Level 3 (raised)</strong> — a proper first-class level, not a fractional afterthought. This aligns with Material Design 3's 6-level pattern.</p>
+    <div class="section-tag">03 · Playground</div>
+    <h2 class="section-title">Live Shadow + Radius</h2>
+    <p class="section-sub">Combine any shadow level with any radius token and see the result on a real card.</p>
   </div>
 
-  <!-- Visual showcase -->
-  <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:16px;margin-bottom:32px">
-    <div style="text-align:center">
-      <div class="shadow-demo" style="box-shadow:none;height:56px;display:flex;align-items:center;justify-content:center;">
-        <span style="font-size:13px;font-weight:600;color:var(--neutral-500)">L0</span>
+  <div class="playground">
+    <div class="playground-controls">
+      <div class="playground-control">
+        <label>Shadow Level</label>
+        <select id="pg-shadow">
+          <option value="none" data-css="none">L0 — none</option>
+          <option value="0 1px 2px rgba(0,0,0,0.04)" data-name="surface">L1 — surface</option>
+          <option value="0 1px 3px rgba(0,0,0,0.06),0 1px 2px rgba(0,0,0,0.04)" data-name="card" selected>L2 — card</option>
+          <option value="0 4px 12px rgba(0,0,0,0.06),0 2px 4px rgba(0,0,0,0.04)" data-name="raised">L3 — raised</option>
+          <option value="0 8px 16px rgba(0,0,0,0.10),0 2px 6px rgba(0,0,0,0.04)" data-name="dropdown">L4 — dropdown</option>
+          <option value="0 20px 40px rgba(0,0,0,0.12),0 8px 16px rgba(0,0,0,0.06)" data-name="modal">L5 — modal</option>
+        </select>
       </div>
-      <div class="shadow-label">none</div>
-      <div class="shadow-meta">flat</div>
-    </div>
-    <div style="text-align:center">
-      <div class="shadow-demo" style="box-shadow:0 1px 2px rgba(0,0,0,0.04);height:64px;display:flex;align-items:center;justify-content:center;">
-        <span style="font-size:13px;font-weight:600;color:var(--neutral-600)">L1</span>
-      </div>
-      <div class="shadow-label">surface</div>
-      <div class="shadow-meta">2px / 4%</div>
-    </div>
-    <div style="text-align:center">
-      <div class="shadow-demo" style="box-shadow:0 1px 3px rgba(0,0,0,0.06),0 1px 2px rgba(0,0,0,0.04);height:72px;display:flex;align-items:center;justify-content:center;">
-        <span style="font-size:13px;font-weight:600;color:var(--neutral-700)">L2</span>
-      </div>
-      <div class="shadow-label">card</div>
-      <div class="shadow-meta">3px / 6%</div>
-    </div>
-    <div style="text-align:center">
-      <div class="shadow-demo" style="box-shadow:0 4px 12px rgba(0,0,0,0.06),0 2px 4px rgba(0,0,0,0.04);height:80px;display:flex;align-items:center;justify-content:center;border-color:var(--primary-200);">
-        <span style="font-size:13px;font-weight:700;color:var(--primary-700)">L3</span>
-      </div>
-      <div class="shadow-label" style="color:var(--primary-700)">raised</div>
-      <div class="shadow-meta" style="color:var(--primary-500)">12px / 6%</div>
-    </div>
-    <div style="text-align:center">
-      <div class="shadow-demo" style="box-shadow:0 8px 16px rgba(0,0,0,0.10),0 2px 6px rgba(0,0,0,0.04);height:88px;display:flex;align-items:center;justify-content:center;">
-        <span style="font-size:13px;font-weight:600;color:var(--neutral-700)">L4</span>
-      </div>
-      <div class="shadow-label">dropdown</div>
-      <div class="shadow-meta">16px / 10%</div>
-    </div>
-    <div style="text-align:center">
-      <div class="shadow-demo" style="box-shadow:0 20px 40px rgba(0,0,0,0.12),0 8px 16px rgba(0,0,0,0.06);height:96px;display:flex;align-items:center;justify-content:center;">
-        <span style="font-size:13px;font-weight:600;color:var(--neutral-800)">L5</span>
-      </div>
-      <div class="shadow-label">modal</div>
-      <div class="shadow-meta">40px / 12%</div>
-    </div>
-  </div>
-
-  <!-- Elevation bar chart -->
-  <div class="card" style="background:var(--neutral-900);border-color:var(--neutral-700);padding:24px 32px">
-    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--neutral-500);margin-bottom:20px">Elevation Progression</div>
-    <div style="display:flex;align-items:flex-end;gap:16px;height:120px">
-      <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;justify-content:flex-end">
-        <div style="width:100%;height:12px;background:var(--neutral-700);border-radius:3px"></div>
-        <span style="font-size:11px;color:var(--neutral-500);font-family:monospace">L0 · none</span>
-      </div>
-      <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;justify-content:flex-end">
-        <div style="width:100%;height:24px;background:var(--neutral-600);border-radius:3px"></div>
-        <span style="font-size:11px;color:var(--neutral-500);font-family:monospace">L1 · surface</span>
-      </div>
-      <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;justify-content:flex-end">
-        <div style="width:100%;height:36px;background:var(--neutral-500);border-radius:3px"></div>
-        <span style="font-size:11px;color:var(--neutral-500);font-family:monospace">L2 · card</span>
-      </div>
-      <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;justify-content:flex-end">
-        <div style="width:100%;height:50px;background:var(--primary-600);border-radius:3px"></div>
-        <span style="font-size:11px;color:var(--primary-500);font-family:monospace">L3 · raised</span>
-      </div>
-      <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;justify-content:flex-end">
-        <div style="width:100%;height:72px;background:var(--neutral-400);border-radius:3px"></div>
-        <span style="font-size:11px;color:var(--neutral-500);font-family:monospace">L4 · dropdown</span>
-      </div>
-      <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;justify-content:flex-end">
-        <div style="width:100%;height:100px;background:var(--neutral-300);border-radius:3px"></div>
-        <span style="font-size:11px;color:var(--neutral-500);font-family:monospace">L5 · modal</span>
+      <div class="playground-control">
+        <label>Border Radius</label>
+        <select id="pg-radius">
+          <option value="4px" data-name="inline">inline — 4px</option>
+          <option value="6px" data-name="control">control — 6px</option>
+          <option value="8px" data-name="container" selected>container — 8px</option>
+          <option value="12px" data-name="surface">surface — 12px</option>
+          <option value="9999px" data-name="pill">pill — 9999px</option>
+        </select>
       </div>
     </div>
-  </div>
-</div>
-
-
-<!-- 03 TAILWIND CONFIG -->
-<div class="section" id="config">
-  <div class="section-header">
-    <div class="section-tag">03 · Tailwind Config</div>
-    <h2 class="section-title">Token Definitions</h2>
-    <p class="section-sub">Drop into <code>tailwind.config.ts</code> under <code>theme.extend.boxShadow</code>. Replaces all Tailwind default shadows.</p>
-  </div>
-
-  <div class="code-block" style="margin-bottom:24px">
-<span class="cm">// tailwind.config.ts → theme.extend.boxShadow</span>
-<span class="at">boxShadow</span>: {
-  <span class="cm">// L0 — absolutely flat (use Tailwind's built-in shadow-none)</span>
-
-  <span class="cm">// L1 — page sections, sticky bars, subtle separators</span>
-  <span class="fn">surface</span>:       <span class="str">"0 1px 2px rgba(0,0,0,0.04)"</span>,
-
-  <span class="cm">// L2 — default cards and UI blocks (dual-layer)</span>
-  <span class="fn">card</span>:          <span class="str">"0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04)"</span>,
-
-  <span class="cm">// L2 hover — interaction feedback on cards</span>
-  <span class="fn">"card-hover"</span>:  <span class="str">"0 4px 8px rgba(0,0,0,0.08)"</span>,
-
-  <span class="cm">// L3 — raised panels, sidebars, nested cards, in-page panels</span>
-  <span class="fn">raised</span>:        <span class="str">"0 4px 12px rgba(0,0,0,0.06), 0 2px 4px rgba(0,0,0,0.04)"</span>,
-
-  <span class="cm">// L4 — floating UI: dropdowns, selects, tooltips, popovers</span>
-  <span class="fn">dropdown</span>:      <span class="str">"0 8px 16px rgba(0,0,0,0.10), 0 2px 6px rgba(0,0,0,0.04)"</span>,
-
-  <span class="cm">// L5 — highest elevation: modals, dialogs, sheets, command palette</span>
-  <span class="fn">modal</span>:         <span class="str">"0 20px 40px rgba(0,0,0,0.12), 0 8px 16px rgba(0,0,0,0.06)"</span>,
-},
-  </div>
-
-  <div class="warn-callout">
-    <strong>Naming change:</strong> The old "L2.5" is now <strong>L3 (raised)</strong>. Old L3 (dropdown) is now <strong>L4</strong>. Old L4 (modal) is now <strong>L5</strong>. The token names (<code>shadow-raised</code>, <code>shadow-dropdown</code>, <code>shadow-modal</code>) are unchanged — only the level numbers shifted. Code using semantic token names needs zero changes.
-  </div>
-</div>
-
-
-<!-- 04 L3 RAISED -->
-<div class="section" id="raised">
-  <div class="section-header">
-    <div class="section-tag">04 · L3 Raised</div>
-    <h2 class="section-title">Why "Raised" Is a First-Class Level</h2>
-    <p class="section-sub">The gap between <code>shadow-card</code> (3px/6%) and <code>shadow-dropdown</code> (16px/10%) was too large — a full 13px spread jump with no intermediate step. Several VendHub components lived in this gap and were being misassigned to Tailwind defaults.</p>
-  </div>
-
-  <div class="g2" style="margin-bottom:24px">
-    <div class="card" style="border-color:var(--primary-200);background:var(--primary-50)">
-      <div class="card-title" style="color:var(--primary-700);margin-bottom:12px">
-        <span class="badge bg-green" style="margin-right:8px">L3</span> shadow-raised
-      </div>
-      <div class="code-block" style="font-size:11px;margin-bottom:12px">
-<span class="str">"0 4px 12px rgba(0,0,0,0.06), 0 2px 4px rgba(0,0,0,0.04)"</span>
-      </div>
-      <div class="card-body" style="color:var(--primary-700)">Sits between card (3px) and dropdown (16px). The diffuse layer at 12px spread creates clear visual separation without the full floating appearance of a dropdown. Dual-layer construction grounds the component while the increased spread signals additional prominence.</div>
-    </div>
-    <div class="card">
-      <div class="card-title">Why the gap existed — and hurt</div>
-      <div class="card-body">The original system had L2 (card) jump directly to L3 (dropdown) — a 13px spread increase. Components like BuyerRouteCard sidebar, admin content panels, and nested cards couldn't sit at L2 (too subtle) but didn't belong at dropdown (too heavy). Developers reached for <code>shadow-lg</code> from Tailwind's defaults, bypassing the token system entirely.</div>
-    </div>
-  </div>
-
-  <div class="card" style="padding:0;overflow:hidden;margin-bottom:24px">
-    <div style="padding:14px 20px;background:var(--neutral-50);border-bottom:1px solid var(--neutral-200);font-size:12px;font-weight:700;color:var(--neutral-600)">Components at L3 (raised)</div>
-    <table class="tbl">
-      <thead><tr><th>Component</th><th>Previous (Wrong)</th><th>Correct</th><th>Why</th></tr></thead>
-      <tbody>
-        <tr><td>BuyerRouteCard (sidebar)</td><td><code style="color:var(--error-500)">shadow-lg</code></td><td><code style="background:var(--primary-50);color:var(--primary-700);border-color:var(--primary-100)">shadow-raised</code></td><td>Inlaid panel — elevated but not floating</td></tr>
-        <tr><td>Admin sidebar content panel</td><td><code style="color:var(--error-500)">shadow-sm</code></td><td><code style="background:var(--primary-50);color:var(--primary-700);border-color:var(--primary-100)">shadow-raised</code></td><td>Needs more prominence than a list card</td></tr>
-        <tr><td>Detail drawer (within page)</td><td><code style="color:var(--error-500)">shadow-md</code></td><td><code style="background:var(--primary-50);color:var(--primary-700);border-color:var(--primary-100)">shadow-raised</code></td><td>In-page overlay, not a full Sheet</td></tr>
-        <tr><td>Nested card within a card</td><td><code style="color:var(--error-500)">shadow</code> or <code style="color:var(--error-500)">shadow-md</code></td><td><code style="background:var(--primary-50);color:var(--primary-700);border-color:var(--primary-100)">shadow-raised</code></td><td>Must read as elevated above parent</td></tr>
-        <tr><td>Sticky summary bar (in-page)</td><td><code style="color:var(--error-500)">shadow-md</code></td><td><code style="background:var(--primary-50);color:var(--primary-700);border-color:var(--primary-100)">shadow-raised</code></td><td>Sticky but not floating</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="info-callout">
-    <strong>Optical justification:</strong> The L3 shadow (<code>0 4px 12px rgba(0,0,0,0.06)</code>) is optically positioned at the midpoint of the L2→L4 perceptual range, not the mathematical midpoint. Shadow perception is logarithmic — a 6px spread looks far closer to 3px than to 16px. The 12px value was chosen to land at approximately equal perceptual distance from both neighbors.
-  </div>
-</div>
-
-
-<!-- 05 COMPONENT MAPPING -->
-<div class="section" id="mapping">
-  <div class="section-header">
-    <div class="section-tag">05 · Component Mapping</div>
-    <h2 class="section-title">Shadow Component Mapping</h2>
-    <p class="section-sub">One shadow per component type. No stacking, no Tailwind defaults.</p>
-  </div>
-
-  <div class="card" style="padding:0;overflow:hidden;margin-bottom:24px">
-    <table class="tbl">
-      <thead><tr><th>Level</th><th>Component / Context</th><th>Token</th><th>Notes</th></tr></thead>
-      <tbody>
-        <tr>
-          <td><span class="level-badge" style="background:var(--neutral-100);color:var(--neutral-600)">L0</span></td>
-          <td>Flat sections, table rows, nav items</td>
-          <td><code>shadow-none</code> + border</td>
-          <td>Border alone separates; shadow would create noise</td>
-        </tr>
-        <tr>
-          <td><span class="level-badge" style="background:var(--neutral-100);color:var(--neutral-700)">L1</span></td>
-          <td>Sticky bars, page section headers</td>
-          <td><code>shadow-surface</code></td>
-          <td>Minimal separation from the page</td>
-        </tr>
-        <tr>
-          <td><span class="level-badge" style="background:var(--info-50);color:var(--info-700)">L2</span></td>
-          <td>Cards (at rest), list items, form containers</td>
-          <td><code>shadow-card</code></td>
-          <td>Default for all card surfaces — pair with border</td>
-        </tr>
-        <tr>
-          <td><span class="level-badge" style="background:var(--info-50);color:var(--info-700)">L2↑</span></td>
-          <td>Cards (on hover)</td>
-          <td><code>hover:shadow-card-hover</code></td>
-          <td>Must include <code>transition-shadow duration-200</code></td>
-        </tr>
-        <tr style="background:var(--primary-50)">
-          <td><span class="level-badge" style="background:var(--primary-100);color:var(--primary-700)">L3</span></td>
-          <td>Raised panels, nested cards, sticky in-page bars, detail drawers</td>
-          <td><code>shadow-raised</code></td>
-          <td>Elevated but not floating</td>
-        </tr>
-        <tr>
-          <td><span class="level-badge" style="background:var(--warning-50);color:var(--warning-700)">L4</span></td>
-          <td>Dropdown, Select, Tooltip, Popover, Combobox</td>
-          <td><code>shadow-dropdown</code></td>
-          <td>Floating above page content — visibly detached</td>
-        </tr>
-        <tr>
-          <td><span class="level-badge" style="background:var(--neutral-800);color:#fff">L5</span></td>
-          <td>Dialog, AlertDialog, Sheet, Command palette</td>
-          <td><code>shadow-modal</code></td>
-          <td>Highest elevation in the entire UI</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div style="background:var(--error-50);border:1px solid var(--error-200);border-radius:8px;padding:14px 18px;font-size:13px;color:var(--error-700);line-height:1.6">
-    <strong>Critical interaction rule:</strong> All interactive surfaces that change shadow on hover must include <code>transition-shadow duration-200</code>. Full hover card pattern: <code>shadow-card hover:shadow-card-hover transition-shadow duration-200</code>.
-  </div>
-</div>
-
-
-<!-- 06 COPY-PASTE PATTERNS -->
-<div class="section" id="patterns">
-  <div class="section-header">
-    <div class="section-tag">06 · Patterns</div>
-    <h2 class="section-title">Copy-Paste Patterns</h2>
-    <p class="section-sub">Complete <code>className</code> patterns combining radius and shadow tokens for every common component type.</p>
-  </div>
-
-  <div class="g2" style="margin-bottom:16px">
-    <div class="card" style="padding:0;overflow:hidden">
-      <div style="padding:12px 16px;background:var(--neutral-50);border-bottom:1px solid var(--neutral-200);font-size:12px;font-weight:600;color:var(--neutral-600)">Card (standard)</div>
-      <div style="padding:20px;background:var(--neutral-100);display:flex;justify-content:center">
-        <div style="background:#fff;border:1px solid var(--neutral-200);border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,0.06),0 1px 2px rgba(0,0,0,0.04);padding:16px 20px;font-size:12px;color:var(--neutral-500);width:180px;text-align:center">Card component</div>
-      </div>
-      <div style="padding:14px 16px;font-family:monospace;font-size:11px;color:var(--primary-700);background:var(--primary-50);line-height:1.8">rounded-container border bg-background shadow-card hover:shadow-card-hover transition-shadow duration-200</div>
-    </div>
-    <div class="card" style="padding:0;overflow:hidden">
-      <div style="padding:12px 16px;background:var(--neutral-50);border-bottom:1px solid var(--neutral-200);font-size:12px;font-weight:600;color:var(--neutral-600)">Raised Panel <span class="badge bg-green" style="margin-left:8px;font-size:10px">L3</span></div>
-      <div style="padding:20px;background:var(--neutral-100);display:flex;justify-content:center">
-        <div style="background:#fff;border:1px solid var(--neutral-200);border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.06),0 2px 4px rgba(0,0,0,0.04);padding:16px 20px;font-size:12px;color:var(--neutral-500);width:180px;text-align:center">Raised panel</div>
-      </div>
-      <div style="padding:14px 16px;font-family:monospace;font-size:11px;color:var(--primary-700);background:var(--primary-50);line-height:1.8">rounded-container border bg-background shadow-raised</div>
-    </div>
-  </div>
-  <div class="g2" style="margin-bottom:16px">
-    <div class="card" style="padding:0;overflow:hidden">
-      <div style="padding:12px 16px;background:var(--neutral-50);border-bottom:1px solid var(--neutral-200);font-size:12px;font-weight:600;color:var(--neutral-600)">Dropdown / Popover</div>
-      <div style="padding:20px;background:var(--neutral-100);display:flex;justify-content:center">
-        <div style="background:#fff;border:1px solid var(--neutral-200);border-radius:8px;box-shadow:0 8px 16px rgba(0,0,0,0.10),0 2px 6px rgba(0,0,0,0.04);padding:12px 20px;font-size:12px;color:var(--neutral-500);width:160px;text-align:center">Dropdown content</div>
-      </div>
-      <div style="padding:14px 16px;font-family:monospace;font-size:11px;color:var(--primary-700);background:var(--primary-50)">rounded-container bg-popover shadow-dropdown</div>
-    </div>
-    <div class="card" style="padding:0;overflow:hidden">
-      <div style="padding:12px 16px;background:var(--neutral-50);border-bottom:1px solid var(--neutral-200);font-size:12px;font-weight:600;color:var(--neutral-600)">Modal / Dialog</div>
-      <div style="padding:20px;background:rgba(0,0,0,0.06);display:flex;justify-content:center">
-        <div style="background:#fff;border-radius:12px;box-shadow:0 20px 40px rgba(0,0,0,0.12),0 8px 16px rgba(0,0,0,0.06);padding:16px 20px;font-size:12px;color:var(--neutral-500);width:180px;text-align:center">Dialog content</div>
-      </div>
-      <div style="padding:14px 16px;font-family:monospace;font-size:11px;color:var(--primary-700);background:var(--primary-50)">rounded-surface bg-background shadow-modal</div>
-    </div>
-  </div>
-
-  <div class="g3">
-    <div class="card" style="padding:0;overflow:hidden">
-      <div style="padding:10px 16px;background:var(--neutral-50);border-bottom:1px solid var(--neutral-200);font-size:12px;font-weight:600;color:var(--neutral-600)">Button</div>
-      <div style="padding:12px 16px;font-family:monospace;font-size:10px;color:var(--neutral-600);line-height:1.8">rounded-control shadow-surface active:scale-[0.98] active:brightness-95 transition-all duration-150</div>
-    </div>
-    <div class="card" style="padding:0;overflow:hidden">
-      <div style="padding:10px 16px;background:var(--neutral-50);border-bottom:1px solid var(--neutral-200);font-size:12px;font-weight:600;color:var(--neutral-600)">Input Field</div>
-      <div style="padding:12px 16px;font-family:monospace;font-size:10px;color:var(--neutral-600);line-height:1.8">rounded-control border bg-background shadow-surface hover:border-primary-300 transition-colors</div>
-    </div>
-    <div class="card" style="padding:0;overflow:hidden">
-      <div style="padding:10px 16px;background:var(--neutral-50);border-bottom:1px solid var(--neutral-200);font-size:12px;font-weight:600;color:var(--neutral-600)">Badge / Tag</div>
-      <div style="padding:12px 16px;font-family:monospace;font-size:10px;color:var(--neutral-600);line-height:1.8">rounded-pill bg-muted text-muted-foreground px-2 py-0.5 text-labelSm</div>
-    </div>
-  </div>
-</div>
-
-
-<!-- 07 INDUSTRY REFERENCE -->
-<div class="section" id="industry">
-  <div class="section-header">
-    <div class="section-tag">07 · Industry Reference</div>
-    <h2 class="section-title">How Many Levels Are Ideal?</h2>
-    <p class="section-sub">The optimal number is 5–6 semantic levels. This is the consensus across major design systems.</p>
-  </div>
-
-  <div class="g3" style="margin-bottom:16px">
-    <div class="card">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
-        <div style="width:24px;height:24px;background:var(--neutral-100);border-radius:6px;display:flex;align-items:center;justify-content:center">
-          <div style="width:10px;height:10px;background:var(--neutral-400);border-radius:2px"></div>
+    <div class="playground-scene">
+      <div class="playground-card" id="pg-card" style="border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,0.06),0 1px 2px rgba(0,0,0,0.04);padding:24px">
+        <div class="pg-header">
+          <div class="pg-title">Route Dashboard</div>
+          <div class="pg-badge">Active</div>
         </div>
-        <div style="font-size:14px;font-weight:600;color:var(--neutral-900)">Material Design 3</div>
-      </div>
-      <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:12px">
-        <span class="badge bg-gray">0 — flat</span><span class="badge bg-gray">1 — tonal</span><span class="badge bg-gray">2 — card</span><span class="badge bg-gray">3 — floating</span><span class="badge bg-gray">4 — nav drawer</span><span class="badge bg-gray">5 — dialog</span>
-      </div>
-      <div class="card-body"><strong>6 levels (0–5).</strong> Google names each level after its primary use case, not pixel values. VendHub directly mirrors this philosophy.</div>
-    </div>
-    <div class="card">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
-        <div style="width:24px;height:24px;background:var(--neutral-100);border-radius:6px;display:flex;align-items:center;justify-content:center">
-          <div style="width:12px;height:4px;background:var(--neutral-400);border-radius:1px"></div>
+        <div class="pg-text">24 active routes across 312 stops. Revenue is up 15% this week.</div>
+        <div class="pg-footer">
+          <div class="pg-btn pg-btn-primary">View Routes</div>
+          <div class="pg-btn pg-btn-outline">Export</div>
         </div>
-        <div style="font-size:14px;font-weight:600;color:var(--neutral-900)">Linear App</div>
       </div>
-      <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:12px">
-        <span class="badge bg-gray">0 — none</span><span class="badge bg-gray">1 — card</span><span class="badge bg-gray">2 — overlay</span><span class="badge bg-gray">3 — modal</span>
-      </div>
-      <div class="card-body"><strong>4 levels.</strong> Extremely soft. Linear's flat-first UI needs fewer levels. Fewer = more intentional.</div>
     </div>
-    <div class="card">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
-        <div style="width:24px;height:24px;background:var(--neutral-100);border-radius:6px;display:flex;align-items:center;justify-content:center">
-          <div style="width:10px;height:10px;background:var(--neutral-400);border-radius:2px"></div>
-        </div>
-        <div style="font-size:14px;font-weight:600;color:var(--neutral-900)">Stripe</div>
-      </div>
-      <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:12px">
-        <span class="badge bg-gray">xs — surface</span><span class="badge bg-gray">sm — card</span><span class="badge bg-gray">md — dropdown</span><span class="badge bg-gray">lg — modal</span><span class="badge bg-gray">xl — overlay</span>
-      </div>
-      <div class="card-body"><strong>5 levels.</strong> Size-named tokens with documented semantic intent. Clear escalation from subtle surface to full overlay.</div>
-    </div>
-  </div>
-  <div class="g3" style="margin-bottom:24px">
-    <div class="card">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
-        <div style="width:24px;height:24px;background:var(--neutral-100);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--neutral-500)">◉</div>
-        <div style="font-size:14px;font-weight:600;color:var(--neutral-900)">GitHub Primer</div>
-      </div>
-      <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:12px">
-        <span class="badge bg-gray">resting</span><span class="badge bg-gray">raised</span><span class="badge bg-gray">overlay</span><span class="badge bg-gray">floating</span><span class="badge bg-gray">dialog</span>
-      </div>
-      <div class="card-body"><strong>5 levels, named by role.</strong> GitHub's "raised" is directly analogous to VendHub's L3 — a level for panels that are elevated but not floating.</div>
-    </div>
-    <div class="card">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
-        <div style="width:24px;height:24px;background:var(--neutral-100);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--neutral-500)">V</div>
-        <div style="font-size:14px;font-weight:600;color:var(--neutral-900)">Vercel</div>
-      </div>
-      <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:12px">
-        <span class="badge bg-gray">small</span><span class="badge bg-gray">medium</span><span class="badge bg-gray">large</span><span class="badge bg-gray">extra-large</span>
-      </div>
-      <div class="card-body"><strong>4 levels, ultra-soft.</strong> Vercel's dark-first interface needs fewer, subtler shadows. Size tokens with semantic docs.</div>
-    </div>
-    <div class="card" style="border-color:var(--primary-200);background:var(--primary-50)">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
-        <div style="width:24px;height:24px;background:var(--primary-100);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--primary-700)">V</div>
-        <div style="font-size:14px;font-weight:600;color:var(--primary-700)">VendHub (this system)</div>
-      </div>
-      <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:12px">
-        <span class="badge bg-green">L0 — none</span><span class="badge bg-green">L1 — surface</span><span class="badge bg-green">L2 — card</span><span class="badge bg-green">L3 — raised</span><span class="badge bg-green">L4 — dropdown</span><span class="badge bg-green">L5 — modal</span>
-      </div>
-      <div class="card-body" style="color:var(--primary-700)"><strong>6 levels (0–5).</strong> Aligns with Material Design 3's count. Clean integer numbering. The L3 (raised) level fills the gap that GitHub Primer also fills with their "raised" token.</div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-title" style="margin-bottom:12px">Advisory: When to stop adding levels</div>
-    <div class="card-body">A new level is justified only when a real component cannot be correctly assigned to any existing level, AND when that component is perceptually distinct from its nearest neighbors. VendHub's L3 passes both tests. Adding a 7th level (e.g. between dropdown and modal) would not pass the second test — the jump from 16px to 40px maps cleanly to "floating vs. blocking." Do not add levels without concrete justification — more levels create decision fatigue, not precision.</div>
+    <div class="playground-readout" id="pg-readout"></div>
   </div>
 </div>
 
-
-<!-- 08 MIGRATION MAP -->
-<div class="section" id="migration">
+<!-- ═══ 04 COMPONENT MAP ═══ -->
+<div class="section reveal" id="mapping">
   <div class="section-header">
-    <div class="section-tag">08 · Migration</div>
-    <h2 class="section-title">Shadow Migration Map</h2>
-    <p class="section-sub">Search-and-replace guide. P1 fixes eliminate Tailwind defaults. All use semantic token names.</p>
+    <div class="section-tag">04 · Mapping</div>
+    <h2 class="section-title">Component → Token Map</h2>
+    <p class="section-sub">Every component maps to exactly one shadow level. No stacking, no overrides.</p>
   </div>
-
-  <div class="card" style="padding:0;overflow:hidden;margin-bottom:24px">
-    <table class="tbl">
-      <thead><tr><th>Remove</th><th></th><th>Replace With</th><th>Applies To</th><th>Priority</th></tr></thead>
-      <tbody>
-        <tr>
-          <td><code style="color:var(--error-500)">shadow-sm</code></td>
-          <td style="color:var(--primary-500);font-weight:700">→</td>
-          <td><code style="background:var(--primary-50);color:var(--primary-700);border-color:var(--primary-100)">shadow-surface</code></td>
-          <td>Sticky bars, subtle separators</td>
-          <td><span class="badge bg-yellow">P1</span></td>
-        </tr>
-        <tr>
-          <td><code style="color:var(--error-500)">shadow</code></td>
-          <td style="color:var(--primary-500);font-weight:700">→</td>
-          <td><code style="background:var(--primary-50);color:var(--primary-700);border-color:var(--primary-100)">shadow-card</code></td>
-          <td>Cards, panels, list items</td>
-          <td><span class="badge bg-yellow">P1</span></td>
-        </tr>
-        <tr>
-          <td><code style="color:var(--error-500)">shadow-md</code></td>
-          <td style="color:var(--primary-500);font-weight:700">→</td>
-          <td><code style="background:var(--primary-50);color:var(--primary-700);border-color:var(--primary-100)">shadow-raised</code> or <code style="background:var(--primary-50);color:var(--primary-700);border-color:var(--primary-100)">shadow-dropdown</code></td>
-          <td>Audit: inlaid panels → raised; floating → dropdown</td>
-          <td><span class="badge bg-yellow">P1</span></td>
-        </tr>
-        <tr>
-          <td><code style="color:var(--error-500)">shadow-lg</code></td>
-          <td style="color:var(--primary-500);font-weight:700">→</td>
-          <td><code style="background:var(--primary-50);color:var(--primary-700);border-color:var(--primary-100)">shadow-raised</code> <span class="badge bg-green" style="font-size:9px">was L2.5</span></td>
-          <td>BuyerRouteCard, admin panels — NOT modal-level</td>
-          <td><span class="badge bg-yellow">P1</span></td>
-        </tr>
-        <tr>
-          <td><code style="color:var(--error-500)">shadow-xl</code>, <code style="color:var(--error-500)">shadow-2xl</code></td>
-          <td style="color:var(--primary-500);font-weight:700">→</td>
-          <td><code style="background:var(--primary-50);color:var(--primary-700);border-color:var(--primary-100)">shadow-modal</code></td>
-          <td>Dialogs, sheets, high-elevation overlays</td>
-          <td><span class="badge bg-yellow">P1</span></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="g2">
-    <div class="card" style="background:var(--warning-50);border-color:var(--warning-200)">
-      <div class="card-title" style="color:var(--warning-700)">Priority Fixes — Audit First</div>
-      <div class="card-body" style="color:var(--warning-700);line-height:1.8">
-        BuyerRouteCard uses <code>shadow-lg</code> → replace with <code>shadow-raised</code>.<br>
-        DashboardModule uses <code>shadow-sm</code> → replace with <code>shadow-card</code>.<br>
-        Admin <code>p-2</code> layout → also change to <code>p-4 sm:p-6</code> per spacing system.
-      </div>
-    </div>
-    <div class="card" style="background:var(--error-50);border-color:var(--error-200)">
-      <div class="card-title" style="color:var(--error-700)">Add Transition on Every Hover</div>
-      <div class="card-body" style="color:var(--error-700);line-height:1.8">
-        Every card-level and raised-level component that has a hover state must add <code>transition-shadow duration-200</code>. Missing transitions on existing hover cards are a P1 fix.
-      </div>
-    </div>
-  </div>
+  <div class="map-grid" id="map-grid"></div>
 </div>
 
-<div style="border-top: 2px solid var(--neutral-200); margin: 48px 0 48px; display:flex; align-items:center; gap:16px;">
-  <span style="font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:var(--neutral-500); white-space:nowrap;">Border Radius System</span>
-  <div style="flex:1; height:1px; background:var(--neutral-200);"></div>
-</div>
+</div><!-- /page -->
 
-<div class="section" id="philosophy-br">
-  <div class="section-header">
-    <div class="section-tag">09 · Philosophy</div>
-    <h2 class="section-title">Semantic, Role-Based Curvature</h2>
-    <p class="section-sub">Radius is assigned by component role, not by size or aesthetics. Every developer has one answer to "what radius does this component use?" — zero guessing between <code>rounded-md</code>, <code>rounded-lg</code>, and <code>rounded-xl</code>.</p>
-  </div>
+<footer class="footer">
+  <a href="index.html" class="back-link">← Back to Design System</a><br>
+  VendHub Design System · Designed & documented by <a href="https://sorwoar.framer.website/" target="_blank">Sorwoar Resim</a>
+</footer>
 
-  <div class="g3" style="margin-bottom:24px">
-    <div class="card">
-      <div class="card-title">Role, not size</div>
-      <div class="card-body">A button and an input share the same radius because they occupy the same semantic tier — interactive controls. Size alone should never determine curvature.</div>
+<script>
+// ═══ DATA ═══
+const shadows = [
+  {level:0,name:'none',label:'Flat',css:'none',components:'Table rows, nav items, flat sections',color:'#4B5563',bg:'rgba(75,85,99,.15)'},
+  {level:1,name:'surface',label:'Surface',css:'0 1px 2px rgba(0,0,0,0.04)',components:'Sticky bars, section headers',color:'#6B7280',bg:'rgba(107,114,128,.15)'},
+  {level:2,name:'card',label:'Card',css:'0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04)',components:'Cards (at rest), form containers',color:'#3B82F6',bg:'rgba(59,130,246,.12)'},
+  {level:3,name:'raised',label:'Raised',css:'0 4px 12px rgba(0,0,0,0.06), 0 2px 4px rgba(0,0,0,0.04)',components:'Raised panels, nested cards, sidebars',color:'#22C55E',bg:'rgba(34,197,94,.12)'},
+  {level:4,name:'dropdown',label:'Dropdown',css:'0 8px 16px rgba(0,0,0,0.10), 0 2px 6px rgba(0,0,0,0.04)',components:'Dropdowns, tooltips, popovers',color:'#F59E0B',bg:'rgba(245,158,11,.12)'},
+  {level:5,name:'modal',label:'Modal',css:'0 20px 40px rgba(0,0,0,0.12), 0 8px 16px rgba(0,0,0,0.06)',components:'Dialogs, sheets, command palette',color:'#fff',bg:'rgba(17,24,39,.8)'},
+];
+
+const radii = [
+  {name:'inline',value:'4px',role:'Inline elements',components:'Code chips, micro-tags'},
+  {name:'control',value:'6px',role:'Interactive controls',components:'Buttons, inputs, selects'},
+  {name:'container',value:'8px',role:'UI containers',components:'Cards, panels, dropdowns'},
+  {name:'surface',value:'12px',role:'Elevated surfaces',components:'Modals, dialogs, sheets'},
+  {name:'pill',value:'9999px',role:'Fully rounded',components:'Badges, tags, status dots'},
+];
+
+const componentMap = [
+  {level:'L0',name:'Flat sections',components:'Table rows, list items, nav links',color:'#4B5563',bg:'rgba(75,85,99,.15)'},
+  {level:'L1',name:'Sticky bars',components:'Page headers, section dividers',color:'#6B7280',bg:'rgba(107,114,128,.15)'},
+  {level:'L2',name:'Cards at rest',components:'Product cards, stat cards, forms',color:'#3B82F6',bg:'rgba(59,130,246,.12)'},
+  {level:'L3',name:'Raised panels',components:'Nested cards, sidebars, detail drawers',color:'#22C55E',bg:'rgba(34,197,94,.12)'},
+  {level:'L4',name:'Floating UI',components:'Select menus, tooltips, popovers',color:'#F59E0B',bg:'rgba(245,158,11,.12)'},
+  {level:'L5',name:'Overlays',components:'Modals, sheets, command palette',color:'#fff',bg:'rgba(17,24,39,.8)'},
+];
+
+// ═══ SHADOW GRID ═══
+const shadowGrid = document.getElementById('shadow-grid');
+const shadowDetail = document.getElementById('shadow-detail');
+let activeShadow = 2;
+
+function renderShadowDetail(idx) {
+  const s = shadows[idx];
+  activeShadow = idx;
+  shadowDetail.innerHTML = `
+    <div class="shadow-detail-preview" style="box-shadow:${s.css};border-radius:10px">L${s.level}</div>
+    <div class="shadow-detail-info">
+      <div class="shadow-detail-name">Level ${s.level} — ${s.label}</div>
+      <div style="font-size:12px;color:#9CA3AF;margin-bottom:4px">${s.components}</div>
+      <div class="shadow-detail-css">shadow-${s.name}: ${s.css === 'none' ? 'none' : s.css}</div>
     </div>
-    <div class="card">
-      <div class="card-title">Strict hierarchy</div>
-      <div class="card-body">The hierarchy enforces: <code>control (6px) &lt; container (8px) &lt; surface (12px)</code>. A form field is never rounder than its containing card. A card is never rounder than its modal.</div>
+  `;
+  document.querySelectorAll('.shadow-card').forEach((c,i) => c.classList.toggle('active', i === idx));
+}
+
+shadows.forEach((s, i) => {
+  const card = document.createElement('div');
+  card.className = 'shadow-card' + (i === 2 ? ' active' : '');
+  card.innerHTML = `
+    <div class="shadow-preview" style="box-shadow:${s.css}">L${s.level}</div>
+    <div class="shadow-name">${s.label}</div>
+    <div class="shadow-token">shadow-${s.name}</div>
+    <div class="shadow-components">${s.components}</div>
+  `;
+  card.addEventListener('click', () => renderShadowDetail(i));
+  shadowGrid.appendChild(card);
+});
+renderShadowDetail(2);
+
+// ═══ RADIUS GRID ═══
+const radiusGrid = document.getElementById('radius-grid');
+radii.forEach((r, i) => {
+  const card = document.createElement('div');
+  card.className = 'radius-card';
+  const val = r.value === '9999px' ? '50%' : r.value;
+  card.innerHTML = `
+    <div class="radius-shape" style="border-radius:${val}"></div>
+    <div class="radius-name">${r.name}</div>
+    <div class="radius-value">${r.value}</div>
+    <div class="radius-role">${r.components}</div>
+  `;
+  radiusGrid.appendChild(card);
+});
+
+// ═══ PLAYGROUND ═══
+const pgCard = document.getElementById('pg-card');
+const pgShadow = document.getElementById('pg-shadow');
+const pgRadius = document.getElementById('pg-radius');
+const pgReadout = document.getElementById('pg-readout');
+
+function updatePlayground() {
+  const shadow = pgShadow.value;
+  const radius = pgRadius.value;
+  const shadowName = pgShadow.options[pgShadow.selectedIndex].dataset.name || 'none';
+  const radiusName = pgRadius.options[pgRadius.selectedIndex].dataset.name || '';
+  pgCard.style.boxShadow = shadow;
+  pgCard.style.borderRadius = radius;
+  pgReadout.innerHTML = `
+    <div class="readout-chip">shadow: <strong>${shadowName}</strong></div>
+    <div class="readout-chip">radius: <strong>${radiusName} (${radius})</strong></div>
+  `;
+}
+pgShadow.addEventListener('change', updatePlayground);
+pgRadius.addEventListener('change', updatePlayground);
+updatePlayground();
+
+// ═══ COMPONENT MAP ═══
+const mapGrid = document.getElementById('map-grid');
+componentMap.forEach(m => {
+  const card = document.createElement('div');
+  card.className = 'map-card';
+  card.innerHTML = `
+    <div class="map-level" style="background:${m.bg};color:${m.color}">${m.level}</div>
+    <div class="map-info">
+      <div class="map-name">${m.name}</div>
+      <div class="map-components">${m.components}</div>
     </div>
-    <div class="card">
-      <div class="card-title">One token per component type</div>
-      <div class="card-body">Every component type maps to exactly one token. There are no per-context overrides — a dropdown always uses <code>rounded-container</code>, never sometimes <code>rounded-lg</code> and sometimes <code>rounded-xl</code>.</div>
-    </div>
-  </div>
+  `;
+  mapGrid.appendChild(card);
+});
 
-  <div class="card" style="margin-bottom:24px">
-    <div class="card-title" style="margin-bottom:12px">Cross-Reference — World-Class Systems</div>
-    <table class="tbl">
-      <thead><tr><th>System</th><th>Approach</th><th>Tokens</th><th>Key Insight</th></tr></thead>
-      <tbody>
-        <tr><td><strong>Material Design 3</strong></td><td>Shape roles</td><td>5 (none → full)</td><td>Shape tokens map to component roles: small, medium, large, extra-large</td></tr>
-        <tr><td><strong>Shopify Polaris</strong></td><td>Semantic</td><td>5</td><td>border-radius-050 → 200, plus full. Role-documented per component</td></tr>
-        <tr><td><strong>GitHub Primer</strong></td><td>Size scale</td><td>4 + full</td><td>Small/medium/large + full, documented by component type</td></tr>
-        <tr><td><strong>shadcn/ui (default)</strong></td><td>Size scale</td><td>3 + full</td><td>sm (4px), md (6px), lg (8px) — VendHub extends this to semantic names</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="info-callout">
-    <strong>VendHub approach:</strong> 5 semantic tokens named by role (<code>inline</code>, <code>control</code>, <code>container</code>, <code>surface</code>, <code>pill</code>). Same naming philosophy as the color system — tokens describe what they're for, not how big they are. This makes cross-system reasoning consistent: just as <code>--color-surface-primary</code> describes a role, <code>rounded-container</code> describes a role.
-  </div>
-</div>
-
-
-<!-- 02 TOKEN DEFINITIONS -->
-<div class="section" id="tokens">
-  <div class="section-header">
-    <div class="section-tag">10 · Token Definitions</div>
-    <h2 class="section-title">Five Radius Tokens</h2>
-    <p class="section-sub">All Tailwind defaults (<code>rounded-md</code>, <code>rounded-lg</code>, <code>rounded-xl</code>) are retired from use in favor of these named values.</p>
-  </div>
-
-  <div class="card" style="padding:0;overflow:hidden;margin-bottom:24px">
-    <table class="tbl">
-      <thead><tr><th>Token</th><th>Tailwind Class</th><th>Value</th><th>Role</th><th>Components</th></tr></thead>
-      <tbody>
-        <tr>
-          <td><code style="background:var(--primary-50);color:var(--primary-700);border-color:var(--primary-100)">inline</code></td>
-          <td><code>rounded-inline</code></td>
-          <td><strong>4px</strong></td>
-          <td>Inline elements</td>
-          <td>Code chips, micro-tags, inline annotations</td>
-        </tr>
-        <tr>
-          <td><code style="background:var(--primary-50);color:var(--primary-700);border-color:var(--primary-100)">control</code></td>
-          <td><code>rounded-control</code></td>
-          <td><strong>6px</strong></td>
-          <td>Interactive controls</td>
-          <td>Buttons, inputs, selects, checkboxes, textareas</td>
-        </tr>
-        <tr>
-          <td><code style="background:var(--primary-50);color:var(--primary-700);border-color:var(--primary-100)">container</code></td>
-          <td><code>rounded-container</code></td>
-          <td><strong>8px</strong></td>
-          <td>UI containers</td>
-          <td>Cards, panels, dropdowns, popovers, tooltips</td>
-        </tr>
-        <tr>
-          <td><code style="background:var(--primary-50);color:var(--primary-700);border-color:var(--primary-100)">surface</code></td>
-          <td><code>rounded-surface</code></td>
-          <td><strong>12px</strong></td>
-          <td>Elevated surfaces</td>
-          <td>Modals, dialogs, sheets, drawer panels</td>
-        </tr>
-        <tr>
-          <td><code style="background:var(--primary-50);color:var(--primary-700);border-color:var(--primary-100)">pill</code></td>
-          <td><code>rounded-pill</code></td>
-          <td><strong>9999px</strong></td>
-          <td>Fully rounded</td>
-          <td>Badges, tags, status indicators, progress bars, tabs</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="code-block" style="margin-bottom:24px">
-<span class="cm">// tailwind.config.ts → theme.extend.borderRadius</span>
-<span class="at">borderRadius</span>: {
-  <span class="cm">// ── Core semantic system ──────────────────────────────────</span>
-  <span class="fn">inline</span>:    <span class="str">"4px"</span>,    <span class="cm">// inline elements: code chips, micro-tags</span>
-  <span class="fn">control</span>:   <span class="str">"6px"</span>,    <span class="cm">// buttons, inputs, selects, checkboxes</span>
-  <span class="fn">container</span>: <span class="str">"8px"</span>,    <span class="cm">// cards, panels, dropdowns, popovers, tooltips</span>
-  <span class="fn">surface</span>:   <span class="str">"12px"</span>,   <span class="cm">// modals, dialogs, sheets, large overlays</span>
-  <span class="cm">// ── Special cases ─────────────────────────────────────────</span>
-  <span class="fn">pill</span>:      <span class="str">"9999px"</span>, <span class="cm">// badges, tags, status indicators</span>
-  <span class="fn">full</span>:      <span class="str">"9999px"</span>, <span class="cm">// avatars, circular buttons (alias of pill)</span>
-  <span class="fn">none</span>:      <span class="str">"0px"</span>,    <span class="cm">// flush / borderless elements</span>
-},
-  </div>
-</div>
-
-
-<!-- 03 VISUAL SCALE -->
-<div class="section" id="visual">
-  <div class="section-header">
-    <div class="section-tag">11 · Visual Scale</div>
-    <h2 class="section-title">Visual Scale Comparison</h2>
-    <p class="section-sub">Each token shown at actual size with its role label. The hierarchy is strict: control &lt; container &lt; surface.</p>
-  </div>
-
-  <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-bottom:24px">
-    <div style="text-align:center">
-      <div class="radius-demo" style="border-radius:4px;">4px</div>
-      <div style="font-size:13px;font-weight:600;color:var(--neutral-800);margin-top:10px">inline</div>
-      <div style="font-size:11px;color:var(--neutral-400)">code · tags</div>
-    </div>
-    <div style="text-align:center">
-      <div class="radius-demo" style="border-radius:6px;">6px</div>
-      <div style="font-size:13px;font-weight:600;color:var(--neutral-800);margin-top:10px">control</div>
-      <div style="font-size:11px;color:var(--neutral-400)">buttons · inputs</div>
-    </div>
-    <div style="text-align:center">
-      <div class="radius-demo" style="border-radius:8px;">8px</div>
-      <div style="font-size:13px;font-weight:600;color:var(--neutral-800);margin-top:10px">container</div>
-      <div style="font-size:11px;color:var(--neutral-400)">cards · panels</div>
-    </div>
-    <div style="text-align:center">
-      <div class="radius-demo" style="border-radius:12px;">12px</div>
-      <div style="font-size:13px;font-weight:600;color:var(--neutral-800);margin-top:10px">surface</div>
-      <div style="font-size:11px;color:var(--neutral-400)">modals · sheets</div>
-    </div>
-    <div style="text-align:center">
-      <div class="radius-demo" style="border-radius:9999px;height:44px;">∞</div>
-      <div style="font-size:13px;font-weight:600;color:var(--neutral-800);margin-top:10px">pill</div>
-      <div style="font-size:11px;color:var(--neutral-400)">badges · tags</div>
-    </div>
-  </div>
-</div>
-
-
-<!-- 04 COMPONENT MAPPING -->
-<div class="section" id="mapping-br">
-  <div class="section-header">
-    <div class="section-tag">12 · Component Mapping</div>
-    <h2 class="section-title">Radius Component Mapping</h2>
-    <p class="section-sub">Every VendHub component maps to one token. No exceptions, no per-context overrides.</p>
-  </div>
-
-  <div class="card" style="padding:0;overflow:hidden;margin-bottom:24px">
-    <table class="tbl">
-      <thead><tr><th>Component</th><th>Token</th><th>Tailwind Class</th><th>px</th><th>Rationale</th></tr></thead>
-      <tbody>
-        <tr><td>Button (all variants)</td><td><code>control</code></td><td><code>rounded-control</code></td><td>6px</td><td>Tight, actionable feel</td></tr>
-        <tr><td>Input / Textarea</td><td><code>control</code></td><td><code>rounded-control</code></td><td>6px</td><td>Unified form language</td></tr>
-        <tr><td>Select trigger</td><td><code>control</code></td><td><code>rounded-control</code></td><td>6px</td><td>Matches input — same tier</td></tr>
-        <tr><td>Checkbox</td><td><code>control</code></td><td><code>rounded-control</code></td><td>6px</td><td>Consistent click zone</td></tr>
-        <tr><td>Radio indicator</td><td><code>full</code></td><td><code>rounded-full</code></td><td>9999px</td><td>Circular by convention</td></tr>
-        <tr><td>Card</td><td><code>container</code></td><td><code>rounded-container</code></td><td>8px</td><td>Default UI surface</td></tr>
-        <tr><td>Dropdown / Popover</td><td><code>container</code></td><td><code>rounded-container</code></td><td>8px</td><td>Same tier as cards</td></tr>
-        <tr><td>Tooltip</td><td><code>container</code></td><td><code>rounded-container</code></td><td>8px</td><td>Soft but not prominent</td></tr>
-        <tr><td>Modal / Dialog</td><td><code>surface</code></td><td><code>rounded-surface</code></td><td>12px</td><td>More prominent, elevated</td></tr>
-        <tr><td>Sheet / Drawer</td><td><code>surface</code></td><td><code>rounded-surface</code></td><td>12px</td><td>Same prominence as modal</td></tr>
-        <tr><td>Alert / AlertDialog</td><td><code>surface</code></td><td><code>rounded-surface</code></td><td>12px</td><td>High-elevation UI</td></tr>
-        <tr><td>Badge / Tag / Status</td><td><code>pill</code></td><td><code>rounded-pill</code></td><td>9999px</td><td>Fully rounded, label-style</td></tr>
-        <tr><td>Avatar</td><td><code>full</code></td><td><code>rounded-full</code></td><td>9999px</td><td>Image-specific, circular</td></tr>
-        <tr><td>Inline code chip</td><td><code>inline</code></td><td><code>rounded-inline</code></td><td>4px</td><td>Tight, text-adjacent</td></tr>
-        <tr><td>Progress bar</td><td><code>pill</code></td><td><code>rounded-pill</code></td><td>9999px</td><td>Standard bar convention</td></tr>
-        <tr><td>Tabs (active indicator)</td><td><code>pill</code></td><td><code>rounded-pill</code></td><td>9999px</td><td>Pill indicator</td></tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-
-
-<!-- 05 DO'S & DON'TS -->
-<div class="section" id="dodont">
-  <div class="section-header">
-    <div class="section-tag">13 · Rules</div>
-    <h2 class="section-title">Do's &amp; Don'ts</h2>
-  </div>
-
-  <div class="g2">
-    <div class="do-card">
-      <div class="do-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> DO</div>
-      <div style="display:flex;flex-direction:column;gap:10px;font-size:13px;color:#166534;line-height:1.6">
-        <div>✓ Use semantic tokens only — never <code style="background:#dcfce7;color:#166534;border-color:#86efac">rounded-md</code> or raw px</div>
-        <div>✓ Enforce hierarchy: control &lt; container &lt; surface</div>
-        <div>✓ Same component type → same token, always</div>
-        <div>✓ Admin sidebar: single radius for all nav levels (<code style="background:#dcfce7;color:#166534;border-color:#86efac">container</code>)</div>
-      </div>
-    </div>
-    <div class="dont-card">
-      <div class="dont-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> DON'T</div>
-      <div style="display:flex;flex-direction:column;gap:10px;font-size:13px;color:var(--error-700);line-height:1.6">
-        <div>✗ Mix <code style="background:var(--error-50);color:var(--error-700);border-color:var(--error-200)">rounded-md</code>, <code style="background:var(--error-50);color:var(--error-700);border-color:var(--error-200)">rounded-lg</code>, <code style="background:var(--error-50);color:var(--error-700);border-color:var(--error-200)">rounded-xl</code> at random</div>
-        <div>✗ Use arbitrary values like <code style="background:var(--error-50);color:var(--error-700);border-color:var(--error-200)">rounded-[10px]</code></div>
-        <div>✗ Use multiple radii inside the same component group</div>
-        <div>✗ Override hierarchy — a form field must not be rounder than its modal</div>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<!-- 06 MIGRATION MAP -->
-<div class="section" id="migration-br">
-  <div class="section-header">
-    <div class="section-tag">14 · Migration</div>
-    <h2 class="section-title">Migration Map</h2>
-    <p class="section-sub">Search-and-replace guide for migrating the existing codebase to semantic radius tokens.</p>
-  </div>
-
-  <div class="card" style="padding:0;overflow:hidden">
-    <table class="tbl">
-      <thead><tr><th>Remove</th><th></th><th>Replace With</th><th>Applies To</th><th>Priority</th></tr></thead>
-      <tbody>
-        <tr>
-          <td><code style="color:var(--error-500)">rounded-sm</code></td>
-          <td style="color:var(--primary-500);font-weight:700">→</td>
-          <td><code style="background:var(--primary-50);color:var(--primary-700);border-color:var(--primary-100)">rounded-inline</code></td>
-          <td>Code chips, micro-tags</td>
-          <td><span class="badge bg-yellow">P2</span></td>
-        </tr>
-        <tr>
-          <td><code style="color:var(--error-500)">rounded-md</code></td>
-          <td style="color:var(--primary-500);font-weight:700">→</td>
-          <td><code style="background:var(--primary-50);color:var(--primary-700);border-color:var(--primary-100)">rounded-control</code></td>
-          <td>Buttons, inputs, checkboxes, selects</td>
-          <td><span class="badge bg-yellow">P1</span></td>
-        </tr>
-        <tr>
-          <td><code style="color:var(--error-500)">rounded-lg</code></td>
-          <td style="color:var(--primary-500);font-weight:700">→</td>
-          <td><code style="background:var(--primary-50);color:var(--primary-700);border-color:var(--primary-100)">rounded-container</code></td>
-          <td>Cards, panels, dropdowns, tooltips</td>
-          <td><span class="badge bg-yellow">P1</span></td>
-        </tr>
-        <tr>
-          <td><code style="color:var(--error-500)">rounded-xl</code></td>
-          <td style="color:var(--primary-500);font-weight:700">→</td>
-          <td><code style="background:var(--primary-50);color:var(--primary-700);border-color:var(--primary-100)">rounded-surface</code></td>
-          <td>Modals, sheets, drawer panels</td>
-          <td><span class="badge bg-yellow">P1</span></td>
-        </tr>
-        <tr>
-          <td><code style="color:var(--error-500)">rounded-2xl</code></td>
-          <td style="color:var(--primary-500);font-weight:700">→</td>
-          <td><code style="background:var(--primary-50);color:var(--primary-700);border-color:var(--primary-100)">rounded-surface</code></td>
-          <td>Audit each case — most belong at surface</td>
-          <td><span class="badge bg-yellow">P1</span></td>
-        </tr>
-        <tr>
-          <td><code style="color:var(--error-500)">rounded-[Xpx]</code></td>
-          <td style="color:var(--primary-500);font-weight:700">→</td>
-          <td>nearest semantic token</td>
-          <td>Audit each instance, assign by role</td>
-          <td><span class="badge bg-yellow">P2</span></td>
-        </tr>
-        <tr>
-          <td><code style="color:var(--error-500)">rounded-full</code> (non-circular)</td>
-          <td style="color:var(--primary-500);font-weight:700">→</td>
-          <td><code style="background:var(--primary-50);color:var(--primary-700);border-color:var(--primary-100)">rounded-pill</code></td>
-          <td>Badges, tags, status indicators</td>
-          <td><span class="badge bg-yellow">P2</span></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-</div>
+// ═══ SCROLL REVEAL + NAV ═══
+const obs = new IntersectionObserver(e => { e.forEach(x => { if(x.isIntersecting){x.target.classList.add('visible');obs.unobserve(x.target)} }) }, {threshold:.1,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+const navLinks = document.querySelectorAll('.nav-pill');
+const navObs = new IntersectionObserver(e => { e.forEach(x => { if(x.isIntersecting){navLinks.forEach(l=>l.classList.remove('active'));const a=document.querySelector(`.nav-pill[href="#${x.target.id}"]`);if(a)a.classList.add('active')} }) }, {threshold:.2,rootMargin:'-80px 0px -60% 0px'});
+document.querySelectorAll('.section').forEach(s => navObs.observe(s));
+</script>
 </body>
 </html>
