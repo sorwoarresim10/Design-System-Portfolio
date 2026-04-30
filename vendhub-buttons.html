@@ -4,1556 +4,1401 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>VendHub — Button System</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
+/* ─────────────────────────────────────────────
+   TOKENS
+   ───────────────────────────────────────────── */
+:root {
+  --primary-50:#F0FDF4; --primary-100:#DCFCE7; --primary-200:#BBF7D0;
+  --primary-300:#86EFAC; --primary-400:#4ADE80; --primary-500:#22C55E;
+  --primary-600:#16A34A; --primary-700:#15803D; --primary-800:#166534; --primary-900:#14532D;
 
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --primary:#16A34A;--primary-hover:#15803D;--primary-subtle:#F0FDF4;--primary-subtle-border:#DCFCE7;--primary-ring:#22C55E;
-  --primary-50:#F0FDF4;--primary-100:#DCFCE7;--primary-200:#BBF7D0;--primary-500:#22C55E;--primary-600:#16A34A;--primary-700:#15803D;
-  --error:#DC2626;--error-hover:#B91C1C;--error-subtle:#FEF2F2;--error-border:#FECACA;
-  --error-50:#FEF2F2;--error-200:#FECACA;--error-500:#DC2626;--error-700:#B91C1C;
-  --warning:#D97706;--warning-hover:#B45309;--warning-border:#F59E08;--warning-subtle:#FFFBEB;--warning-subtle-border:#FDE68A;
-  --warning-50:#FFFBEB;--warning-200:#FDE68A;--warning-500:#D97706;--warning-700:#B45309;
-  --info:#2563EB;--info-hover:#1D4ED8;--info-subtle:#EFF6FF;--info-border:#BFDBFE;
-  --info-50:#EFF6FF;--info-200:#BFDBFE;--info-500:#2563EB;--info-700:#1D4ED8;
-  --dark:#111827;--white:#FFFFFF;--accent-green:#22C55E;--card-border:#E8E4DF;
-  --gray-900:#111827;--gray-800:#1F2937;--gray-700:#374151;--gray-600:#4B5563;--gray-500:#6B7280;--gray-400:#9CA3AF;--gray-300:#D1D5DB;--gray-200:#E5E7EB;--gray-100:#F3F4F6;--gray-50:#F9FAFB;
-  --neutral-50:#F9FAFB;--neutral-100:#F3F4F6;--neutral-200:#E5E7EB;--neutral-300:#D1D5DB;--neutral-400:#9CA3AF;--neutral-500:#6B7280;--neutral-600:#4B5563;--neutral-700:#374151;--neutral-800:#1F2937;--neutral-900:#111827;
-  --radius-sm:4px;--radius-md:8px;--radius-lg:12px;
-  --font-body:'Plus Jakarta Sans',sans-serif;--font-mono:'JetBrains Mono',monospace
+  --neutral-0:#FFFFFF; --neutral-50:#F9FAFB; --neutral-100:#F3F4F6;
+  --neutral-200:#E5E7EB; --neutral-300:#D1D5DB; --neutral-400:#9CA3AF;
+  --neutral-500:#6B7280; --neutral-600:#4B5563; --neutral-700:#374151;
+  --neutral-800:#1F2937; --neutral-900:#111827;
+
+  --error-300:#FCA5A5; --error-400:#F87171; --error-500:#EF4444; --error-600:#DC2626; --error-700:#B91C1C;
+  --warning-400:#FBBF24; --warning-500:#F59E0B; --warning-600:#D97706; --warning-700:#B45309;
+  --info-400:#60A5FA; --info-500:#3B82F6; --info-600:#2563EB; --info-700:#1D4ED8;
+
+  --radius-sm:4px; --radius-md:8px; --radius-lg:12px; --radius-xl:16px;
+
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in:  cubic-bezier(0.4, 0, 1, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --dur-150: 150ms; --dur-200: 200ms; --dur-300: 300ms;
+
+  --bg: #050A06;
+  --surface-1: rgba(255,255,255,.025);
+  --surface-2: rgba(255,255,255,.045);
+  --surface-3: rgba(255,255,255,.07);
+  --line: rgba(255,255,255,.07);
+  --line-strong: rgba(255,255,255,.12);
 }
-html{scroll-behavior:smooth}
-body{font-family:var(--font-body);background:#FAFAFA;color:var(--gray-800);line-height:1.6;font-size:14px}
 
-/* ─── Foundation Layout (matches other docs) ─── */
-.page{max-width:1120px;margin:0 auto;padding:0 48px 80px}
-.cover{background:var(--neutral-900);padding:64px 48px 56px;margin-bottom:64px;position:relative;overflow:hidden}
-.cover::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 20% 50%,rgba(22,163,74,.08) 0%,transparent 60%),radial-gradient(ellipse at 80% 20%,rgba(34,197,94,.05) 0%,transparent 50%);pointer-events:none}
-.cover-inner{position:relative;z-index:1;max-width:1120px;margin:0 auto}
-.cover-eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(22,163,74,.15);border:1px solid rgba(22,163,74,.3);border-radius:20px;padding:4px 14px;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--primary-500);margin-bottom:24px}
-.cover-eyebrow-dot{width:6px;height:6px;border-radius:50%;background:var(--primary-500)}
-.cover-title{font-size:52px;font-weight:800;color:#fff;line-height:1.1;margin-bottom:16px;letter-spacing:-.02em}
-.cover-title span{color:var(--primary-500)}
-.cover-sub{font-size:16px;color:var(--neutral-400);max-width:620px;line-height:1.7;margin-bottom:40px}
-.cover-meta{display:flex;gap:32px;flex-wrap:wrap}
-.cover-meta-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--neutral-600);margin-bottom:4px}
-.cover-meta-value{font-size:13px;color:var(--neutral-300);font-weight:500}
-.cover-libs{display:flex;gap:10px;margin-top:32px;flex-wrap:wrap}
-.lib-tag{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600}
-.lib-primary{background:rgba(22,163,74,.15);color:var(--primary-500);border:1px solid rgba(22,163,74,.25)}
-.lib-secondary{background:rgba(59,130,246,.1);color:#60a5fa;border:1px solid rgba(59,130,246,.2)}
-.lib-gray{background:rgba(107,114,128,.1);color:var(--neutral-400);border:1px solid rgba(107,114,128,.2)}
-.part-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:8px 16px;margin-top:28px;font-size:12px;color:var(--neutral-400);font-weight:500}
-.part-badge strong{color:#fff}.part-badge a{color:var(--primary-500);text-decoration:none;font-weight:600}.part-badge a:hover{text-decoration:underline}
-.toc{background:#fff;border:1px solid var(--neutral-200);border-radius:var(--radius-lg);padding:28px 32px;margin-bottom:56px}
-.toc-title{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--neutral-500);margin-bottom:20px}
-.toc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.toc-item{display:flex;align-items:center;gap:8px;padding:10px 14px;border-radius:var(--radius-md);background:var(--neutral-50);border:1px solid var(--neutral-100);font-size:12px;font-weight:600;color:var(--neutral-600);text-decoration:none;transition:all .15s}
-.toc-item:hover{background:var(--primary-50);border-color:var(--primary-200);color:var(--primary-700)}
-.toc-num{font-size:10px;font-weight:700;color:var(--neutral-400)}
-.section{margin-bottom:80px}
-.section-header{margin-bottom:32px}
-.section-tag{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--primary-600);margin-bottom:8px;display:flex;align-items:center;gap:8px}
-.section-tag::after{content:'';flex:1;height:1px;background:var(--primary-100)}
-.section-title{font-size:26px;font-weight:700;color:var(--neutral-900);margin-bottom:8px;letter-spacing:-.01em}
-.section-sub{font-size:14px;color:var(--gray-500);line-height:1.7;max-width:680px}
-.subsection{margin-bottom:36px}
-.subsection-header{display:flex;align-items:center;gap:10px;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--gray-100)}
-.subsection-title{font-size:15px;font-weight:700;color:var(--gray-800)}
-.footer-nav{display:flex;justify-content:space-between;align-items:center;margin-top:80px;padding-top:32px;border-top:1px solid var(--neutral-200)}
-.footer-nav a{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--primary-600);text-decoration:none;padding:8px 16px;border-radius:var(--radius-md);border:1px solid var(--primary-200);background:var(--primary-50);transition:all .15s}
-.footer-nav a:hover{background:var(--primary-100);border-color:var(--primary-500)}
-.token-grid { display: flex; flex-direction: column; gap: 12px; }
-.token-row-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-.token-row-1 { display: grid; grid-template-columns: repeat(1, minmax(0, 340px)); gap: 16px; }
-.token-card {
-  background: var(--white);
-  border: 1px solid var(--card-border);
-  border-radius: 12px;
-  padding: 17px;
+/* ─────────────────────────────────────────────
+   RESET + BASE
+   ───────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: var(--bg);
+  color: #fff;
+  font-size: 14px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+
+/* ─────────────────────────────────────────────
+   HERO
+   ───────────────────────────────────────────── */
+.cover {
+  padding: 100px 24px 120px;
+  position: relative;
+  overflow: hidden;
+}
+.cover::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 20%, rgba(22,163,74,.10), transparent 50%),
+    radial-gradient(ellipse at 80% 60%, rgba(37,99,235,.06), transparent 50%);
+  pointer-events: none;
+}
+.cover-inner {
+  max-width: 1080px; margin: 0 auto; position: relative; z-index: 1;
+  text-align: center;
+}
+.cover-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(22,163,74,.15);
+  border: 1px solid rgba(22,163,74,.3);
+  border-radius: 20px; padding: 4px 14px;
+  font-size: 11px; font-weight: 600;
+  letter-spacing: .08em; text-transform: uppercase;
+  color: var(--primary-400); margin-bottom: 28px;
+}
+.cover-eyebrow-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--primary-400);
+  animation: pulse 2s infinite;
+}
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .4; } }
+
+.cover-title {
+  font-size: 64px; font-weight: 700;
+  line-height: 1.04; margin-bottom: 22px;
+  letter-spacing: -.025em;
+}
+.cover-title span { color: var(--primary-400); }
+.cover-sub {
+  font-size: 18px; color: var(--neutral-400);
+  max-width: 680px; line-height: 1.65;
+  margin: 0 auto 44px;
+  font-weight: 400;
+}
+.cover-pills { display: flex; gap: 8px; flex-wrap: wrap; }
+
+/* ─────────────────────────────────────────────
+   HERO INTERACTIVE SHOWCASE
+   ───────────────────────────────────────────── */
+.hero-stage {
+  margin-top: 12px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
-}
-.token-card-title { font-size: 14px; font-weight: 700; color: var(--gray-700); margin-bottom: 4px; }
-.token-row {
-  display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 3px 0;
-}
-.token-name { display: flex; align-items: center; gap: 8px; }
-.swatch {
-  width: 14px; height: 14px;
-  border-radius: 3px;
-  border: 1px solid rgba(0,0,0,0.1);
-  flex-shrink: 0;
-}
-.token-key { font-family: var(--font-mono); font-size: 12px; color: var(--gray-700); }
-.token-desc { font-size: 12px; color: var(--gray-500); }
-.token-chip {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  padding: 3px 9px 4px;
-  border-radius: 6px;
-  background: var(--primary-subtle);
-  color: var(--primary-hover);
-  border: 1px solid var(--primary-subtle-border);
+  gap: 28px;
 }
 
-/* Size Table */
-.ds-table-wrap { border: 1px solid var(--card-border); border-radius: 12px; overflow: hidden; background: white; }
-.ds-table { width: 100%; border-collapse: collapse; }
-.ds-table thead th { background: var(--gray-100); padding: 10px 16px; text-align: left; font-size: 11px; font-weight: 700; letter-spacing: 0.66px; text-transform: uppercase; color: var(--gray-600); border-bottom: 1px solid var(--gray-200); }
-.ds-table tbody td { padding: 10px 16px; border-bottom: 1px solid var(--gray-100); font-size: 13px; color: var(--gray-700); vertical-align: middle; }
-.ds-table tbody tr:last-child td { border-bottom: none; }
-.ds-table code { font-family: var(--font-mono); font-size: 11px; background: var(--gray-100); padding: 2px 6px; border-radius: 4px; color: var(--gray-700); }
-.size-default { font-size: 13px; font-weight: 700; color: var(--primary); }
-
-/* Button Preview Canvas */
-.demo-canvas {
-  background: white;
-  border: 1px solid var(--card-border);
-  border-radius: 12px;
-  padding: 28px 28px 24px;
-  margin-top: 16px;
+/* Animated stat counter strip */
+.hero-stats {
+  display: inline-flex;
+  align-items: center;
+  gap: 18px;
+  padding: 10px 22px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid var(--line);
+  border-radius: 99px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
-.demo-label {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 1px;
+.hero-stat {
+  display: inline-flex; align-items: baseline; gap: 8px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+.hero-stat strong {
+  font-size: 22px; font-weight: 700;
+  color: var(--primary-400);
+  letter-spacing: -.02em;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+.hero-stat span {
+  font-size: 11px; font-weight: 600;
+  color: var(--neutral-400);
   text-transform: uppercase;
-  color: #6B6B6B;
-  margin-bottom: 16px;
+  letter-spacing: .1em;
 }
-.demo-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
-.demo-row:last-child { margin-bottom: 0; }
-.demo-row-label { font-size: 10px; color: #6B6B6B; font-weight: 500; margin-top: 4px; }
+.hero-stat-dot {
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: var(--neutral-700);
+}
 
-/* Actual live buttons */
+/* Magnetic wrapper */
+.hero-btn-magnet {
+  position: relative;
+  display: inline-block;
+  transition: transform 250ms var(--ease-out);
+  will-change: transform;
+}
+.hero-btn-magnet::before {
+  content: '';
+  position: absolute;
+  inset: -32px;
+  background: radial-gradient(closest-side, var(--btn-glow, rgba(22,163,74,.3)), transparent 70%);
+  filter: blur(28px);
+  pointer-events: none;
+  z-index: -1;
+  opacity: .9;
+  transition: background var(--dur-300) var(--ease-out);
+}
+
+/* The main showcase button */
+.hero-btn {
+  height: 60px;
+  min-width: 240px;
+  padding: 0 32px;
+  border-radius: 14px;
+  font-family: inherit;
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -.01em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: var(--btn-bg, var(--primary-600));
+  color: var(--btn-fg, #fff);
+  border: 1.5px solid var(--btn-border, transparent);
+  box-shadow: var(--btn-shadow, 0 8px 24px rgba(22,163,74,.35), 0 0 0 1px rgba(255,255,255,.05) inset);
+  transition: background 350ms var(--ease-out),
+              color 350ms var(--ease-out),
+              border-color 350ms var(--ease-out),
+              box-shadow 350ms var(--ease-out),
+              transform 150ms var(--ease-out);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.hero-btn:active { transform: scale(.97); }
+.hero-btn svg {
+  width: 22px; height: 22px;
+  flex-shrink: 0;
+  transition: transform 350ms var(--ease-spring);
+}
+.hero-btn-content {
+  display: inline-flex; align-items: center; gap: 10px;
+  transition: opacity 200ms var(--ease-out), transform 200ms var(--ease-out);
+  position: relative;
+  z-index: 1;
+}
+.hero-btn.swapping .hero-btn-content {
+  opacity: 0;
+  transform: translateY(-6px);
+}
+
+/* Variant theming */
+.hero-btn[data-v="primary"] {
+  --btn-bg: var(--primary-600);
+  --btn-fg: #fff;
+  --btn-border: transparent;
+  --btn-shadow: 0 8px 28px rgba(22,163,74,.4), 0 0 0 1px rgba(255,255,255,.06) inset;
+}
+.hero-btn[data-v="outline"] {
+  --btn-bg: transparent;
+  --btn-fg: var(--primary-300);
+  --btn-border: var(--primary-500);
+  --btn-shadow: 0 0 28px rgba(22,163,74,.18);
+}
+.hero-btn[data-v="destructive"] {
+  --btn-bg: var(--error-600);
+  --btn-fg: #fff;
+  --btn-border: transparent;
+  --btn-shadow: 0 8px 28px rgba(220,38,38,.4), 0 0 0 1px rgba(255,255,255,.06) inset;
+}
+.hero-btn[data-v="warning"] {
+  --btn-bg: var(--warning-600);
+  --btn-fg: #fff;
+  --btn-border: transparent;
+  --btn-shadow: 0 8px 28px rgba(217,119,6,.4), 0 0 0 1px rgba(255,255,255,.06) inset;
+}
+.hero-btn[data-v="info"] {
+  --btn-bg: var(--info-600);
+  --btn-fg: #fff;
+  --btn-border: transparent;
+  --btn-shadow: 0 8px 28px rgba(37,99,235,.4), 0 0 0 1px rgba(255,255,255,.06) inset;
+}
+
+/* Click ripple */
+.hero-btn .ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255,255,255,.45);
+  pointer-events: none;
+  width: 16px; height: 16px;
+  transform: translate(-50%, -50%) scale(0);
+  animation: heroRipple 700ms var(--ease-out) forwards;
+  z-index: 0;
+}
+@keyframes heroRipple {
+  to {
+    transform: translate(-50%, -50%) scale(40);
+    opacity: 0;
+  }
+}
+
+/* Variant pills (now interactive controls) */
+.hero-pills {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.hero-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 99px;
+  font-family: inherit;
+  font-size: 12px; font-weight: 600;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.1);
+  color: var(--neutral-400);
+  cursor: pointer;
+  transition: all var(--dur-200) var(--ease-out);
+  position: relative;
+}
+.hero-pill:hover:not(.active) {
+  background: rgba(255,255,255,.08);
+  color: #fff;
+  transform: translateY(-1px);
+}
+.hero-pill.active {
+  background: rgba(255,255,255,.1);
+  border-color: var(--pill-color, var(--primary-400));
+  color: #fff;
+  box-shadow: 0 0 0 3px rgba(255,255,255,.04);
+}
+.hero-pill .dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--pill-color, currentColor);
+  transition: box-shadow var(--dur-200) var(--ease-out);
+}
+.hero-pill.active .dot {
+  box-shadow: 0 0 8px var(--pill-color);
+}
+.hero-pill[data-v="primary"]    { --pill-color: var(--primary-400); }
+.hero-pill[data-v="outline"]    { --pill-color: var(--primary-400); }
+.hero-pill[data-v="outline"] .dot {
+  background: transparent;
+  border: 1.5px solid var(--primary-400);
+  width: 8px; height: 8px;
+}
+.hero-pill[data-v="destructive"] { --pill-color: var(--error-400); }
+.hero-pill[data-v="warning"]    { --pill-color: var(--warning-400); }
+.hero-pill[data-v="info"]       { --pill-color: var(--info-400); }
+
+/* Hint text */
+.hero-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--neutral-500);
+  letter-spacing: .02em;
+  font-family: 'JetBrains Mono', monospace;
+}
+.hero-hint-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--primary-400);
+  animation: pulse 1.6s infinite;
+}
+
+/* ─────────────────────────────────────────────
+   STICKY NAV
+   ───────────────────────────────────────────── */
+.subnav {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(5,10,6,.7);
+  backdrop-filter: blur(18px) saturate(180%);
+  -webkit-backdrop-filter: blur(18px) saturate(180%);
+  padding: 14px 24px;
+}
+.subnav-inner {
+  max-width: 1080px; margin: 0 auto;
+  display: flex; gap: 6px; flex-wrap: wrap;
+  justify-content: center;
+}
+.subnav a {
+  padding: 8px 16px; border-radius: 100px;
+  font-size: 13px; font-weight: 600;
+  color: var(--neutral-400);
+  transition: all var(--dur-150) var(--ease-out);
+}
+.subnav a:hover { background: rgba(255,255,255,.06); color: #fff; }
+.subnav a.active { background: var(--primary-600); color: #fff; }
+
+/* ─────────────────────────────────────────────
+   PAGE / SECTIONS
+   ───────────────────────────────────────────── */
+.page {
+  max-width: 1080px; margin: 0 auto; padding: 80px 24px 120px;
+}
+.section { margin-bottom: 112px; scroll-margin-top: 80px; }
+.section-header { margin-bottom: 36px; }
+.section-tag {
+  display: inline-block;
+  font-size: 11px; font-weight: 700;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--primary-400);
+  padding-left: 24px; position: relative; margin-bottom: 14px;
+}
+.section-tag::after {
+  content: ''; position: absolute;
+  left: 0; top: 50%; transform: translateY(-50%);
+  width: 16px; height: 2px;
+  background: var(--primary-500);
+}
+.section-title {
+  font-size: 36px; font-weight: 700;
+  letter-spacing: -.02em; margin-bottom: 12px;
+  line-height: 1.15; color: #fff;
+}
+.section-sub {
+  font-size: 15px; color: var(--neutral-400);
+  max-width: 720px; line-height: 1.7;
+}
+
+/* ─────────────────────────────────────────────
+   BUTTON BASE STYLES
+   ───────────────────────────────────────────── */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  font-family: var(--font-body);
+  gap: 8px;
+  font-family: inherit;
   font-weight: 600;
-  border-radius: 6px;
+  letter-spacing: -.005em;
+  border-radius: var(--radius-md);
   border: 1px solid transparent;
+  transition: background var(--dur-150) var(--ease-out),
+              color var(--dur-150) var(--ease-out),
+              border-color var(--dur-150) var(--ease-out),
+              transform var(--dur-150) var(--ease-out),
+              box-shadow var(--dur-150) var(--ease-out);
   cursor: pointer;
-  transition: all 0.15s ease;
-  text-decoration: none;
   white-space: nowrap;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+  user-select: none;
+  outline: none;
+  position: relative;
 }
-.btn:active { transform: scale(0.975); filter: brightness(0.95); }
-.btn:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--white), 0 0 0 4px var(--primary); }
+.btn:focus-visible {
+  box-shadow: 0 0 0 3px rgba(34,197,94,.4);
+}
+.btn:active:not(:disabled) {
+  transform: scale(.97);
+}
+.btn:disabled {
+  background: rgba(255,255,255,.05) !important;
+  color: var(--neutral-600) !important;
+  border-color: transparent !important;
+  cursor: not-allowed !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+.btn svg { width: 1em; height: 1em; flex-shrink: 0; }
 
 /* Sizes */
-.btn-xl { height: 48px; padding: 0 24px; font-size: 16px; }
-.btn-lg { height: 40px; padding: 0 20px; font-size: 14px; }
-.btn-md { height: 32px; padding: 0 14px; font-size: 14px; }
-.btn-sm { height: 28px; padding: 0 12px; font-size: 12px; }
-.btn-xs { height: 24px; padding: 0 10px; font-size: 12px; }
+.btn-xl { height: 48px; padding: 0 24px; font-size: 16px; gap: 8px; }
+.btn-xl svg { width: 20px; height: 20px; }
+.btn-lg { height: 40px; padding: 0 20px; font-size: 14px; gap: 8px; }
+.btn-lg svg { width: 20px; height: 20px; }
+.btn-md { height: 32px; padding: 0 14px; font-size: 14px; gap: 6px; }
+.btn-md svg { width: 16px; height: 16px; }
+.btn-sm { height: 28px; padding: 0 12px; font-size: 12px; gap: 4px; }
+.btn-sm svg { width: 14px; height: 14px; }
+.btn-xs { height: 24px; padding: 0 10px; font-size: 12px; gap: 4px; }
+.btn-xs svg { width: 14px; height: 14px; }
 
 /* Variants */
-.btn-primary { background: var(--primary); border-color: var(--primary); color: white; }
-.btn-primary:hover { background: var(--primary-hover); border-color: var(--primary-hover); }
-.btn-primary-outline { background: transparent; border-color: var(--primary); color: var(--primary); }
-.btn-primary-outline:hover { background: var(--primary-subtle); }
-.btn-primary-subtle { background: var(--primary-subtle); border-color: var(--primary-subtle-border); color: var(--primary); }
-.btn-primary-subtle:hover { background: var(--primary-subtle-border); }
-.btn-destructive { background: var(--error); border-color: var(--error); color: white; }
-.btn-destructive:hover { background: var(--error-hover); border-color: var(--error-hover); }
-.btn-destructive-outline { background: transparent; border-color: var(--error); color: var(--error); }
-.btn-destructive-outline:hover { background: var(--error-subtle); }
-.btn-warning { background: var(--warning); border-color: var(--warning); color: white; }
-.btn-warning:hover { background: var(--warning-hover); border-color: var(--warning-hover); }
-.btn-neutral { background: white; border-color: var(--gray-300); color: var(--gray-800); }
-.btn-neutral:hover { background: var(--gray-50); }
-.btn-info { background: var(--info); border-color: var(--info); color: white; }
-.btn-info:hover { background: var(--info-hover); border-color: var(--info-hover); }
-.btn-ghost { background: transparent; border-color: transparent; color: var(--gray-700); box-shadow: none; }
-.btn-ghost:hover { background: var(--gray-100); }
-.btn-disabled { background: var(--gray-100); border-color: var(--gray-200); color: var(--gray-400); cursor: not-allowed; box-shadow: none; pointer-events: none; }
-.btn-loading { position: relative; cursor: wait; }
-.btn-loading .spinner {
-  width: 14px; height: 14px;
-  border: 2px solid rgba(255,255,255,0.35);
-  border-top-color: white;
-  border-radius: 50%;
-  animation: spin 0.65s linear infinite;
+.btn-primary { background: var(--primary-600); color: #fff; }
+.btn-primary:hover:not(:disabled) { background: var(--primary-700); }
+
+.btn-primary-outline { background: transparent; color: var(--primary-400); border-color: var(--primary-500); }
+.btn-primary-outline:hover:not(:disabled) {
+  background: rgba(34,197,94,.1);
+  color: var(--primary-300);
+  border-color: var(--primary-400);
 }
-.btn-loading-neutral .spinner { border-color: rgba(0,0,0,0.15); border-top-color: var(--gray-600); }
+
+.btn-primary-subtle { background: rgba(34,197,94,.14); color: var(--primary-300); }
+.btn-primary-subtle:hover:not(:disabled) {
+  background: rgba(34,197,94,.22);
+  color: var(--primary-200);
+}
+
+.btn-destructive { background: var(--error-600); color: #fff; }
+.btn-destructive:hover:not(:disabled) { background: var(--error-700); }
+
+.btn-destructive-outline { background: transparent; color: var(--error-300); border-color: var(--error-400); }
+.btn-destructive-outline:hover:not(:disabled) {
+  background: rgba(239,68,68,.12);
+  border-color: var(--error-300);
+}
+
+.btn-warning { background: var(--warning-600); color: #fff; }
+.btn-warning:hover:not(:disabled) { background: var(--warning-700); }
+
+.btn-info { background: var(--info-600); color: #fff; }
+.btn-info:hover:not(:disabled) { background: var(--info-700); }
+
+.btn-neutral {
+  background: rgba(255,255,255,.06);
+  color: #fff;
+  border-color: var(--line-strong);
+}
+.btn-neutral:hover:not(:disabled) {
+  background: rgba(255,255,255,.1);
+  border-color: rgba(255,255,255,.25);
+}
+
+.btn-ghost { background: transparent; color: var(--neutral-300); }
+.btn-ghost:hover:not(:disabled) {
+  background: rgba(255,255,255,.06);
+  color: #fff;
+}
+
+/* Loading */
+.btn .spinner {
+  animation: spin 1s linear infinite;
+}
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* Variants section */
-.variant-grid { display: flex; flex-direction: column; gap: 0; border: 1px solid var(--card-border); border-radius: 12px; overflow: hidden; }
-.variant-row { display: grid; grid-template-columns: 200px 1fr 200px; align-items: center; padding: 14px 20px; background: white; border-bottom: 1px solid var(--gray-100); gap: 16px; }
-.variant-row:last-child { border-bottom: none; }
-.variant-row:nth-child(even) { background: var(--gray-50); }
-.variant-name-col { font-size: 13px; font-weight: 600; color: var(--gray-800); }
-.variant-name-sub { font-size: 11px; font-weight: 400; color: var(--gray-500); font-family: var(--font-mono); display: block; margin-top: 1px; }
-.variant-preview-col { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-.variant-use-col { font-size: 12px; color: var(--gray-500); }
-.variant-header-row { background: var(--gray-100) !important; padding: 8px 20px !important; }
-.variant-header-row .variant-name-col,
-.variant-header-row .variant-use-col { font-size: 10px; font-weight: 700; letter-spacing: 0.66px; text-transform: uppercase; color: var(--gray-500); }
-
-/* States section */
-.states-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-.state-card {
-  background: white;
-  border: 1px solid var(--card-border);
-  border-radius: 12px;
-  padding: 20px;
+/* ─────────────────────────────────────────────
+   SECTION 01 — VARIANTS
+   ───────────────────────────────────────────── */
+.variants-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
 }
-.state-name { font-size: 11px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; color: var(--gray-500); margin-bottom: 12px; }
-.state-preview { margin-bottom: 12px; display: flex; gap: 8px; flex-wrap: wrap; }
-.state-desc { font-size: 12px; color: var(--gray-500); line-height: 1.5; }
-.state-desc code { font-family: var(--font-mono); font-size: 11px; background: var(--gray-100); padding: 1px 4px; border-radius: 3px; color: var(--gray-700); }
+.variant-card {
+  background: var(--surface-1);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 22px;
+  display: flex; flex-direction: column;
+  gap: 14px;
+  min-height: 158px;
+  transition: border-color var(--dur-150) var(--ease-out);
+}
+.variant-card:hover { border-color: var(--line-strong); }
+.variant-head {
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: 11px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .1em;
+  color: var(--neutral-400);
+}
+.variant-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; font-weight: 500;
+  padding: 2px 7px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  color: var(--neutral-400);
+  text-transform: none; letter-spacing: 0;
+}
+.variant-demo {
+  flex: 1;
+  display: flex; align-items: center;
+  padding: 8px 0;
+}
+.variant-desc {
+  font-size: 12px; color: var(--neutral-500);
+  line-height: 1.55;
+}
 
-/* Icon Buttons */
-.icon-btn {
-  display: inline-flex;
+/* ─────────────────────────────────────────────
+   SECTION 02 — SIZES
+   ───────────────────────────────────────────── */
+.size-strip {
+  background: var(--surface-1);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-xl);
+  padding: 32px;
+  margin-bottom: 24px;
+  display: flex; align-items: center; justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+.size-cell {
+  display: flex; flex-direction: column;
   align-items: center;
-  justify-content: center;
-  border-radius: 6px;
-  border: 1px solid var(--gray-300);
-  background: white;
-  cursor: pointer;
-  color: var(--gray-700);
-  transition: all 0.15s;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
-}
-.icon-btn:hover { background: var(--gray-50); border-color: var(--gray-400); }
-.icon-btn:active { transform: scale(0.975); filter: brightness(0.95); }
-.icon-btn-xl { width: 48px; height: 48px; }
-.icon-btn-lg { width: 40px; height: 40px; }
-.icon-btn-md { width: 32px; height: 32px; }
-.icon-btn-sm { width: 28px; height: 28px; }
-
-/* Accessibility */
-.a11y-list { display: flex; flex-direction: column; gap: 0; border: 1px solid var(--card-border); border-radius: 12px; overflow: hidden; background: white; }
-.a11y-item { display: flex; gap: 12px; align-items: flex-start; padding: 14px 18px; border-bottom: 1px solid var(--gray-100); font-size: 13px; color: var(--gray-700); line-height: 1.6; }
-.a11y-item:last-child { border-bottom: none; }
-.a11y-icon { width: 20px; height: 20px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 11px; flex-shrink: 0; margin-top: 1px; }
-.a11y-icon-pass { background: #D1FAE5; color: #065F46; }
-.a11y-icon-rule { background: #DBEAFE; color: #1D4ED8; }
-.a11y-item code { font-family: var(--font-mono); font-size: 11px; background: var(--gray-100); padding: 1px 5px; border-radius: 3px; color: var(--gray-700); }
-
-/* ── Part 1: Audit styles ── */
-.6;font-size:14px}
-.page{max-width:1120px;margin:0 auto;padding:0 48px 80px}
-.lib-red{background:rgba(220,38,38,.12);color:#f87171;border:1px solid rgba(220,38,38,.25)}
-.lib-amber{background:rgba(217,119,6,.12);color:#fbbf24;border:1px solid rgba(217,119,6,.25)}
-.toc-badge{font-size:9px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;padding:1px 6px;border-radius:9999px;margin-left:auto}
-.toc-badge-critical{background:var(--error-50);color:var(--error-500);border:1px solid var(--error-200)}
-.toc-badge-high{background:var(--warning-50);color:var(--warning-700);border:1px solid var(--warning-200)}
-.severity-tag{font-size:10px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;padding:2px 8px;border-radius:9999px}
-.severity-critical{background:var(--error-50);color:var(--error-500);border:1px solid var(--error-200)}
-.severity-high{background:var(--warning-50);color:#92400E;border:1px solid var(--warning-200)}
-.issue-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.issue-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
-.issue-card{background:#fff;border:1px solid var(--neutral-200);border-left-width:3px;border-radius:var(--radius-lg);padding:20px 20px 22px 22px;display:flex;flex-direction:column;gap:8px}
-.issue-card-critical{border-left-color:var(--error-500)}
-.issue-card-high{border-left-color:var(--warning-500)}
-.issue-severity{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase}
-.issue-severity-critical{color:var(--error-500)}
-.issue-severity-high{color:var(--warning-500)}
-.issue-title{font-size:13px;font-weight:700;color:var(--neutral-900);line-height:1.5}
-.issue-body{font-size:13px;color:var(--neutral-500);line-height:1.6;flex:1}
-.issue-body code{font-family:var(--font-mono);font-size:11.5px;background:var(--neutral-100);padding:1px 5px;border-radius:4px;color:var(--neutral-700)}
-.issue-chips{display:flex;align-items:center;gap:8px;margin-top:4px;flex-wrap:wrap}
-.chip{font-family:var(--font-mono);font-size:11px;padding:3px 9px 4px;border-radius:6px}
-.chip-bad{background:var(--error-50);color:var(--error-700);border:1px solid var(--error-200)}
-.chip-arrow{color:var(--neutral-400);border:1px solid var(--neutral-300);font-family:var(--font-body)}
-.chip-good{background:var(--primary-50);color:var(--primary-700);border:1px solid var(--primary-100)}
-.callout{border-radius:var(--radius-lg);padding:16px 20px;display:flex;gap:12px;align-items:flex-start;margin-bottom:16px;font-size:13px;line-height:1.65}
-.callout-error{background:var(--error-50);border:1px solid var(--error-200);color:var(--error-700)}
-.callout-icon{font-size:16px;flex-shrink:0;margin-top:1px}
-.callout code{font-family:var(--font-mono);font-size:11.5px;background:rgba(0,0,0,.06);padding:1px 5px;border-radius:3px}
-.severity-dot{font-size:13px;font-weight:600}
-.dot-critical{color:var(--error-500)}
-.dot-high{color:var(--warning-500)}
-.dot-medium{color:#DFAB04}
-/* ── Part 3: Migration styles ── */
-.6;font-size:14px}
-.page{max-width:1120px;margin:0 auto;padding:0 48px 80px}
-.lib-amber{background:rgba(217,119,6,.12);color:#fbbf24;border:1px solid rgba(217,119,6,.25)}
-.migration-steps { display: flex; flex-direction: column; gap: 12px; }
-.migration-step {
-  background: white;
-  border: 1px solid var(--card-border);
-  border-radius: 12px;
-  padding: 20px 24px;
-  display: flex;
-  gap: 20px;
-  align-items: flex-start;
-}
-.step-num {
-  width: 32px; height: 32px;
-  background: var(--dark);
-  border-radius: 16px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 13px; font-weight: 700; color: white;
-  flex-shrink: 0;
-}
-.step-body { flex: 1; min-width: 0; }
-.step-title { font-size: 14px; font-weight: 700; color: var(--gray-900); margin-bottom: 6px; }
-.step-desc { font-size: 13px; color: #6B6B6B; line-height: 1.65; margin-bottom: 12px; }
-.step-desc code { font-family: var(--font-mono); font-size: 11.5px; background: var(--gray-100); padding: 1px 5px; border-radius: 3px; color: var(--gray-700); }
-.code-block {
-  background: var(--dark);
-  border-radius: 8px;
-  padding: 14px 16px;
-  overflow-x: auto;
-  font-family: var(--font-mono);
-  font-size: 11.5px;
-  line-height: 1.7;
-  color: #6B7280;
-}
-.code-block .c-comment { color: #6B7280; }
-.code-block .c-var { color: #7DD3FC; }
-.code-block .c-val { color: #FCD34D; }
-.code-block .c-str { color: #C4B5FD; }
-.code-block .c-kw { color: #A8FF78; }
-.code-block .c-good { color: #86EFAC; }
-.code-block .c-bad { color: #FCA5A5; }
-.badge-depr { background: #FEE2E2; color: #991B1B; font-size: 11px; font-weight: 600; padding: 1px 8px; border-radius: 9999px; white-space: nowrap; }
-.do-dont-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
-.do-card, .dont-card {
-  background: white;
-  border: 1px solid var(--gray-200);
-  border-top-width: 3px;
-  border-radius: 12px;
-  padding: 22px 20px;
-  display: flex;
-  flex-direction: column;
   gap: 12px;
 }
-.do-card { border-top-color: var(--primary); }
-.dont-card { border-top-color: var(--error); }
-.do-header { font-size: 12px; font-weight: 700; letter-spacing: 0.96px; text-transform: uppercase; color: var(--primary-hover); }
-.dont-header { font-size: 12px; font-weight: 700; letter-spacing: 0.96px; text-transform: uppercase; color: var(--error); }
-.guideline-item { font-size: 13px; color: #6B6B6B; line-height: 1.6; }
-.guideline-item strong { color: var(--gray-800); }
-.rule-list { border: 1px solid var(--card-border); border-radius: 12px; overflow: hidden; background: white; }
-.rule-item { display: flex; gap: 12px; align-items: flex-start; padding: 12px 16px; border-bottom: 1px solid var(--gray-100); font-size: 13px; color: var(--gray-700); line-height: 1.65; }
-.rule-item:last-child { border-bottom: none; }
-.rule-icon { width: 18px; height: 18px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 10px; flex-shrink: 0; margin-top: 2px; }
-.rule-icon-pass { background: #D1FAE5; color: #065F46; }
-.rule-icon-info { background: #DBEAFE; color: #1D4ED8; }
-.rule-icon-fail { background: #FEE2E2; color: #991B1B; }
-.rule-item code { font-family: var(--font-mono); font-size: 11px; background: var(--gray-100); padding: 1px 5px; border-radius: 3px; color: var(--gray-700); }
-.toc-file-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--neutral-500);margin-bottom:10px;margin-top:20px;padding-bottom:6px;border-bottom:1px solid var(--neutral-100)}
+.size-cell-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; font-weight: 600;
+  color: var(--neutral-500);
+  text-align: center;
+}
+.size-cell-label strong {
+  display: block;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13px; font-weight: 700;
+  color: var(--neutral-200);
+  margin-bottom: 2px;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
 
-  /* ═══════════════════════════════════════════
-     RESPONSIVE — MOBILE
-     ═══════════════════════════════════════════ */
-  @media (max-width: 768px) {
-    .page { padding: 0 16px 48px; }
-    .cover { padding: 40px 20px 36px; margin-bottom: 40px; }
-    .cover-title { font-size: 32px; }
-    .cover-sub { font-size: 14px; margin-bottom: 24px; }
-    .cover-meta { gap: 16px; }
-    .cover-meta-label { font-size: 9px; }
-    .cover-meta-value { font-size: 12px; }
-    .cover-libs { gap: 6px; margin-top: 20px; }
-    .lib-tag { font-size: 11px; padding: 4px 10px; }
+/* Size playground */
+.size-playground {
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-xl);
+  padding: 32px;
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: 28px;
+  align-items: center;
+}
+.sp-stage {
+  display: flex; flex-direction: column;
+  align-items: flex-start; gap: 18px;
+}
+.sp-meta {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 11px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .1em;
+  color: var(--neutral-500);
+}
+.sp-meta strong {
+  color: var(--primary-400);
+  transition: color var(--dur-150) var(--ease-out);
+}
+.sp-demo-wrap {
+  width: 100%;
+  min-height: 64px;
+  display: flex; align-items: center;
+}
+.sp-demo {
+  transition: all var(--dur-200) var(--ease-out);
+}
+.sp-controls {
+  display: flex; flex-direction: column; gap: 10px;
+}
+.sp-controls-label {
+  font-size: 11px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .1em;
+  color: var(--neutral-500);
+  margin-bottom: 4px;
+}
+.sp-btns {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 4px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 4px;
+}
+.sp-btn {
+  padding: 8px 0;
+  border-radius: var(--radius-sm);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; font-weight: 600;
+  color: var(--neutral-400);
+  text-transform: uppercase;
+  transition: all var(--dur-150) var(--ease-out);
+}
+.sp-btn:hover { color: #fff; background: rgba(255,255,255,.06); }
+.sp-btn.active {
+  background: var(--primary-600);
+  color: #fff;
+}
+.sp-spec {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 16px;
+  margin-top: 6px;
+}
+.sp-spec-row {
+  display: flex; flex-direction: column;
+  gap: 1px;
+}
+.sp-spec-key {
+  font-size: 10px; font-weight: 600;
+  letter-spacing: .08em; text-transform: uppercase;
+  color: var(--neutral-600);
+}
+.sp-spec-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px; font-weight: 600;
+  color: var(--neutral-200);
+}
 
-    .toc { padding: 20px; margin-bottom: 36px; }
-    .toc-grid { grid-template-columns: 1fr; }
-    .toc-file-label { margin-top: 14px; }
+/* ─────────────────────────────────────────────
+   SECTION 03 — STATES
+   ───────────────────────────────────────────── */
+.states-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-bottom: 28px;
+}
+.state-card {
+  background: var(--surface-1);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 22px;
+}
+.state-name {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 11px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .12em;
+  color: var(--neutral-400);
+  margin-bottom: 14px;
+}
+.state-name .dot {
+  width: 7px; height: 7px; border-radius: 50%;
+}
+.state-card[data-s="default"]  .dot { background: var(--neutral-400); }
+.state-card[data-s="hover"]    .dot { background: var(--info-400); }
+.state-card[data-s="focus"]    .dot { background: var(--primary-400); box-shadow: 0 0 8px var(--primary-400); }
+.state-card[data-s="active"]   .dot { background: var(--primary-400); }
+.state-card[data-s="loading"]  .dot { background: var(--warning-400); }
+.state-card[data-s="disabled"] .dot { background: var(--neutral-600); }
 
-    .section { margin-bottom: 48px; }
-    .section-title { font-size: 20px; }
-    .section-sub { font-size: 13px; }
+/* Force frozen states for showcase */
+.state-card[data-s="hover"]   .btn { background: var(--primary-700); }
+.state-card[data-s="focus"]   .btn { box-shadow: 0 0 0 3px rgba(34,197,94,.4); }
+.state-card[data-s="active"]  .btn { background: var(--primary-700); transform: scale(.97); }
 
-    .g2, .g3, .g4 { grid-template-columns: 1fr; }
-    .card { padding: 16px; }
+.state-meta {
+  font-size: 11px; color: var(--neutral-500);
+  margin-top: 12px; line-height: 1.5;
+}
+.state-meta code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 1px 5px;
+  color: var(--neutral-300);
+}
 
-    /* Tables — horizontal scroll */
-    table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-    .ds-table-wrap, .tbl-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+/* Cycler */
+.cycler {
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 20px;
+  align-items: end;
+}
+.cycler-stage {
+  display: flex; flex-direction: column; gap: 12px;
+}
+.cycler-meta {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 11px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .1em;
+  color: var(--neutral-500);
+}
+.cycler-state {
+  color: var(--primary-400); font-weight: 700;
+  transition: color var(--dur-150) var(--ease-out);
+}
+.cycler-state.is-warning { color: var(--warning-400); }
+.cycler-state.is-disabled { color: var(--neutral-500); }
+.cycler-demo-wrap {
+  min-height: 56px;
+  display: flex; align-items: center;
+}
+.cycler-helper {
+  font-size: 12px;
+  color: var(--neutral-500);
+  height: 16px;
+}
+.cycler-helper code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 1px 5px;
+  color: var(--neutral-300);
+}
+.cycle-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 18px;
+  background: var(--primary-600);
+  color: #fff;
+  border-radius: var(--radius-md);
+  font-size: 13px; font-weight: 600;
+  transition: all var(--dur-150) var(--ease-out);
+  white-space: nowrap;
+  align-self: flex-end;
+}
+.cycle-btn:hover:not(:disabled) {
+  background: var(--primary-700);
+  transform: translateY(-1px);
+}
+.cycle-btn:active:not(:disabled) { transform: translateY(0) scale(.97); }
+.cycle-btn:disabled {
+  background: rgba(255,255,255,.06);
+  color: var(--neutral-500);
+  cursor: not-allowed;
+}
+.cycle-btn svg { width: 14px; height: 14px; }
 
-    /* Code blocks */
-    .code-block { padding: 14px 16px; font-size: 11px; }
 
-    /* Do/Don't cards */
-    .do-card, .dont-card { padding: 16px; }
+/* ─────────────────────────────────────────────
+   FOOTER
+   ───────────────────────────────────────────── */
+.footer {
+  text-align: center;
+  padding: 48px 24px;
+  border-top: 1px solid rgba(255,255,255,.05);
+  font-size: 12px;
+  color: var(--neutral-600);
+}
+.footer a { color: var(--neutral-500); text-decoration: none; }
+.footer a:hover { color: #4ADE80; }
 
-    /* Issue grids — stack */
-    .issue-grid, .issue-grid-3 { grid-template-columns: 1fr; }
+/* Reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity .6s var(--ease-out), transform .6s var(--ease-out);
+}
+.reveal.in { opacity: 1; transform: translateY(0); }
 
-    /* Button demo canvases */
-    .demo-canvas { padding: 16px; overflow-x: auto; }
-
-    /* Variant cards */
-    .variant-card { padding: 16px; }
-
-    /* Add to cart demos */
-    .atc-group { min-width: 0; }
-
-    /* Chips */
-    .issue-chips { gap: 4px; }
-    .chip { font-size: 10px; padding: 2px 6px; }
-
-    /* Subsection header */
-    .subsection-header { flex-wrap: wrap; gap: 6px; }
-
-    /* Migration steps */
-    .migration-steps { gap: 12px; }
-    .migration-step { padding: 16px; }
-
-    /* Do/Dont grid */
-    .do-dont-grid { grid-template-columns: 1fr; }
-
-    /* Rule list */
-    .rule-list { gap: 8px; }
-
-    /* Footer nav */
-    .footer-nav { flex-direction: column; gap: 12px; }
-  }
-
-  @media (max-width: 480px) {
-    .cover-title { font-size: 26px; }
-    .cover-meta { flex-direction: column; gap: 12px; }
-  }
-
+/* ─────────────────────────────────────────────
+   RESPONSIVE
+   ───────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .cover-title { font-size: 44px; }
+  .variants-grid { grid-template-columns: 1fr 1fr; }
+  .states-grid { grid-template-columns: 1fr 1fr; }
+  .size-playground { grid-template-columns: 1fr; }
+  .cycler { grid-template-columns: 1fr; }
+  .cycle-btn { align-self: stretch; justify-content: center; }
+}
+@media (max-width: 600px) {
+  .cover { padding: 70px 20px 90px; }
+  .cover-title { font-size: 34px; }
+  .cover-sub { font-size: 15px; }
+  .section-title { font-size: 26px; }
+  .variants-grid { grid-template-columns: 1fr; }
+  .states-grid { grid-template-columns: 1fr; }
+  .size-strip { flex-direction: column; align-items: flex-start; }
+}
 </style>
 </head>
 <body>
 
-<div class="cover">
+<!-- ════════════════════════════════════════
+     COVER
+════════════════════════════════════════ -->
+<section class="cover">
   <div class="cover-inner">
-    <div class="cover-eyebrow"><span class="cover-eyebrow-dot"></span>VendHub Design System · Buttons</div>
-    <h1 class="cover-title">Button <span>System</span></h1>
-    <p class="cover-sub">Comprehensive audit, redesigned token-aligned component system, and migration guide for all button variants across VendHub.</p>
-    <div class="cover-meta">
-      <div><div class="cover-meta-label">Document</div><div class="cover-meta-value">Button System (Combined)</div></div>
-      <div><div class="cover-meta-label">Stack</div><div class="cover-meta-value">Next.js + Tailwind v3.4 + shadcn/ui</div></div>
-      <div><div class="cover-meta-label">Font</div><div class="cover-meta-value">Plus Jakarta Sans</div></div>
-      <div><div class="cover-meta-label">Updated</div><div class="cover-meta-value">April 2026</div></div>
+    <div class="cover-eyebrow">
+      <span class="cover-eyebrow-dot"></span>
+      VendHub Design System
     </div>
-    <div class="cover-libs">
-      <span class="lib-tag lib-red">12 Issues Found</span>
-      <span class="lib-tag lib-amber">5 Critical · 6 High · 1 Medium</span>
-      <span class="lib-tag lib-green">● Updated System</span>
-      <span class="lib-tag lib-gray">● Migration Guide</span>
+    <h1 class="cover-title">Button <span>System</span></h1>
+    <p class="cover-sub">9 token-aligned variants, 5 sizes, 6 interaction states. Built with accessible focus rings, semantic color use, and tactile press feedback baked into every variant.</p>
+
+    <!-- Interactive Hero Showcase -->
+    <div class="hero-stage">
+      <div class="hero-btn-magnet" id="heroBtnMagnet">
+        <button class="hero-btn" id="heroBtn" data-v="primary">
+          <span class="hero-btn-content" id="heroBtnContent">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            <span>Browse Equipment</span>
+          </span>
+        </button>
+      </div>
+
+      <div class="hero-pills">
+        <button class="hero-pill active" data-v="primary"><span class="dot"></span>Primary</button>
+        <button class="hero-pill" data-v="outline"><span class="dot"></span>Outline</button>
+        <button class="hero-pill" data-v="destructive"><span class="dot"></span>Destructive</button>
+        <button class="hero-pill" data-v="warning"><span class="dot"></span>Warning</button>
+        <button class="hero-pill" data-v="info"><span class="dot"></span>Info</button>
+      </div>
+
+      <div class="hero-hint">
+        <span class="hero-hint-dot"></span>
+        Auto-cycling · Click a pill to lock · Hover the button for magnetic pull
+      </div>
     </div>
   </div>
-</div>
+</section>
 
+<!-- ════════════════════════════════════════
+     STICKY NAV
+════════════════════════════════════════ -->
+<nav class="subnav">
+  <div class="subnav-inner">
+    <a href="#variants" class="active">Variants</a>
+    <a href="#sizes">Sizes</a>
+    <a href="#states">States</a>
+  </div>
+</nav>
+
+<!-- ════════════════════════════════════════
+     PAGE
+════════════════════════════════════════ -->
 <div class="page">
 
-<div class="toc">
-  <div class="toc-title">Contents</div>
-  <div class="toc-file-label">Part 1 — Audit &amp; Problems</div>
-  <div class="toc-grid">
-    <a href="#typography" class="toc-item"><span class="toc-num">1.1</span> Typography <span class="toc-badge toc-badge-critical">Critical</span></a>
-    <a href="#color" class="toc-item"><span class="toc-num">1.2</span> Color System <span class="toc-badge toc-badge-critical">Critical</span></a>
-    <a href="#states" class="toc-item"><span class="toc-num">1.3</span> States <span class="toc-badge toc-badge-critical">Critical</span></a>
-    <a href="#icons" class="toc-item"><span class="toc-num">1.4</span> Icons &amp; Naming <span class="toc-badge toc-badge-high">High</span></a>
-    <a href="#summary" class="toc-item"><span class="toc-num">1.5</span> Problem Summary</a>
-  </div>
-  <div class="toc-file-label">Part 2 — Updated System</div>
-  <div class="toc-grid">
-    <a href="#tokens" class="toc-item"><span class="toc-num">2.1</span> Design Tokens</a>
-    <a href="#sizes" class="toc-item"><span class="toc-num">2.2</span> Size Scale</a>
-    <a href="#variants" class="toc-item"><span class="toc-num">2.3</span> All 7 Variants</a>
-    <a href="#states2" class="toc-item"><span class="toc-num">2.4</span> Interaction States</a>
-    <a href="#icons2" class="toc-item"><span class="toc-num">2.5</span> Icon Usage</a>
-    <a href="#special" class="toc-item"><span class="toc-num">2.6</span> Special Types</a>
-    <a href="#spectable" class="toc-item"><span class="toc-num">2.7</span> Spec Table</a>
-    <a href="#a11y" class="toc-item"><span class="toc-num">2.8</span> Accessibility</a>
-  </div>
-  <div class="toc-file-label">Part 3 — Migration Guide</div>
-  <div class="toc-grid">
-    <a href="#phases" class="toc-item"><span class="toc-num">3.1</span> Migration Phases</a>
-    <a href="#deprecated" class="toc-item"><span class="toc-num">3.2</span> Deprecated Patterns</a>
-    <a href="#guidelines" class="toc-item"><span class="toc-num">3.3</span> Implementation Guide</a>
-    <a href="#governance" class="toc-item"><span class="toc-num">3.4</span> Governance</a>
-  </div>
+  <!-- ─── 01 — VARIANTS ─── -->
+  <section class="section reveal" id="variants">
+    <div class="section-header">
+      <div class="section-tag">01 · Variants</div>
+      <h2 class="section-title">Nine Token-Aligned Variants</h2>
+      <p class="section-sub">Three families: <strong>brand emphasis</strong> (Primary, Outline, Subtle), <strong>semantic status</strong> (Destructive, Warning, Info), and <strong>neutral</strong> (Neutral, Ghost). Hover any button to see its hover treatment.</p>
+    </div>
+
+    <div class="variants-grid">
+
+      <div class="variant-card">
+        <div class="variant-head"><span>Primary</span><span class="variant-tag">btn-primary</span></div>
+        <div class="variant-demo">
+          <button class="btn btn-primary btn-lg">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            Browse Equipment
+          </button>
+        </div>
+        <div class="variant-desc">Single most important action per view. One per dialog.</div>
+      </div>
+
+      <div class="variant-card">
+        <div class="variant-head"><span>Primary Outline</span><span class="variant-tag">btn-primary-outline</span></div>
+        <div class="variant-demo">
+          <button class="btn btn-primary-outline btn-lg">Save Draft</button>
+        </div>
+        <div class="variant-desc">Second emphasis action when two primaries would compete.</div>
+      </div>
+
+      <div class="variant-card">
+        <div class="variant-head"><span>Primary Subtle</span><span class="variant-tag">btn-primary-subtle</span></div>
+        <div class="variant-demo">
+          <button class="btn btn-primary-subtle btn-lg">List a Route</button>
+        </div>
+        <div class="variant-desc">Low-emphasis on dark or tinted surfaces. Soft brand presence.</div>
+      </div>
+
+      <div class="variant-card">
+        <div class="variant-head"><span>Destructive</span><span class="variant-tag">btn-destructive</span></div>
+        <div class="variant-demo">
+          <button class="btn btn-destructive btn-lg">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="3,6 5,6 21,6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
+            Yes, Delete
+          </button>
+        </div>
+        <div class="variant-desc">Confirmation step inside dialogs — never the trigger that opens one.</div>
+      </div>
+
+      <div class="variant-card">
+        <div class="variant-head"><span>Destructive Outline</span><span class="variant-tag">btn-destructive-outline</span></div>
+        <div class="variant-demo">
+          <button class="btn btn-destructive-outline btn-lg">Remove</button>
+        </div>
+        <div class="variant-desc">Soft destructive — table row delete, list item remove.</div>
+      </div>
+
+      <div class="variant-card">
+        <div class="variant-head"><span>Warning</span><span class="variant-tag">btn-warning</span></div>
+        <div class="variant-demo">
+          <button class="btn btn-warning btn-lg">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 9v4M12 17h.01M3 18h18l-9-15-9 15z"/></svg>
+            Link to Customer
+          </button>
+        </div>
+        <div class="variant-desc">Risk-implied actions. Not a replacement for primary green.</div>
+      </div>
+
+      <div class="variant-card">
+        <div class="variant-head"><span>Info</span><span class="variant-tag">btn-info</span></div>
+        <div class="variant-demo">
+          <button class="btn btn-info btn-lg">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Contact Sales
+          </button>
+        </div>
+        <div class="variant-desc">Informational actions — contact, help, learn more.</div>
+      </div>
+
+      <div class="variant-card">
+        <div class="variant-head"><span>Neutral</span><span class="variant-tag">btn-neutral</span></div>
+        <div class="variant-demo">
+          <button class="btn btn-neutral btn-lg">Cancel</button>
+        </div>
+        <div class="variant-desc">Cancel, back, go-to-previous. Pairs with primary as secondary action.</div>
+      </div>
+
+      <div class="variant-card">
+        <div class="variant-head"><span>Ghost</span><span class="variant-tag">btn-ghost</span></div>
+        <div class="variant-demo">
+          <button class="btn btn-ghost btn-lg">View All →</button>
+        </div>
+        <div class="variant-desc">Tertiary navigation. Does not look like a button at rest.</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ─── 02 — SIZES ─── -->
+  <section class="section reveal" id="sizes">
+    <div class="section-header">
+      <div class="section-tag">02 · Sizes</div>
+      <h2 class="section-title">Five Sizes, One Scale</h2>
+      <p class="section-sub">Same variant, five heights. Click any size below to rescale the live demo button — the spec readout updates with exact pixel values for height, padding, font, and icon.</p>
+    </div>
+
+    <div class="size-strip">
+      <div class="size-cell">
+        <button class="btn btn-primary btn-xl">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg>
+          Shop Equipment
+        </button>
+        <div class="size-cell-label"><strong>XL</strong>48px / 16px / 600</div>
+      </div>
+      <div class="size-cell">
+        <button class="btn btn-primary btn-lg">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg>
+          Shop Equipment
+        </button>
+        <div class="size-cell-label"><strong>LG</strong>40px / 14px / 600</div>
+      </div>
+      <div class="size-cell">
+        <button class="btn btn-primary btn-md">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg>
+          Shop Equipment
+        </button>
+        <div class="size-cell-label"><strong>MD</strong>32px / 14px / 600</div>
+      </div>
+      <div class="size-cell">
+        <button class="btn btn-primary btn-sm">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg>
+          Shop Eq.
+        </button>
+        <div class="size-cell-label"><strong>SM</strong>28px / 12px / 600</div>
+      </div>
+      <div class="size-cell">
+        <button class="btn btn-primary btn-xs">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg>
+          Shop
+        </button>
+        <div class="size-cell-label"><strong>XS</strong>24px / 12px / 600</div>
+      </div>
+    </div>
+
+    <div class="size-playground">
+      <div class="sp-stage">
+        <div class="sp-meta">
+          <span>Live Demo</span>
+          <span style="color:var(--neutral-700)">·</span>
+          <span>Size</span>
+          <strong id="spSizeLabel">XL</strong>
+        </div>
+        <div class="sp-demo-wrap">
+          <button id="spDemo" class="btn btn-primary btn-xl sp-demo">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            Continue to checkout
+          </button>
+        </div>
+      </div>
+      <div class="sp-controls">
+        <div class="sp-controls-label">Pick a size</div>
+        <div class="sp-btns" id="spBtns">
+          <button class="sp-btn active" data-size="xl">XL</button>
+          <button class="sp-btn" data-size="lg">LG</button>
+          <button class="sp-btn" data-size="md">MD</button>
+          <button class="sp-btn" data-size="sm">SM</button>
+          <button class="sp-btn" data-size="xs">XS</button>
+        </div>
+        <div class="sp-spec">
+          <div class="sp-spec-row"><span class="sp-spec-key">Height</span><span class="sp-spec-val" id="specH">48px</span></div>
+          <div class="sp-spec-row"><span class="sp-spec-key">H Padding</span><span class="sp-spec-val" id="specP">24px</span></div>
+          <div class="sp-spec-row"><span class="sp-spec-key">Font</span><span class="sp-spec-val" id="specF">16px / 600</span></div>
+          <div class="sp-spec-row"><span class="sp-spec-key">Icon</span><span class="sp-spec-val" id="specI">20px</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── 03 — STATES ─── -->
+  <section class="section reveal" id="states">
+    <div class="section-header">
+      <div class="section-tag">03 · States</div>
+      <h2 class="section-title">Six States, One Pattern</h2>
+      <p class="section-sub">Every variant supports the same six states. Press <strong>Cycle</strong> below to watch a single button move through all of them — Default, Hover, Focus, Active, Loading, Disabled.</p>
+    </div>
+
+    <div class="states-grid">
+      <div class="state-card" data-s="default">
+        <div class="state-name"><span class="dot"></span>Default</div>
+        <button class="btn btn-primary btn-lg">Publish Listing</button>
+        <div class="state-meta">Resting state. Token-aligned <code>bg-primary-600</code>.</div>
+      </div>
+      <div class="state-card" data-s="hover">
+        <div class="state-name"><span class="dot"></span>Hover</div>
+        <button class="btn btn-primary btn-lg">Publish Listing</button>
+        <div class="state-meta">Darkens 1 step → <code>bg-primary-700</code>.</div>
+      </div>
+      <div class="state-card" data-s="focus">
+        <div class="state-name"><span class="dot"></span>Focus</div>
+        <button class="btn btn-primary btn-lg">Publish Listing</button>
+        <div class="state-meta">3px ring with primary-500 at 40% opacity.</div>
+      </div>
+      <div class="state-card" data-s="active">
+        <div class="state-name"><span class="dot"></span>Active</div>
+        <button class="btn btn-primary btn-lg">Publish Listing</button>
+        <div class="state-meta">Tactile press → <code>scale(.97)</code> + darken.</div>
+      </div>
+      <div class="state-card" data-s="loading">
+        <div class="state-name"><span class="dot"></span>Loading</div>
+        <button class="btn btn-primary btn-lg">
+          <svg class="spinner" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 12a9 9 0 1 1-6.22-8.56"/></svg>
+          Publishing…
+        </button>
+        <div class="state-meta">Spinner inline. <code>pointer-events: none</code> prevents double-submit.</div>
+      </div>
+      <div class="state-card" data-s="disabled">
+        <div class="state-name"><span class="dot"></span>Disabled</div>
+        <button class="btn btn-primary btn-lg" disabled>Publish Listing</button>
+        <div class="state-meta">Override bg + text. <strong>Never</strong> use opacity alone.</div>
+      </div>
+    </div>
+
+    <div class="cycler">
+      <div class="cycler-stage">
+        <div class="cycler-meta">
+          <span>Live Demo</span>
+          <span style="color:var(--neutral-700)">·</span>
+          <span class="cycler-state" id="cyclerState">Default</span>
+        </div>
+        <div class="cycler-demo-wrap">
+          <button class="btn btn-primary btn-lg" id="cyclerBtn">
+            <span id="cyclerIcon"></span>
+            <span id="cyclerLabel">Publish Listing</span>
+          </button>
+        </div>
+        <div class="cycler-helper" id="cyclerHelper">Resting state — <code>bg-primary-600</code>.</div>
+      </div>
+      <button class="cycle-btn" id="cycleBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5,3 19,12 5,21"/></svg>
+        Cycle states
+      </button>
+    </div>
+  </section>
+
+
 </div>
 
+<!-- ════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════ -->
+<footer class="footer">
+  <a href="index.html" class="back-link">← Back to Design System</a><br>
+  VendHub Design System · Designed &amp; documented by <a href="https://sorwoar.framer.website/" target="_blank">Sorwoar Resim</a>
+</footer>
 
-<div class="section" id="audit">
-  <div class="section-header">
-    <div class="section-tag">01 · Audit &amp; Problems</div>
-    <h2 class="section-title">Audit &amp; Problems</h2>
-    <p class="section-sub">Issues identified by comparing the existing button system against VendHub's live components and design tokens.</p>
-  </div>
+<script>
+/* ─────────────────────────────────────────────
+   HERO INTERACTIVE SHOWCASE
+   ───────────────────────────────────────────── */
+const HERO_VARIANTS = [
+  {
+    key: 'primary',
+    label: 'Browse Equipment',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>',
+    glow: 'rgba(22,163,74,.32)'
+  },
+  {
+    key: 'outline',
+    label: 'Save Draft',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>',
+    glow: 'rgba(22,163,74,.18)'
+  },
+  {
+    key: 'destructive',
+    label: 'Delete Listing',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="3,6 5,6 21,6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg>',
+    glow: 'rgba(220,38,38,.32)'
+  },
+  {
+    key: 'warning',
+    label: 'Confirm Order',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 9v4M12 17h.01M3 18h18l-9-15-9 15z"/></svg>',
+    glow: 'rgba(217,119,6,.32)'
+  },
+  {
+    key: 'info',
+    label: 'Contact Sales',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>',
+    glow: 'rgba(37,99,235,.32)'
+  }
+];
 
-  <div class="subsection" id="typography">
-    <div class="subsection-header"><span class="subsection-title">1.1 Typography Conflicts</span><span class="severity-tag severity-critical">Critical</span></div>
-    <div class="issue-grid">
-      <div class="issue-card issue-card-critical">
-        <div class="issue-severity issue-severity-critical">Critical</div>
-        <div class="issue-title">Sub-scale font sizes in button specs</div>
-        <div class="issue-body">The button spec defines an <code>xs</code> size at <code>10px</code> and an <code>sm</code> size at <code>12px</code>. However, the current typography system renders 10px text via <code>text-[10px]</code> — an arbitrary value flagged in the audit as an anti-pattern (25 occurrences). The smallest named scale step is <code>text-xs = 12px</code>.</div>
-        <div class="issue-chips"><span class="chip chip-bad">spec says 10px</span><span class="chip chip-arrow">→</span><span class="chip chip-good">min 12px (text-xs)</span></div>
-      </div>
-      <div class="issue-card issue-card-high">
-        <div class="issue-severity issue-severity-high">High</div>
-        <div class="issue-title">Inconsistent font weight on buttons</div>
-        <div class="issue-body">Button labels across the app use <code>font-medium</code> (49% of all weight usages) and <code>font-semibold</code> (27%) with no documented rule for buttons. Some instances use <code>font-bold</code>. The spec should standardise on <code>font-semibold</code> / 600 for all button labels.</div>
-        <div class="issue-chips"><span class="chip chip-bad">mixed: 500/600/700</span><span class="chip chip-arrow">→</span><span class="chip chip-good">always 600</span></div>
-      </div>
-    </div>
-  </div>
+const heroBtn = document.getElementById('heroBtn');
+const heroBtnContent = document.getElementById('heroBtnContent');
+const heroBtnMagnet = document.getElementById('heroBtnMagnet');
+const heroPills = document.querySelectorAll('.hero-pill');
 
-  <div class="subsection" id="color">
-    <div class="subsection-header"><span class="subsection-title">1.2 Color System Conflicts</span><span class="severity-tag severity-critical">Critical</span></div>
-    <div class="callout callout-error"><span class="callout-icon">⚠️</span><div><strong>Primary color identity split:</strong> The shadcn <code>--primary</code> HSL token resolves to <strong>teal</strong> while <code>bg-primary</code> resolves via <code>--primary500</code> to <strong>green</strong>. Buttons may render in either colour depending on whether they use a shadcn variant or custom classes. All buttons must use <code>--primary-600 (#16A34A)</code> as the single source of truth.</div></div>
-    <div class="issue-grid">
-      <div class="issue-card issue-card-critical">
-        <div class="issue-severity issue-severity-critical">Critical</div>
-        <div class="issue-title">Warning buttons use un-tokenised orange</div>
-        <div class="issue-body">Warning variant buttons (<em>Link to Customer, View Details, Pay via Credit Card</em>) show an orange color in the UI. However <code>--warning</code>, <code>--warning-foreground</code> tokens are not defined in <code>:root</code> — they produce invalid CSS. Buttons currently hardcode <code>bg-orange-500</code> bypassing the token system entirely.</div>
-        <div class="issue-chips"><span class="chip chip-bad">bg-orange-500</span><span class="chip chip-arrow">→</span><span class="chip chip-good">bg-[--warning-600]</span></div>
-      </div>
-      <div class="issue-card issue-card-critical">
-        <div class="issue-severity issue-severity-critical">Critical</div>
-        <div class="issue-title">Hardcoded hex values in button backgrounds</div>
-        <div class="issue-body">~385 hardcoded hex instances exist in the codebase. Several button-adjacent elements use raw hex (e.g. <code>#15A34A</code>, <code>#DC2626</code>) instead of semantic tokens. A brand colour change would require hunting down each occurrence.</div>
-        <div class="issue-chips"><span class="chip chip-bad">#15A34A hardcoded</span><span class="chip chip-arrow">→</span><span class="chip chip-good">var(primary)</span></div>
-      </div>
-      <div class="issue-card issue-card-high">
-        <div class="issue-severity issue-severity-high">High</div>
-        <div class="issue-title">Disabled state uses raw gray rather than design token</div>
-        <div class="issue-body">Disabled buttons show approximately <code>bg-gray-200</code> / <code>text-gray-500</code> but this is not standardised. Some disabled buttons render with a green-tinted background because the base primary style applies opacity instead of overriding the background.</div>
-      </div>
-      <div class="issue-card issue-card-high">
-        <div class="issue-severity issue-severity-high">High</div>
-        <div class="issue-title">No semantic success button variant</div>
-        <div class="issue-body">The design system defines a full success scale (50–600) and the UI shows success states in banners, but there is no <em>success button</em> variant documented or implemented. Confirm/approve actions fall back to using the primary green style.</div>
-      </div>
-    </div>
-  </div>
+let heroIdx = 0;
+let heroCycleTimer;
+let heroPaused = false;
+let heroResumeTimer;
 
-  <div class="subsection" id="states">
-    <div class="subsection-header"><span class="subsection-title">1.3 Missing &amp; Inconsistent States</span><span class="severity-tag severity-critical">Critical</span></div>
-    <div class="issue-grid-3">
-      <div class="issue-card issue-card-critical">
-        <div class="issue-severity issue-severity-critical">Critical</div>
-        <div class="issue-title">Zero active/pressed states across all variants</div>
-        <div class="issue-body">The audit confirms: <em>"No active/pressed states anywhere — zero components define <code>active:</code> pseudo-class styles."</em> When a user clicks a button there is no visual depression or scale feedback. Every button variant must define <code>active:scale-[0.975]</code> and <code>active:brightness-95</code>.</div>
-      </div>
-      <div class="issue-card issue-card-critical">
-        <div class="issue-severity issue-severity-critical">Critical</div>
-        <div class="issue-title">Four different focus ring patterns</div>
-        <div class="issue-body">Button focus rings vary across the system: <code>ring-1 primary-500</code>, <code>ring-2 ring offset-2</code>, <code>focus</code> vs <code>focus-visible</code>. Badge uses <code>focus:</code> (fires on mouse click). Dialog close button has no focus ring at all.</div>
-      </div>
-      <div class="issue-card issue-card-high">
-        <div class="issue-severity issue-severity-high">High</div>
-        <div class="issue-title">No loading state defined</div>
-        <div class="issue-body">The existing button spec documents size, variants, and some states, but there is no documented loading state. Forms, async actions need a spinner-in-button pattern with disabled pointer events to prevent double submission.</div>
-      </div>
-    </div>
-  </div>
+function setHeroVariant(idx) {
+  const v = HERO_VARIANTS[idx];
+  heroBtn.classList.add('swapping');
 
-  <div class="subsection" id="icons">
-    <div class="subsection-header"><span class="subsection-title">1.4 Icon Usage &amp; Naming</span><span class="severity-tag severity-high">High</span></div>
-    <div class="issue-grid">
-      <div class="issue-card issue-card-high">
-        <div class="issue-severity issue-severity-high">High</div>
-        <div class="issue-title">Two icon libraries with no documented convention</div>
-        <div class="issue-body">36 files import from both <code>lucide-react</code> and <code>@fluentui/react-icons</code>. The same icon concept (Search, X, Check) is sourced from different libraries in different buttons causing visual inconsistency.</div>
-        <div class="issue-chips"><span class="chip chip-bad">lucide + fluent mixed</span><span class="chip chip-arrow">→</span><span class="chip chip-good">lucide-react as default</span></div>
-      </div>
-      <div class="issue-card issue-card-high">
-        <div class="issue-severity issue-severity-high">High</div>
-        <div class="issue-title">Stepper &amp; Add-to-Cart are undocumented special types</div>
-        <div class="issue-body">The stepper (quantity control) and the Add to Cart composite button appear throughout the product but have no formal specification. They have their own layout rules, circular minus/plus buttons, and disabled states that differ from standard buttons.</div>
-      </div>
-    </div>
-  </div>
+  setTimeout(() => {
+    heroBtn.dataset.v = v.key;
+    heroBtnContent.innerHTML = v.icon + '<span>' + v.label + '</span>';
+    heroBtnMagnet.style.setProperty('--btn-glow', v.glow);
+    heroPills.forEach(p => p.classList.toggle('active', p.dataset.v === v.key));
+    heroBtn.classList.remove('swapping');
+    heroIdx = idx;
+  }, 200);
+}
 
-  <div class="subsection" id="summary">
-    <div class="subsection-header"><span class="subsection-title">1.5 Problem Summary</span></div>
-    <div class="ds-table-wrap">
-      <table class="ds-table">
-        <thead><tr><th>Area</th><th>Issue</th><th>Severity</th><th>Fix</th></tr></thead>
-        <tbody>
-          <tr><td>Typography</td><td>xs size uses 10px — below scale minimum</td><td><span class="severity-dot dot-critical">Critical</span></td><td>Raise to 12px (text-xs)</td></tr>
-          <tr><td>Typography</td><td>Font weight inconsistent (500/600/700)</td><td><span class="severity-dot dot-high">High</span></td><td>Standardise to 600 (font-semibold)</td></tr>
-          <tr><td>Color</td><td>Primary token split: teal vs green</td><td><span class="severity-dot dot-critical">Critical</span></td><td>Unify on #16A34A (primary-600)</td></tr>
-          <tr><td>Color</td><td>Warning/Error tokens undefined in :root</td><td><span class="severity-dot dot-critical">Critical</span></td><td>Define missing CSS vars</td></tr>
-          <tr><td>Color</td><td>Disabled uses opacity not background override</td><td><span class="severity-dot dot-high">High</span></td><td>Use dedicated disabled token set</td></tr>
-          <tr><td>States</td><td>No active/pressed state on any button</td><td><span class="severity-dot dot-critical">Critical</span></td><td>Add active:scale-[0.975]</td></tr>
-          <tr><td>States</td><td>4+ different focus ring patterns</td><td><span class="severity-dot dot-critical">Critical</span></td><td>Standardise to ring-2 offset-2 primary-600</td></tr>
-          <tr><td>States</td><td>No loading state defined</td><td><span class="severity-dot dot-high">High</span></td><td>Define spinner pattern</td></tr>
-          <tr><td>Spacing</td><td>Horizontal padding not tied to size tokens</td><td><span class="severity-dot dot-high">High</span></td><td>Map px per size tier</td></tr>
-          <tr><td>Icons</td><td>Two icon libraries, no convention</td><td><span class="severity-dot dot-high">High</span></td><td>lucide-react as default</td></tr>
-          <tr><td>Icons</td><td>Icon size not mapped to button size</td><td><span class="severity-dot dot-medium">Medium</span></td><td>icon-md (20px) for lg/xl, icon-sm (16px) for md</td></tr>
-          <tr><td>Special</td><td>Stepper &amp; Add to Cart undocumented</td><td><span class="severity-dot dot-high">High</span></td><td>Formalise as special types</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div>
+function startHeroCycle() {
+  if (heroCycleTimer) clearInterval(heroCycleTimer);
+  heroCycleTimer = setInterval(() => {
+    if (heroPaused) return;
+    const next = (heroIdx + 1) % HERO_VARIANTS.length;
+    setHeroVariant(next);
+  }, 3200);
+}
 
+function pauseHero() {
+  heroPaused = true;
+  if (heroResumeTimer) clearTimeout(heroResumeTimer);
+  heroResumeTimer = setTimeout(() => { heroPaused = false; }, 6000);
+}
 
+heroPills.forEach(p => {
+  p.addEventListener('click', () => {
+    const idx = HERO_VARIANTS.findIndex(v => v.key === p.dataset.v);
+    if (idx >= 0 && idx !== heroIdx) {
+      setHeroVariant(idx);
+      pauseHero();
+    }
+  });
+});
 
-<div class="section" id="system">
-  <div class="section-header">
-    <div class="section-tag">02 · Updated Button System</div>
-    <h2 class="section-title">Updated Button System</h2>
-    <p class="section-sub">Token-aligned, accessible, and complete — covering all variants, sizes, states, icons, and special types.</p>
-  </div>
-        <!-- 2.1 Color Tokens -->
-        <div class="subsection" id="tokens">
-          <div class="subsection-header">
-            <span class="subsection-title">2.1 Color Token Foundation</span>
-          </div>
-          <div class="token-grid">
-            <div class="token-row-3">
-              <!-- Primary -->
-              <div class="token-card">
-                <div class="token-card-title">Primary group:</div>
-                <div class="token-row">
-                  <div class="token-name"><span class="swatch" style="background:#16A34A"></span><span class="token-key">primary</span></div>
-                  <span class="token-desc">#16A34A — bg</span>
-                </div>
-                <div class="token-row">
-                  <div class="token-name"><span class="swatch" style="background:#15803D"></span><span class="token-key">primary-hover</span></div>
-                  <span class="token-desc">#15803D — hover</span>
-                </div>
-                <div class="token-row">
-                  <div class="token-name"><span class="swatch" style="background:#FFFFFF; border:1px solid #e5e7eb"></span><span class="token-key">bg-default</span></div>
-                  <span class="token-desc">#FFFFFF — text</span>
-                </div>
-                <div class="token-row">
-                  <span class="token-chip">primary</span>
-                  <span class="token-desc">Token Label</span>
-                </div>
-              </div>
-              <!-- Primary Outline -->
-              <div class="token-card">
-                <div class="token-card-title">Primary Outline group:</div>
-                <div class="token-row">
-                  <div class="token-name"><span class="swatch" style="background:#16A34A"></span><span class="token-key">#16A34A</span></div>
-                  <span class="token-desc">Border</span>
-                </div>
-                <div class="token-row">
-                  <div class="token-name"><span class="swatch" style="background:#16A34A"></span><span class="token-key">#16A34A</span></div>
-                  <span class="token-desc">Text</span>
-                </div>
-                <div class="token-row">
-                  <div class="token-name"><span class="swatch" style="background:#F0FDF4"></span><span class="token-key">#F0FDF4</span></div>
-                  <span class="token-desc">Hover bg</span>
-                </div>
-                <div class="token-row">
-                  <span class="token-chip">primary-subtle</span>
-                  <span class="token-desc">Token Label</span>
-                </div>
-              </div>
-              <!-- Primary Subtle -->
-              <div class="token-card">
-                <div class="token-card-title">Primary Subtle:</div>
-                <div class="token-row">
-                  <div class="token-name"><span class="swatch" style="background:#F0FDF4"></span><span class="token-key">#F0FDF4</span></div>
-                  <span class="token-desc">Default bg</span>
-                </div>
-                <div class="token-row">
-                  <div class="token-name"><span class="swatch" style="background:#16A34A"></span><span class="token-key">#16A34A</span></div>
-                  <span class="token-desc">Border</span>
-                </div>
-                <div class="token-row">
-                  <div class="token-name"><span class="swatch" style="background:#16A34A"></span><span class="token-key">#16A34A</span></div>
-                  <span class="token-desc">Text</span>
-                </div>
-                <div class="token-row">
-                  <div class="token-name"><span class="swatch" style="background:#DCFCE7"></span><span class="token-key">#DCFCE7</span></div>
-                  <span class="token-desc">Hover bg</span>
-                </div>
-                <div class="token-row">
-                  <span class="token-chip">primary-subtle</span>
-                  <span class="token-desc">Token Label</span>
-                </div>
-              </div>
-            </div>
-            <div class="token-row-3">
-              <!-- Destructive Solid -->
-              <div class="token-card">
-                <div class="token-card-title">Destructive solid:</div>
-                <div class="token-row">
-                  <div class="token-name"><span class="swatch" style="background:#DC2626"></span><span class="token-key">#DC2626</span></div>
-                  <span class="token-desc">Default bg</span>
-                </div>
-                <div class="token-row">
-                  <div class="token-name"><span class="swatch" style="background:#B91C1C"></span><span class="token-key">#B91C1C</span></div>
-                  <span class="token-desc">Hover bg</span>
-                </div>
-                <div class="token-row">
-                  <div class="token-name"><span class="swatch" style="background:#FFFFFF; border:1px solid #e5e7eb"></span><span class="token-key">#FFFFFF</span></div>
-                  <span class="token-desc">Text</span>
-                </div>
-                <div class="token-row">
-                  <span class="token-chip" style="background:#FEF2F2;color:#B91C1C;border-color:#FECACA">error</span>
-                  <span class="token-desc">Token Label</span>
-                </div>
-              </div>
-              <!-- Destructive Outline -->
-              <div class="token-card">
-                <div class="token-card-title">Destructive outline:</div>
-                <div class="token-row">
-                  <div class="token-name"><span class="swatch" style="background:#DC2626"></span><span class="token-key">#DC2626</span></div>
-                  <span class="token-desc">Border</span>
-                </div>
-                <div class="token-row">
-                  <div class="token-name"><span class="swatch" style="background:#DC2626"></span><span class="token-key">#DC2626</span></div>
-                  <span class="token-desc">Text</span>
-                </div>
-                <div class="token-row">
-                  <div class="token-name"><span class="swatch" style="background:#FEF2F2"></span><span class="token-key">#FEF2F2</span></div>
-                  <span class="token-desc">Hover bg</span>
-                </div>
-                <div class="token-row">
-                  <span class="token-chip" style="background:#FEF2F2;color:#B91C1C;border-color:#FECACA">error-subtle</span>
-                  <span class="token-desc">Token Label</span>
-                </div>
-              </div>
-              <!-- Disabled -->
-              <div class="token-card">
-                <div class="token-card-title">Disabled group:</div>
-                <div class="token-row">
-                  <div class="token-name"><span class="swatch" style="background:#F3F4F6"></span><span class="token-key">#F3F4F6</span></div>
-                  <span class="token-desc">background</span>
-                </div>
-                <div class="token-row">
-                  <div class="token-name"><span class="swatch" style="background:#E5E7EB"></span><span class="token-key">#E5E7EB</span></div>
-                  <span class="token-desc">Border</span>
-                </div>
-                <div class="token-row">
-                  <div class="token-name"><span class="swatch" style="background:#9CA3AF"></span><span class="token-key">#9CA3AF</span></div>
-                  <span class="token-desc">Text</span>
-                </div>
-                <div class="token-row">
-                  <span class="token-chip" style="background:#F9FAFB;color:#6B7280;border-color:#E5E7EB">text-disabled</span>
-                  <span class="token-desc">Token Label</span>
-                </div>
-              </div>
-            </div>
-            <div class="token-row-3">
-              <!-- Neutral -->
-              <div class="token-card">
-                <div class="token-card-title">Neutral group:</div>
-                <div class="token-row">
-                  <div class="token-name"><span class="swatch" style="background:#FFFFFF; border:1px solid #e5e7eb"></span><span class="token-key">#FFFFFF</span></div>
-                  <span class="token-desc">Default bg</span>
-                </div>
-                <div class="token-row">
-                  <div class="token-name"><span class="swatch" style="background:#D1D5DB"></span><span class="token-key">#D1D5DB</span></div>
-                  <span class="token-desc">Border</span>
-                </div>
-                <div class="token-row">
-                  <div class="token-name"><span class="swatch" style="background:#1F2937"></span><span class="token-key">#1F2937</span></div>
-                  <span class="token-desc">Text</span>
-                </div>
-                <div class="token-row">
-                  <span class="token-chip" style="background:#F9FAFB;color:#374151;border-color:#E5E7EB">border-strong</span>
-                  <span class="token-desc">Token Label</span>
-                </div>
-              </div>
-              <!-- Warning -->
-              <div class="token-card">
-                <div class="token-card-title">Warning group:</div>
-                <div class="token-row">
-                  <div class="token-name"><span class="swatch" style="background:#D97706"></span><span class="token-key">#D97706</span></div>
-                  <span class="token-desc">Default bg</span>
-                </div>
-                <div class="token-row">
-                  <div class="token-name"><span class="swatch" style="background:#B45309"></span><span class="token-key">#B45309</span></div>
-                  <span class="token-desc">Hover bg</span>
-                </div>
-                <div class="token-row">
-                  <div class="token-name"><span class="swatch" style="background:#FFFFFF; border:1px solid #e5e7eb"></span><span class="token-key">#FFFFFF</span></div>
-                  <span class="token-desc">Text</span>
-                </div>
-                <div class="token-row">
-                  <span class="token-chip" style="background:#FFFBEB;color:#92400E;border-color:#FDE68A">warning</span>
-                  <span class="token-desc">Token Label</span>
-                </div>
-              </div>
-              <!-- Info -->
-              <div class="token-card">
-                <div class="token-card-title">Info group:</div>
-                <div class="token-row">
-                  <div class="token-name"><span class="swatch" style="background:#2563EB"></span><span class="token-key">#2563EB</span></div>
-                  <span class="token-desc">Default bg</span>
-                </div>
-                <div class="token-row">
-                  <div class="token-name"><span class="swatch" style="background:#1D4ED8"></span><span class="token-key">#1D4ED8</span></div>
-                  <span class="token-desc">Hover bg</span>
-                </div>
-                <div class="token-row">
-                  <div class="token-name"><span class="swatch" style="background:#FFFFFF; border:1px solid #e5e7eb"></span><span class="token-key">#FFFFFF</span></div>
-                  <span class="token-desc">Text</span>
-                </div>
-                <div class="token-row">
-                  <span class="token-chip" style="background:#EFF6FF;color:#1D4ED8;border-color:#BFDBFE">info</span>
-                  <span class="token-desc">Token Label</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+/* Magnetic hover — subtle pull toward cursor */
+let magnetActive = false;
+heroBtnMagnet.addEventListener('mouseenter', () => { magnetActive = true; });
+heroBtnMagnet.addEventListener('mousemove', (e) => {
+  if (!magnetActive) return;
+  const r = heroBtnMagnet.getBoundingClientRect();
+  const x = e.clientX - r.left - r.width / 2;
+  const y = e.clientY - r.top - r.height / 2;
+  heroBtnMagnet.style.transform = `translate(${x * 0.18}px, ${y * 0.28}px)`;
+});
+heroBtnMagnet.addEventListener('mouseleave', () => {
+  magnetActive = false;
+  heroBtnMagnet.style.transform = '';
+});
 
-        <!-- 2.2 Size Scale -->
-        <div class="subsection" id="sizes">
-          <div class="subsection-header">
-            <span class="subsection-title">2.2 Size Scale</span>
-          </div>
-          <div class="ds-table-wrap">
-            <table class="ds-table">
-              <thead>
-                <tr>
-                  <th>Token</th>
-                  <th>Height</th>
-                  <th>H. Padding</th>
-                  <th>Font Size</th>
-                  <th>Icon Size</th>
-                  <th>Gap</th>
-                  <th>Use Case</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr><td><code>xl</code></td><td>48px</td><td>24px</td><td>16px / 600</td><td>20px</td><td>8px</td><td>Hero CTAs, onboarding</td></tr>
-                <tr><td><code>lg</code> <span class="size-default">(default)</span></td><td>40px</td><td>20px</td><td>14px / 600</td><td>20px</td><td>8px</td><td>Page-level actions</td></tr>
-                <tr><td><code>md</code></td><td>32px</td><td>14px</td><td>14px / 600</td><td>16px</td><td>6px</td><td>Toolbars, cards, tables</td></tr>
-                <tr><td><code>sm</code></td><td>28px</td><td>12px</td><td>12px / 600</td><td>14px</td><td>4px</td><td>Compact UI actions</td></tr>
-                <tr><td><code>xs</code></td><td>24px</td><td>10px</td><td>12px / 600</td><td>14px</td><td>4px</td><td>Tags, dense rows — non-critical only</td></tr>
-              </tbody>
-            </table>
-          </div>
+/* Click ripple */
+heroBtn.addEventListener('click', (e) => {
+  const r = heroBtn.getBoundingClientRect();
+  const ripple = document.createElement('span');
+  ripple.className = 'ripple';
+  ripple.style.left = (e.clientX - r.left) + 'px';
+  ripple.style.top = (e.clientY - r.top) + 'px';
+  heroBtn.appendChild(ripple);
+  setTimeout(() => ripple.remove(), 700);
+  pauseHero();
+});
 
-          <div class="demo-canvas">
-            <div class="demo-label">Size Scale — Primary Variant</div>
-            <div class="demo-row">
-              <button class="btn btn-primary btn-xl">Shop Equipment</button>
-              <button class="btn btn-primary btn-lg">Shop Equipment</button>
-              <button class="btn btn-primary btn-md">Shop Equipment</button>
-              <button class="btn btn-primary btn-sm">Shop Eq.</button>
-              <button class="btn btn-primary btn-xs">Shop</button>
-            </div>
-            <div class="demo-row-label">xl: 48px · lg: 40px · md: 32px · sm: 28px · xs: 24px</div>
-          </div>
-        </div>
+/* Animated counter */
+function animateCount(el, target, dur) {
+  const start = performance.now();
+  function tick(now) {
+    const t = Math.min(1, (now - start) / dur);
+    const eased = 1 - Math.pow(1 - t, 3);
+    el.textContent = Math.round(target * eased);
+    if (t < 1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
 
-        <!-- 2.3 Variants -->
-        <div class="subsection" id="variants">
-          <div class="subsection-header">
-            <span class="subsection-title">2.3 Variants</span>
-          </div>
-          <div class="variant-grid">
-            <div class="variant-row variant-header-row">
-              <div class="variant-name-col">Variant</div>
-              <div>Live Preview (lg)</div>
-              <div class="variant-use-col">When to use</div>
-            </div>
-            <div class="variant-row">
-              <div class="variant-name-col">Primary<span class="variant-name-sub">btn-primary</span></div>
-              <div class="variant-preview-col">
-                <button class="btn btn-primary btn-lg">Browse Equipment</button>
-                <button class="btn btn-primary btn-lg" style="gap:8px">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-                  Add to Cart
-                </button>
-              </div>
-              <div class="variant-use-col">Single most important action per view</div>
-            </div>
-            <div class="variant-row">
-              <div class="variant-name-col">Primary Outline<span class="variant-name-sub">btn-primary-outline</span></div>
-              <div class="variant-preview-col">
-                <button class="btn btn-primary-outline btn-lg">Save Draft</button>
-              </div>
-              <div class="variant-use-col">Second emphasis action alongside primary</div>
-            </div>
-            <div class="variant-row">
-              <div class="variant-name-col">Primary Subtle<span class="variant-name-sub">btn-primary-subtle</span></div>
-              <div class="variant-preview-col">
-                <button class="btn btn-primary-subtle btn-lg">List a Route</button>
-              </div>
-              <div class="variant-use-col">Low-emphasis on white or tinted surfaces</div>
-            </div>
-            <div class="variant-row">
-              <div class="variant-name-col">Neutral<span class="variant-name-sub">btn-neutral</span></div>
-              <div class="variant-preview-col">
-                <button class="btn btn-neutral btn-lg">Cancel</button>
-                <button class="btn btn-neutral btn-lg" style="gap:8px">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
-                  Share
-                </button>
-              </div>
-              <div class="variant-use-col">Cancel, back, secondary actions</div>
-            </div>
-            <div class="variant-row">
-              <div class="variant-name-col">Ghost<span class="variant-name-sub">btn-ghost</span></div>
-              <div class="variant-preview-col">
-                <button class="btn btn-ghost btn-lg">View All →</button>
-              </div>
-              <div class="variant-use-col">Tertiary navigation, low-prominence</div>
-            </div>
-            <div class="variant-row">
-              <div class="variant-name-col">Destructive<span class="variant-name-sub">btn-destructive</span></div>
-              <div class="variant-preview-col">
-                <button class="btn btn-destructive btn-lg">Yes, Delete</button>
-              </div>
-              <div class="variant-use-col">Confirmation dialogs — not triggers</div>
-            </div>
-            <div class="variant-row">
-              <div class="variant-name-col">Destructive Outline<span class="variant-name-sub">btn-destructive-outline</span></div>
-              <div class="variant-preview-col">
-                <button class="btn btn-destructive-outline btn-lg">Remove</button>
-              </div>
-              <div class="variant-use-col">Table row delete, soft destructive</div>
-            </div>
-            <div class="variant-row">
-              <div class="variant-name-col">Warning<span class="variant-name-sub">btn-warning</span></div>
-              <div class="variant-preview-col">
-                <button class="btn btn-warning btn-lg">Link to Customer</button>
-              </div>
-              <div class="variant-use-col">Risk-implied actions — not brand orange</div>
-            </div>
-            <div class="variant-row">
-              <div class="variant-name-col">Info<span class="variant-name-sub">btn-info</span></div>
-              <div class="variant-preview-col">
-                <button class="btn btn-info btn-lg">Contact</button>
-              </div>
-              <div class="variant-use-col">Informational actions — contact, help, support</div>
-            </div>
-          </div>
-        </div>
+document.querySelectorAll('.hero-stat strong').forEach((el, i) => {
+  const target = parseInt(el.dataset.target);
+  setTimeout(() => animateCount(el, target, 1100), 200 + i * 120);
+});
 
-        <!-- 2.4 States -->
-        <div class="subsection" id="states2">
-          <div class="subsection-header">
-            <span class="subsection-title">2.4 States</span>
-          </div>
-          <div class="states-grid">
-            <div class="state-card">
-              <div class="state-name">Default</div>
-              <div class="state-preview"><button class="btn btn-primary btn-lg">Publish Listing</button></div>
-              <div class="state-desc">Resting state. Token-aligned background with <code>shadow-sm</code>.</div>
-            </div>
-            <div class="state-card">
-              <div class="state-name">Hover</div>
-              <div class="state-preview"><button class="btn btn-primary btn-lg" style="background:#15803D;border-color:#15803D">Publish Listing</button></div>
-              <div class="state-desc"><code>hover:bg-primary-hover</code> — darkened 1 step on the primary scale.</div>
-            </div>
-            <div class="state-card">
-              <div class="state-name">Active / Pressed</div>
-              <div class="state-preview"><button class="btn btn-primary btn-lg" style="transform:scale(0.975);filter:brightness(0.95)">Publish Listing</button></div>
-              <div class="state-desc"><code>active:scale-[0.975] active:brightness-95</code> — tactile press feedback. All variants.</div>
-            </div>
-            <div class="state-card">
-              <div class="state-name">Focus Visible</div>
-              <div class="state-preview"><button class="btn btn-primary btn-lg" style="box-shadow:0 0 0 2px #fff, 0 0 0 4px #16A34A">Publish Listing</button></div>
-              <div class="state-desc"><code>focus-visible:ring-2 ring-primary-600 ring-offset-2</code> — keyboard only, never on click.</div>
-            </div>
-            <div class="state-card">
-              <div class="state-name">Disabled</div>
-              <div class="state-preview"><button class="btn btn-disabled btn-lg">Publish Listing</button></div>
-              <div class="state-desc"><code>disabled:bg-neutral-100 disabled:text-neutral-400 disabled:border-neutral-200</code> — no opacity.</div>
-            </div>
-            <div class="state-card">
-              <div class="state-name">Loading</div>
-              <div class="state-preview">
-                <button class="btn btn-primary btn-loading btn-lg" style="gap:8px;cursor:wait">
-                  <span class="spinner"></span>Saving…
-                </button>
-              </div>
-              <div class="state-desc">Spinner inline, label updates to progressive form, <code>pointer-events: none</code> prevents double-submit.</div>
-            </div>
-          </div>
-        </div>
+/* Kick off */
+startHeroCycle();
 
-        <!-- 2.5 Icon Buttons -->
-        <div class="subsection" id="icons2">
-          <div class="subsection-header">
-            <span class="subsection-title">2.5 Icon Buttons</span>
-          </div>
-          <div class="demo-canvas">
-            <div class="demo-label">Icon-Only Buttons — all sizes</div>
-            <div class="demo-row" style="align-items:flex-end">
-              <button class="icon-btn icon-btn-xl" aria-label="Close">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-              </button>
-              <button class="icon-btn icon-btn-lg" aria-label="Close">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-              </button>
-              <button class="icon-btn icon-btn-md" aria-label="Close">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-              </button>
-              <button class="icon-btn icon-btn-sm" aria-label="Close">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-              </button>
-            </div>
-            <div class="demo-row-label">xl: 48px · lg: 40px · md: 32px · sm: 28px | Must have aria-label for screen readers</div>
-          </div>
-          <div class="demo-canvas" style="margin-top:12px">
-            <div class="demo-label">Buttons with icons — primary variant</div>
-            <div class="demo-row">
-              <button class="btn btn-primary btn-lg" style="gap:8px">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                List Route
-              </button>
-              <button class="btn btn-primary btn-lg" style="gap:8px">
-                Browse Equipment
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-              </button>
-              <button class="btn btn-neutral btn-lg" style="gap:8px">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="21 8 21 21 3 21 3 8"/><rect x="1" y="3" width="22" height="5"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
-                Archive
-              </button>
-            </div>
-            <div class="demo-row-label">Icon left = navigation/add · Icon right = forward action · All icons from lucide-react · icon-md (20px for lg/xl)</div>
-          </div>
-        </div>
+/* ─────────────────────────────────────────────
+   02 — SIZE PLAYGROUND
+   ───────────────────────────────────────────── */
+const SIZE_SPECS = {
+  xl: { h: '48px', p: '24px', f: '16px / 600', i: '20px', label: 'XL' },
+  lg: { h: '40px', p: '20px', f: '14px / 600', i: '20px', label: 'LG' },
+  md: { h: '32px', p: '14px', f: '14px / 600', i: '16px', label: 'MD' },
+  sm: { h: '28px', p: '12px', f: '12px / 600', i: '14px', label: 'SM' },
+  xs: { h: '24px', p: '10px', f: '12px / 600', i: '14px', label: 'XS' }
+};
+const spDemo = document.getElementById('spDemo');
+const spBtns = document.querySelectorAll('#spBtns .sp-btn');
+const spSizeLabel = document.getElementById('spSizeLabel');
+const specH = document.getElementById('specH');
+const specP = document.getElementById('specP');
+const specF = document.getElementById('specF');
+const specI = document.getElementById('specI');
+spBtns.forEach(b => {
+  b.addEventListener('click', () => {
+    const size = b.dataset.size;
+    spBtns.forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+    spDemo.className = `btn btn-primary sp-demo btn-${size}`;
+    const s = SIZE_SPECS[size];
+    spSizeLabel.textContent = s.label;
+    specH.textContent = s.h;
+    specP.textContent = s.p;
+    specF.textContent = s.f;
+    specI.textContent = s.i;
+  });
+});
 
-        <!-- 2.6 Special Types -->
-        <div class="subsection" id="special">
-          <div class="subsection-header">
-            <span class="subsection-title">2.6 Special Types — Add to Cart</span>
-          </div>
+/* ─────────────────────────────────────────────
+   03 — STATE CYCLER
+   ───────────────────────────────────────────── */
+const cyclerBtn = document.getElementById('cyclerBtn');
+const cyclerLabel = document.getElementById('cyclerLabel');
+const cyclerIcon = document.getElementById('cyclerIcon');
+const cyclerState = document.getElementById('cyclerState');
+const cyclerHelper = document.getElementById('cyclerHelper');
+const cycleBtn = document.getElementById('cycleBtn');
 
-          <style>
-            /* ── Add to Cart exact Figma tokens ── */
-            .atc-green { background: #0f9440; }
-            .atc-shadow-pill { box-shadow: 0px 0px 10px -1px rgba(1,6,16,0.16); }
-            .atc-shadow-circle { box-shadow: 0px 0px 22px -2px rgba(24,39,75,0.08), 0px 14px 64px -4px rgba(24,39,75,0.12); }
-            .atc-shadow-sm { box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.1), 0px 1px 2px -1px rgba(0,0,0,0.1); }
-            .atc-counter-box {
-              background: white;
-              border: 1px solid #06752f;
-              border-radius: 4px;
-              display: flex; align-items: center; justify-content: center;
-              padding: 5px 0;
-            }
-            .atc-counter-num {
-              font-family: var(--font-body);
-              font-weight: 700;
-              color: #111827;
-              text-align: center;
-            }
-            .atc-max-tooltip {
-              background: white;
-              border-radius: 1000px;
-              box-shadow: 0px 0px 4px 0px rgba(3,7,18,0.16);
-              display: flex; align-items: center; gap: 4px;
-              padding: 4px 8px;
-              position: relative;
-            }
-            .atc-max-tooltip::before {
-              content: '';
-              position: absolute;
-              top: -6px;
-              left: calc(50% - 5px);
-              width: 0; height: 0;
-              border-left: 6px solid transparent;
-              border-right: 6px solid transparent;
-              border-bottom: 6px solid white;
-              filter: drop-shadow(0px -1px 1px rgba(3,7,18,0.08));
-            }
-            .atc-max-text {
-              font-family: var(--font-body);
-              font-size: 12px;
-              font-weight: 500;
-              color: #111827;
-              white-space: nowrap;
-            }
-            .atc-label {
-              font-size: 11px;
-              color: #9CA3AF;
-              text-align: center;
-              margin-top: 2px;
-            }
-            .atc-group {
-              display: flex; flex-direction: column; align-items: center; gap: 8px;
-            }
-          </style>
+const STATES = [
+  { name: 'Default',  helper: 'Resting state — <code>bg-primary-600</code>.', label: 'Publish Listing', icon: '' },
+  { name: 'Hover',    helper: 'Darkened 1 step — <code>bg-primary-700</code>.', label: 'Publish Listing', icon: '' },
+  { name: 'Focus',    helper: '3px ring at primary-500 / 40% opacity.', label: 'Publish Listing', icon: '' },
+  { name: 'Active',   helper: 'Press feedback — <code>scale(.97)</code> + darken.', label: 'Publish Listing', icon: '' },
+  { name: 'Loading',  helper: '<code>aria-busy="true"</code> · pointer-events disabled.', label: 'Publishing…', icon: '<svg class="spinner" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 12a9 9 0 1 1-6.22-8.56"/></svg>', state: 'is-warning' },
+  { name: 'Disabled', helper: 'Override bg + text — never use opacity alone.', label: 'Publish Listing', icon: '', state: 'is-disabled', disabled: true }
+];
 
-          <!-- ── Large (L) row ── -->
-          <div class="demo-canvas" style="margin-bottom:12px">
-            <div class="demo-label">Large (L) — 48px</div>
-            <div style="display:flex; align-items:flex-start; gap:24px; flex-wrap:wrap">
+let cycling = false;
+function applyState(idx) {
+  const s = STATES[idx];
+  cyclerLabel.textContent = s.label;
+  cyclerIcon.innerHTML = s.icon;
+  cyclerHelper.innerHTML = s.helper;
+  cyclerState.textContent = s.name;
+  cyclerState.className = 'cycler-state ' + (s.state || '');
 
-              <!-- AddButton (L) — white circle with + -->
-              <div class="atc-group">
-                <button style="
-                  width:48px; height:48px; border-radius:9999px;
-                  background:white; border:none; cursor:pointer;
-                  display:flex; align-items:center; justify-content:center; padding:1px;
-                  overflow:hidden;
-                  box-shadow: 0px 0px 22px -2px rgba(24,39,75,0.08), 0px 14px 64px -4px rgba(24,39,75,0.12);
-                " aria-label="Add to cart">
-                  <img src="https://www.figma.com/api/mcp/asset/636d014d-93de-4715-8085-293d0792b4e7" width="24" height="24" style="display:block" alt="">
-                </button>
-                <span class="atc-label">Default (L)</span>
-              </div>
+  // Reset
+  cyclerBtn.style.background = '';
+  cyclerBtn.style.transform = '';
+  cyclerBtn.style.boxShadow = '';
+  cyclerBtn.disabled = false;
+  cyclerBtn.style.pointerEvents = '';
 
-              <!-- AddButton Filled (L) — green circle with count -->
-              <div class="atc-group">
-                <button style="
-                  width:48px; height:48px; border-radius:9999px;
-                  background:#0f9440; border:none; cursor:pointer;
-                  display:flex; align-items:center; justify-content:center; padding:1px;
-                  overflow:hidden;
-                  box-shadow: 0px 0px 10px -1px rgba(1,6,16,0.16);
-                " aria-label="2 in cart">
-                  <span style="font-family:var(--font-body);font-weight:700;font-size:20px;color:white;letter-spacing:-0.5px;text-align:center;width:24px;line-height:24px">2</span>
-                </button>
-                <span class="atc-label">Filled (L)</span>
-              </div>
+  switch (s.name) {
+    case 'Hover':
+      cyclerBtn.style.background = 'var(--primary-700)';
+      break;
+    case 'Focus':
+      cyclerBtn.style.boxShadow = '0 0 0 3px rgba(34,197,94,.4)';
+      break;
+    case 'Active':
+      cyclerBtn.style.background = 'var(--primary-700)';
+      cyclerBtn.style.transform = 'scale(.97)';
+      break;
+    case 'Loading':
+      cyclerBtn.style.pointerEvents = 'none';
+      break;
+    case 'Disabled':
+      cyclerBtn.disabled = true;
+      break;
+  }
+}
 
-              <!-- AddButton Active (L) — green pill with − count + -->
-              <div class="atc-group">
-                <div style="
-                  display:inline-flex; align-items:center; gap:12px;
-                  height:48px; padding:0 12px; border-radius:9999px;
-                  background:#0f9440; overflow:hidden;
-                  box-shadow: 0px 0px 10px -1px rgba(1,6,16,0.16);
-                ">
-                  <button style="background:none;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;width:24px;height:24px;padding:0;overflow:hidden;flex-shrink:0" aria-label="Remove one">
-                    <img src="https://www.figma.com/api/mcp/asset/2c6a38a2-69b0-46c6-8206-144dd03f6507" width="24" height="24" style="display:block;width:100%;height:100%" alt="">
-                  </button>
-                  <div class="atc-counter-box" style="width:48px;height:40px">
-                    <span class="atc-counter-num" style="font-size:20px;letter-spacing:-0.5px;width:40px;line-height:28px">2</span>
-                  </div>
-                  <button style="background:none;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;width:24px;height:24px;padding:0;overflow:hidden;flex-shrink:0" aria-label="Add one">
-                    <img src="https://www.figma.com/api/mcp/asset/f0577d58-2108-4917-acef-38b542b7d624" width="24" height="24" style="display:block;width:100%;height:100%" alt="">
-                  </button>
-                </div>
-                <span class="atc-label">Active (L)</span>
-              </div>
+cycleBtn.addEventListener('click', async () => {
+  if (cycling) return;
+  cycling = true; cycleBtn.disabled = true;
+  for (let i = 0; i < STATES.length; i++) {
+    applyState(i);
+    await new Promise(r => setTimeout(r, 1100));
+  }
+  applyState(0);
+  cycling = false; cycleBtn.disabled = false;
+});
 
-              <!-- AddButton Max Reached (L) — active + tooltip -->
-              <div class="atc-group">
-                <div style="display:flex;flex-direction:column;gap:8px;align-items:center;width:144px">
-                  <div style="
-                    display:flex; align-items:center; gap:12px;
-                    height:48px; padding:0 12px; border-radius:9999px;
-                    background:#0f9440; overflow:hidden; width:100%;
-                    box-shadow: 0px 0px 10px -1px rgba(1,6,16,0.16);
-                  ">
-                    <button style="background:none;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;width:24px;height:24px;padding:0;overflow:hidden;flex-shrink:0" aria-label="Remove one">
-                      <img src="https://www.figma.com/api/mcp/asset/2c6a38a2-69b0-46c6-8206-144dd03f6507" width="24" height="24" style="display:block;width:100%;height:100%" alt="">
-                    </button>
-                    <div class="atc-counter-box" style="width:48px;height:40px">
-                      <span class="atc-counter-num" style="font-size:20px;letter-spacing:-0.5px;width:40px;line-height:28px">22</span>
-                    </div>
-                    <button style="background:none;border:none;cursor:not-allowed;display:flex;align-items:center;justify-content:center;width:24px;height:24px;padding:0;overflow:hidden;flex-shrink:0;opacity:0.5" aria-label="Add one" disabled>
-                      <img src="https://www.figma.com/api/mcp/asset/257d973e-311e-4b80-9560-add50cdc1923" width="24" height="24" style="display:block;width:100%;height:100%" alt="">
-                    </button>
-                  </div>
-                  <div class="atc-max-tooltip">
-                    <img src="https://www.figma.com/api/mcp/asset/5b6c929a-09bb-4f35-a70d-ae8e9d89d6d6" width="14" height="14" alt="" style="flex-shrink:0">
-                    <span class="atc-max-text">Max Quantity = 20</span>
-                  </div>
-                </div>
-                <span class="atc-label">Max Reached (L)</span>
-              </div>
+/* Initial state */
+applyState(0);
 
-            </div>
-          </div>
+/* ─────────────────────────────────────────────
+   STICKY NAV ACTIVE TRACKING
+   ───────────────────────────────────────────── */
+const navLinks = document.querySelectorAll('.subnav a');
+const sections = document.querySelectorAll('.section');
+const navObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.id;
+      navLinks.forEach(link => {
+        link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
+      });
+    }
+  });
+}, { rootMargin: '-30% 0px -60% 0px' });
+sections.forEach(s => navObserver.observe(s));
 
-          <!-- ── Medium (M) row ── -->
-          <div class="demo-canvas" style="margin-bottom:12px">
-            <div class="demo-label">Medium (M) — 40px</div>
-            <div style="display:flex; align-items:flex-start; gap:24px; flex-wrap:wrap">
+/* Reveal */
+const revealObs = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('in');
+      revealObs.unobserve(entry.target);
+    }
+  });
+}, { threshold: .12 });
+document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+</script>
 
-              <!-- AddButton Default (M) — green pill with text -->
-              <div class="atc-group">
-                <button style="
-                  display:flex; align-items:center; justify-content:center;
-                  height:40px; min-width:120px; width:128px;
-                  padding:6px 16px; border-radius:1000px; border:none; cursor:pointer;
-                  background:#0f9440; overflow:hidden;
-                  box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.1), 0px 1px 2px -1px rgba(0,0,0,0.1);
-                ">
-                  <span style="font-family:var(--font-body);font-weight:600;font-size:14px;color:white;white-space:nowrap">Add to cart</span>
-                </button>
-                <span class="atc-label">Default (M)</span>
-              </div>
-
-              <!-- AddButton Active (M) — green pill with − count + -->
-              <div class="atc-group">
-                <div style="
-                  display:inline-flex; align-items:center; gap:12px;
-                  height:40px; padding:0 12px; border-radius:9999px;
-                  background:#0f9440; overflow:hidden;
-                  box-shadow: 0px 0px 10px -1px rgba(1,6,16,0.16);
-                ">
-                  <button style="background:none;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;width:20px;height:20px;padding:0;overflow:hidden;flex-shrink:0" aria-label="Remove one">
-                    <img src="https://www.figma.com/api/mcp/asset/df49a335-d6b7-4811-ba78-d988cb78fb27" width="20" height="20" style="display:block;width:100%;height:100%" alt="">
-                  </button>
-                  <div class="atc-counter-box" style="width:40px;height:32px">
-                    <span class="atc-counter-num" style="font-size:16px;width:40px;line-height:28px">2</span>
-                  </div>
-                  <button style="background:none;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;width:20px;height:20px;padding:0;overflow:hidden;flex-shrink:0" aria-label="Add one">
-                    <img src="https://www.figma.com/api/mcp/asset/62c6c4fe-3f55-482d-9515-0a78aa35a74d" width="20" height="20" style="display:block;width:100%;height:100%" alt="">
-                  </button>
-                </div>
-                <span class="atc-label">Active (M)</span>
-              </div>
-
-              <!-- AddButton Max Reached (M) -->
-              <div class="atc-group">
-                <div style="display:flex;flex-direction:column;gap:8px;align-items:center;width:144px">
-                  <div style="
-                    display:flex; align-items:center; gap:12px;
-                    height:40px; padding:0 12px; border-radius:9999px;
-                    background:#0f9440; overflow:hidden;
-                    box-shadow: 0px 0px 10px -1px rgba(1,6,16,0.16);
-                  ">
-                    <button style="background:none;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;width:20px;height:20px;padding:0;overflow:hidden;flex-shrink:0" aria-label="Remove one">
-                      <img src="https://www.figma.com/api/mcp/asset/df49a335-d6b7-4811-ba78-d988cb78fb27" width="20" height="20" style="display:block;width:100%;height:100%" alt="">
-                    </button>
-                    <div class="atc-counter-box" style="width:40px;height:32px">
-                      <span class="atc-counter-num" style="font-size:16px;width:40px;line-height:28px">22</span>
-                    </div>
-                    <button style="background:none;border:none;cursor:not-allowed;display:flex;align-items:center;justify-content:center;width:20px;height:20px;padding:0;overflow:hidden;flex-shrink:0;opacity:0.5" aria-label="Add one" disabled>
-                      <img src="https://www.figma.com/api/mcp/asset/3bb8d785-206a-47e9-b839-5baec2138516" width="20" height="20" style="display:block;width:100%;height:100%" alt="">
-                    </button>
-                  </div>
-                  <div class="atc-max-tooltip">
-                    <img src="https://www.figma.com/api/mcp/asset/5b6c929a-09bb-4f35-a70d-ae8e9d89d6d6" width="14" height="14" alt="" style="flex-shrink:0">
-                    <span class="atc-max-text">Max Quantity = 20</span>
-                  </div>
-                </div>
-                <span class="atc-label">Max Reached (M)</span>
-              </div>
-
-              <!-- AddButton Unavailable (M) — gray pill -->
-              <div class="atc-group">
-                <button style="
-                  display:flex; align-items:center; justify-content:center;
-                  height:40px; min-width:120px; width:128px;
-                  padding:6px 16px; border-radius:1000px; border:none; cursor:not-allowed;
-                  background:#9ca3af; overflow:hidden;
-                  box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.1), 0px 1px 2px -1px rgba(0,0,0,0.1);
-                " disabled>
-                  <span style="font-family:var(--font-body);font-weight:600;font-size:14px;color:white;white-space:nowrap">Out of Stock</span>
-                </button>
-                <span class="atc-label">Unavailable (M)</span>
-              </div>
-
-            </div>
-          </div>
-        </div>
-
-        <!-- 2.7 Spec Table -->
-        <div class="subsection" id="spectable">
-          <div class="subsection-header">
-            <span class="subsection-title">2.7 Complete Variant Spec Table</span>
-          </div>
-          <div class="ds-table-wrap">
-            <table class="ds-table">
-              <thead>
-                <tr>
-                  <th>Variant</th>
-                  <th>Default bg</th>
-                  <th>Hover bg</th>
-                  <th>Text</th>
-                  <th>Border</th>
-                  <th>Disabled</th>
-                  <th>Token class</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr><td><strong>primary</strong></td><td>#16A34A</td><td>#15803D</td><td>#FFFFFF</td><td>none</td><td>neutral-100/400</td><td><code>bg-primary</code></td></tr>
-                <tr><td><strong>primary-outline</strong></td><td>transparent</td><td>#F0FDF4</td><td>#16A34A</td><td>#16A34A</td><td>neutral-100/400</td><td><code>border-primary</code></td></tr>
-                <tr><td><strong>primary-subtle</strong></td><td>#F0FDF4</td><td>#DCFCE7</td><td>#16A34A</td><td>#DCFCE7</td><td>neutral-100/400</td><td><code>bg-primary-50</code></td></tr>
-                <tr><td><strong>destructive</strong></td><td>#DC2626</td><td>#B91C1C</td><td>#FFFFFF</td><td>none</td><td>neutral-100/400</td><td><code>bg-error</code></td></tr>
-                <tr><td><strong>destructive-outline</strong></td><td>transparent</td><td>#FEF2F2</td><td>#DC2626</td><td>#DC2626</td><td>neutral-100/400</td><td><code>border-error</code></td></tr>
-                <tr><td><strong>warning</strong></td><td>#D97706</td><td>#B45309</td><td>#FFFFFF</td><td>none</td><td>neutral-100/400</td><td><code>bg-warning</code></td></tr>
-                <tr><td><strong>info</strong></td><td>#2563EB</td><td>#1D4ED8</td><td>#FFFFFF</td><td>none</td><td>neutral-100/400</td><td><code>bg-info</code></td></tr>
-                <tr><td><strong>neutral</strong></td><td>#FFFFFF</td><td>#F9FAFB</td><td>#1F2937</td><td>#D1D5DB</td><td>neutral-100/400</td><td><code>bg-white border-neutral</code></td></tr>
-                <tr><td><strong>ghost</strong></td><td>transparent</td><td>#F3F4F6</td><td>#374151</td><td>none</td><td>neutral-400 text only</td><td><code>bg-transparent</code></td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <!-- 2.8 Accessibility -->
-        <div class="subsection" id="a11y">
-          <div class="subsection-header">
-            <span class="subsection-title">2.8 Accessibility Requirements</span>
-          </div>
-          <div class="a11y-list">
-            <div class="a11y-item">
-              <span class="a11y-icon a11y-icon-pass">✓</span>
-              <div><strong>Colour contrast 4.5:1 minimum</strong> — All text in buttons must pass WCAG AA. Primary (#16A34A on white) passes. Verify disabled state (#9CA3AF text on #F3F4F6) — if it fails, add a tooltip explaining why the button is disabled.</div>
-            </div>
-            <div class="a11y-item">
-              <span class="a11y-icon a11y-icon-pass">✓</span>
-              <div><strong>Use <code>focus-visible</code>, not <code>focus</code></strong> — <code>focus:</code> fires on mouse click causing ring flash. Every button must use <code>focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2</code> and <code>focus-visible:outline-none</code>.</div>
-            </div>
-            <div class="a11y-item">
-              <span class="a11y-icon a11y-icon-pass">✓</span>
-              <div><strong>Icon-only buttons require <code>aria-label</code></strong> — Every icon button without visible text must have a descriptive <code>aria-label</code>. Do not rely on <code>title</code> attribute — it is not announced by all screen readers.</div>
-            </div>
-            <div class="a11y-item">
-              <span class="a11y-icon a11y-icon-pass">✓</span>
-              <div><strong>Loading state: disable + announce</strong> — When a button triggers an async action, set <code>disabled</code> (or <code>aria-disabled="true"</code>) and add <code>aria-busy="true"</code>. Update the label to reflect state (e.g. "Saving…").</div>
-            </div>
-            <div class="a11y-item">
-              <span class="a11y-icon a11y-icon-pass">✓</span>
-              <div><strong>Minimum 44×44px touch target</strong> — Buttons smaller than 44px visually must be wrapped in a container that expands the clickable area, or have sufficient padding. Use xs buttons only in desktop-only admin interfaces.</div>
-            </div>
-            <div class="a11y-item">
-              <span class="a11y-icon a11y-icon-rule">i</span>
-              <div><strong>Never use <code>&lt;div&gt;</code> or <code>&lt;a&gt;</code> styled as buttons for actions</strong> — Use <code>&lt;button type="button"&gt;</code> for in-page actions and <code>&lt;a href="…"&gt;</code> only for genuine navigation. <code>&lt;a&gt;</code> elements do not have the same keyboard behaviour as <code>&lt;button&gt;</code>.</div>
-            </div>
-            <div class="a11y-item">
-              <span class="a11y-icon a11y-icon-rule">i</span>
-              <div><strong>Disabled context</strong> — Avoid relying on colour alone to communicate a disabled state. Add a tooltip or adjacent note explaining why the action is unavailable (e.g. "Complete step 2 to continue").</div>
-            </div>
-          </div>
-        </div>
-
-
-</div><!-- /section -->
-
-
-
-<div class="section" id="migration">
-  <div class="section-header">
-    <div class="section-tag">03 · Migration, Governance &amp; Usage</div>
-    <h2 class="section-title">Migration, Governance &amp; Usage</h2>
-    <p class="section-sub">How to transition to the updated system, what to deprecate, and how to keep the system healthy going forward.</p>
-  </div>
-        <div class="subsection" id="phases">
-          <div class="subsection-header">
-            <span class="subsection-title">3.1 Migration Phases</span>
-          </div>
-          <div class="migration-steps">
-
-            <div class="migration-step">
-              <div class="step-num">1</div>
-              <div class="step-body">
-                <div class="step-title">Fix the token foundation <span style="font-weight:400;color:#6B7280;font-size:12px">— Day 1, ~1 hour</span></div>
-                <div class="step-desc">Add missing CSS variables and fix the broken ones before touching any component. This unblocks all semantic Tailwind classes like <code>bg-warning</code>, <code>bg-error</code>, <code>bg-info</code>. <strong>Note:</strong> <code>--primary</code> maps to the hover state; the button default uses <code>primary-600 = #16A34A</code> directly via the hex token, not via this HSL variable.</div>
-                <div class="code-block"><span class="c-comment">/* globals.css — add to :root after existing shadcn tokens */</span>
-<span class="c-var">--error</span><span class="c-kw">: </span><span class="c-val">0 72% 51%</span><span class="c-kw">; </span><span class="c-var">--error-foreground</span><span class="c-kw">: </span><span class="c-val">0 0% 100%</span><span class="c-kw">;</span>
-<span class="c-var">--warning</span><span class="c-kw">: </span><span class="c-val">32 85% 53%</span><span class="c-kw">; </span><span class="c-var">--warning-foreground</span><span class="c-kw">: </span><span class="c-val">0 0% 100%</span><span class="c-kw">;</span>
-<span class="c-var">--info</span><span class="c-kw">: </span><span class="c-val">199 89% 48%</span><span class="c-kw">; </span><span class="c-var">--info-foreground</span><span class="c-kw">: </span><span class="c-val">0 0% 100%</span><span class="c-kw">;</span>
-<span class="c-comment">/* Fix success-foreground + unify primary identity to green */</span>
-<span class="c-var">--success-foreground</span><span class="c-kw">: </span><span class="c-val">0 0% 100%</span><span class="c-kw">;</span>
-<span class="c-var">--primary</span><span class="c-kw">: </span><span class="c-val">142 72% 29%</span><span class="c-kw">;</span></div>
-              </div>
-            </div>
-
-            <div class="migration-step">
-              <div class="step-num">2</div>
-              <div class="step-body">
-                <div class="step-title">Update button.tsx base component <span style="font-weight:400;color:#6B7280;font-size:12px">— Day 1, ~30 min</span></div>
-                <div class="step-desc">Add the missing states to the shadcn Button component. This single file change propagates to every button across the app.</div>
-                <div class="code-block"><span class="c-comment">// components/ui/button.tsx — add to buttonVariants base class</span>
-<span class="c-kw">const </span><span class="c-val">baseClasses</span><span class="c-kw"> = </span><span class="c-str">`
-  active:scale-[0.975] active:brightness-95
-  focus-visible:outline-none focus-visible:ring-2
-  focus-visible:ring-primary-600 focus-visible:ring-offset-2
-  transition-all duration-100
-`</span>
-<span class="c-comment">// Add disabled overrides to ALL variants (replace opacity approach):</span>
-<span class="c-val">disabled</span><span class="c-kw">: </span><span class="c-str">"bg-neutral-100 text-neutral-400 border border-neutral-200 shadow-none cursor-not-allowed pointer-events-none"</span></div>
-              </div>
-            </div>
-
-            <div class="migration-step">
-              <div class="step-num">3</div>
-              <div class="step-body">
-                <div class="step-title">Fix tooltip and hardcoded component colors <span style="font-weight:400;color:#6B7280;font-size:12px">— Day 1, ~20 min</span></div>
-                <div class="step-desc">These are fast targeted fixes in 5 specific files that have the highest visual impact.</div>
-                <div class="code-block"><span class="c-comment">// tooltip.tsx — green tooltips → neutral dark</span>
-<span class="c-bad">bg-primary text-primary-foreground</span><span class="c-kw"> → </span><span class="c-good">bg-neutral-900 text-white</span>
-
-<span class="c-comment">// select.tsx — hardcoded white → token</span>
-<span class="c-bad">bg-white</span><span class="c-kw"> → </span><span class="c-good">bg-popover</span>
-
-<span class="c-comment">// dropdown-menu.tsx — hardcoded white → token</span>
-<span class="c-bad">bg-white</span><span class="c-kw"> → </span><span class="c-good">bg-popover</span>
-
-<span class="c-comment">// select.tsx check icon — bypass → token</span>
-<span class="c-bad">text-green-500</span><span class="c-kw"> → </span><span class="c-good">text-primary</span></div>
-              </div>
-            </div>
-
-            <div class="migration-step">
-              <div class="step-num">4</div>
-              <div class="step-body">
-                <div class="step-title">Migrate remaining patterns <span style="font-weight:400;color:#6B7280;font-size:12px">— Ongoing, assigned per PR</span></div>
-                <div class="step-desc">Search for <code>bg-orange-*</code> and <code>text-orange-*</code> in button contexts and replace with the now-defined warning tokens (~92 orange usages in the audit). Update Badge, Select, Tabs, Switch, Slider, and Dialog close button to the unified focus ring pattern. Work file by file through the ~385 hardcoded hex instances, prioritizing button-adjacent components. Also replace any instances of <code>bg-blue-*</code> used for Contact buttons with the info token <code>bg-[#2563EB]</code> or the new <code>info</code> variant class once defined.</div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-
-        <!-- 3.2 Deprecated -->
-        <div class="subsection" id="deprecated">
-          <div class="subsection-header">
-            <span class="subsection-title">3.2 Deprecated Patterns</span>
-          </div>
-          <div class="ds-table-wrap">
-            <table class="ds-table">
-              <thead>
-                <tr>
-                  <th>Deprecated</th>
-                  <th>Status</th>
-                  <th>Replace With</th>
-                  <th>Reason</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><code>bg-orange-500</code> on buttons</td>
-                  <td><span class="badge-depr">Deprecated</span></td>
-                  <td><code>bg-warning</code> / <code>btn-warning</code></td>
-                  <td>Bypasses token system</td>
-                </tr>
-                <tr>
-                  <td><code>focus:ring-*</code> on buttons</td>
-                  <td><span class="badge-depr">Deprecated</span></td>
-                  <td><code>focus-visible:ring-2 ring-primary-600 ring-offset-2</code></td>
-                  <td>Fires on mouse click</td>
-                </tr>
-                <tr>
-                  <td><code>disabled:opacity-50</code></td>
-                  <td><span class="badge-depr">Deprecated</span></td>
-                  <td><code>disabled:bg-neutral-100 disabled:text-neutral-400</code></td>
-                  <td>Semi-transparent on non-white bg</td>
-                </tr>
-                <tr>
-                  <td>Hardcoded <code>#16A34A</code> hex in style props</td>
-                  <td><span class="badge-depr">Deprecated</span></td>
-                  <td><code>var(--primary-600)</code></td>
-                  <td>Breaks with brand changes</td>
-                </tr>
-                <tr>
-                  <td><code>import * as FluentIcons</code></td>
-                  <td><span class="badge-depr">Deprecated</span></td>
-                  <td>Named imports from <code>lucide-react</code></td>
-                  <td>Wildcard import = huge bundle</td>
-                </tr>
-                <tr>
-                  <td><code>text-[10px]</code> on buttons</td>
-                  <td><span class="badge-depr">Deprecated</span></td>
-                  <td><code>text-xs</code> (12px)</td>
-                  <td>Below typography scale minimum</td>
-                </tr>
-                <tr>
-                  <td><code>font-medium</code> on button labels</td>
-                  <td><span class="badge-depr">Deprecated</span></td>
-                  <td><code>font-semibold</code></td>
-                  <td>500 weight too light for CTA legibility</td>
-                </tr>
-                <tr>
-                  <td><code>classnames</code> package in button files</td>
-                  <td><span class="badge-depr">Deprecated</span></td>
-                  <td><code>cn()</code> from <code>@/lib/utils</code></td>
-                  <td>No tailwind-merge integration</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <!-- 3.3 Usage Guidelines -->
-        <div class="subsection" id="guidelines">
-          <div class="subsection-header">
-            <span class="subsection-title">3.3 Variant Hierarchy &amp; Usage Guidelines</span>
-          </div>
-
-          <div class="do-dont-grid">
-            <div class="do-card">
-              <div class="do-header">✓ Do</div>
-              <div class="guideline-item">One <strong>primary</strong> button per view or dialog. It should represent the single most important action.</div>
-              <div class="guideline-item">Use <strong>neutral</strong> for cancel, go back, or any secondary action that appears alongside a primary button.</div>
-              <div class="guideline-item">Use <strong>primary-outline</strong> when you need a second emphasized action but don't want two solid green buttons competing.</div>
-              <div class="guideline-item">Reserve <strong>destructive</strong> solid for the confirmation step inside a dialog — not for the trigger that opens the dialog.</div>
-              <div class="guideline-item">Use <strong>ghost</strong> for tertiary navigation actions (View All →, Change) that don't need to look like buttons at rest.</div>
-              <div class="guideline-item">Default button size is <strong>lg (40px)</strong>. Use <strong>md</strong> inside tables, toolbars, and card footers.</div>
-            </div>
-            <div class="dont-card">
-              <div class="dont-header">✗ Don't</div>
-              <div class="guideline-item">Never show two <strong>primary</strong> buttons side by side — one will always be more important than the other.</div>
-              <div class="guideline-item">Never use <strong>warning</strong> as a replacement for primary — it implies risk. It is not interchangeable with orange-branded actions.</div>
-              <div class="guideline-item">Never hide the reason a button is disabled. Always add context adjacent to the button or in a tooltip.</div>
-              <div class="guideline-item">Never use <strong>xs</strong> buttons for destructive or high-stakes actions — the touch target is too small and the text too small to read in a stressed state.</div>
-              <div class="guideline-item">Never style <code>&lt;a&gt;</code> links to look like primary buttons unless they genuinely navigate to a new page. Use <code>&lt;button&gt;</code> for all interactive actions.</div>
-            </div>
-          </div>
-
-          <!-- Scenario table -->
-          <div class="ds-table-wrap">
-            <table class="ds-table">
-              <thead>
-                <tr>
-                  <th>Scenario</th>
-                  <th>Primary</th>
-                  <th>Secondary</th>
-                  <th>Tertiary / Cancel</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr><td>Form submission</td><td>primary (Save / Submit)</td><td>primary-outline (Save Draft)</td><td>neutral (Cancel)</td></tr>
-                <tr><td>Confirmation dialog</td><td>destructive (Yes, Delete)</td><td>—</td><td>neutral (No, Go Back)</td></tr>
-                <tr><td>Warning dialog</td><td>warning (Link to Customer, View Details)</td><td>—</td><td>neutral (Cancel)</td></tr>
-                <tr><td>Page-level CTA</td><td>primary lg/xl</td><td>primary-outline lg</td><td>ghost (Learn more)</td></tr>
-                <tr><td>Toolbar actions</td><td>primary md (Publish)</td><td>neutral md (Filter, Archive)</td><td>ghost md (View Details)</td></tr>
-                <tr><td>Table row actions</td><td>neutral sm (Edit)</td><td>destructive-outline sm (Delete)</td><td>ghost sm (View)</td></tr>
-                <tr><td>Add to cart flow</td><td>primary lg (Add to cart)</td><td>stepper — replaces button after first add</td><td>neutral (Out of Stock — disabled)</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <!-- 3.4 Governance -->
-        <div class="subsection" id="governance">
-          <div class="subsection-header">
-            <span class="subsection-title">3.4 Governance Rules</span>
-          </div>
-          <div class="rule-list">
-            <div class="rule-item">
-              <span class="rule-icon rule-icon-pass">✓</span>
-              <div><strong>Never add a new button color without a token.</strong> If a new context requires a button color not covered by the existing variants, create the CSS variable first in <code>globals.css</code>, then expose it in <code>tailwind.config.ts</code>, then create the variant. No hardcoded hex values in component files.</div>
-            </div>
-            <div class="rule-item">
-              <span class="rule-icon rule-icon-pass">✓</span>
-              <div><strong>New button variants must include all 6 states.</strong> Default, hover, active, focus, loading, and disabled. A variant is not complete until all states are defined and reviewed. Include visual examples in PR description.</div>
-            </div>
-            <div class="rule-item">
-              <span class="rule-icon rule-icon-pass">✓</span>
-              <div><strong>Use the design system's icon library.</strong> Default to <code>lucide-react</code> for all button icons. Only use <code>@fluentui/react-icons</code> for icons that have no lucide equivalent and have been approved. Document the exception in a comment.</div>
-            </div>
-            <div class="rule-item">
-              <span class="rule-icon rule-icon-pass">✓</span>
-              <div><strong>Button size defaults to lg.</strong> When adding a new button, start with <code>size="lg"</code>. Only deviate if the context clearly requires a different size (toolbar = md, hero CTA = xl). Documenting the size decision prevents drift over time.</div>
-            </div>
-            <div class="rule-item">
-              <span class="rule-icon rule-icon-info">i</span>
-              <div><strong>PR checklist for button changes:</strong> (1) Does it use design tokens only? (2) Does it have all 6 states? (3) Does it pass 4.5:1 contrast? (4) Is <code>focus-visible</code> (not <code>focus</code>) used? (5) Are icon-only buttons labelled? (6) Are disabled states explained in context?</div>
-            </div>
-            <div class="rule-item">
-              <span class="rule-icon rule-icon-info">i</span>
-              <div><strong>Special button types (stepper, dropdown, add-to-cart) live in <code>components/ui/</code>.</strong> They are not ad hoc implementations scattered across feature components. Any changes to special button behaviour must be made to the shared component, not to a one-off copy.</div>
-            </div>
-            <div class="rule-item">
-              <span class="rule-icon rule-icon-fail">✗</span>
-              <div><strong>Never create a "custom" button by composing raw divs.</strong> Every clickable element that performs an action must be a <code>&lt;button&gt;</code> or use <code>role="button"</code> with keyboard handling. This is both an accessibility requirement and a design system hygiene rule.</div>
-            </div>
-          </div>
-        </div>
-
-
-</div><!-- /section -->
-
-
-</div><!-- /page -->
 </body>
 </html>
