@@ -109,22 +109,281 @@ input, textarea, select { font-family: inherit; }
   font-weight: 400;
 }
 .cover-pills { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
-.s-pill {
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 7px 14px; border-radius: 100px;
-  font-size: 12px; font-weight: 600;
-  background: rgba(255,255,255,.05);
-  border: 1px solid rgba(255,255,255,.1);
-  transition: all var(--dur-200) var(--ease-out);
-  color: var(--neutral-300);
+
+/* ─────────────────────────────────────────────
+   HERO INTERACTIVE SHOWCASE (Form Inputs)
+   ───────────────────────────────────────────── */
+.hero-stage {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
 }
-.s-pill:hover { background: rgba(255,255,255,.08); transform: translateY(-1px); }
-.s-pill .dot { width: 7px; height: 7px; border-radius: 50%; }
-.s-pill[data-s="default"] .dot { background: var(--neutral-400); }
-.s-pill[data-s="focus"]   .dot { background: var(--primary-400); box-shadow: 0 0 8px var(--primary-400); }
-.s-pill[data-s="error"]   .dot { background: var(--error-400); }
-.s-pill[data-s="success"] .dot { background: var(--primary-400); }
-.s-pill[data-s="disabled"] .dot { background: var(--neutral-600); }
+
+/* Outer wrapper carries the glow halo + state attribute */
+.hero-input-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  text-align: left;
+}
+.hero-input-wrap::before {
+  content: '';
+  position: absolute;
+  inset: -28px;
+  background: radial-gradient(closest-side, var(--input-glow, transparent), transparent 70%);
+  filter: blur(28px);
+  pointer-events: none;
+  z-index: -1;
+  opacity: .9;
+  transition: background 350ms var(--ease-out);
+}
+
+.hero-input-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--neutral-300);
+  margin-bottom: 8px;
+  letter-spacing: -.005em;
+}
+.hero-input-label-mode {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--neutral-500);
+  padding: 2px 8px;
+  border-radius: 99px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid var(--line);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 200ms var(--ease-out);
+}
+.hero-input-label-mode-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--primary-400);
+  animation: pulse 1.6s infinite;
+}
+.hero-input-label-mode.live {
+  color: var(--primary-300);
+  background: rgba(34,197,94,.1);
+  border-color: rgba(34,197,94,.3);
+}
+
+.hero-input-field {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 56px;
+  padding: 0 18px;
+  background: var(--input-bg, rgba(255,255,255,.04));
+  border: 1.5px solid var(--input-border, rgba(255,255,255,.14));
+  border-radius: 12px;
+  box-shadow: var(--input-shadow, none);
+  transition: background 250ms var(--ease-out),
+              border-color 250ms var(--ease-out),
+              box-shadow 250ms var(--ease-out);
+}
+.hero-input-icon-left {
+  width: 20px; height: 20px;
+  color: var(--input-icon, var(--neutral-400));
+  flex-shrink: 0;
+  margin-right: 14px;
+  transition: color 250ms var(--ease-out);
+}
+.hero-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 500;
+  color: #fff;
+  height: 100%;
+  width: 100%;
+  caret-color: var(--primary-400);
+  letter-spacing: -.005em;
+}
+.hero-input::placeholder { color: var(--neutral-500); }
+
+/* Faux blinking cursor (used during auto-typing demo) */
+.hero-input-cursor {
+  width: 2px;
+  height: 22px;
+  background: var(--primary-400);
+  margin-left: 1px;
+  flex-shrink: 0;
+  opacity: 0;
+  transition: opacity 150ms;
+}
+.hero-input-cursor.visible {
+  opacity: 1;
+  animation: cursorBlink 1s steps(2) infinite;
+}
+@keyframes cursorBlink {
+  to { opacity: 0; }
+}
+
+/* Status chip — check on success, alert on error */
+.hero-input-status {
+  width: 28px; height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-left: 12px;
+  opacity: 0;
+  transform: scale(.5);
+  transition: opacity 200ms var(--ease-out), transform 350ms var(--ease-spring);
+  color: var(--input-status, var(--neutral-400));
+  background: var(--input-status-bg, transparent);
+  border-radius: 50%;
+}
+.hero-input-status.show {
+  opacity: 1;
+  transform: scale(1);
+}
+.hero-input-status svg { width: 16px; height: 16px; }
+
+.hero-input-helper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--input-helper, var(--neutral-500));
+  text-align: left;
+  min-height: 20px;
+  letter-spacing: -.005em;
+  transition: color 250ms var(--ease-out);
+}
+.hero-input-helper svg {
+  width: 14px; height: 14px;
+  flex-shrink: 0;
+  color: inherit;
+}
+
+/* State theming on the wrap */
+.hero-input-wrap[data-s="default"] {
+  --input-bg: rgba(255,255,255,.04);
+  --input-border: rgba(255,255,255,.14);
+  --input-shadow: none;
+  --input-icon: var(--neutral-400);
+  --input-helper: var(--neutral-500);
+  --input-glow: transparent;
+}
+.hero-input-wrap[data-s="focus"] {
+  --input-bg: rgba(34,197,94,.06);
+  --input-border: var(--primary-500);
+  --input-shadow: 0 0 0 4px rgba(34,197,94,.18);
+  --input-icon: var(--primary-400);
+  --input-helper: var(--neutral-300);
+  --input-glow: rgba(34,197,94,.22);
+}
+.hero-input-wrap[data-s="error"] {
+  --input-bg: rgba(239,68,68,.07);
+  --input-border: var(--error-400);
+  --input-shadow: 0 0 0 4px rgba(239,68,68,.16);
+  --input-icon: var(--error-400);
+  --input-helper: var(--error-300);
+  --input-glow: rgba(239,68,68,.22);
+  --input-status: #fff;
+  --input-status-bg: var(--error-500);
+}
+.hero-input-wrap[data-s="success"] {
+  --input-bg: rgba(34,197,94,.07);
+  --input-border: var(--primary-500);
+  --input-shadow: 0 0 0 4px rgba(34,197,94,.18);
+  --input-icon: var(--primary-400);
+  --input-helper: var(--primary-300);
+  --input-glow: rgba(34,197,94,.28);
+  --input-status: #fff;
+  --input-status-bg: var(--primary-500);
+}
+.hero-input-wrap[data-s="disabled"] {
+  --input-bg: rgba(255,255,255,.02);
+  --input-border: rgba(255,255,255,.06);
+  --input-shadow: none;
+  --input-icon: var(--neutral-700);
+  --input-helper: var(--neutral-700);
+  --input-glow: transparent;
+}
+.hero-input-wrap[data-s="disabled"] .hero-input { color: var(--neutral-700); }
+.hero-input-wrap[data-s="disabled"] .hero-input-field { cursor: not-allowed; }
+
+/* Pills */
+.hero-pills {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.hero-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 99px;
+  font-family: inherit;
+  font-size: 12px; font-weight: 600;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.1);
+  color: var(--neutral-400);
+  cursor: pointer;
+  transition: all var(--dur-200) var(--ease-out);
+  position: relative;
+}
+.hero-pill:hover:not(.active) {
+  background: rgba(255,255,255,.08);
+  color: #fff;
+  transform: translateY(-1px);
+}
+.hero-pill.active {
+  background: rgba(255,255,255,.1);
+  border-color: var(--pill-color, var(--primary-400));
+  color: #fff;
+  box-shadow: 0 0 0 3px rgba(255,255,255,.04);
+}
+.hero-pill .dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--pill-color, currentColor);
+  transition: box-shadow var(--dur-200) var(--ease-out);
+}
+.hero-pill.active .dot {
+  box-shadow: 0 0 8px var(--pill-color);
+}
+.hero-pill[data-s="default"]  { --pill-color: var(--neutral-400); }
+.hero-pill[data-s="focus"]    { --pill-color: var(--primary-400); }
+.hero-pill[data-s="error"]    { --pill-color: var(--error-400); }
+.hero-pill[data-s="success"]  { --pill-color: var(--primary-400); }
+.hero-pill[data-s="disabled"] { --pill-color: var(--neutral-500); }
+
+/* Hint */
+.hero-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--neutral-500);
+  letter-spacing: .02em;
+  font-family: 'JetBrains Mono', monospace;
+}
+.hero-hint-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--primary-400);
+  animation: pulse 1.6s infinite;
+}
 
 /* ─────────────────────────────────────────────
    STICKY NAV
@@ -1046,12 +1305,44 @@ input, textarea, select { font-family: inherit; }
     </div>
     <h1 class="cover-title">Form <span>Inputs</span></h1>
     <p class="cover-sub">10 field types, 6 interaction states, live validation — built on Plus Jakarta Sans with token-aligned focus rings, semantic error treatment, and accessibility baked into every variant.</p>
-    <div class="cover-pills">
-      <span class="s-pill" data-s="default"><span class="dot"></span>Default</span>
-      <span class="s-pill" data-s="focus"><span class="dot"></span>Focus</span>
-      <span class="s-pill" data-s="error"><span class="dot"></span>Error</span>
-      <span class="s-pill" data-s="success"><span class="dot"></span>Success</span>
-      <span class="s-pill" data-s="disabled"><span class="dot"></span>Disabled</span>
+
+    <!-- Interactive Hero Showcase -->
+    <div class="hero-stage">
+      <div class="hero-input-wrap" id="heroWrap" data-s="default">
+        <div class="hero-input-label">
+          <span>Work email</span>
+          <span class="hero-input-label-mode" id="heroMode">
+            <span class="hero-input-label-mode-dot"></span>
+            <span id="heroModeText">Demo</span>
+          </span>
+        </div>
+        <div class="hero-input-field" id="heroField">
+          <svg class="hero-input-icon-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+            <polyline points="22,6 12,13 2,6"/>
+          </svg>
+          <input class="hero-input" id="heroInput" type="text" placeholder="you@company.com" readonly>
+          <span class="hero-input-cursor" id="heroCursor"></span>
+          <div class="hero-input-status" id="heroStatus"></div>
+        </div>
+        <div class="hero-input-helper" id="heroHelper">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          Enter your work email — we'll send order updates here.
+        </div>
+      </div>
+
+      <div class="hero-pills">
+        <button class="hero-pill" data-s="default"><span class="dot"></span>Default</button>
+        <button class="hero-pill" data-s="focus"><span class="dot"></span>Focus</button>
+        <button class="hero-pill" data-s="error"><span class="dot"></span>Error</button>
+        <button class="hero-pill" data-s="success"><span class="dot"></span>Success</button>
+        <button class="hero-pill" data-s="disabled"><span class="dot"></span>Disabled</button>
+      </div>
+
+      <div class="hero-hint">
+        <span class="hero-hint-dot"></span>
+        Auto-typing demo · Click input to type live · Click any pill to pin a state
+      </div>
     </div>
   </div>
 </section>
@@ -1459,6 +1750,205 @@ input, textarea, select { font-family: inherit; }
 </footer>
 
 <script>
+/* ─────────────────────────────────────────────
+   HERO INTERACTIVE SHOWCASE — Auto-typing email validation
+   ───────────────────────────────────────────── */
+(function() {
+  const wrap = document.getElementById('heroWrap');
+  const input = document.getElementById('heroInput');
+  const field = document.getElementById('heroField');
+  const cursor = document.getElementById('heroCursor');
+  const status = document.getElementById('heroStatus');
+  const helper = document.getElementById('heroHelper');
+  const modeChip = document.getElementById('heroMode');
+  const modeText = document.getElementById('heroModeText');
+  const pills = document.querySelectorAll('.hero-pill');
+
+  if (!wrap || !input) return;
+
+  // Helper text + icon by state
+  const HELPERS = {
+    default:  { icon: 'info',  text: "Enter your work email — we'll send order updates here." },
+    focus:    { icon: 'edit',  text: 'Type to validate format…' },
+    error:    { icon: 'alert', text: 'Must include @ and a valid domain.' },
+    success:  { icon: 'check', text: 'Format verified — looks good.' },
+    disabled: { icon: 'lock',  text: 'This field is locked — pending verification.' }
+  };
+
+  // Pre-filled values per pinned state
+  const PIN_VALUES = {
+    default: '',
+    focus: '',
+    error: 'alex@',
+    success: 'alex@vendhub.co',
+    disabled: 'locked@vendhub.co'
+  };
+
+  const ICONS = {
+    info:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>',
+    edit:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>',
+    alert: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>',
+    check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg>',
+    lock:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>'
+  };
+
+  const STATUS_ICONS = {
+    error:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="6" y1="6" x2="18" y2="18"/><line x1="6" y1="18" x2="18" y2="6"/></svg>',
+    success: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><polyline points="20,6 9,17 4,12"/></svg>'
+  };
+
+  let pinned = null;
+  let demoActive = true;
+  let demoStep = 0;
+  let demoTimer = null;
+  let resumeTimer = null;
+
+  function applyHelper(state, customText) {
+    const h = HELPERS[state];
+    helper.innerHTML = ICONS[h.icon] + (customText || h.text);
+  }
+
+  function applyStatus(state) {
+    if (state === 'error' || state === 'success') {
+      status.innerHTML = STATUS_ICONS[state];
+      status.classList.add('show');
+    } else {
+      status.classList.remove('show');
+    }
+  }
+
+  function setState(state, opts) {
+    opts = opts || {};
+    wrap.dataset.s = state;
+    if (opts.value !== undefined) input.value = opts.value;
+    applyHelper(state, opts.helper);
+    applyStatus(state);
+    cursor.classList.toggle('visible', state === 'focus' && opts.cursor !== false);
+  }
+
+  /* ── Auto-typing demo script ── */
+  const SCRIPT = [
+    { state: 'default', value: '', dwell: 1500 },
+    { state: 'focus',   value: '', dwell: 600 },
+    { state: 'focus',   value: 'a', dwell: 110 },
+    { state: 'focus',   value: 'al', dwell: 110 },
+    { state: 'focus',   value: 'ale', dwell: 110 },
+    { state: 'focus',   value: 'alex', dwell: 110 },
+    { state: 'error',   value: 'alex@', dwell: 1600 },
+    { state: 'focus',   value: 'alex@v', dwell: 95 },
+    { state: 'focus',   value: 'alex@ve', dwell: 95 },
+    { state: 'focus',   value: 'alex@ven', dwell: 95 },
+    { state: 'focus',   value: 'alex@vend', dwell: 95 },
+    { state: 'focus',   value: 'alex@vendh', dwell: 95 },
+    { state: 'focus',   value: 'alex@vendhu', dwell: 95 },
+    { state: 'focus',   value: 'alex@vendhub', dwell: 95 },
+    { state: 'focus',   value: 'alex@vendhub.', dwell: 95 },
+    { state: 'focus',   value: 'alex@vendhub.c', dwell: 95 },
+    { state: 'success', value: 'alex@vendhub.co', dwell: 2800 },
+    { state: 'default', value: '', dwell: 900 }
+  ];
+
+  function tickDemo() {
+    if (!demoActive || pinned) return;
+    const step = SCRIPT[demoStep % SCRIPT.length];
+    setState(step.state, { value: step.value });
+    demoStep++;
+    demoTimer = setTimeout(tickDemo, step.dwell);
+  }
+
+  function startDemo() {
+    if (demoTimer) clearTimeout(demoTimer);
+    demoActive = true;
+    demoStep = 0;
+    modeText.textContent = 'Demo';
+    modeChip.classList.remove('live');
+    tickDemo();
+  }
+
+  function stopDemo() {
+    demoActive = false;
+    if (demoTimer) clearTimeout(demoTimer);
+    cursor.classList.remove('visible');
+  }
+
+  /* ── Live typing mode ── */
+  function validate(v) {
+    if (!v) return 'focus';
+    if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) return 'success';
+    if (v.includes('@') && /^[^\s@]+@[^\s@]*$/.test(v) && !v.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+      // Likely incomplete or invalid past the @
+      const afterAt = v.split('@')[1] || '';
+      if (afterAt.length === 0 || (afterAt.length > 0 && !afterAt.includes('.'))) {
+        return afterAt.length > 0 && afterAt.length < 4 ? 'focus' : (afterAt.length === 0 ? 'error' : 'focus');
+      }
+    }
+    return 'focus';
+  }
+
+  function enterLiveMode() {
+    if (pinned) return;
+    stopDemo();
+    input.removeAttribute('readonly');
+    modeText.textContent = 'Live';
+    modeChip.classList.add('live');
+    setState(input.value ? validate(input.value) : 'focus', { value: input.value, cursor: false });
+  }
+
+  function exitLiveMode() {
+    if (pinned) return;
+    input.setAttribute('readonly', '');
+    if (resumeTimer) clearTimeout(resumeTimer);
+    resumeTimer = setTimeout(() => {
+      if (!pinned) startDemo();
+    }, 4000);
+  }
+
+  field.addEventListener('click', () => {
+    if (pinned) return;
+    enterLiveMode();
+    setTimeout(() => input.focus(), 0);
+  });
+  input.addEventListener('focus', enterLiveMode);
+  input.addEventListener('input', () => {
+    if (pinned) return;
+    const v = input.value;
+    if (!v) {
+      setState('focus', { value: '', cursor: false });
+    } else if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) {
+      setState('success', { value: v, cursor: false });
+    } else if (v.includes('@') && v.split('@')[1] && !v.split('@')[1].includes('.') && v.split('@')[1].length >= 1) {
+      setState('error', { value: v, helper: 'Add a domain — e.g. company.com', cursor: false });
+    } else {
+      setState('focus', { value: v, cursor: false });
+    }
+  });
+  input.addEventListener('blur', exitLiveMode);
+
+  /* ── Pill controls ── */
+  pills.forEach(p => {
+    p.addEventListener('click', () => {
+      const s = p.dataset.s;
+      if (pinned === s) {
+        // Toggle off — return to demo
+        pinned = null;
+        pills.forEach(x => x.classList.remove('active'));
+        startDemo();
+      } else {
+        pinned = s;
+        stopDemo();
+        input.setAttribute('readonly', '');
+        modeText.textContent = 'Pinned';
+        modeChip.classList.remove('live');
+        setState(s, { value: PIN_VALUES[s], cursor: false });
+        pills.forEach(x => x.classList.toggle('active', x.dataset.s === s));
+      }
+    });
+  });
+
+  // Boot
+  startDemo();
+})();
+
 /* ─────────────────────────────────────────────
    01 — ANATOMY
    ───────────────────────────────────────────── */
